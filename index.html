@@ -1955,14 +1955,28 @@
     }
 
     .issue-summary-item {
-      padding: 6px 16px;
+      padding: 8px 12px;
       border-right: 1px solid #e5e7eb;
       text-align: center;
       min-width: 70px;
+      border-radius: 6px;
+      transition: all 0.15s;
     }
 
-    .issue-summary-item:hover {
-      background: #f3f4f6;
+    .issue-summary-item.compact {
+      padding: 6px 10px;
+      min-width: 60px;
+      background: white;
+      border-right: none;
+      border: 1px solid #e5e7eb;
+      margin-right: 4px;
+      border-radius: 6px;
+    }
+
+    .issue-summary-item:hover,
+    .issue-summary-item.compact:hover {
+      background: #f5f3ff;
+      border-color: #a5b4fc;
       cursor: pointer;
     }
 
@@ -2004,23 +2018,50 @@
 
     /* Issue Card Severity Bar */
     .issue-card {
-      border-left: 4px solid #9ca3af;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid #f3f4f6;
+      border-left: 3px solid transparent;
+      margin-bottom: 6px;
+      transition: all 0.15s ease;
+      background: white;
+    }
+
+    .issue-card:hover {
+      border-color: #e5e7eb;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
 
     .issue-card.severity-Block {
       border-left-color: #dc2626;
     }
 
+    .issue-card.severity-Block:hover {
+      background: #fef2f2;
+    }
+
     .issue-card.severity-Major {
       border-left-color: #f97316;
+    }
+
+    .issue-card.severity-Major:hover {
+      background: #fff7ed;
     }
 
     .issue-card.severity-Minor {
       border-left-color: #3b82f6;
     }
 
+    .issue-card.severity-Minor:hover {
+      background: #eff6ff;
+    }
+
     .issue-card.severity-Trivial {
       border-left-color: #9ca3af;
+    }
+
+    .issue-card.overdue {
+      background: #fff8f8;
     }
 
     /* Issue Group Header */
@@ -2897,7 +2938,7 @@
           <button class="btn btn-secondary" id="chatToggleBtn" title="채팅" onclick="toggleChatPanel()" style="font-size:16px;padding:6px 10px;display:none;position:relative;">💬<span class="chat-badge" id="chatBadge">0</span></button>
           <div id="notifBell" onclick="toggleNotifPanel()" style="position:relative;cursor:pointer;padding:4px;border-radius:6px;margin:0 4px;transition:all 0.2s ease;" title="알림" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
             <span style="font-size:18px;">🔔</span>
-            <span id="notifBadge" style="display:none;position:absolute;top:-2px;right:-2px;background:#ef4444;color:white;border-radius:50%;width:14px;height:14px;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1;"></span>
+            <span id="notifBadge" style="display:none;position:absolute;top:-2px;right:-2px;background:#ef4444;color:white;border-radius:50%;width:14px;height:14px;font-size:9px;font-weight:700;align-items:center;justify-content:center;line-height:1;"></span>
           </div>
           <div class="user-header-info" id="userHeaderInfo" style="display:none;">
             <div class="user-avatar-small" id="userAvatarSmall"></div>
@@ -2927,7 +2968,7 @@
     </div>
 
     <!-- Notification Panel -->
-    <div id="notifPanel" style="display:none;position:fixed;right:0;top:0;width:340px;height:100vh;background:white;border-left:1px solid #e5e7eb;z-index:200;box-shadow:-4px 0 12px rgba(0,0,0,0.1);display:flex;flex-direction:column;">
+    <div id="notifPanel" style="display:none;position:fixed;right:0;top:0;width:340px;height:100vh;background:white;border-left:1px solid #e5e7eb;z-index:200;box-shadow:-4px 0 12px rgba(0,0,0,0.1);flex-direction:column;">
       <div style="padding:16px;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center;">
         <span style="font-size:15px;font-weight:700;">알림</span>
         <button onclick="toggleNotifPanel()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#6b7280;">×</button>
@@ -3027,42 +3068,35 @@
       <div class="tab-content" id="issues">
         <!-- Issue Summary Bar -->
         <div class="issue-summary-bar" id="issueSummaryBar">
-          <div class="issue-summary-item" onclick="filterIssuesByStatus('')" style="cursor:pointer;">
-            <span style="font-size:18px;font-weight:700;" id="summaryTotal">0</span>
-            <span style="font-size:10px;color:#6b7280;display:block;">전체</span>
+          <div class="issue-summary-item compact" onclick="filterIssuesByStatus('등록')" style="cursor:pointer;" title="미처리 (등록+검토 중)">
+            <span style="font-size:16px;font-weight:700;color:#ef4444;" id="summaryOpen">0</span>
+            <span style="font-size:9px;color:#6b7280;display:block;margin-top:2px;">🔴 미처리</span>
           </div>
-          <div class="issue-summary-item" onclick="filterIssuesByStatus('등록')" style="cursor:pointer;border-left:3px solid #ef4444;">
-            <span style="font-size:18px;font-weight:700;color:#ef4444;" id="summaryOpen">0</span>
-            <span style="font-size:10px;color:#6b7280;display:block;">🔴 미처리</span>
+          <div class="issue-summary-item compact" onclick="filterIssuesByStatus('작업 진행 중')" style="cursor:pointer;" title="진행 중">
+            <span style="font-size:16px;font-weight:700;color:#f59e0b;" id="summaryProgress">0</span>
+            <span style="font-size:9px;color:#6b7280;display:block;margin-top:2px;">🔵 진행중</span>
           </div>
-          <div class="issue-summary-item" onclick="filterIssuesByStatus('작업 진행 중')" style="cursor:pointer;border-left:3px solid #f59e0b;">
-            <span style="font-size:18px;font-weight:700;color:#f59e0b;" id="summaryProgress">0</span>
-            <span style="font-size:10px;color:#6b7280;display:block;">🟡 진행중</span>
+          <div class="issue-summary-item compact" onclick="filterIssuesByStatus('검증 진행 중')" style="cursor:pointer;" title="검증 중">
+            <span style="font-size:16px;font-weight:700;color:#3b82f6;" id="summaryResolved">0</span>
+            <span style="font-size:9px;color:#6b7280;display:block;margin-top:2px;">🟣 검증중</span>
           </div>
-          <div class="issue-summary-item" onclick="filterIssuesByStatus('검증 진행 중')" style="cursor:pointer;border-left:3px solid #3b82f6;">
-            <span style="font-size:18px;font-weight:700;color:#3b82f6;" id="summaryResolved">0</span>
-            <span style="font-size:10px;color:#6b7280;display:block;">🔵 검증중</span>
+          <div class="issue-summary-item compact" onclick="filterIssuesByStatus('완료')" style="cursor:pointer;" title="완료 (오늘)">
+            <span style="font-size:16px;font-weight:700;color:#10b981;" id="summaryClosed">0</span>
+            <span style="font-size:9px;color:#6b7280;display:block;margin-top:2px;">✅ 완료</span>
           </div>
-          <div class="issue-summary-item" onclick="filterIssuesByStatus('완료')" style="cursor:pointer;border-left:3px solid #10b981;">
-            <span style="font-size:18px;font-weight:700;color:#10b981;" id="summaryClosed">0</span>
-            <span style="font-size:10px;color:#6b7280;display:block;">✅ 완료</span>
-          </div>
-          <div class="issue-summary-item" style="cursor:pointer;border-left:3px solid #8b5cf6;">
-            <span style="font-size:18px;font-weight:700;color:#8b5cf6;" id="summaryToday">0</span>
-            <span style="font-size:10px;color:#6b7280;display:block;">📅 오늘</span>
-          </div>
-          <div class="issue-summary-item" onclick="switchIssueView('my-issues')" style="cursor:pointer;border-left:3px solid #2563eb;">
-            <span style="font-size:18px;font-weight:700;color:#2563eb;" id="summaryMyIssues">0</span>
-            <span style="font-size:10px;color:#6b7280;display:block;">👤 내 이슈</span>
+          <div class="issue-summary-item compact" onclick="switchIssueView('my-issues')" style="cursor:pointer;" title="내가 담당한 이슈">
+            <span style="font-size:16px;font-weight:700;color:#2563eb;" id="summaryMyIssues">0</span>
+            <span style="font-size:9px;color:#6b7280;display:block;margin-top:2px;">👤 내 이슈</span>
           </div>
           <div style="flex:1;"></div>
-          <div class="issue-summary-item write-only-ui" onclick="createIssue()" style="cursor:pointer;background:#6366f1;color:#fff;border-radius:8px;padding:8px 16px !important;border:none;" title="새 이슈 등록 (단축키: N)">
-            <span style="font-size:14px;font-weight:700;">+ 이슈 등록</span>
+          <div class="issue-summary-item write-only-ui compact" onclick="createIssue()" style="cursor:pointer;background:#6366f1;color:#fff;border-radius:6px;border:none;" title="새 이슈 등록 (단축키: N)">
+            <span style="font-size:12px;font-weight:700;">+ 이슈</span>
+            <kbd style="font-size:8px;padding:1px 3px;background:#4f46e5;border-radius:2px;border:none;color:#fff;margin-left:2px;">N</kbd>
           </div>
         </div>
-        <!-- Filter Toolbar Row 1 -->
+        <!-- Filter Toolbar Row 1 - Essential Filters -->
         <div class="issue-toolbar">
-          <select id="issueStatusFilter" onchange="renderIssues()" style="padding:6px 8px;">
+          <select id="issueStatusFilter" onchange="renderIssues()" style="padding:6px 8px;" title="상태 필터">
             <option value="">전체 상태</option>
             <option value="등록">등록</option>
             <option value="검토 중">검토 중</option>
@@ -3073,7 +3107,7 @@
             <option value="테스트 보류">테스트 보류</option>
             <option value="현재작업불가">현재작업불가</option>
           </select>
-          <select id="issueProductFilter" onchange="renderIssues()" style="padding:6px 8px;">
+          <select id="issueProductFilter" onchange="renderIssues()" style="padding:6px 8px;" title="프로덕트 필터">
             <option value="">전체 프로덕트</option>
             <option value="어바웃피싱 앱">어바웃피싱 앱</option>
             <option value="어바웃피싱 어드민">어바웃피싱 어드민</option>
@@ -3081,36 +3115,41 @@
             <option value="샵바이 어드민">샵바이 어드민</option>
             <option value="낚시포인트맵">낚시포인트맵</option>
           </select>
-          <select id="issueSeverityFilter" onchange="renderIssues()" style="padding:6px 8px;">
+          <select id="issueSeverityFilter" onchange="renderIssues()" style="padding:6px 8px;" title="심각도 필터">
             <option value="">전체 심각도</option>
             <option value="Block">Block</option>
             <option value="Major">Major</option>
             <option value="Minor">Minor</option>
             <option value="Trivial">Trivial</option>
           </select>
-          <select id="issueDefectTypeFilter" onchange="renderIssues()" style="padding:6px 8px;">
-            <option value="">전체 결함타입</option>
-            <option value="데이터 에러">데이터 에러</option>
-            <option value="기능 에러">기능 에러</option>
-            <option value="이슈 아님">이슈 아님</option>
-            <option value="기능개선">기능개선</option>
-            <option value="기획 에러">기획 에러</option>
-            <option value="시스템 에러">시스템 에러</option>
-            <option value="UI 에러">UI 에러</option>
-          </select>
-          <select id="issuePriorityFilter" onchange="renderIssues()" style="padding:6px 8px;">
-            <option value="">전체 우선순위</option>
-            <option value="1">1 (Critical)</option>
-            <option value="2">2 (High)</option>
-            <option value="3">3 (Medium)</option>
-            <option value="4">4 (Low)</option>
-          </select>
-          <input type="text" id="issueSearchInput" placeholder="이슈 검색..." oninput="_debounceSearch()" style="padding:6px 8px; min-width:180px;" title="이슈 검색 (단축키: /)"">
-          <select id="issueBundleFilter" onchange="renderIssues()" style="padding:6px 8px;">
-            <option value="">전체 배포상태</option>
-            <option value="in-bundle">배포 포함</option>
-            <option value="no-bundle">배포 미포함</option>
-          </select>
+          <input type="text" id="issueSearchInput" placeholder="이슈 검색..." oninput="_debounceSearch()" style="padding:6px 8px; min-width:180px;" title="이슈 검색 (단축키: /)">
+
+          <details id="advFilterPanel" style="display:contents;">
+            <summary style="cursor:pointer;color:#6b7280;font-size:11px;padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;list-style:none;white-space:nowrap;background:white;font-weight:500;">고급 필터 ▾</summary>
+            <select id="issueDefectTypeFilter" onchange="renderIssues()" style="padding:6px 8px;" title="결함 타입 필터">
+              <option value="">전체 결함타입</option>
+              <option value="데이터 에러">데이터 에러</option>
+              <option value="기능 에러">기능 에러</option>
+              <option value="이슈 아님">이슈 아님</option>
+              <option value="기능개선">기능개선</option>
+              <option value="기획 에러">기획 에러</option>
+              <option value="시스템 에러">시스템 에러</option>
+              <option value="UI 에러">UI 에러</option>
+            </select>
+            <select id="issuePriorityFilter" onchange="renderIssues()" style="padding:6px 8px;" title="우선순위 필터">
+              <option value="">전체 우선순위</option>
+              <option value="1">1 (Critical)</option>
+              <option value="2">2 (High)</option>
+              <option value="3">3 (Medium)</option>
+              <option value="4">4 (Low)</option>
+            </select>
+            <select id="issueBundleFilter" onchange="renderIssues()" style="padding:6px 8px;" title="배포 상태 필터">
+              <option value="">전체 배포상태</option>
+              <option value="in-bundle">배포 포함</option>
+              <option value="no-bundle">배포 미포함</option>
+            </select>
+          </details>
+
           <button onclick="refreshIssueData()" style="padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;cursor:pointer;background:#fff;color:#6b7280;" title="데이터 새로고침 (로컬 필터는 유지, 최신 데이터 불러오기)">↻</button>
           <button onclick="resetIssueFilters()" style="padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:11px;cursor:pointer;background:#fff;color:#6b7280;" title="필터 초기화">✕ 초기화</button>
           <div style="flex:1;"></div>
@@ -3145,7 +3184,7 @@
           <button class="btn btn-secondary" style="font-size:12px;padding:4px 8px;" onclick="clearIssueSelection()">취소</button>
         </div>
         <!-- Active Filters Bar -->
-        <div id="activeFiltersBar" style="display:none;padding:6px 16px;background:#f9fafb;border-bottom:1px solid #e5e7eb;display:flex;gap:6px;flex-wrap:wrap;align-items:center;"></div>
+        <div id="activeFiltersBar" style="display:none;padding:6px 16px;background:#f9fafb;border-bottom:1px solid #e5e7eb;gap:6px;flex-wrap:wrap;align-items:center;">
         <div class="issue-cards-grid" id="issuesContainer"></div>
       </div>
 
@@ -3293,12 +3332,27 @@
   <!-- Create Issue Modal -->
   <div class="modal-overlay" id="createIssueModal" onclick="if(event.target===this)closeCreateIssueModal()">
     <div class="modal" style="max-width:640px;max-height:90vh;display:flex;flex-direction:column;padding:0;">
-      <div style="padding:16px 20px;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div class="modal-title" style="margin:0;">이슈 등록</div>
-          <span style="font-size:11px;color:#9ca3af;font-weight:400;">필수 입력 4개</span>
+      <div style="padding:16px 20px;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:flex-start;flex-shrink:0;">
+        <div style="display:flex;flex-direction:column;gap:8px;flex:1;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="modal-title" style="margin:0;font-size:16px;font-weight:700;">🐛 새 이슈 등록</div>
+          </div>
+          <div style="display:flex;gap:12px;font-size:11px;color:#6b7280;">
+            <span style="display:flex;align-items:center;gap:4px;">
+              <span style="background:#6366f1;color:#fff;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px;">1</span>
+              필수 4개
+            </span>
+            <span style="display:flex;align-items:center;gap:4px;">
+              <span style="background:#e5e7eb;color:#6b7280;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px;">2</span>
+              선택사항
+            </span>
+            <span style="display:flex;align-items:center;gap:4px;">
+              <span style="background:#e5e7eb;color:#6b7280;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px;">3</span>
+              등록
+            </span>
+          </div>
         </div>
-        <button onclick="closeCreateIssueModal()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#9ca3af;line-height:1;">×</button>
+        <button onclick="closeCreateIssueModal()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#9ca3af;line-height:1;flex-shrink:0;">×</button>
       </div>
       <div id="createIssueForm" style="display:flex;flex-direction:column;gap:8px;padding:16px 20px;overflow-y:auto;flex:1;">
         <!-- Form will be populated by JS -->
@@ -3867,6 +3921,9 @@
         '<li><a href="#projects">프로젝트 탭</a></li>' +
         '<li><a href="#team">팀 탭</a></li>' +
         '<li><a href="#overview">개요 탭</a></li>' +
+        '<li><a href="#issues">이슈 탭 (이슈 등록/추적/관리)</a></li>' +
+        '<li><a href="#deploy">배포 탭 (배포 번들 관리)</a></li>' +
+        '<li><a href="#notifications">알림 시스템</a></li>' +
         '<li><a href="#history">이력 탭 (변경 / 접속 / 릴리즈노트)</a></li>' +
         '<li><a href="#detail">프로젝트 상세 패널</a></li>' +
         '<li><a href="#chat">채팅 시스템</a></li>' +
@@ -3933,6 +3990,75 @@
       '<div class="s" id="overview">' +
         '<h2><span class="ic">📊</span> 6. 개요 탭</h2>' +
         '<p>프로젝트 전체 현황을 한눈에 파악할 수 있는 요약 대시보드입니다. 상태별 분포, 티어별 분포, 서비스 종류별 분포 등 통계를 제공합니다.</p>' +
+      '</div>' +
+
+      /* 이슈 탭 */
+      '<div class="s" id="issues">' +
+        '<h2><span class="ic">🐛</span> 이슈 탭 (이슈 등록/추적/관리)</h2>' +
+        '<p>버그, Task 등 모든 이슈를 등록하고 상태를 추적하는 핵심 탭입니다.</p>' +
+        '<h3>이슈 등록</h3><p>"+ 새 이슈 등록" 버튼 클릭 또는 키보드 <span class="sc">N</span> 단축키로 등록 폼을 엽니다.</p>' +
+        '<ul><li><strong>필수 4개</strong>: 제목, 이슈 유형(Bug/Task), 심각도, 프로덕트, 플랫폼</li><li><strong>선택 사항</strong>: "상세 설정 ▾" 클릭 시 결함 타입, 우선순위, 배포환경, 담당자, 기한 등 추가 입력 가능</li><li>첨부파일은 드래그앤드롭 또는 클립보드 붙여넣기(Ctrl+V)로 추가</li></ul>' +
+        '<h3>이슈 유형 & 심각도</h3>' +
+        '<table><thead><tr><th>심각도</th><th>의미</th><th>색상</th></tr></thead><tbody>' +
+          '<tr><td>Block</td><td>서비스 전체 차단 수준의 치명적 버그</td><td style="color:#991b1b">🔴 빨강</td></tr>' +
+          '<tr><td>Major</td><td>주요 기능 오작동</td><td style="color:#c2410c">🟠 주황</td></tr>' +
+          '<tr><td>Minor</td><td>부분 기능 이상, 우회 가능</td><td style="color:#1d4ed8">🔵 파랑</td></tr>' +
+          '<tr><td>Trivial</td><td>UI 오탈자 등 경미한 이슈</td><td style="color:#6b7280">⚫ 회색</td></tr>' +
+        '</tbody></table>' +
+        '<h3>이슈 상태 흐름</h3>' +
+        '<div class="fd"><span class="fs">등록</span><span class="fa">→</span><span class="fs">검토 중</span><span class="fa">→</span><span class="fs">작업 진행 중</span><span class="fa">→</span><span class="fs">검증 진행 중</span><span class="fa">→</span><span class="fs">완료</span></div>' +
+        '<p>상세 패널 상단의 퀵 전환 버튼으로 한 번에 다음 상태로 이동할 수 있습니다.</p>' +
+        '<h3>뷰 모드</h3><ul>' +
+          '<li><strong>전체</strong> — 모든 이슈 표시</li>' +
+          '<li><strong>내 이슈</strong> — 나에게 할당된 이슈만 표시 (작업담당/검증담당 구분)</li>' +
+          '<li><strong>즐겨찾기(⭐)</strong> — 별표 추가한 이슈만 표시</li>' +
+        '</ul>' +
+        '<h3>표시 형식</h3><ul>' +
+          '<li><strong>카드</strong> — 심각도 좌측 컬러 바 + 제목 + 상태 + 담당자</li>' +
+          '<li><strong>테이블</strong> — 컬럼 정렬 클릭 가능 (ID/상태/심각도/기한)</li>' +
+          '<li><strong>컴팩트</strong> — 1줄 압축 형식, 많은 이슈를 한눈에</li>' +
+        '</ul>' +
+        '<h3>필터 & 검색</h3><p>상태/프로덕트/심각도/검색어 필터 조합 가능. 활성 필터는 칩으로 표시되며 개별 또는 전체 초기화 가능. "고급 필터 ▾"를 펼치면 결함 타입, 우선순위, 배포 상태 필터도 사용 가능합니다.</p><p>검색창에 키워드 입력 시 카드 내 매칭 텍스트가 <mark style="background:#fef08a;">하이라이트</mark> 됩니다. 단축키: <span class="sc">/</span></p>' +
+        '<h3>일괄 처리</h3><p>이슈 카드의 체크박스로 여러 이슈를 선택 후 "상태 변경" 또는 "담당자 변경" 일괄 처리 가능합니다.</p>' +
+        '<h3>이슈 상세 패널</h3><p>이슈 카드 클릭 시 우측에 상세 패널이 열립니다. 제목 클릭으로 인라인 수정, 상태 드롭다운으로 즉시 변경, 코멘트 스레드 확인/작성 가능합니다. 이슈 ID 옆 "복사" 버튼으로 ID를 클립보드에 복사합니다.</p>' +
+        '<h3>기한 표시</h3><ul><li><strong>⚠️ 기한 초과</strong> — 기한이 지난 이슈 (빨강)</li><li><strong>🔥 D-N</strong> — 3일 이내 (주황)</li><li><strong>D-N</strong> — 7일 이내 (노랑)</li></ul>' +
+        '<h3>키보드 단축키</h3>' +
+        '<table><thead><tr><th>단축키</th><th>기능</th></tr></thead><tbody>' +
+          '<tr><td><span class="sc">N</span></td><td>새 이슈 등록 (이슈 탭에서, 입력 중 아닐 때)</td></tr>' +
+          '<tr><td><span class="sc">/</span></td><td>이슈 검색창 포커스</td></tr>' +
+          '<tr><td><span class="sc">ESC</span></td><td>현재 패널/모달 닫기</td></tr>' +
+        '</tbody></table>' +
+      '</div>' +
+
+      /* 배포 탭 */
+      '<div class="s" id="deploy">' +
+        '<h2><span class="ic">🚀</span> 배포 탭 (배포 번들 관리)</h2>' +
+        '<p>프로젝트와 이슈를 묶어서 배포 계획을 세우고 진행 상황을 관리하는 탭입니다.</p>' +
+        '<h3>배포 번들이란?</h3><p>특정 배포에 포함될 이슈 목록과 대상 날짜를 함께 관리하는 단위입니다. 여러 이슈를 하나의 배포로 묶어 진행률을 한눈에 파악할 수 있습니다.</p>' +
+        '<h3>번들 생성</h3><p>"+ 배포 번들 생성" 버튼 클릭 후 제목, 목표일(기본 7일 후 자동 설정), 배포 환경, 연결 프로젝트/이슈를 입력합니다.</p>' +
+        '<h3>번들 카드 정보</h3><ul>' +
+          '<li><strong>상태 배지</strong>: 준비중 / 배포준비 / 배포완료 / 취소</li>' +
+          '<li><strong>D-day 배지</strong>: 목표일까지 남은 일수 (D-3 이내 빨강)</li>' +
+          '<li><strong>진행률 바</strong>: 완료된 이슈 수 / 전체 이슈 수</li>' +
+        '</ul>' +
+        '<h3>번들 상태 전환</h3>' +
+        '<div class="fd"><span class="fs">준비중</span><span class="fa">→</span><span class="fs">✅ 배포준비 완료</span><span class="fa">→</span><span class="fs">🚀 배포 완료</span></div>' +
+        '<h3>번들 상세</h3><p>번들 카드 클릭 시 상세 화면이 열립니다. 연결된 이슈 행을 클릭하면 해당 이슈 상세 패널이 열립니다. 메모 입력 가능합니다.</p>' +
+        '<h3>필터 & 정렬</h3><ul><li>배포 환경 필터 (운영/스테이지/개발)</li><li>상태 필터</li><li>정렬: 날짜 최신순 / 날짜 오래된순 / 상태순</li></ul>' +
+        '<h3>번들 복사</h3><p>상세 화면에서 "복사" 버튼 클릭 시 새 번들로 복사됩니다 ([복사] 접두어 추가).</p>' +
+      '</div>' +
+
+      /* 알림 */
+      '<div class="s" id="notifications">' +
+        '<h2><span class="ic">🔔</span> 알림 시스템</h2>' +
+        '<p>헤더 우측의 🔔 벨 아이콘을 클릭하면 알림 패널이 열립니다.</p>' +
+        '<h3>알림이 발생하는 경우</h3><ul>' +
+          '<li>이슈가 업데이트(상태 변경, 필드 수정)될 때</li>' +
+          '<li>이슈가 새로 생성될 때</li>' +
+        '</ul>' +
+        '<h3>알림 읽음 처리</h3><p>패널을 열면 1초 후 자동으로 모두 읽음 처리됩니다. 읽지 않은 알림은 벨 아이콘에 빨간 숫자 배지로 표시됩니다.</p>' +
+        '<h3>알림 클릭</h3><p>이슈 관련 알림을 클릭하면 해당 이슈 상세 패널이 바로 열립니다.</p>' +
+        '<h3>알림 지우기</h3><p>하단 "모두 지우기" 버튼으로 알림을 초기화합니다. 알림은 localStorage에 저장됩니다(최대 50개).</p>' +
       '</div>' +
 
       /* 7 이력 */
@@ -5275,7 +5401,10 @@
       { version:'v2026.04.10-8', timestamp:'2026-04-10T14:00:00.000Z', changes:['읽기 전용 모드 UI 전면 적용','상세 패널 모든 입력 비활성화 + 저장/삭제 버튼 숨김','안건 추가 버튼 읽기 권한자에게 숨김','Gantt 새 안건 추가 행 쓰기 권한자만 표시','채팅 메시지 조회 가능하되 입력창 숨김','채팅 전송에 쓰기 권한 체크 추가'] },
       { version:'v2026.04.10-9', timestamp:'2026-04-10T14:20:00.000Z', changes:['관리자 모드 🔒 버튼에 미확인 신규 접속자 수 빨간 뱃지 표시','최근 7일 이내 신규 접속자 카운트','팀원관리 진입 시 뱃지 자동 초기화 (확인 처리)','확인 상태 localStorage 영속 저장'] },
       { version:'v2026.04.10-10', timestamp:'2026-04-10T14:35:00.000Z', changes:['📖 매뉴얼 버튼 추가 (헤더 영역)','전체 기능 사용 매뉴얼 새 탭 열기 (13개 섹션)','프로젝트 상세 패널에 📅 일정 등록 버튼 추가','스케줄 탭 프로젝트 행에 📅 일정 등록 아이콘 버튼 추가','일정 등록 모달 화면 중앙 표시 (상세 패널에서 호출)','릴리즈노트 초기 시드 데이터 자동 등록 (Firebase 빈 경우)'] },
-      { version:'v2026.04.10-11', timestamp:'2026-04-10T15:00:00.000Z', changes:['이슈 관리 탭 추가 (이슈 등록/수정/삭제/상태관리)','이슈 심각도/우선순위/상태 필터링 및 검색','드래그앤드롭 이미지/동영상 첨부 (자동 압축)','이슈 코멘트 스레드','배포 관리 (프로젝트+이슈 묶어 배포일 지정)','QA/UXUI/기획자 에이전트 피드백 시스템','클립보드 붙여넣기 스크린샷 지원'] }
+      { version:'v2026.04.10-11', timestamp:'2026-04-10T15:00:00.000Z', changes:['이슈 관리 탭 추가 (이슈 등록/수정/삭제/상태관리)','이슈 심각도/우선순위/상태 필터링 및 검색','드래그앤드롭 이미지/동영상 첨부 (자동 압축)','이슈 코멘트 스레드','배포 관리 (프로젝트+이슈 묶어 배포일 지정)','QA/UXUI/기획자 에이전트 피드백 시스템','클립보드 붙여넣기 스크린샷 지원'] },
+      { version:'v2026.04.10-12', timestamp:'2026-04-10T17:00:00.000Z', changes:['이슈 등록 폼 Progressive Disclosure 적용 (필수 4개 + 선택사항 접기)','SVG 로고 이미지 교체 (어바웃피싱 로고)','이슈 복사하기 버튼 (새 등록으로 처리, [복사] 접두어)','배포 목록 배포환경 필터 추가','코멘트 수정/삭제 기능 + 수정됨 표시','배포 번들 생성 버튼 = 완전 새 폼 (기존값 미복사)','이슈 상세 패널 퀵 워크플로 전환 버튼 (상태별 다음 단계)','이슈 요약 바 컬러 배지 (미처리/진행중/검증중/완료)','내 이슈 뷰 모드 버튼 (내 담당 이슈만 필터)','이슈 카드/테이블 뷰 전환','일괄 상태/담당자 변경 모달 UI','배포 번들 상세 이슈 체크리스트 + 진행률 바','이슈 ID 자동 생성 미리보기 (프로덕트 선택 시)','활성 필터 칩 바 (개별/전체 초기화)'] },
+      { version:'v2026.04.10-13', timestamp:'2026-04-10T17:30:00.000Z', changes:['이슈 등록 폼 인라인 필드 오류 표시 (toast→빨간 테두리+오류 텍스트)','토스트 알림 타입 분리: success(초록)/error(빨강)/info(회색)','키보드 단축키: N=새이슈, /=검색포커스, ESC=패널닫기','이슈 상세 패널 너비 600px로 확대','이슈 등록 시 제목 필드 자동 포커스','이슈 상세 제목 클릭 인라인 수정 (✏️ hover)','코멘트 Enter 전송 / Shift+Enter 줄바꿈','코멘트 빈 상태 안내 (💬 이모지)','이슈 ID 복사 버튼 (상세 패널 헤더)','활동 내역: 생성/수정 시각 표시','배포 번들 카드 진행률 바 + D-day 배지','배포 번들 정렬 옵션 (날짜순/상태순)','배포 번들 이슈 행 클릭 → 이슈 상세 패널 연결','이슈 즐겨찾기(★) 기능 + 필터 뷰','이슈 검색어 하이라이트 표시','이슈 목록 그룹화 토글 (상태별 그룹)','컴팩트 뷰 버튼 (1줄 압축 카드)','기한 D-day 표시 (⚠️ 기한초과 / 🔥 임박)','이슈 카드 hover 퀵액션 바 (상세/ID복사/즐겨찾기)'] },
+      { version:'v2026.04.10-14', timestamp:'2026-04-10T20:00:00.000Z', changes:['🔔 알림 벨 시스템: 이슈 업데이트 시 자동 기록, 읽음 처리, 전체 지우기','내 이슈 뷰: 작업담당/검증담당 섹션 분리','빈 상태 3종 개선: 검색 없음 / 필터 없음 / 이슈 없음 (액션 버튼 포함)','Task 유형 선택 시 심각도 자동 Minor 설정','이슈 유형 아이콘: Bug=🐛, Task=✅','심각도 컬러 필 배지 (Block/Major/Minor/Trivial)','스케줄 이슈 뷰 심각도 범례 추가','검색 입력 200ms 디바운스 성능 개선','↻ 데이터 새로고침 버튼 (Firebase 재요청)','배포 번들 생성 빈 모달 버그 수정 (openCreateDeployBundle body 초기화 제거)','요약 바 7개→5개 축소: 미처리/진행중/검증중/완료/내이슈','이슈 도구 모음 고급 필터 접기/펼치기','이슈 카드 overdue 배경 강조 (#fff8f8)','코멘트 권한 없을 때 버튼 비활성화 + 안내','이슈 상세 닫을 때 목록 즉시 갱신'] }
     ];
 
     function _autoSeedReleaseNotes(existingData) {
@@ -5973,24 +6102,30 @@
 
       // === Collapsible "상세 설정" section ===
       var detailToggle = document.createElement('div');
-      detailToggle.style.cssText = 'cursor:pointer;padding:10px 0 6px;display:flex;align-items:center;gap:6px;color:#6366f1;font-size:12px;font-weight:600;border-top:1px solid #e5e7eb;margin-top:10px;user-select:none;';
-      detailToggle.innerHTML = '<span class="toggle-arrow" style="font-size:10px;transition:transform 0.2s;">▶</span> 상세 설정 <span style="color:#9ca3af;font-weight:400;font-size:11px;">(선택사항)</span>';
+      detailToggle.style.cssText = 'cursor:pointer;padding:12px;display:flex;align-items:center;gap:8px;color:#fff;background:#6366f1;font-size:13px;font-weight:600;border-radius:6px;margin-top:12px;user-select:none;transition:all 0.2s;';
+      detailToggle.innerHTML = '<span class="toggle-arrow" style="font-size:11px;transition:transform 0.2s;display:inline-block;">▼</span> 상세 설정 <span style="color:#c7d2fe;font-weight:400;font-size:11px;margin-left:auto;">(선택사항)</span>';
+      detailToggle.onmouseover = function() { this.style.background = '#4f46e5'; };
+      detailToggle.onmouseout = function() { this.style.background = '#6366f1'; };
       detailToggle.onclick = function() {
         var target = this.nextElementSibling;
         var arrow = this.querySelector('.toggle-arrow');
         if (target.style.display === 'none') {
           target.style.display = 'block';
-          arrow.textContent = '▼';
+          arrow.style.transform = 'rotate(0deg)';
         } else {
           target.style.display = 'none';
-          arrow.textContent = '▶';
+          arrow.style.transform = 'rotate(-90deg)';
         }
       };
       form.appendChild(detailToggle);
 
       var detailSection = document.createElement('div');
-      detailSection.style.display = 'none';
+      detailSection.style.display = 'block';
       detailSection.style.paddingTop = '8px';
+      detailSection.style.backgroundColor = '#f9fafb';
+      detailSection.style.padding = '12px';
+      detailSection.style.borderRadius = '6px';
+      detailSection.style.marginTop = '0px';
 
       // Detail fields
       _addRowToSection(detailSection, [
@@ -6238,6 +6373,18 @@
       }
     }
 
+    function _timeAgo(dateStr) {
+      if (!dateStr) return '';
+      var diff = Date.now() - new Date(dateStr).getTime();
+      var mins = Math.floor(diff / 60000);
+      if (mins < 60) return mins + '분 전';
+      var hrs = Math.floor(mins / 60);
+      if (hrs < 24) return hrs + '시간 전';
+      var days = Math.floor(hrs / 24);
+      if (days < 7) return days + '일 전';
+      return Math.floor(days/7) + '주 전';
+    }
+
     function renderIssues() {
       var statusFilter = document.getElementById('issueStatusFilter').value;
       var productFilter = document.getElementById('issueProductFilter').value;
@@ -6356,12 +6503,10 @@
         return i.assignee === myUid || i.verifier === myUid;
       }).length : 0;
 
-      document.getElementById('summaryTotal').textContent = total;
       document.getElementById('summaryOpen').textContent = open;
       document.getElementById('summaryProgress').textContent = progress;
       document.getElementById('summaryResolved').textContent = resolved;
       document.getElementById('summaryClosed').textContent = closed;
-      document.getElementById('summaryToday').textContent = todayIssues;
       document.getElementById('summaryMyIssues').textContent = myIssues;
 
       var container = document.getElementById('issuesContainer');
@@ -6543,21 +6688,48 @@
           });
         });
       } else if (_issueViewMode === 'by-assignee') {
+        // 담당자별: assignee + verifier 모두 포함 (각자 그룹에 표시)
         var grouped = {};
         filtered.forEach(function(iss) {
-          var key = iss.assignee || '(미할당)';
-          if (!grouped[key]) grouped[key] = [];
-          grouped[key].push(iss);
+          // 작업 담당자
+          var ak = iss.assignee || '__unassigned__';
+          if (!grouped[ak]) grouped[ak] = { workItems: [], verifyItems: [] };
+          grouped[ak].workItems.push(iss);
+          // 검증 담당자 (작업담당자와 다를 경우만 별도 그룹)
+          if (iss.verifier && iss.verifier !== iss.assignee) {
+            var vk = iss.verifier;
+            if (!grouped[vk]) grouped[vk] = { workItems: [], verifyItems: [] };
+            grouped[vk].verifyItems.push(iss);
+          }
         });
-        Object.keys(grouped).forEach(function(key) {
+        // TEAM 순서대로 정렬 표시, 미할당은 마지막
+        var orderedKeys = TEAM.map(function(m) { return m.id; }).filter(function(id) { return grouped[id]; });
+        if (grouped['__unassigned__']) orderedKeys.push('__unassigned__');
+        orderedKeys.forEach(function(key) {
+          var data = grouped[key];
+          var memberName = key === '__unassigned__' ? '미할당' : (TEAM.find(function(m) { return m.id === key; }) || {name: key}).name;
+          var totalCount = data.workItems.length + data.verifyItems.length;
           var header = document.createElement('div');
           header.className = 'issue-group-header';
-          var memberName = key === '(미할당)' ? key : (TEAM.find(function(m) { return m.id === key; }) || {name: key}).name;
-          header.textContent = '👤 ' + memberName;
+          header.style.cssText = 'font-size:12px;font-weight:700;color:#374151;padding:10px 4px 6px;border-bottom:2px solid #6366f1;margin-bottom:6px;display:flex;align-items:center;gap:6px;';
+          var m = TEAM.find(function(t) { return t.id === key; });
+          var avatar = m ? '<span style="width:20px;height:20px;border-radius:50%;background:' + (m.color || '#6366f1') + ';display:inline-flex;align-items:center;justify-content:center;color:white;font-size:10px;font-weight:700;">' + (m.name||'?')[0] + '</span>' : '<span style="font-size:14px;">👤</span>';
+          header.innerHTML = avatar + '<span>' + memberName + '</span><span style="font-size:11px;color:#6b7280;font-weight:400;">' + totalCount + '개 이슈</span>';
           container.appendChild(header);
-          grouped[key].forEach(function(iss) {
-            _renderIssueCard(container, iss);
-          });
+          if (data.workItems.length > 0) {
+            var wLabel = document.createElement('div');
+            wLabel.style.cssText = 'font-size:10px;font-weight:700;color:#2563eb;padding:4px 4px 2px;text-transform:uppercase;letter-spacing:0.5px;';
+            wLabel.textContent = '🔨 작업 담당 (' + data.workItems.length + ')';
+            container.appendChild(wLabel);
+            data.workItems.forEach(function(iss) { _renderIssueCard(container, iss); });
+          }
+          if (data.verifyItems.length > 0) {
+            var vLabel = document.createElement('div');
+            vLabel.style.cssText = 'font-size:10px;font-weight:700;color:#7c3aed;padding:8px 4px 2px;text-transform:uppercase;letter-spacing:0.5px;';
+            vLabel.textContent = '✅ 검증 담당 (' + data.verifyItems.length + ')';
+            container.appendChild(vLabel);
+            data.verifyItems.forEach(function(iss) { _renderIssueCard(container, iss); });
+          }
         });
       } else {
         filtered.forEach(function(iss) {
@@ -6610,7 +6782,7 @@
       renderIssues();
     }
 
-    function saveIssue(iss) {
+    function saveIssueInline(iss) {
       var idx = _issues.findIndex(function(i) { return i.id === iss.id; });
       if (idx >= 0) _issues[idx] = iss;
       _saveIssuesToLocal();
@@ -6717,7 +6889,7 @@
             e.stopPropagation();
             var newStatus = this.value;
             iss.status = newStatus;
-            saveIssue(iss);
+            saveIssueInline(iss);
             renderIssues();
           };
           sel.onclick = function(e) { e.stopPropagation(); };
@@ -6758,11 +6930,24 @@
     }
 
     function _renderIssueCard(container, iss) {
+      // Check if overdue
+      var isOverdue = false;
+      if (iss.deadline && iss.status !== '완료') {
+        var deadline = new Date(iss.deadline);
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+        deadline.setHours(0, 0, 0, 0);
+        isOverdue = deadline < today;
+      }
+
       var card = document.createElement('div');
       card.className = 'issue-card severity-' + iss.severity;
       card.style.display = 'flex';
       card.style.gap = '8px';
       card.style.alignItems = 'flex-start';
+      if (isOverdue) {
+        card.style.background = '#fff8f8';
+      }
       var isNew = (Date.now() - new Date(iss.created).getTime()) < 86400000;
       card.onclick = function(e) {
         if (e.target.type !== 'checkbox') openIssueDetail(iss.id);
@@ -6792,11 +6977,13 @@
       content.style.flex = '1';
       content.style.minWidth = '0';
 
+      // Header: ID, Type Badge, and Severity on one line
       var header = document.createElement('div');
-      header.className = 'issue-card-header';
+      header.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;';
+
       var id = document.createElement('div');
       id.className = 'issue-card-id';
-      id.style.cursor = 'pointer';
+      id.style.cssText = 'font-weight:700;font-size:11px;color:#6366f1;cursor:pointer;flex-shrink:0;';
       id.onclick = function(e) { e.stopPropagation(); copyIssueId(iss.id); };
       var searchText = document.getElementById('issueSearchInput') ? document.getElementById('issueSearchInput').value.toLowerCase() : '';
       if (searchText && iss.id.toLowerCase().includes(searchText)) {
@@ -6807,68 +6994,77 @@
       if (isNew) id.innerHTML += '<span class="issue-new-badge">NEW</span>';
       header.appendChild(id);
 
+      // Type badge in header
+      var typeBadgeHead = document.createElement('span');
+      typeBadgeHead.style.display = 'inline-block';
+      typeBadgeHead.style.padding = '2px 6px';
+      typeBadgeHead.style.borderRadius = '3px';
+      typeBadgeHead.style.fontSize = '9px';
+      typeBadgeHead.style.fontWeight = '600';
+      typeBadgeHead.style.flex = '0 0 auto';
+      if (iss.type === 'Bug') {
+        typeBadgeHead.style.background = '#fee2e2';
+        typeBadgeHead.style.color = '#991b1b';
+        typeBadgeHead.innerHTML = '🐛';
+      } else if (iss.type === 'Task') {
+        typeBadgeHead.style.background = '#dcfce7';
+        typeBadgeHead.style.color = '#166534';
+        typeBadgeHead.innerHTML = '✅';
+      } else {
+        typeBadgeHead.style.background = '#e5e7eb';
+        typeBadgeHead.style.color = '#374151';
+        typeBadgeHead.textContent = iss.type;
+      }
+      header.appendChild(typeBadgeHead);
+
+      // Severity badge in header
+      var sevBadgeHead = document.createElement('span');
+      sevBadgeHead.style.display = 'inline-block';
+      sevBadgeHead.style.fontSize = '9px';
+      sevBadgeHead.style.fontWeight = '600';
+      sevBadgeHead.style.flex = '0 0 auto';
+      var sevColors = { 'Block': { bg: '#fee2e2', text: '#991b1b', border: '#fca5a5' }, 'Major': { bg: '#fff7ed', text: '#c2410c', border: '#fed7aa' }, 'Minor': { bg: '#eff6ff', text: '#1d4ed8', border: '#bfdbfe' }, 'Trivial': { bg: '#f9fafb', text: '#6b7280', border: '#e5e7eb' } };
+      var sevStyle = sevColors[iss.severity] || sevColors['Trivial'];
+      sevBadgeHead.style.cssText = 'display:inline-block;padding:2px 6px;border-radius:3px;background:' + sevStyle.bg + ';color:' + sevStyle.text + ';border:1px solid ' + sevStyle.border + ';font-size:9px;font-weight:600;';
+      sevBadgeHead.textContent = iss.severity;
+      header.appendChild(sevBadgeHead);
+
+      content.appendChild(header);
+
+      // Title: larger, 2-line clamp
       var title = document.createElement('div');
-      title.className = 'issue-card-title';
+      title.style.cssText = 'font-size:14px;font-weight:600;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:6px;color:#1f2937;';
       var searchText = document.getElementById('issueSearchInput') ? document.getElementById('issueSearchInput').value.toLowerCase() : '';
       if (searchText && (iss.title.toLowerCase().includes(searchText) || iss.id.toLowerCase().includes(searchText))) {
         title.innerHTML = _highlightText(iss.title, searchText);
       } else {
         title.textContent = iss.title;
       }
-      header.appendChild(title);
-      content.appendChild(header);
+      content.appendChild(title);
 
-      // Badges
-      var badgeRow = document.createElement('div');
-      badgeRow.className = 'issue-badges';
+      // Status badge row (simplified - moved to bottom for better hierarchy)
+      // Will be added at the bottom after meta
 
-      // Type badge with icon
-      var typeBadge = document.createElement('span');
-      typeBadge.style.display = 'inline-block';
-      typeBadge.style.padding = '2px 6px';
-      typeBadge.style.borderRadius = '3px';
-      typeBadge.style.fontSize = '10px';
-      typeBadge.style.fontWeight = '600';
-      if (iss.type === 'Bug') {
-        typeBadge.style.background = '#fee2e2';
-        typeBadge.style.color = '#991b1b';
-        typeBadge.innerHTML = '🐛 Bug';
-      } else if (iss.type === 'Task') {
-        typeBadge.style.background = '#dcfce7';
-        typeBadge.style.color = '#166534';
-        typeBadge.innerHTML = '✅ Task';
-      } else {
-        typeBadge.style.background = '#e5e7eb';
-        typeBadge.style.color = '#374151';
-        typeBadge.textContent = iss.type;
-      }
-      badgeRow.appendChild(typeBadge);
-
-      // Severity badge with full colored pill
-      var sevBadge = document.createElement('span');
-      sevBadge.className = 'severity-badge severity-' + iss.severity;
-      var sevColors = { 'Block': { bg: '#fee2e2', text: '#991b1b', border: '#fca5a5' }, 'Major': { bg: '#fff7ed', text: '#c2410c', border: '#fed7aa' }, 'Minor': { bg: '#eff6ff', text: '#1d4ed8', border: '#bfdbfe' }, 'Trivial': { bg: '#f9fafb', text: '#6b7280', border: '#e5e7eb' } };
-      var sevStyle = sevColors[iss.severity] || sevColors['Trivial'];
-      sevBadge.style.cssText = 'display:inline-block;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600;background:' + sevStyle.bg + ';color:' + sevStyle.text + ';border:1px solid ' + sevStyle.border + ';';
-      sevBadge.textContent = iss.severity;
-      badgeRow.appendChild(sevBadge);
-
-      var priBadge = document.createElement('span');
-      priBadge.className = 'priority-badge priority-' + iss.priority;
-      priBadge.textContent = iss.priority;
-      badgeRow.appendChild(priBadge);
-
-      var statusBadge = document.createElement('span');
-      statusBadge.className = 'status-badge status-' + (iss.status ? iss.status.replace(/\s+/g, '') : '등록');
-      statusBadge.textContent = iss.status || '등록';
-      badgeRow.appendChild(statusBadge);
-
-      content.appendChild(badgeRow);
-
-      // Meta
+      // Meta - compact version
       var meta = document.createElement('div');
-      meta.className = 'issue-card-meta';
+      meta.style.cssText = 'display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:10px;color:#6b7280;margin-bottom:6px;';
 
+      // Assignee avatar (more prominent)
+      if (iss.assignee) {
+        var aItem = document.createElement('span');
+        aItem.style.cssText = 'display:flex;align-items:center;gap:4px;';
+        var member = TEAM.find(function(m) { return m.id === iss.assignee; });
+        if (member) {
+          var avatar = document.createElement('div');
+          avatar.style.cssText = 'width:20px;height:20px;border-radius:50%;background:' + member.color + ';color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;';
+          avatar.textContent = member.name.substring(0, 1);
+          aItem.appendChild(avatar);
+          aItem.appendChild(document.createTextNode(member.name));
+        }
+        meta.appendChild(aItem);
+      }
+
+      // Service type
       if (iss.serviceType) {
         var sTag = document.createElement('span');
         sTag.className = 'issue-meta-item';
@@ -6876,6 +7072,7 @@
         meta.appendChild(sTag);
       }
 
+      // Project
       if (iss.projectId) {
         var pLink = document.createElement('span');
         pLink.className = 'issue-meta-item';
@@ -6885,21 +7082,7 @@
         meta.appendChild(pLink);
       }
 
-      if (iss.assignee) {
-        var aItem = document.createElement('span');
-        aItem.className = 'issue-meta-item issue-assignee';
-        var member = TEAM.find(function(m) { return m.id === iss.assignee; });
-        if (member) {
-          var avatar = document.createElement('div');
-          avatar.className = 'issue-assignee-avatar';
-          avatar.style.background = member.color;
-          avatar.textContent = member.name.substring(0, 1);
-          aItem.appendChild(avatar);
-          aItem.appendChild(document.createTextNode(member.name));
-        }
-        meta.appendChild(aItem);
-      }
-
+      // Only show critical deadline info
       if (iss.deadline) {
         var deadline = new Date(iss.deadline);
         var today = new Date();
@@ -6908,40 +7091,46 @@
         var daysUntil = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
         var isOverdue = daysUntil < 0 && iss.status !== '완료';
         var dItem = document.createElement('span');
-        dItem.className = 'issue-meta-item';
-        dItem.style.fontSize = '10px';
-        dItem.style.fontWeight = '600';
+        dItem.style.fontSize = '9px';
+        dItem.style.fontWeight = '700';
 
         if (isOverdue) {
           dItem.style.color = '#ef4444';
           dItem.innerHTML = '⚠️ 기한 초과';
         } else if (daysUntil <= 3 && daysUntil >= 0) {
           dItem.style.color = '#f97316';
-          dItem.innerHTML = '🔥 D-' + daysUntil;
+          dItem.innerHTML = '🔥 ' + daysUntil + '일';
         } else if (daysUntil <= 7) {
           dItem.style.color = '#f59e0b';
           dItem.innerHTML = 'D-' + daysUntil;
-        } else {
-          dItem.style.color = '#6b7280';
-          dItem.innerHTML = 'D-' + daysUntil;
         }
-        meta.appendChild(dItem);
+        if (daysUntil <= 7) {
+          meta.appendChild(dItem);
+        }
       }
 
-      var attachCount = document.createElement('span');
-      attachCount.className = 'issue-meta-item';
-      attachCount.innerHTML = '📎 ' + (iss.attachments ? iss.attachments.length : 0);
-      meta.appendChild(attachCount);
+      // Attachments count
+      if (iss.attachments && iss.attachments.length > 0) {
+        var attachCount = document.createElement('span');
+        attachCount.innerHTML = '📎 ' + iss.attachments.length;
+        meta.appendChild(attachCount);
+      }
 
-      // 배포 번들 연결 뱃지
+      // Comments count
+      if (iss.comments && iss.comments.length > 0) {
+        var commentCount = document.createElement('span');
+        commentCount.innerHTML = '💬 ' + iss.comments.length;
+        meta.appendChild(commentCount);
+      }
+
+      // Deploy bundle
       var bundleLinks = _deployBundles.filter(function(b) {
         return b.issues && b.issues.indexOf(iss.id) !== -1;
       });
       if (bundleLinks.length > 0) {
         bundleLinks.forEach(function(b) {
           var bItem = document.createElement('span');
-          bItem.className = 'issue-meta-item';
-          bItem.style.cssText = 'background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:600;cursor:pointer;';
+          bItem.style.cssText = 'background:#ede9fe;color:#5b21b6;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:600;cursor:pointer;';
           bItem.textContent = '🚀 ' + b.title;
           bItem.onclick = function(e) {
             e.stopPropagation();
@@ -6959,17 +7148,24 @@
         });
       }
 
-      var commentCount = document.createElement('span');
-      commentCount.className = 'issue-meta-item';
-      commentCount.innerHTML = '💬 ' + (iss.comments ? iss.comments.length : 0);
-      meta.appendChild(commentCount);
-
-      var date = document.createElement('span');
-      date.className = 'issue-meta-item';
-      date.textContent = new Date(iss.created).toLocaleDateString('ko-KR');
-      meta.appendChild(date);
-
       content.appendChild(meta);
+
+      // Bottom row: Status Badge + Time Ago
+      var bottomRow = document.createElement('div');
+      bottomRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-top:6px;padding-top:6px;border-top:1px solid #e5e7eb;';
+
+      var statusBadge = document.createElement('span');
+      statusBadge.className = 'status-badge status-' + (iss.status ? iss.status.replace(/\s+/g, '') : '등록');
+      statusBadge.style.cssText = 'font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px;';
+      statusBadge.textContent = iss.status || '등록';
+      bottomRow.appendChild(statusBadge);
+
+      var timeAgo = document.createElement('span');
+      timeAgo.style.cssText = 'font-size:9px;color:#9ca3af;';
+      timeAgo.textContent = _timeAgo(iss.updated || iss.created);
+      bottomRow.appendChild(timeAgo);
+
+      content.appendChild(bottomRow);
 
       // Attachment thumbnails inline preview
       if (iss.attachments && iss.attachments.length > 0) {
@@ -8998,27 +9194,13 @@
 
     function openCreateDeployBundle() {
       if (!_hasWritePermission()) { _checkWritePermission(); return; }
+      // bodyEl.innerHTML = '' 를 제거: 탭 버튼/뷰 구조를 날리면 안 됨
+      // 대신 openDeployBundleManager()를 사용하고 'create' 탭으로 전환
       document.getElementById('deployBundleOverlay').style.display = 'flex';
-      var modal = document.getElementById('deployBundleModal');
-      modal.classList.add('open');
-      // 기존 내용 초기화 후 create 탭으로
-      var bodyEl = modal.querySelector('.deploy-bundle-body');
-      if (bodyEl) bodyEl.innerHTML = '';
-      switchBundleTab('create');
-      // 폼 초기화
-      setTimeout(function() {
-        if (document.getElementById('bundleTitle')) document.getElementById('bundleTitle').value = '';
-        if (document.getElementById('bundleTargetDate')) document.getElementById('bundleTargetDate').value = '';
-        if (document.getElementById('bundleStatus')) document.getElementById('bundleStatus').value = 'planning';
-        if (document.getElementById('bundleEnvironment')) document.getElementById('bundleEnvironment').value = '';
-        // 칩 초기화
-        var projChips = document.getElementById('bundleProjectChips');
-        if (projChips) projChips.innerHTML = '';
-        var issChips = document.getElementById('bundleIssueChips');
-        if (issChips) issChips.innerHTML = '';
-        _bundleSelectedProjects = [];
-        _bundleSelectedIssues = [];
-      }, 50);
+      document.getElementById('deployBundleModal').classList.add('open');
+      switchBundleTab('create'); // renderBundleCreateForm() 호출 포함
+      _bundleSelectedProjects = [];
+      _bundleSelectedIssues = [];
     }
 
     function openDeployBundleDetail(bundleId) {

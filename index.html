@@ -59,14 +59,13 @@
     }
 
     .af-logo-text {
-      font-family: 'Pacifico', cursive;
-      font-size: 22px;
-      color: #1f2937;
-      line-height: 1;
-      transform: rotate(-8deg);
       display: inline-block;
-      white-space: nowrap;
-      letter-spacing: -0.5px;
+    }
+    .af-logo-svg {
+      height: 28px;
+      width: auto;
+      display: inline-block;
+      vertical-align: middle;
     }
 
     .header-controls {
@@ -133,23 +132,27 @@
     .tab {
       padding: 12px 16px;
       border: none;
+      border-left: 3px solid transparent;
       background: none;
       cursor: pointer;
       font-weight: 500;
       font-size: 14px;
       color: #6b7280;
-      border-bottom: 2px solid transparent;
       transition: all 0.2s;
       white-space: nowrap;
     }
 
     .tab.active {
       color: #1f2937;
-      border-bottom-color: #6366f1;
+      border-left-color: #6366f1;
+      border-bottom: none;
+      background: #eff6ff;
+      font-weight: 700;
     }
 
     .tab:hover {
       color: #1f2937;
+      background: #f9fafb;
     }
 
     /* Content area */
@@ -629,7 +632,8 @@
     .today-line {
       position: absolute;
       width: 2px;
-      background: #ef4444;
+      background: transparent;
+      border-left: 2px dashed #ef4444;
       top: 0;
       bottom: 0;
       z-index: 10;
@@ -1618,32 +1622,33 @@
     }
 
     .issue-cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 12px;
-      padding: 16px;
-      flex: 1;
+      padding: 8px 16px;
       overflow-y: auto;
+      flex: 1;
     }
 
     .issue-card {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 8px 12px;
+      padding: 10px 14px;
       margin-bottom: 4px;
-      transition: box-shadow 0.2s, border-color 0.2s, background 0.15s;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
+      border-radius: 8px;
+      background: #fff;
       border-left: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: 1px solid #f3f4f6;
+      position: relative;
     }
 
     .issue-card:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      border-color: #d1d5db;
-      background: #f8fafc;
+      border-color: #e0e7ff;
+      background: #fafafe;
+      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
     }
+
+    .issue-card.severity-Block { border-left: 3px solid #ef4444; }
+    .issue-card.severity-Major { border-left: 3px solid #f97316; }
+    .issue-card.severity-Minor { border-left: 3px solid #3b82f6; }
+    .issue-card.severity-Trivial { border-left: 3px solid #9ca3af; }
 
     .issue-card-checkbox {
       margin-right: 8px;
@@ -1652,30 +1657,34 @@
 
     .issue-card-header {
       display: flex;
-      justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 8px;
       gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
+      margin-bottom: 4px;
     }
 
     .issue-card-id {
-      font-weight: 600;
-      font-size: 11px;
-      color: #6b7280;
-      background: #f3f4f6;
-      padding: 2px 6px;
-      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #6366f1;
+      cursor: pointer;
       white-space: nowrap;
+      flex-shrink: 0;
+      background: #eff6ff;
+      padding: 1px 6px;
+      border-radius: 3px;
+      line-height: 20px;
     }
 
     .issue-card-title {
-      font-weight: 600;
       font-size: 13px;
+      font-weight: 600;
       color: #1f2937;
-      margin-bottom: 8px;
-      word-break: break-word;
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
 
     .issue-badges {
@@ -1715,21 +1724,21 @@
 
     .status-badge {
       display: inline-block;
-      padding: 2px 6px;
-      border-radius: 3px;
-      font-size: 11px;
-      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 700;
       white-space: nowrap;
     }
 
-    .status-등록 { background: #fef3c7; color: #92400e; }
-    .status-검토중 { background: #dbeafe; color: #1e40af; }
-    .status-작업진행중 { background: #bfdbfe; color: #1e40af; }
-    .status-검증진행중 { background: #d8b4fe; color: #6b21a8; }
-    .status-완료 { background: #bbf7d0; color: #065f46; }
-    .status-운영배포예정 { background: #e0e7ff; color: #3730a3; }
-    .status-테스트보류 { background: #fed7aa; color: #92400e; }
-    .status-현재작업불가 { background: #f3f4f6; color: #4b5563; }
+    .status-등록 { background: #fee2e2; color: #991b1b; }
+    .status-검토중 { background: #ede9fe; color: #5b21b6; }
+    .status-작업진행중 { background: #fef3c7; color: #92400e; }
+    .status-검증진행중 { background: #dbeafe; color: #1e40af; }
+    .status-운영배포예정 { background: #cffafe; color: #0e7490; }
+    .status-테스트보류 { background: #f3f4f6; color: #374151; }
+    .status-현재작업불가 { background: #fee2e2; color: #991b1b; }
+    .status-완료 { background: #d1fae5; color: #065f46; }
 
     .issue-card-meta {
       display: flex;
@@ -1770,9 +1779,9 @@
     /* Issue Detail Panel */
     .issue-detail-panel {
       position: fixed;
-      right: -520px;
+      right: -600px;
       top: 0;
-      width: 520px;
+      width: 600px;
       height: 100vh;
       background: white;
       border-left: 1px solid #e5e7eb;
@@ -1820,8 +1829,20 @@
       flex: 1;
     }
 
+    .issue-detail-body .issue-form-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .issue-detail-body .issue-form-row > .issue-form-group {
+      flex: 1;
+      min-width: 0;
+      margin-bottom: 0;
+    }
+
     .issue-form-group {
-      margin-bottom: 6px;
+      margin-bottom: 12px;
     }
 
     .issue-form-label {
@@ -1855,6 +1876,9 @@
       border-color: #2563eb;
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
+
+    .field-error { color: #ef4444; font-size: 11px; margin-top: 3px; display: block; }
+    .has-error { border: 1.5px solid #ef4444 !important; background: #fff5f5 !important; }
 
     /* Drag & Drop Zone */
     .attachment-zone {
@@ -1923,20 +1947,18 @@
     /* Issue Summary Bar */
     .issue-summary-bar {
       display: flex;
-      gap: 12px;
+      gap: 0;
       padding: 12px 16px;
-      background: #f9fafb;
+      background: #fff;
       border-bottom: 1px solid #e5e7eb;
       align-items: center;
     }
 
     .issue-summary-item {
-      padding: 6px 12px;
-      background: white;
-      border: 1px solid #d1d5db;
-      border-radius: 4px;
-      font-size: 12px;
-      color: #374151;
+      padding: 6px 16px;
+      border-right: 1px solid #e5e7eb;
+      text-align: center;
+      min-width: 70px;
     }
 
     .issue-summary-item:hover {
@@ -2016,13 +2038,19 @@
     /* Issue New Badge */
     .issue-new-badge {
       display: inline-block;
-      background: #dc2626;
-      color: white;
+      background: #ef4444;
+      color: #fff;
       font-size: 9px;
       font-weight: 700;
-      padding: 2px 4px;
-      border-radius: 2px;
+      padding: 1px 5px;
+      border-radius: 3px;
       margin-left: 4px;
+      vertical-align: middle;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
     }
 
     /* Form Layout */
@@ -2806,7 +2834,7 @@
           <circle cx="20" cy="20" r="8" stroke="#2563eb" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>
         </svg>
       </div>
-      <div class="login-logo"><span class="af-logo-text" style="font-size:32px;">about<br>fishing</span></div>
+      <div class="login-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144.3 36.8" style="height:42px;width:auto;display:block;margin:0 auto;"><path fill="#2d1478" d="M23.9,21.1v-8.5h-8.4v-3.9h8.4V0h4.1v21.1h-4.1ZM6,20.4c-3.3,0-6-2.6-6-5.9s2.7-6,6-6,6,2.7,6,6-2.7,5.9-6,5.9ZM6,12.6c-1,0-1.9,1-1.9,2s.9,2,1.9,2,2-.9,2-2-.9-2-2-2ZM52.6,21.1V0h4.1v8.7h7v3.9h-7v8.5h-4.1ZM32.5,21.1V4.3h4v5.5h5.6v-5.5h4v16.8s-13.6,0-13.6,0ZM42.1,17.2v-3.4h-5.6v3.4h5.6ZM71.7,36.8l5-4.6,5.1,4.6,2.7-2.9-5.7-5.2v-7.5h9v-3.9h-22.2v3.9h9.1v7.5l-5.7,5.1s2.7,3,2.7,3ZM76.7,13.1c-3.3,0-6-2.6-6-5.9s2.7-6,6-6,6,2.7,6,6-2.7,5.9-6,5.9ZM76.7,5.3c-1,0-1.9.9-1.9,2s.9,2,1.9,2,2-1,2-2-.9-2-2-2ZM110.9,21.1V0h4.1v21.1h-4.1ZM89.7,21.1v-3.9h2.5v-4.6h-2.5v-3.9h16.8v3.9h-2.4v4.6h2.4v3.9h-16.8ZM100,17.2v-4.6h-3.8v4.6h3.8ZM138.2,36.7c-3.3,0-6-2.6-6-5.9s2.7-6,6-6,6,2.7,6,6-2.7,5.9-6,5.9ZM138.2,28.9c-1,0-1.9,1-1.9,2s.9,2,1.9,2,2-1,2-2-.9-2-2-2ZM140.2,21.1V0h4.1v21.1h-4.1ZM118.4,18l5.7-5.1v-5.8h4.1v5.8l5.7,5.2-2.7,3-5.1-4.6-5,4.6-2.7-3h0Z"/></svg></div>
       <div style="margin-top:20px;font-size:13px;color:#9ca3af;">연결 중...</div>
       <div style="margin-top:12px;"><div style="width:32px;height:32px;border:3px solid #e5e7eb;border-top-color:#2563eb;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto;"></div></div>
       <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
@@ -2820,7 +2848,7 @@
           <circle cx="20" cy="20" r="8" stroke="#2563eb" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>
         </svg>
       </div>
-      <div class="login-logo"><span class="af-logo-text" style="font-size:32px;">about<br>fishing</span></div>
+      <div class="login-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144.3 36.8" style="height:42px;width:auto;display:block;margin:0 auto;"><path fill="#2d1478" d="M23.9,21.1v-8.5h-8.4v-3.9h8.4V0h4.1v21.1h-4.1ZM6,20.4c-3.3,0-6-2.6-6-5.9s2.7-6,6-6,6,2.7,6,6-2.7,5.9-6,5.9ZM6,12.6c-1,0-1.9,1-1.9,2s.9,2,1.9,2,2-.9,2-2-.9-2-2-2ZM52.6,21.1V0h4.1v8.7h7v3.9h-7v8.5h-4.1ZM32.5,21.1V4.3h4v5.5h5.6v-5.5h4v16.8s-13.6,0-13.6,0ZM42.1,17.2v-3.4h-5.6v3.4h5.6ZM71.7,36.8l5-4.6,5.1,4.6,2.7-2.9-5.7-5.2v-7.5h9v-3.9h-22.2v3.9h9.1v7.5l-5.7,5.1s2.7,3,2.7,3ZM76.7,13.1c-3.3,0-6-2.6-6-5.9s2.7-6,6-6,6,2.7,6,6-2.7,5.9-6,5.9ZM76.7,5.3c-1,0-1.9.9-1.9,2s.9,2,1.9,2,2-1,2-2-.9-2-2-2ZM110.9,21.1V0h4.1v21.1h-4.1ZM89.7,21.1v-3.9h2.5v-4.6h-2.5v-3.9h16.8v3.9h-2.4v4.6h2.4v3.9h-16.8ZM100,17.2v-4.6h-3.8v4.6h3.8ZM138.2,36.7c-3.3,0-6-2.6-6-5.9s2.7-6,6-6,6,2.7,6,6-2.7,5.9-6,5.9ZM138.2,28.9c-1,0-1.9,1-1.9,2s.9,2,1.9,2,2-1,2-2-.9-2-2-2ZM140.2,21.1V0h4.1v21.1h-4.1ZM118.4,18l5.7-5.1v-5.8h4.1v5.8l5.7,5.2-2.7,3-5.1-4.6-5,4.6-2.7-3h0Z"/></svg></div>
       <div class="login-subtitle">Project Scheduling Dashboard</div>
       <div class="login-divider"><span>허용된 Google 계정으로 로그인</span></div>
       <button class="login-btn" id="googleLoginBtn" onclick="loginWithGoogle()">
@@ -2841,7 +2869,7 @@
     <!-- Header -->
     <div class="header">
       <div class="header-top">
-        <div class="header-title"><span class="af-logo-text">about<br>fishing</span><span style="font-size:15px;font-weight:500;color:#6b7280;margin-left:12px;">스케줄 대시보드</span> <span id="syncStatus" style="font-size: 11px; font-weight: 400; padding: 2px 8px; border-radius: 10px; margin-left: 4px; background: #f3f4f6; color: #9ca3af;">로컬</span> <span id="deployVersion" style="font-size: 10px; font-weight: 400; color: #9ca3af; margin-left: 6px;" title="최종 배포 버전"></span></div>
+        <div class="header-title"><span class="af-logo-text"><svg class="af-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144.3 36.8"><path fill="#2d1478" d="M23.9,21.1v-8.5h-8.4v-3.9h8.4V0h4.1v21.1h-4.1ZM6,20.4c-3.3,0-6-2.6-6-5.9s2.7-6,6-6,6,2.7,6,6-2.7,5.9-6,5.9ZM6,12.6c-1,0-1.9,1-1.9,2s.9,2,1.9,2,2-.9,2-2-.9-2-2-2ZM52.6,21.1V0h4.1v8.7h7v3.9h-7v8.5h-4.1ZM32.5,21.1V4.3h4v5.5h5.6v-5.5h4v16.8s-13.6,0-13.6,0ZM42.1,17.2v-3.4h-5.6v3.4h5.6ZM71.7,36.8l5-4.6,5.1,4.6,2.7-2.9-5.7-5.2v-7.5h9v-3.9h-22.2v3.9h9.1v7.5l-5.7,5.1s2.7,3,2.7,3ZM76.7,13.1c-3.3,0-6-2.6-6-5.9s2.7-6,6-6,6,2.7,6,6-2.7,5.9-6,5.9ZM76.7,5.3c-1,0-1.9.9-1.9,2s.9,2,1.9,2,2-1,2-2-.9-2-2-2ZM110.9,21.1V0h4.1v21.1h-4.1ZM89.7,21.1v-3.9h2.5v-4.6h-2.5v-3.9h16.8v3.9h-2.4v4.6h2.4v3.9h-16.8ZM100,17.2v-4.6h-3.8v4.6h3.8ZM138.2,36.7c-3.3,0-6-2.6-6-5.9s2.7-6,6-6,6,2.7,6,6-2.7,5.9-6,5.9ZM138.2,28.9c-1,0-1.9,1-1.9,2s.9,2,1.9,2,2-1,2-2-.9-2-2-2ZM140.2,21.1V0h4.1v21.1h-4.1ZM118.4,18l5.7-5.1v-5.8h4.1v5.8l5.7,5.2-2.7,3-5.1-4.6-5,4.6-2.7-3h0Z"/></svg></span><span style="font-size:15px;font-weight:500;color:#6b7280;margin-left:12px;">스케줄 대시보드</span> <span id="syncStatus" style="font-size: 11px; font-weight: 400; padding: 2px 8px; border-radius: 10px; margin-left: 4px; background: #f3f4f6; color: #9ca3af;">로컬</span> <span id="deployVersion" style="font-size: 10px; font-weight: 400; color: #9ca3af; margin-left: 6px;" title="최종 배포 버전"></span></div>
         <div class="header-controls">
           <input type="text" class="search-input" id="searchInput" placeholder="검색...">
           <div class="filter-group">
@@ -2867,6 +2895,10 @@
             </select>
           </div>
           <button class="btn btn-secondary" id="chatToggleBtn" title="채팅" onclick="toggleChatPanel()" style="font-size:16px;padding:6px 10px;display:none;position:relative;">💬<span class="chat-badge" id="chatBadge">0</span></button>
+          <div id="notifBell" onclick="toggleNotifPanel()" style="position:relative;cursor:pointer;padding:4px;border-radius:6px;margin:0 4px;transition:all 0.2s ease;" title="알림" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
+            <span style="font-size:18px;">🔔</span>
+            <span id="notifBadge" style="display:none;position:absolute;top:-2px;right:-2px;background:#ef4444;color:white;border-radius:50%;width:14px;height:14px;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1;"></span>
+          </div>
           <div class="user-header-info" id="userHeaderInfo" style="display:none;">
             <div class="user-avatar-small" id="userAvatarSmall"></div>
             <div style="display:flex;flex-direction:column;gap:2px;">
@@ -2891,6 +2923,18 @@
         <button class="tab" data-tab="team">팀</button>
         <button class="tab" data-tab="overview">개요</button>
         <button class="tab" data-tab="history">이력</button>
+      </div>
+    </div>
+
+    <!-- Notification Panel -->
+    <div id="notifPanel" style="display:none;position:fixed;right:0;top:0;width:340px;height:100vh;background:white;border-left:1px solid #e5e7eb;z-index:200;box-shadow:-4px 0 12px rgba(0,0,0,0.1);display:flex;flex-direction:column;">
+      <div style="padding:16px;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:15px;font-weight:700;">알림</span>
+        <button onclick="toggleNotifPanel()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#6b7280;">×</button>
+      </div>
+      <div id="notifList" style="flex:1;overflow-y:auto;padding:8px;"></div>
+      <div style="padding:12px;border-top:1px solid #e5e7eb;">
+        <button onclick="clearAllNotifs()" style="width:100%;padding:8px;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;color:#6b7280;cursor:pointer;background:white;">모두 지우기</button>
       </div>
     </div>
 
@@ -2984,19 +3028,36 @@
         <!-- Issue Summary Bar -->
         <div class="issue-summary-bar" id="issueSummaryBar">
           <div class="issue-summary-item" onclick="filterIssuesByStatus('')" style="cursor:pointer;">
-            <strong id="summaryTotal">전체 0</strong>
+            <span style="font-size:18px;font-weight:700;" id="summaryTotal">0</span>
+            <span style="font-size:10px;color:#6b7280;display:block;">전체</span>
           </div>
-          <div class="issue-summary-item" onclick="filterIssuesByStatus('등록')" style="cursor:pointer;">
-            <strong id="summaryOpen">열린이슈 0</strong>
+          <div class="issue-summary-item" onclick="filterIssuesByStatus('등록')" style="cursor:pointer;border-left:3px solid #ef4444;">
+            <span style="font-size:18px;font-weight:700;color:#ef4444;" id="summaryOpen">0</span>
+            <span style="font-size:10px;color:#6b7280;display:block;">🔴 미처리</span>
           </div>
-          <div class="issue-summary-item" onclick="filterIssuesByStatus('작업 진행 중')" style="cursor:pointer;">
-            <strong id="summaryProgress">진행중 0</strong>
+          <div class="issue-summary-item" onclick="filterIssuesByStatus('작업 진행 중')" style="cursor:pointer;border-left:3px solid #f59e0b;">
+            <span style="font-size:18px;font-weight:700;color:#f59e0b;" id="summaryProgress">0</span>
+            <span style="font-size:10px;color:#6b7280;display:block;">🟡 진행중</span>
           </div>
-          <div class="issue-summary-item" onclick="filterIssuesByStatus('검증 진행 중')" style="cursor:pointer;">
-            <strong id="summaryResolved">해결됨 0</strong>
+          <div class="issue-summary-item" onclick="filterIssuesByStatus('검증 진행 중')" style="cursor:pointer;border-left:3px solid #3b82f6;">
+            <span style="font-size:18px;font-weight:700;color:#3b82f6;" id="summaryResolved">0</span>
+            <span style="font-size:10px;color:#6b7280;display:block;">🔵 검증중</span>
           </div>
-          <div class="issue-summary-item" onclick="filterIssuesByStatus('완료')" style="cursor:pointer;">
-            <strong id="summaryClosed">종료 0</strong>
+          <div class="issue-summary-item" onclick="filterIssuesByStatus('완료')" style="cursor:pointer;border-left:3px solid #10b981;">
+            <span style="font-size:18px;font-weight:700;color:#10b981;" id="summaryClosed">0</span>
+            <span style="font-size:10px;color:#6b7280;display:block;">✅ 완료</span>
+          </div>
+          <div class="issue-summary-item" style="cursor:pointer;border-left:3px solid #8b5cf6;">
+            <span style="font-size:18px;font-weight:700;color:#8b5cf6;" id="summaryToday">0</span>
+            <span style="font-size:10px;color:#6b7280;display:block;">📅 오늘</span>
+          </div>
+          <div class="issue-summary-item" onclick="switchIssueView('my-issues')" style="cursor:pointer;border-left:3px solid #2563eb;">
+            <span style="font-size:18px;font-weight:700;color:#2563eb;" id="summaryMyIssues">0</span>
+            <span style="font-size:10px;color:#6b7280;display:block;">👤 내 이슈</span>
+          </div>
+          <div style="flex:1;"></div>
+          <div class="issue-summary-item write-only-ui" onclick="createIssue()" style="cursor:pointer;background:#6366f1;color:#fff;border-radius:8px;padding:8px 16px !important;border:none;" title="새 이슈 등록 (단축키: N)">
+            <span style="font-size:14px;font-weight:700;">+ 이슈 등록</span>
           </div>
         </div>
         <!-- Filter Toolbar Row 1 -->
@@ -3044,16 +3105,35 @@
             <option value="3">3 (Medium)</option>
             <option value="4">4 (Low)</option>
           </select>
-          <input type="text" id="issueSearchInput" placeholder="이슈 검색..." onkeyup="renderIssues()" style="padding:6px 8px; min-width:180px;">
+          <input type="text" id="issueSearchInput" placeholder="이슈 검색..." oninput="_debounceSearch()" style="padding:6px 8px; min-width:180px;" title="이슈 검색 (단축키: /)"">
+          <select id="issueBundleFilter" onchange="renderIssues()" style="padding:6px 8px;">
+            <option value="">전체 배포상태</option>
+            <option value="in-bundle">배포 포함</option>
+            <option value="no-bundle">배포 미포함</option>
+          </select>
+          <button onclick="refreshIssueData()" style="padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;cursor:pointer;background:#fff;color:#6b7280;" title="데이터 새로고침 (로컬 필터는 유지, 최신 데이터 불러오기)">↻</button>
+          <button onclick="resetIssueFilters()" style="padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:11px;cursor:pointer;background:#fff;color:#6b7280;" title="필터 초기화">✕ 초기화</button>
           <div style="flex:1;"></div>
-          <button class="btn write-only-ui" onclick="createIssue()" style="font-size:12px;padding:6px 12px;">+ 이슈 등록</button>
         </div>
         <!-- View Mode Buttons Row 2 -->
-        <div style="display:flex;gap:8px;padding:8px 16px;border-bottom:1px solid #e5e7eb;">
+        <div style="display:flex;gap:8px;padding:8px 16px;border-bottom:1px solid #e5e7eb;align-items:center;">
+          <button class="issue-view-btn" id="myIssueBtn" onclick="switchIssueView('my-issues')" style="background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;font-weight:700;">👤 내 이슈</button>
+          <div style="width:1px;height:20px;background:#e5e7eb;margin:0 4px;"></div>
           <button class="issue-view-btn active" onclick="switchIssueView('all')">전체</button>
+          <button class="issue-view-btn" onclick="switchIssueView('bookmarks')">⭐ 즐겨찾기</button>
           <button class="issue-view-btn" onclick="switchIssueView('by-project')">프로젝트별</button>
           <button class="issue-view-btn" onclick="switchIssueView('by-product')">프로덕트별</button>
           <button class="issue-view-btn" onclick="switchIssueView('by-assignee')">담당자별</button>
+          <div style="flex:1;"></div>
+          <button id="issueGroupBtn" onclick="toggleIssueGrouping()" title="상태별 그룹화"
+            style="padding:5px 10px;border:1px solid #d1d5db;border-radius:6px;font-size:11px;color:#374151;background:white;cursor:pointer;margin-right:8px;">
+            ☰ 그룹화
+          </button>
+          <div style="width:1px;height:20px;background:#e5e7eb;margin:0 4px;"></div>
+          <button id="issueDisplayCard" onclick="setIssueDisplay('card')" style="padding:4px 8px;border:1px solid #d1d5db;border-radius:4px 0 0 4px;font-size:11px;background:#6366f1;color:#fff;cursor:pointer;" title="카드 뷰">▦ 카드</button>
+          <button id="issueDisplayTable" onclick="setIssueDisplay('table')" style="padding:4px 8px;border:1px solid #d1d5db;border-radius:0;font-size:11px;background:#fff;color:#374151;cursor:pointer;" title="테이블 뷰">☰ 테이블</button>
+          <button id="issueDisplayCompact" onclick="setIssueDisplay('compact')" style="padding:4px 8px;border:1px solid #d1d5db;border-radius:0 4px 4px 0;font-size:11px;color:#374151;background:#fff;cursor:pointer;" title="컴팩트 뷰">≡ 컴팩트</button>
+          <span id="urgentBadge" style="display:none;background:#fef2f2;color:#dc2626;border:1px solid #fecaca;border-radius:12px;padding:2px 10px;font-size:11px;font-weight:700;margin-left:8px;"></span>
         </div>
         <!-- Bulk Action Bar (hidden by default) -->
         <div class="issue-bulk-bar" id="issueBulkBar" style="display:none;">
@@ -3064,6 +3144,8 @@
           <div style="flex:1;"></div>
           <button class="btn btn-secondary" style="font-size:12px;padding:4px 8px;" onclick="clearIssueSelection()">취소</button>
         </div>
+        <!-- Active Filters Bar -->
+        <div id="activeFiltersBar" style="display:none;padding:6px 16px;background:#f9fafb;border-bottom:1px solid #e5e7eb;display:flex;gap:6px;flex-wrap:wrap;align-items:center;"></div>
         <div class="issue-cards-grid" id="issuesContainer"></div>
       </div>
 
@@ -3071,7 +3153,25 @@
       <div class="tab-content" id="deploy">
         <!-- Deploy Toolbar -->
         <div class="issue-toolbar">
-          <input type="text" id="deploySearchInput" placeholder="배포 번들 검색..." onkeyup="renderDeployBundles()" style="padding:6px 8px; min-width:200px;">
+          <input type="text" id="deploySearchInput" placeholder="배포 번들 검색..." onkeyup="renderDeployBundles()" style="padding:6px 8px; min-width:180px;">
+          <select id="deployEnvFilter" onchange="renderDeployBundles()" style="padding:6px 8px;">
+            <option value="">전체 환경</option>
+            <option value="운영">운영</option>
+            <option value="스테이지">스테이지</option>
+            <option value="개발">개발</option>
+          </select>
+          <select id="deployStatusFilter" onchange="renderDeployBundles()" style="padding:6px 8px;">
+            <option value="">전체 상태</option>
+            <option value="planning">준비중</option>
+            <option value="ready">배포준비</option>
+            <option value="deployed">배포완료</option>
+            <option value="cancelled">취소</option>
+          </select>
+          <select id="deploySortSelect" onchange="renderDeployBundles()" style="padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:12px;color:#374151;">
+            <option value="date-desc">날짜 최신순</option>
+            <option value="date-asc">날짜 오래된순</option>
+            <option value="status">상태순</option>
+          </select>
           <div style="flex:1;"></div>
           <button class="btn write-only-ui" onclick="openCreateDeployBundle()" style="font-size:12px;padding:6px 12px;">+ 배포 번들 생성</button>
         </div>
@@ -3185,6 +3285,7 @@
       <button class="btn btn-secondary" onclick="closeIssueDetail()">닫기</button>
       <button class="btn write-only-ui" id="issueDetailSaveBtn" onclick="saveIssue()">저장</button>
       <button class="btn btn-secondary write-only-ui" onclick="addIssueToBundle()" style="color:#7c3aed;" title="배포 번들에 이 이슈 추가">📦 배포에 추가</button>
+      <button class="btn btn-secondary write-only-ui" id="issueDetailCopyBtn" style="color:#3b82f6;" onclick="copyIssueAsNew(_currentIssueId)">📋 복사하기</button>
       <button class="btn btn-secondary write-only-ui" id="issueDetailDeleteBtn" style="color:#dc2626;" onclick="deleteIssue()">삭제</button>
     </div>
   </div>
@@ -3193,15 +3294,18 @@
   <div class="modal-overlay" id="createIssueModal" onclick="if(event.target===this)closeCreateIssueModal()">
     <div class="modal" style="max-width:640px;max-height:90vh;display:flex;flex-direction:column;padding:0;">
       <div style="padding:16px 20px;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
-        <div class="modal-title" style="margin:0;">이슈 등록</div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="modal-title" style="margin:0;">이슈 등록</div>
+          <span style="font-size:11px;color:#9ca3af;font-weight:400;">필수 입력 4개</span>
+        </div>
         <button onclick="closeCreateIssueModal()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#9ca3af;line-height:1;">×</button>
       </div>
       <div id="createIssueForm" style="display:flex;flex-direction:column;gap:8px;padding:16px 20px;overflow-y:auto;flex:1;">
         <!-- Form will be populated by JS -->
       </div>
       <div class="modal-actions" style="padding:12px 20px;border-top:1px solid #e5e7eb;flex-shrink:0;display:flex;gap:8px;justify-content:flex-end;">
-        <button class="btn btn-secondary" onclick="closeCreateIssueModal()">취소</button>
-        <button class="btn" onclick="saveNewIssue()">생성</button>
+        <button class="btn btn-secondary" onclick="closeCreateIssueModal()" style="padding:8px 20px;">취소</button>
+        <button onclick="saveNewIssue()" style="background:#6366f1;color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">🐛 이슈 등록</button>
       </div>
     </div>
   </div>
@@ -3347,7 +3451,7 @@
     }
     function _checkWritePermission() {
       if (_hasWritePermission()) return true;
-      _showToast('쓰기 권한이 없습니다. 관리자에게 요청해주세요.');
+      _showToast('쓰기 권한이 없습니다. 관리자에게 요청해주세요.', 2000, 'error');
       return false;
     }
 
@@ -4482,7 +4586,7 @@
         textEl.value = '';
       }).catch(function(err) {
         console.error('Chat send error:', err);
-        _showToast('메시지 전송 실패');
+        _showToast('메시지 전송 실패', 2000, 'error');
       });
     }
 
@@ -4740,7 +4844,7 @@
           var histBtn = document.getElementById('clearHistoryBtn');
           if (histBtn) histBtn.style.display = 'inline-block';
           localStorage.setItem('af_adminMode', 'true');
-          _showToast('관리자 모드 활성화');
+          _showToast('관리자 모드 활성화', 2000, 'success');
         } else {
           btn.textContent = '🔒';
           badge.style.display = 'none';
@@ -4906,7 +5010,7 @@
       }
       document.getElementById('memberMgmtOverlay')?.remove();
       _unlockBodyScroll();
-      _showToast('팀원 정보가 저장되었습니다');
+      _showToast('팀원 정보가 저장되었습니다', 2000, 'success');
       populateFilters();
       renderAll();
     }
@@ -5237,7 +5341,7 @@
       pushDeployLog(version, changes);
       verInput.value = '';
       changesArea.value = '';
-      _showToast('릴리즈노트가 등록되었습니다');
+      _showToast('릴리즈노트가 등록되었습니다', 2000, 'success');
     }
 
     function _renderDeployLog(container) {
@@ -5556,6 +5660,8 @@
     var _LS_DEPLOY_BUNDLES_KEY = 'af_deploy_bundles';
     var _currentIssueId = null;
     var _currentBundleTab = 'create';
+    var _bundleSelectedProjects = [];
+    var _bundleSelectedIssues = [];
 
     function loadIssues() {
       console.log('[Issues] loadIssues called');
@@ -5761,6 +5867,14 @@
 
       // === Essential Fields (always visible) ===
       _addFieldToSection(form, '제목', 'createIssue_title', 'text', true);
+
+      // ID 미리보기 (프로덕트 선택 후 업데이트)
+      var idPreviewDiv = document.createElement('div');
+      idPreviewDiv.id = 'createIssueIdPreview';
+      idPreviewDiv.style.cssText = 'font-size:10px;color:#9ca3af;margin:-4px 0 6px;padding:3px 8px;background:#f9fafb;border-radius:4px;display:inline-block;';
+      idPreviewDiv.textContent = '이슈 ID: 프로덕트 선택 후 생성됩니다';
+      form.appendChild(idPreviewDiv);
+
       _addRowToSection(form, [
         { label: '이슈 유형', id: 'createIssue_type', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: 'Bug', l: 'Bug' }, { v: 'Task', l: 'Task' }] },
         { label: '심각도', id: 'createIssue_severity', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: 'Block', l: 'Block' }, { v: 'Major', l: 'Major' }, { v: 'Minor', l: 'Minor' }, { v: 'Trivial', l: 'Trivial' }] }
@@ -5769,6 +5883,61 @@
         { label: '프로덕트', id: 'createIssue_product', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: '어바웃피싱 앱', l: '어바웃피싱 앱' }, { v: '어바웃피싱 어드민', l: '어바웃피싱 어드민' }, { v: '샵바이 앱/웹', l: '샵바이 앱/웹' }, { v: '샵바이 어드민', l: '샵바이 어드민' }, { v: '낚시포인트맵', l: '낚시포인트맵' }] },
         { label: '플랫폼', id: 'createIssue_platform', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: 'IOS', l: 'IOS' }, { v: 'AOS', l: 'AOS' }, { v: 'PC', l: 'PC' }, { v: 'MW', l: 'MW' }] }
       ]);
+
+      // 프로덕트 선택 시 ID 미리보기 업데이트
+      setTimeout(function() {
+        var productSel = document.getElementById('createIssue_product');
+        if (productSel) {
+          productSel.onchange = function() {
+            var previewEl = document.getElementById('createIssueIdPreview');
+            if (!previewEl) return;
+            var productMap = {
+              '어바웃피싱 앱':'PAA','어바웃피싱 어드민':'PAD',
+              '샵바이 앱/웹':'PSA','샵바이 어드민':'PSD','낚시포인트맵':'PFM'
+            };
+            var code = productMap[this.value] || 'PAA';
+            var today = new Date();
+            var yy = String(today.getFullYear()).slice(2);
+            var mm = String(today.getMonth()+1).padStart(2,'0');
+            var dd = String(today.getDate()).padStart(2,'0');
+            var maxSuffix = 0;
+            _issues.forEach(function(iss) {
+              var prefix = code + yy + mm + dd;
+              if (iss.id && iss.id.startsWith(prefix)) {
+                var suffix = parseInt(iss.id.substring(prefix.length+1));
+                if (!isNaN(suffix) && suffix > maxSuffix) maxSuffix = suffix;
+              }
+            });
+            var nextId = code + yy + mm + dd + '-' + String(maxSuffix+1).padStart(2,'0');
+            previewEl.textContent = '이슈 ID: ' + nextId;
+            previewEl.style.color = '#6366f1';
+            previewEl.style.fontWeight = '600';
+          };
+        }
+
+        // Type-aware form behavior: show/hide severity for Task
+        var typeSel = document.getElementById('createIssue_type');
+        var severitySel = document.getElementById('createIssue_severity');
+        if (typeSel && severitySel) {
+          var severityGroup = severitySel.closest('.issue-form-group');
+          var updateTypeView = function() {
+            if (typeSel.value === 'Task') {
+              if (severityGroup) {
+                severityGroup.style.opacity = '0.5';
+                severityGroup.style.pointerEvents = 'none';
+              }
+              severitySel.value = 'Minor';
+            } else {
+              if (severityGroup) {
+                severityGroup.style.opacity = '1';
+                severityGroup.style.pointerEvents = 'auto';
+              }
+            }
+          };
+          typeSel.onchange = updateTypeView;
+          updateTypeView();
+        }
+      }, 50);
 
       // === Attachment zone (always visible — QA always needs screenshots) ===
       var attachGroup = document.createElement('div');
@@ -5876,6 +6045,12 @@
           }
         }
       });
+
+      // Auto-focus title
+      setTimeout(function() {
+        var _tf = document.getElementById('createIssue_title');
+        if (_tf) _tf.focus();
+      }, 150);
     }
 
     function closeCreateIssueModal() {
@@ -5914,21 +6089,48 @@
         updated: new Date().toISOString()
       };
 
-      if (!issueData.title) { _showToast('제목을 입력하세요'); return; }
-      if (!issueData.type) { _showToast('이슈 유형을 선택하세요'); return; }
-      if (!issueData.severity) { _showToast('심각도를 선택하세요'); return; }
-      if (!issueData.platform) { _showToast('플랫폼을 선택하세요'); return; }
-      if (!issueData.product) { _showToast('프로덕트를 선택하세요'); return; }
+      // Inline validation
+      var _validationErrors = [];
+      var _clearFieldError = function(el) {
+        el.classList.remove('has-error');
+        var errEl = el.nextElementSibling;
+        if (errEl && errEl.classList.contains('field-error')) errEl.remove();
+      };
+      var _setFieldError = function(id, msg) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.classList.add('has-error');
+        var existing = el.nextElementSibling;
+        if (existing && existing.classList.contains('field-error')) existing.remove();
+        var errDiv = document.createElement('div');
+        errDiv.className = 'field-error';
+        errDiv.textContent = msg;
+        el.parentNode.insertBefore(errDiv, el.nextSibling);
+        el.addEventListener('input', function() { _clearFieldError(el); }, { once: true });
+        el.addEventListener('change', function() { _clearFieldError(el); }, { once: true });
+        _validationErrors.push(el);
+      };
+      if (!issueData.title) _setFieldError('createIssue_title', '제목을 입력하세요');
+      if (!issueData.type) _setFieldError('createIssue_type', '이슈 유형을 선택하세요');
+      if (!issueData.severity) _setFieldError('createIssue_severity', '심각도를 선택하세요');
+      if (!issueData.product) _setFieldError('createIssue_product', '프로덕트를 선택하세요');
+      if (!issueData.platform) _setFieldError('createIssue_platform', '플랫폼을 선택하세요');
+      if (_validationErrors.length > 0) {
+        _validationErrors[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        _validationErrors[0].focus();
+        return;
+      }
 
       saveIssueData(issueData);
       closeCreateIssueModal();
-      _showToast('이슈가 생성되었습니다');
+      _showToast('이슈가 생성되었습니다', 2000, 'success');
     }
 
     function saveIssueData(issueData) {
       var existingIdx = _issues.findIndex(function(i) { return i.id === issueData.id; });
       if (existingIdx >= 0) {
         _issues[existingIdx] = issueData;
+        _addNotification('이슈 업데이트: ' + issueData.title, 'info', issueData.id);
       } else {
         _issues.push(issueData);
       }
@@ -5946,7 +6148,10 @@
     }
 
     var _issueViewMode = 'all';
+    var _issueDisplay = 'card'; // 'card' or 'table' or 'compact'
     var _selectedIssues = {};
+    var _issueGrouped = false;
+    var _bookmarkedIssues = JSON.parse(localStorage.getItem('af_bookmarks') || '[]');
 
     function switchIssueView(mode) {
       _issueViewMode = mode;
@@ -5958,9 +6163,79 @@
       renderIssues();
     }
 
+    function setIssueDisplay(mode) {
+      _issueDisplay = mode;
+      document.getElementById('issueDisplayCard').style.background = mode === 'card' ? '#6366f1' : '#fff';
+      document.getElementById('issueDisplayCard').style.color = mode === 'card' ? '#fff' : '#374151';
+      document.getElementById('issueDisplayTable').style.background = mode === 'table' ? '#6366f1' : '#fff';
+      document.getElementById('issueDisplayTable').style.color = mode === 'table' ? '#fff' : '#374151';
+      var compactBtn = document.getElementById('issueDisplayCompact');
+      if (compactBtn) {
+        compactBtn.style.background = mode === 'compact' ? '#6366f1' : '#fff';
+        compactBtn.style.color = mode === 'compact' ? '#fff' : '#374151';
+      }
+      renderIssues();
+    }
+
+    function toggleIssueGrouping() {
+      _issueGrouped = !_issueGrouped;
+      var btn = document.getElementById('issueGroupBtn');
+      if (btn) {
+        btn.style.background = _issueGrouped ? '#6366f1' : '#fff';
+        btn.style.color = _issueGrouped ? '#fff' : '#374151';
+        btn.style.borderColor = _issueGrouped ? '#6366f1' : '#d1d5db';
+      }
+      renderIssues();
+    }
+
     function filterIssuesByStatus(status) {
       document.getElementById('issueStatusFilter').value = status;
       renderIssues();
+    }
+
+    function resetIssueFilters() {
+      if (document.getElementById('issueStatusFilter')) document.getElementById('issueStatusFilter').value = '';
+      if (document.getElementById('issueProductFilter')) document.getElementById('issueProductFilter').value = '';
+      if (document.getElementById('issueSeverityFilter')) document.getElementById('issueSeverityFilter').value = '';
+      if (document.getElementById('issueDefectTypeFilter')) document.getElementById('issueDefectTypeFilter').value = '';
+      if (document.getElementById('issuePriorityFilter')) document.getElementById('issuePriorityFilter').value = '';
+      if (document.getElementById('issueSearchInput')) document.getElementById('issueSearchInput').value = '';
+      if (document.getElementById('issueBundleFilter')) document.getElementById('issueBundleFilter').value = '';
+      renderIssues();
+    }
+
+    var _searchDebounceTimer;
+    function _debounceSearch() {
+      clearTimeout(_searchDebounceTimer);
+      _searchDebounceTimer = setTimeout(function() { renderIssues(); }, 200);
+    }
+
+    function refreshIssueData() {
+      var btn = event.target;
+      var originalText = btn.textContent;
+      btn.textContent = '↻';
+      btn.style.animation = 'spin 0.5s linear';
+      // Re-fetch from Firebase if connected
+      if (_fb && _fb.db) {
+        _fb.db.ref('issues').once('value').then(function(snap) {
+          if (snap.val()) {
+            _issues = Object.values(snap.val());
+            _saveIssuesToLocal();
+            renderIssues();
+            _showToast('데이터가 새로고침되었습니다', 1500, 'success');
+          }
+          btn.style.animation = 'none';
+          btn.textContent = originalText;
+        }).catch(function(err) {
+          _showToast('새로고침 실패', 1500, 'error');
+          btn.style.animation = 'none';
+          btn.textContent = originalText;
+        });
+      } else {
+        _showToast('오프라인 모드 - 로컬 데이터 사용 중', 1500, 'info');
+        btn.style.animation = 'none';
+        btn.textContent = originalText;
+      }
     }
 
     function renderIssues() {
@@ -5970,6 +6245,63 @@
       var defectTypeFilter = document.getElementById('issueDefectTypeFilter').value;
       var priorityFilter = document.getElementById('issuePriorityFilter').value;
       var searchText = document.getElementById('issueSearchInput').value.toLowerCase();
+      var bundleFilter = document.getElementById('issueBundleFilter') ? document.getElementById('issueBundleFilter').value : '';
+
+      // 활성 필터 칩 표시
+      var activeFiltersBar = document.getElementById('activeFiltersBar');
+      if (activeFiltersBar) {
+        activeFiltersBar.innerHTML = '';
+        var activeFilters = [];
+
+        if (statusFilter) activeFilters.push({ label: '상태: ' + statusFilter, key: 'issueStatusFilter' });
+        if (productFilter) activeFilters.push({ label: '프로덕트: ' + productFilter, key: 'issueProductFilter' });
+        if (severityFilter) activeFilters.push({ label: '심각도: ' + severityFilter, key: 'issueSeverityFilter' });
+        if (defectTypeFilter) activeFilters.push({ label: '결함: ' + defectTypeFilter, key: 'issueDefectTypeFilter' });
+        if (priorityFilter) activeFilters.push({ label: 'P' + priorityFilter, key: 'issuePriorityFilter' });
+        if (searchText) activeFilters.push({ label: '검색: ' + searchText, key: 'issueSearchInput', isSearch: true });
+        if (bundleFilter) activeFilters.push({ label: bundleFilter === 'in-bundle' ? '배포 포함' : '배포 미포함', key: 'issueBundleFilter' });
+        if (_issueViewMode === 'my-issues') activeFilters.push({ label: '👤 내 이슈', key: null });
+
+        if (activeFilters.length > 0) {
+          activeFiltersBar.style.display = 'flex';
+          var label = document.createElement('span');
+          label.style.cssText = 'font-size:11px;color:#9ca3af;white-space:nowrap;';
+          label.textContent = '필터:';
+          activeFiltersBar.appendChild(label);
+
+          activeFilters.forEach(function(f) {
+            var chip = document.createElement('span');
+            chip.style.cssText = 'display:inline-flex;align-items:center;gap:4px;padding:2px 8px;background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;border-radius:12px;font-size:11px;font-weight:600;cursor:pointer;';
+            chip.innerHTML = _escHtml(f.label) + ' <span style="font-size:12px;line-height:1;">×</span>';
+            chip.onclick = function() {
+              if (f.key) {
+                var el = document.getElementById(f.key);
+                if (el) el.value = '';
+                if (f.isSearch && el) el.value = '';
+              } else if (_issueViewMode === 'my-issues') {
+                // 내 이슈 뷰 → 전체 뷰로
+                _issueViewMode = 'all';
+                document.querySelectorAll('.issue-view-btn').forEach(function(b) { b.classList.remove('active'); });
+                var allBtn = document.querySelector('.issue-view-btn[onclick*="\'all\'"]');
+                if (allBtn) allBtn.classList.add('active');
+              }
+              renderIssues();
+            };
+            activeFiltersBar.appendChild(chip);
+          });
+
+          // 전체 초기화
+          if (activeFilters.length > 1) {
+            var clearAll = document.createElement('span');
+            clearAll.style.cssText = 'display:inline-flex;align-items:center;gap:4px;padding:2px 8px;background:#fee2e2;color:#dc2626;border:1px solid #fecaca;border-radius:12px;font-size:11px;font-weight:600;cursor:pointer;';
+            clearAll.textContent = '전체 초기화';
+            clearAll.onclick = function() { resetIssueFilters(); };
+            activeFiltersBar.appendChild(clearAll);
+          }
+        } else {
+          activeFiltersBar.style.display = 'none';
+        }
+      }
 
       var filtered = _issues.filter(function(iss) {
         if (statusFilter && iss.status !== statusFilter) return false;
@@ -5978,6 +6310,27 @@
         if (defectTypeFilter && iss.defectType !== defectTypeFilter) return false;
         if (priorityFilter && iss.priority !== priorityFilter) return false;
         if (searchText && !iss.title.toLowerCase().includes(searchText) && !iss.id.toLowerCase().includes(searchText)) return false;
+
+        // 배포 포함/미포함 필터
+        if (bundleFilter === 'in-bundle') {
+          var issueInBundle = _deployBundles.some(function(b) { return b.issues && b.issues.indexOf(iss.id) !== -1; });
+          if (!issueInBundle) return false;
+        }
+        if (bundleFilter === 'no-bundle') {
+          var issueInBundle2 = _deployBundles.some(function(b) { return b.issues && b.issues.indexOf(iss.id) !== -1; });
+          if (issueInBundle2) return false;
+        }
+
+        if (_issueViewMode === 'my-issues') {
+          var myUid = state.currentUser ? state.currentUser.uid : null;
+          if (!myUid) return false;
+          if (iss.assignee !== myUid && iss.verifier !== myUid) return false;
+        }
+
+        if (_issueViewMode === 'bookmarks') {
+          if (_bookmarkedIssues.indexOf(iss.id) === -1) return false;
+        }
+
         return true;
       });
 
@@ -5987,25 +6340,176 @@
       var progress = _issues.filter(function(i) { return i.status === '작업 진행 중'; }).length;
       var resolved = _issues.filter(function(i) { return i.status === '검증 진행 중' || i.status === '운영배포예정'; }).length;
       var closed = _issues.filter(function(i) { return i.status === '완료'; }).length;
-      document.getElementById('summaryTotal').textContent = '전체 ' + total;
-      document.getElementById('summaryOpen').textContent = '열린이슈 ' + open;
-      document.getElementById('summaryProgress').textContent = '진행중 ' + progress;
-      document.getElementById('summaryResolved').textContent = '해결됨 ' + resolved;
-      document.getElementById('summaryClosed').textContent = '종료 ' + closed;
+
+      // 오늘 등록된 이슈 계산
+      var todayIssues = _issues.filter(function(i) {
+        var created = new Date(i.created);
+        var today = new Date();
+        return created.getFullYear() === today.getFullYear() &&
+          created.getMonth() === today.getMonth() &&
+          created.getDate() === today.getDate();
+      }).length;
+
+      // 내 이슈 계산
+      var myUid = state.currentUser ? state.currentUser.uid : null;
+      var myIssues = myUid ? _issues.filter(function(i) {
+        return i.assignee === myUid || i.verifier === myUid;
+      }).length : 0;
+
+      document.getElementById('summaryTotal').textContent = total;
+      document.getElementById('summaryOpen').textContent = open;
+      document.getElementById('summaryProgress').textContent = progress;
+      document.getElementById('summaryResolved').textContent = resolved;
+      document.getElementById('summaryClosed').textContent = closed;
+      document.getElementById('summaryToday').textContent = todayIssues;
+      document.getElementById('summaryMyIssues').textContent = myIssues;
 
       var container = document.getElementById('issuesContainer');
       container.innerHTML = '';
 
       if (filtered.length === 0) {
-        container.innerHTML = '<div style="text-align:center;padding:40px;color:#9ca3af;">등록된 이슈가 없습니다</div>';
+        // 필터가 적용된 경우 vs 검색된 경우 vs 아무것도 없는 경우 구분
+        var searchQuery = document.getElementById('issueSearchInput') ? document.getElementById('issueSearchInput').value : '';
+        var hasSearch = searchQuery && searchQuery.length > 0;
+        var hasFilters = hasSearch ||
+          (document.getElementById('issueStatusFilter') && document.getElementById('issueStatusFilter').value) ||
+          (document.getElementById('issueProductFilter') && document.getElementById('issueProductFilter').value) ||
+          (document.getElementById('issueSeverityFilter') && document.getElementById('issueSeverityFilter').value) ||
+          (document.getElementById('issueDefectTypeFilter') && document.getElementById('issueDefectTypeFilter').value) ||
+          (document.getElementById('issuePriorityFilter') && document.getElementById('issuePriorityFilter').value) ||
+          (document.getElementById('issueBundleFilter') && document.getElementById('issueBundleFilter').value);
+
+        var emptyDiv = document.createElement('div');
+        emptyDiv.style.cssText = 'text-align:center;padding:48px 16px;color:#6b7280;';
+
+        if (hasSearch) {
+          emptyDiv.innerHTML = '<div style="font-size:32px;margin-bottom:12px;">🔍</div>' +
+            '<div style="font-size:15px;font-weight:600;color:#374151;margin:12px 0 4px;">검색 결과가 없습니다</div>' +
+            '<div style="font-size:13px;margin-bottom:16px;">"' + _escHtml(searchQuery) + '"에 대한 이슈를 찾을 수 없습니다</div>' +
+            '<button onclick="document.getElementById(\'issueSearchInput\').value=\'\';renderIssues();" style="padding:8px 16px;background:#6366f1;color:white;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;">검색 초기화</button>';
+        } else if (hasFilters) {
+          emptyDiv.innerHTML = '<div style="font-size:32px;margin-bottom:12px;">🎯</div>' +
+            '<div style="font-size:15px;font-weight:600;color:#374151;margin:12px 0 4px;">필터 결과가 없습니다</div>' +
+            '<div style="font-size:13px;margin-bottom:16px;">현재 필터 조건에 맞는 이슈가 없습니다</div>' +
+            '<button onclick="resetIssueFilters()" style="padding:8px 16px;background:#6366f1;color:white;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;">필터 초기화</button>';
+        } else {
+          emptyDiv.innerHTML = '<div style="font-size:32px;margin-bottom:12px;">🐛</div>' +
+            '<div style="font-size:15px;font-weight:600;color:#374151;margin:12px 0 4px;">이슈가 없습니다</div>' +
+            '<div style="font-size:13px;margin-bottom:16px;">새 이슈를 등록해보세요</div>' +
+            (_hasWritePermission() ? '<button onclick="createIssue()" style="padding:8px 16px;background:#6366f1;color:white;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;">+ 새 이슈 등록</button>' : '');
+        }
+        container.appendChild(emptyDiv);
         return;
       }
 
-      // Sort by created date (desc)
-      filtered.sort(function(a, b) { return new Date(b.created) - new Date(a.created); });
+      // Sort
+      filtered.sort(function(a, b) {
+        var aVal, bVal;
+        switch(_issueSortKey) {
+          case 'id': aVal = a.id; bVal = b.id; break;
+          case 'title': aVal = a.title || ''; bVal = b.title || ''; break;
+          case 'severity': aVal = a.severity || ''; bVal = b.severity || ''; break;
+          case 'priority': aVal = a.priority || '0'; bVal = b.priority || '0'; break;
+          case 'status': aVal = a.status || ''; bVal = b.status || ''; break;
+          case 'deadline': aVal = a.deadline ? new Date(a.deadline).getTime() : Infinity; bVal = b.deadline ? new Date(b.deadline).getTime() : Infinity; break;
+          default: aVal = a.created; bVal = b.created;
+        }
+        if (typeof aVal === 'string') {
+          return _issueSortAsc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+        } else {
+          return _issueSortAsc ? aVal - bVal : bVal - aVal;
+        }
+      });
+
+      // Table view
+      if (_issueDisplay === 'table') {
+        _renderIssueTable(container, filtered);
+        return;
+      }
+
+      // Compact view
+      if (_issueDisplay === 'compact') {
+        filtered.forEach(function(iss) {
+          var card = document.createElement('div');
+          card.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 12px;border-bottom:1px solid #f3f4f6;cursor:pointer;font-size:12px;';
+          card.onclick = function() { openIssueDetail(iss.id); };
+
+          // severity dot
+          var sevColors = {Block:'#ef4444',Major:'#f97316',Minor:'#3b82f6',Trivial:'#9ca3af'};
+          var dot = document.createElement('span');
+          dot.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + (sevColors[iss.severity]||'#9ca3af') + ';flex-shrink:0;';
+          card.appendChild(dot);
+
+          var idSpan = document.createElement('span');
+          idSpan.style.cssText = 'font-size:10px;color:#9ca3af;font-family:monospace;flex-shrink:0;min-width:90px;';
+          idSpan.textContent = iss.id;
+          card.appendChild(idSpan);
+
+          var titleSpan = document.createElement('span');
+          titleSpan.style.cssText = 'flex:1;color:#1f2937;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;';
+          titleSpan.textContent = iss.title;
+          card.appendChild(titleSpan);
+
+          // status badge
+          var statusBadge = document.createElement('span');
+          statusBadge.className = 'status-badge status-' + (iss.status||'등록').replace(/ /g, '_');
+          statusBadge.style.fontSize = '11px';
+          statusBadge.textContent = iss.status || '등록';
+          card.appendChild(statusBadge);
+
+          container.appendChild(card);
+        });
+        return;
+      }
+
+      // Group by status if toggled
+      if (_issueGrouped && _issueDisplay === 'card') {
+        var statusOrder = ['등록','검토 중','작업 진행 중','검증 진행 중','운영배포예정','테스트 보류','현재작업불가','완료'];
+        var groups = {};
+        statusOrder.forEach(function(s) { groups[s] = []; });
+        filtered.forEach(function(iss) {
+          if (groups[iss.status]) groups[iss.status].push(iss);
+          else groups['등록'].push(iss);
+        });
+        statusOrder.forEach(function(s) {
+          var groupIssues = groups[s];
+          if (groupIssues.length === 0) return;
+          var header = document.createElement('div');
+          header.style.cssText = 'font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;padding:8px 4px 4px;margin-top:4px;border-bottom:1px solid #e5e7eb;';
+          header.textContent = s + ' (' + groupIssues.length + ')';
+          container.appendChild(header);
+          groupIssues.forEach(function(iss) { _renderIssueCard(container, iss); });
+        });
+        return;
+      }
 
       // Group if needed
-      if (_issueViewMode === 'by-project') {
+      if (_issueViewMode === 'my-issues' && _issueDisplay === 'card') {
+        var myUid = state.currentUser ? state.currentUser.uid : null;
+        var myAssigned = filtered.filter(function(i) { return i.assignee === myUid; });
+        var myVerify = filtered.filter(function(i) { return i.verifier === myUid && i.assignee !== myUid; });
+
+        if (myAssigned.length > 0) {
+          var h1 = document.createElement('div');
+          h1.style.cssText = 'font-size:11px;font-weight:700;color:#2563eb;padding:8px 4px 4px;border-bottom:2px solid #2563eb;margin-bottom:8px;';
+          h1.textContent = '🔨 작업 담당 (' + myAssigned.length + ')';
+          container.appendChild(h1);
+          myAssigned.forEach(function(iss) { _renderIssueCard(container, iss); });
+        }
+
+        if (myVerify.length > 0) {
+          var h2 = document.createElement('div');
+          h2.style.cssText = 'font-size:11px;font-weight:700;color:#7c3aed;padding:12px 4px 4px;border-bottom:2px solid #7c3aed;margin-bottom:8px;margin-top:8px;';
+          h2.textContent = '✅ 검증 담당 (' + myVerify.length + ')';
+          container.appendChild(h2);
+          myVerify.forEach(function(iss) { _renderIssueCard(container, iss); });
+        }
+
+        if (myAssigned.length === 0 && myVerify.length === 0) {
+          container.innerHTML = '<div style="text-align:center;padding:48px;color:#9ca3af;"><div style="font-size:48px;">😊</div><div style="font-size:15px;font-weight:600;color:#374151;margin-top:12px;">할당된 이슈가 없습니다</div></div>';
+        }
+        return;
+      } else if (_issueViewMode === 'by-project') {
         var grouped = {};
         filtered.forEach(function(iss) {
           var key = iss.projectId || '(미할당)';
@@ -6060,6 +6564,197 @@
           _renderIssueCard(container, iss);
         });
       }
+
+      // 긴급 뱃지 업데이트
+      var urgentCount = _issues.filter(function(i) {
+        if (i.status === '완료') return false;
+        if (i.severity === 'Block') return true;
+        if (i.deadline) {
+          var diff = (new Date(i.deadline) - new Date()) / (1000 * 60 * 60 * 24);
+          if (diff <= 3 && diff >= 0) return true;
+        }
+        return false;
+      }).length;
+      var urgentEl = document.getElementById('urgentBadge');
+      if (urgentEl) {
+        if (urgentCount > 0) {
+          urgentEl.textContent = '⚠ 긴급 ' + urgentCount;
+          urgentEl.style.display = 'inline-block';
+        } else {
+          urgentEl.style.display = 'none';
+        }
+      }
+    }
+
+    function toggleAllIssues(masterCb) {
+      var cbs = document.querySelectorAll('#issuesContainer tbody input[type=checkbox]');
+      cbs.forEach(function(cb) { cb.checked = masterCb.checked; });
+      if (masterCb.checked) {
+        _issues.forEach(function(iss) { _selectedIssues[iss.id] = iss; });
+      } else {
+        _selectedIssues = {};
+      }
+      updateBulkBar();
+    }
+
+    var _issueSortKey = 'created';
+    var _issueSortAsc = false;
+
+    function _sortIssuesBy(key) {
+      if (_issueSortKey === key) {
+        _issueSortAsc = !_issueSortAsc;
+      } else {
+        _issueSortKey = key;
+        _issueSortAsc = false;
+      }
+      renderIssues();
+    }
+
+    function saveIssue(iss) {
+      var idx = _issues.findIndex(function(i) { return i.id === iss.id; });
+      if (idx >= 0) _issues[idx] = iss;
+      _saveIssuesToLocal();
+      if (_fb.db) {
+        var updateObj = {};
+        updateObj['issues/' + iss.id] = iss;
+        _fb.db.ref().update(updateObj).catch(function(err) { console.error('[Issues] Firebase error:', err); });
+      }
+    }
+
+    function _renderIssueTable(container, issues) {
+      var statusOptions = ['등록','검토 중','작업 진행 중','검증 진행 중','운영배포예정','테스트 보류','현재작업불가','완료'];
+      var sevColors = { 'Block':'#ef4444','Major':'#f97316','Minor':'#3b82f6','Trivial':'#9ca3af' };
+      var table = document.createElement('table');
+      table.style.cssText = 'width:100%;border-collapse:collapse;font-size:12px;';
+
+      // Helper function to render sort icon
+      function getSortIcon(colKey) {
+        if (_issueSortKey !== colKey) return ' ↕';
+        return _issueSortAsc ? ' ↑' : ' ↓';
+      }
+
+      // Header
+      var thead = document.createElement('thead');
+      thead.innerHTML = '<tr style="background:#f9fafb;border-bottom:2px solid #e5e7eb;">' +
+        '<th style="padding:8px 4px;text-align:left;width:24px;"><input type="checkbox" onchange="toggleAllIssues(this)"></th>' +
+        '<th style="padding:8px 8px;text-align:left;width:110px;cursor:pointer;user-select:none;" onclick="_sortIssuesBy(\'id\')">ID' + getSortIcon('id') + '</th>' +
+        '<th style="padding:8px 8px;text-align:left;cursor:pointer;user-select:none;" onclick="_sortIssuesBy(\'title\')">제목' + getSortIcon('title') + '</th>' +
+        '<th style="padding:8px 8px;text-align:center;width:60px;cursor:pointer;user-select:none;" onclick="_sortIssuesBy(\'severity\')">심각도' + getSortIcon('severity') + '</th>' +
+        '<th style="padding:8px 8px;text-align:center;width:50px;cursor:pointer;user-select:none;" onclick="_sortIssuesBy(\'priority\')">P' + getSortIcon('priority') + '</th>' +
+        '<th style="padding:8px 8px;text-align:left;width:130px;cursor:pointer;user-select:none;" onclick="_sortIssuesBy(\'status\')">상태' + getSortIcon('status') + '</th>' +
+        '<th style="padding:8px 8px;text-align:left;width:80px;">담당자</th>' +
+        '<th style="padding:8px 8px;text-align:left;width:80px;cursor:pointer;user-select:none;" onclick="_sortIssuesBy(\'deadline\')">기한' + getSortIcon('deadline') + '</th>' +
+        '<th style="padding:8px 8px;text-align:center;width:30px;">📎</th>' +
+        '</tr>';
+      table.appendChild(thead);
+
+      var tbody = document.createElement('tbody');
+      issues.forEach(function(iss) {
+        var tr = document.createElement('tr');
+        tr.style.cssText = 'border-bottom:1px solid #f3f4f6;cursor:pointer;transition:background 0.1s;';
+        tr.onmouseover = function() { this.style.background = '#f8fafc'; };
+        tr.onmouseout = function() { this.style.background = ''; };
+
+        var isOverdue = iss.deadline && new Date(iss.deadline) < new Date() && iss.status !== '완료';
+
+        // Checkbox
+        var tdCheck = document.createElement('td');
+        tdCheck.style.padding = '6px 4px';
+        var cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.onclick = function(e) {
+          e.stopPropagation();
+          if (e.target.checked) _selectedIssues[iss.id] = iss;
+          else delete _selectedIssues[iss.id];
+          updateBulkBar();
+        };
+        tdCheck.appendChild(cb);
+        tr.appendChild(tdCheck);
+
+        // ID
+        var tdId = document.createElement('td');
+        tdId.style.cssText = 'padding:6px 8px;font-size:10px;font-weight:600;color:#6366f1;white-space:nowrap;';
+        tdId.textContent = iss.id;
+        tr.appendChild(tdId);
+
+        // Title
+        var tdTitle = document.createElement('td');
+        tdTitle.style.cssText = 'padding:6px 8px;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;';
+        tdTitle.textContent = iss.title;
+        tdTitle.onclick = function(e) { e.stopPropagation(); openIssueDetail(iss.id); };
+        tr.appendChild(tdTitle);
+
+        // Severity
+        var tdSev = document.createElement('td');
+        tdSev.style.cssText = 'padding:6px 8px;text-align:center;';
+        var sevSpan = document.createElement('span');
+        sevSpan.style.cssText = 'display:inline-block;padding:2px 6px;border-radius:3px;font-size:10px;font-weight:700;color:#fff;background:' + (sevColors[iss.severity] || '#9ca3af');
+        sevSpan.textContent = iss.severity || '-';
+        tdSev.appendChild(sevSpan);
+        tr.appendChild(tdSev);
+
+        // Priority
+        var tdPri = document.createElement('td');
+        tdPri.style.cssText = 'padding:6px 8px;text-align:center;font-size:11px;font-weight:700;';
+        tdPri.textContent = iss.priority || '-';
+        tr.appendChild(tdPri);
+
+        // Status — inline dropdown
+        var tdStatus = document.createElement('td');
+        tdStatus.style.cssText = 'padding:4px 8px;';
+        if (_hasWritePermission()) {
+          var sel = document.createElement('select');
+          sel.style.cssText = 'font-size:11px;padding:3px 4px;border:1px solid #e5e7eb;border-radius:4px;cursor:pointer;width:100%;background:transparent;';
+          var statuses = ['등록','검토 중','작업 진행 중','검증 진행 중','운영배포예정','테스트 보류','현재작업불가','완료'];
+          statuses.forEach(function(s) {
+            var opt = document.createElement('option');
+            opt.value = s;
+            opt.textContent = s;
+            if (iss.status === s) opt.selected = true;
+            sel.appendChild(opt);
+          });
+          sel.onchange = function(e) {
+            e.stopPropagation();
+            var newStatus = this.value;
+            iss.status = newStatus;
+            saveIssue(iss);
+            renderIssues();
+          };
+          sel.onclick = function(e) { e.stopPropagation(); };
+          tdStatus.appendChild(sel);
+        } else {
+          tdStatus.textContent = iss.status || '-';
+        }
+        tr.appendChild(tdStatus);
+
+        // Assignee
+        var tdAssignee = document.createElement('td');
+        tdAssignee.style.cssText = 'padding:6px 8px;font-size:11px;';
+        var member = TEAM.find(function(m) { return m.id === iss.assignee; });
+        if (member) {
+          tdAssignee.innerHTML = '<span style="display:inline-block;width:18px;height:18px;border-radius:50%;background:' + member.color + ';color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:18px;margin-right:4px;">' + member.name.charAt(0) + '</span>' + member.name;
+        }
+        tr.appendChild(tdAssignee);
+
+        // Deadline
+        var tdDeadline = document.createElement('td');
+        tdDeadline.style.cssText = 'padding:6px 8px;font-size:11px;white-space:nowrap;' + (isOverdue ? 'color:#dc2626;font-weight:700;' : 'color:#6b7280;');
+        tdDeadline.textContent = iss.deadline ? new Date(iss.deadline).toLocaleDateString('ko-KR', {month:'2-digit',day:'2-digit'}) : '-';
+        if (isOverdue) tdDeadline.textContent = '⚠ ' + tdDeadline.textContent;
+        tr.appendChild(tdDeadline);
+
+        // Attachments
+        var tdAttach = document.createElement('td');
+        tdAttach.style.cssText = 'padding:6px 8px;text-align:center;font-size:11px;color:#9ca3af;';
+        tdAttach.textContent = iss.attachments && iss.attachments.length > 0 ? iss.attachments.length : '';
+        tr.appendChild(tdAttach);
+
+        tr.onclick = function() { openIssueDetail(iss.id); };
+        tbody.appendChild(tr);
+      });
+
+      table.appendChild(tbody);
+      container.appendChild(table);
     }
 
     function _renderIssueCard(container, iss) {
@@ -6103,21 +6798,58 @@
       id.className = 'issue-card-id';
       id.style.cursor = 'pointer';
       id.onclick = function(e) { e.stopPropagation(); copyIssueId(iss.id); };
-      id.textContent = iss.id;
+      var searchText = document.getElementById('issueSearchInput') ? document.getElementById('issueSearchInput').value.toLowerCase() : '';
+      if (searchText && iss.id.toLowerCase().includes(searchText)) {
+        id.innerHTML = _highlightText(iss.id, searchText);
+      } else {
+        id.textContent = iss.id;
+      }
       if (isNew) id.innerHTML += '<span class="issue-new-badge">NEW</span>';
       header.appendChild(id);
 
       var title = document.createElement('div');
       title.className = 'issue-card-title';
-      title.textContent = iss.title;
+      var searchText = document.getElementById('issueSearchInput') ? document.getElementById('issueSearchInput').value.toLowerCase() : '';
+      if (searchText && (iss.title.toLowerCase().includes(searchText) || iss.id.toLowerCase().includes(searchText))) {
+        title.innerHTML = _highlightText(iss.title, searchText);
+      } else {
+        title.textContent = iss.title;
+      }
       header.appendChild(title);
       content.appendChild(header);
 
       // Badges
       var badgeRow = document.createElement('div');
       badgeRow.className = 'issue-badges';
+
+      // Type badge with icon
+      var typeBadge = document.createElement('span');
+      typeBadge.style.display = 'inline-block';
+      typeBadge.style.padding = '2px 6px';
+      typeBadge.style.borderRadius = '3px';
+      typeBadge.style.fontSize = '10px';
+      typeBadge.style.fontWeight = '600';
+      if (iss.type === 'Bug') {
+        typeBadge.style.background = '#fee2e2';
+        typeBadge.style.color = '#991b1b';
+        typeBadge.innerHTML = '🐛 Bug';
+      } else if (iss.type === 'Task') {
+        typeBadge.style.background = '#dcfce7';
+        typeBadge.style.color = '#166534';
+        typeBadge.innerHTML = '✅ Task';
+      } else {
+        typeBadge.style.background = '#e5e7eb';
+        typeBadge.style.color = '#374151';
+        typeBadge.textContent = iss.type;
+      }
+      badgeRow.appendChild(typeBadge);
+
+      // Severity badge with full colored pill
       var sevBadge = document.createElement('span');
       sevBadge.className = 'severity-badge severity-' + iss.severity;
+      var sevColors = { 'Block': { bg: '#fee2e2', text: '#991b1b', border: '#fca5a5' }, 'Major': { bg: '#fff7ed', text: '#c2410c', border: '#fed7aa' }, 'Minor': { bg: '#eff6ff', text: '#1d4ed8', border: '#bfdbfe' }, 'Trivial': { bg: '#f9fafb', text: '#6b7280', border: '#e5e7eb' } };
+      var sevStyle = sevColors[iss.severity] || sevColors['Trivial'];
+      sevBadge.style.cssText = 'display:inline-block;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600;background:' + sevStyle.bg + ';color:' + sevStyle.text + ';border:1px solid ' + sevStyle.border + ';';
       sevBadge.textContent = iss.severity;
       badgeRow.appendChild(sevBadge);
 
@@ -6125,17 +6857,6 @@
       priBadge.className = 'priority-badge priority-' + iss.priority;
       priBadge.textContent = iss.priority;
       badgeRow.appendChild(priBadge);
-
-      var typeBadge = document.createElement('span');
-      typeBadge.style.display = 'inline-block';
-      typeBadge.style.padding = '2px 6px';
-      typeBadge.style.borderRadius = '3px';
-      typeBadge.style.fontSize = '10px';
-      typeBadge.style.fontWeight = '600';
-      typeBadge.style.background = '#e5e7eb';
-      typeBadge.style.color = '#374151';
-      typeBadge.textContent = iss.type;
-      badgeRow.appendChild(typeBadge);
 
       var statusBadge = document.createElement('span');
       statusBadge.className = 'status-badge status-' + (iss.status ? iss.status.replace(/\s+/g, '') : '등록');
@@ -6181,15 +6902,28 @@
 
       if (iss.deadline) {
         var deadline = new Date(iss.deadline);
-        var isOverdue = deadline < new Date() && iss.status !== '완료';
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+        deadline.setHours(0, 0, 0, 0);
+        var daysUntil = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
+        var isOverdue = daysUntil < 0 && iss.status !== '완료';
         var dItem = document.createElement('span');
         dItem.className = 'issue-meta-item';
+        dItem.style.fontSize = '10px';
+        dItem.style.fontWeight = '600';
+
         if (isOverdue) {
-          dItem.style.color = '#dc2626';
-          dItem.style.fontWeight = '600';
-          dItem.textContent = '⚠️ 기한초과';
+          dItem.style.color = '#ef4444';
+          dItem.innerHTML = '⚠️ 기한 초과';
+        } else if (daysUntil <= 3 && daysUntil >= 0) {
+          dItem.style.color = '#f97316';
+          dItem.innerHTML = '🔥 D-' + daysUntil;
+        } else if (daysUntil <= 7) {
+          dItem.style.color = '#f59e0b';
+          dItem.innerHTML = 'D-' + daysUntil;
         } else {
-          dItem.textContent = deadline.toLocaleDateString('ko-KR');
+          dItem.style.color = '#6b7280';
+          dItem.innerHTML = 'D-' + daysUntil;
         }
         meta.appendChild(dItem);
       }
@@ -6198,6 +6932,32 @@
       attachCount.className = 'issue-meta-item';
       attachCount.innerHTML = '📎 ' + (iss.attachments ? iss.attachments.length : 0);
       meta.appendChild(attachCount);
+
+      // 배포 번들 연결 뱃지
+      var bundleLinks = _deployBundles.filter(function(b) {
+        return b.issues && b.issues.indexOf(iss.id) !== -1;
+      });
+      if (bundleLinks.length > 0) {
+        bundleLinks.forEach(function(b) {
+          var bItem = document.createElement('span');
+          bItem.className = 'issue-meta-item';
+          bItem.style.cssText = 'background:#ede9fe;color:#5b21b6;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:600;cursor:pointer;';
+          bItem.textContent = '🚀 ' + b.title;
+          bItem.onclick = function(e) {
+            e.stopPropagation();
+            state.currentTab = 'deploy';
+            document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+            var deployTab = document.querySelector('.tab[data-tab="deploy"]');
+            if (deployTab) deployTab.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(function(tc) { tc.classList.remove('active'); });
+            var deployContent = document.getElementById('deploy');
+            if (deployContent) deployContent.classList.add('active');
+            renderDeployBundles();
+            setTimeout(function() { openDeployBundleDetail(b.id); }, 100);
+          };
+          meta.appendChild(bItem);
+        });
+      }
 
       var commentCount = document.createElement('span');
       commentCount.className = 'issue-meta-item';
@@ -6247,6 +7007,44 @@
       }
 
       card.appendChild(content);
+
+      // Quick action bar (bottom action bar that appears on hover)
+      var actionsBar = document.createElement('div');
+      actionsBar.className = 'card-actions-bar';
+      actionsBar.style.cssText = 'display:none;align-items:center;gap:4px;padding:4px 8px;border-top:1px solid #f3f4f6;background:#fafafa;';
+
+      // Action 1: Open detail
+      var openBtn = document.createElement('button');
+      openBtn.style.cssText = 'background:none;border:none;cursor:pointer;font-size:11px;color:#6b7280;padding:3px 8px;border-radius:4px;transition:all 0.1s;white-space:nowrap;';
+      openBtn.textContent = '🔍 상세';
+      openBtn.onclick = function(e) { e.stopPropagation(); openIssueDetail(iss.id); };
+      actionsBar.appendChild(openBtn);
+
+      // Action 2: Copy ID
+      var copyBtn = document.createElement('button');
+      copyBtn.style.cssText = 'background:none;border:none;cursor:pointer;font-size:11px;color:#6b7280;padding:3px 8px;border-radius:4px;transition:all 0.1s;';
+      copyBtn.textContent = '⎘ ID';
+      copyBtn.onclick = function(e) { e.stopPropagation(); _copyToClipboard(iss.id); };
+      actionsBar.appendChild(copyBtn);
+
+      // Action 3: Bookmark
+      var bookmarkBtn = document.createElement('button');
+      var isBookmarked = _bookmarkedIssues.indexOf(iss.id) >= 0;
+      bookmarkBtn.style.cssText = 'background:none;border:none;cursor:pointer;font-size:11px;color:#6b7280;padding:3px 8px;border-radius:4px;transition:all 0.1s;';
+      bookmarkBtn.textContent = (isBookmarked ? '★' : '☆') + ' 즐겨찾기';
+      bookmarkBtn.onclick = function(e) {
+        e.stopPropagation();
+        _toggleBookmark(iss.id, bookmarkBtn);
+        bookmarkBtn.textContent = _bookmarkedIssues.indexOf(iss.id) >= 0 ? '★ 즐겨찾기' : '☆ 즐겨찾기';
+      };
+      actionsBar.appendChild(bookmarkBtn);
+
+      card.appendChild(actionsBar);
+
+      card.style.position = 'relative';
+      card.onmouseenter = function() { actionsBar.style.display = 'flex'; };
+      card.onmouseleave = function() { actionsBar.style.display = 'none'; };
+
       container.appendChild(card);
     }
 
@@ -6268,29 +7066,153 @@
     }
 
     function bulkUpdateIssueStatus() {
-      var status = prompt('새로운 상태를 입력하세요:\n등록, 검토 중, 작업 진행 중, 검증 진행 중, 완료, 운영배포예정, 테스트 보류, 현재작업불가');
-      if (!status) return;
-      Object.keys(_selectedIssues).forEach(function(issueId) {
-        var iss = _issues.find(function(i) { return i.id === issueId; });
-        if (iss) iss.status = status;
+      var count = Object.keys(_selectedIssues).length;
+      if (count === 0) return;
+
+      // 미니 모달 생성
+      var overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:9999;display:flex;align-items:center;justify-content:center;';
+
+      var dialog = document.createElement('div');
+      dialog.style.cssText = 'background:#fff;border-radius:12px;padding:20px;min-width:320px;box-shadow:0 20px 60px rgba(0,0,0,0.3);';
+
+      var title = document.createElement('div');
+      title.style.cssText = 'font-size:14px;font-weight:700;color:#1f2937;margin-bottom:12px;';
+      title.textContent = count + '개 이슈 상태 변경';
+      dialog.appendChild(title);
+
+      var statuses = ['등록','검토 중','작업 진행 중','검증 진행 중','운영배포예정','테스트 보류','현재작업불가','완료'];
+      var statusColors = {'등록':'#6366f1','검토 중':'#8b5cf6','작업 진행 중':'#f59e0b','검증 진행 중':'#3b82f6','운영배포예정':'#06b6d4','테스트 보류':'#9ca3af','현재작업불가':'#ef4444','완료':'#10b981'};
+
+      var btnGrid = document.createElement('div');
+      btnGrid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;';
+
+      statuses.forEach(function(s) {
+        var btn = document.createElement('button');
+        var c = statusColors[s] || '#6b7280';
+        btn.style.cssText = 'padding:8px 12px;border:1px solid ' + c + ';border-radius:8px;color:' + c + ';font-size:12px;font-weight:600;cursor:pointer;background:transparent;text-align:center;transition:all 0.1s;';
+        btn.textContent = s;
+        btn.onmouseover = function() { this.style.background = c; this.style.color = '#fff'; };
+        btn.onmouseout = function() { this.style.background = 'transparent'; this.style.color = c; };
+        btn.onclick = function() {
+          Object.keys(_selectedIssues).forEach(function(issueId) {
+            var iss = _issues.find(function(i) { return i.id === issueId; });
+            if (iss) { iss.status = s; iss.updated = new Date().toISOString(); }
+          });
+          _saveIssuesToLocal();
+          if (_fb && _fb.db) {
+            var updateObj = {};
+            Object.keys(_selectedIssues).forEach(function(id) {
+              var iss = _issues.find(function(i) { return i.id === id; });
+              if (iss) updateObj['issues/' + id] = iss;
+            });
+            _fb.db.ref().update(updateObj);
+          }
+          _selectedIssues = {};
+          document.body.removeChild(overlay);
+          updateBulkBar();
+          renderIssues();
+          _showToast(count + '개 이슈를 "' + s + '"으로 변경했습니다');
+        };
+        btnGrid.appendChild(btn);
       });
-      _saveIssuesToLocal();
-      saveIssueData(Object.values(_selectedIssues)[0]);
-      _selectedIssues = {};
-      renderIssues();
+      dialog.appendChild(btnGrid);
+
+      var cancelBtn = document.createElement('button');
+      cancelBtn.style.cssText = 'width:100%;margin-top:12px;padding:8px;border:1px solid #e5e7eb;border-radius:8px;font-size:12px;cursor:pointer;background:transparent;color:#6b7280;';
+      cancelBtn.textContent = '취소';
+      cancelBtn.onclick = function() { document.body.removeChild(overlay); };
+      dialog.appendChild(cancelBtn);
+
+      overlay.appendChild(dialog);
+      overlay.onclick = function(e) { if (e.target === overlay) document.body.removeChild(overlay); };
+      document.body.appendChild(overlay);
     }
 
     function bulkUpdateIssueAssignee() {
-      var assigneeId = prompt('담당자 ID를 입력하세요:');
-      if (!assigneeId) return;
-      Object.keys(_selectedIssues).forEach(function(issueId) {
-        var iss = _issues.find(function(i) { return i.id === issueId; });
-        if (iss) iss.assignee = assigneeId;
+      var count = Object.keys(_selectedIssues).length;
+      if (count === 0) return;
+
+      var overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:9999;display:flex;align-items:center;justify-content:center;';
+
+      var dialog = document.createElement('div');
+      dialog.style.cssText = 'background:#fff;border-radius:12px;padding:20px;min-width:280px;box-shadow:0 20px 60px rgba(0,0,0,0.3);max-height:70vh;';
+
+      var title = document.createElement('div');
+      title.style.cssText = 'font-size:14px;font-weight:700;color:#1f2937;margin-bottom:12px;';
+      title.textContent = count + '개 이슈 담당자 변경';
+      dialog.appendChild(title);
+
+      var memberList = document.createElement('div');
+      memberList.style.cssText = 'display:flex;flex-direction:column;gap:6px;max-height:300px;overflow-y:auto;';
+
+      // 미할당 옵션
+      var unassignBtn = document.createElement('button');
+      unassignBtn.style.cssText = 'display:flex;align-items:center;gap:10px;padding:10px;border:1px solid #e5e7eb;border-radius:8px;cursor:pointer;background:transparent;font-size:13px;text-align:left;transition:background 0.1s;';
+      unassignBtn.onmouseover = function() { this.style.background = '#f9fafb'; };
+      unassignBtn.onmouseout = function() { this.style.background = 'transparent'; };
+      unassignBtn.innerHTML = '<div style="width:32px;height:32px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">-</div><span>미할당</span>';
+      unassignBtn.onclick = function() {
+        Object.keys(_selectedIssues).forEach(function(id) {
+          var iss = _issues.find(function(i) { return i.id === id; });
+          if (iss) { iss.assignee = ''; iss.updated = new Date().toISOString(); }
+        });
+        _saveIssuesToLocal();
+        if (_fb && _fb.db) {
+          var updateObj = {};
+          Object.keys(_selectedIssues).forEach(function(id) {
+            var iss = _issues.find(function(i) { return i.id === id; });
+            if (iss) updateObj['issues/' + id] = iss;
+          });
+          _fb.db.ref().update(updateObj);
+        }
+        _selectedIssues = {}; document.body.removeChild(overlay); updateBulkBar(); renderIssues();
+        _showToast('담당자가 해제되었습니다');
+      };
+      memberList.appendChild(unassignBtn);
+
+      TEAM.forEach(function(member) {
+        var btn = document.createElement('button');
+        btn.style.cssText = 'display:flex;align-items:center;gap:10px;padding:10px;border:1px solid #e5e7eb;border-radius:8px;cursor:pointer;background:transparent;font-size:13px;text-align:left;transition:background 0.1s;';
+        btn.onmouseover = function() { this.style.background = '#f9fafb'; };
+        btn.onmouseout = function() { this.style.background = 'transparent'; };
+        var avatar = document.createElement('div');
+        avatar.style.cssText = 'width:32px;height:32px;border-radius:50%;background:' + member.color + ';display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;flex-shrink:0;';
+        avatar.textContent = member.name.charAt(0);
+        var info = document.createElement('div');
+        info.innerHTML = '<div style="font-weight:600;color:#1f2937;">' + member.name + '</div><div style="font-size:11px;color:#9ca3af;">' + member.role + '</div>';
+        btn.appendChild(avatar); btn.appendChild(info);
+        btn.onclick = function() {
+          Object.keys(_selectedIssues).forEach(function(id) {
+            var iss = _issues.find(function(i) { return i.id === id; });
+            if (iss) { iss.assignee = member.id; iss.updated = new Date().toISOString(); }
+          });
+          _saveIssuesToLocal();
+          if (_fb && _fb.db) {
+            var updateObj = {};
+            Object.keys(_selectedIssues).forEach(function(id) {
+              var iss = _issues.find(function(i) { return i.id === id; });
+              if (iss) updateObj['issues/' + id] = iss;
+            });
+            _fb.db.ref().update(updateObj);
+          }
+          _selectedIssues = {}; document.body.removeChild(overlay); updateBulkBar(); renderIssues();
+          _showToast(count + '개 이슈를 ' + member.name + '에게 배정했습니다');
+        };
+        memberList.appendChild(btn);
       });
-      _saveIssuesToLocal();
-      saveIssueData(Object.values(_selectedIssues)[0]);
-      _selectedIssues = {};
-      renderIssues();
+      dialog.appendChild(memberList);
+
+      var cancelBtn = document.createElement('button');
+      cancelBtn.style.cssText = 'width:100%;margin-top:12px;padding:8px;border:1px solid #e5e7eb;border-radius:8px;font-size:12px;cursor:pointer;background:transparent;color:#6b7280;';
+      cancelBtn.textContent = '취소';
+      cancelBtn.onclick = function() { document.body.removeChild(overlay); };
+      dialog.appendChild(cancelBtn);
+
+      overlay.appendChild(dialog);
+      overlay.onclick = function(e) { if (e.target === overlay) document.body.removeChild(overlay); };
+      document.body.appendChild(overlay);
     }
 
     function bulkDeleteIssues() {
@@ -6303,10 +7225,18 @@
       renderIssues();
     }
 
+    function _copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(function() {
+        _showToast('클립보드에 복사됨', 1500, 'success');
+      }).catch(function() {
+        _showToast('복사 실패', 1500, 'error');
+      });
+    }
+
     function copyIssueId(issueId) {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(issueId).then(function() {
-          _showToast('이슈 ID가 복사되었습니다');
+          _showToast('📋 ' + issueId + ' 복사됨');
         });
       } else {
         var el = document.createElement('textarea');
@@ -6315,8 +7245,23 @@
         el.select();
         document.execCommand('copy');
         document.body.removeChild(el);
-        _showToast('이슈 ID가 복사되었습니다');
+        _showToast('📋 ' + issueId + ' 복사됨');
       }
+    }
+
+    function _toggleBookmark(issueId, btn) {
+      var idx = _bookmarkedIssues.indexOf(issueId);
+      if (idx >= 0) {
+        _bookmarkedIssues.splice(idx, 1);
+        if (btn) { btn.textContent = '☆'; btn.style.color = '#9ca3af'; }
+        _showToast('즐겨찾기에서 제거됨', 1200, 'info');
+      } else {
+        _bookmarkedIssues.push(issueId);
+        if (btn) { btn.textContent = '★'; btn.style.color = '#f59e0b'; }
+        _showToast('즐겨찾기에 추가됨', 1200, 'success');
+      }
+      localStorage.setItem('af_bookmarks', JSON.stringify(_bookmarkedIssues));
+      renderIssues();
     }
 
     var _targetAttachmentContext = 'detail';
@@ -6335,13 +7280,70 @@
 
       var canEdit = _hasWritePermission();
 
-      // Title section
+      // Header card with issue metadata
+      var headerCard = document.createElement('div');
+      headerCard.style.cssText = 'padding:12px;margin-bottom:12px;background:#f9fafb;border-radius:8px;border:1px solid #e5e7eb;';
+      var sevColors = { 'Block':'#ef4444','Major':'#f97316','Minor':'#3b82f6','Trivial':'#9ca3af' };
+      var headerContent = '<div style="font-size:14px;font-weight:700;color:#1f2937;margin-bottom:8px;line-height:1.4;word-break:break-word;display:flex;align-items:center;justify-content:space-between;gap:8px;">' + (iss.title || '제목 없음') + '<button id="detailBookmarkBtn" style="background:none;border:none;font-size:18px;cursor:pointer;padding:0;color:' + (_bookmarkedIssues.indexOf(iss.id) >= 0 ? '#f59e0b' : '#9ca3af') + ';" title="즐겨찾기">' + (_bookmarkedIssues.indexOf(iss.id) >= 0 ? '★' : '☆') + '</button></div>';
+      headerContent += '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">';
+      headerContent += '<span style="font-size:11px;font-weight:700;color:#1f2937;background:#f3f4f6;padding:4px 8px;border-radius:4px;border:1px solid #e5e7eb;display:flex;align-items:center;gap:4px;">' + iss.id + '<button onclick="_copyToClipboard(\'' + iss.id + '\')" title="ID 복사" style="background:none;border:1px solid #e5e7eb;border-radius:4px;padding:2px 6px;font-size:10px;color:#6b7280;cursor:pointer;">복사</button></span>';
+      if (iss.severity) headerContent += '<span style="font-size:11px;font-weight:700;color:#fff;background:' + (sevColors[iss.severity]||'#9ca3af') + ';padding:2px 8px;border-radius:4px;">' + iss.severity + '</span>';
+      if (iss.priority) headerContent += '<span style="font-size:11px;font-weight:600;color:#374151;background:#f3f4f6;padding:2px 8px;border-radius:4px;">P' + iss.priority + '</span>';
+      if (iss.status) headerContent += '<span id="headerStatusBadge" style="font-size:11px;font-weight:600;color:#374151;background:#f3f4f6;padding:2px 8px;border-radius:4px;cursor:pointer;">' + iss.status + '</span>';
+      headerContent += '</div>';
+      headerCard.innerHTML = headerContent;
+      var bookmarkBtn = headerCard.querySelector('#detailBookmarkBtn');
+      if (bookmarkBtn) {
+        bookmarkBtn.onclick = function(e) { e.stopPropagation(); _toggleBookmark(iss.id, bookmarkBtn); };
+      }
+      // Make status badge clickable to open a quick dropdown
+      var statusBadge = headerCard.querySelector('#headerStatusBadge');
+      if (statusBadge && canEdit) {
+        statusBadge.title = '상태 변경';
+        statusBadge.onmouseover = function() { this.style.background = '#e5e7eb'; };
+        statusBadge.onmouseout = function() { this.style.background = '#f3f4f6'; };
+        statusBadge.onclick = function(e) {
+          e.stopPropagation();
+          var statuses = ['등록','검토 중','작업 진행 중','검증 진행 중','운영배포예정','테스트 보류','현재작업불가','완료'];
+          var menu = document.createElement('div');
+          menu.style.cssText = 'position:absolute;top:100%;left:0;background:white;border:1px solid #e5e7eb;border-radius:4px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:10000;min-width:120px;';
+          statuses.forEach(function(s) {
+            var item = document.createElement('div');
+            item.style.cssText = 'padding:8px 12px;cursor:pointer;font-size:11px;color:#374151;border-bottom:1px solid #f3f4f6;transition:background 0.1s;';
+            if (s === iss.status) item.style.fontWeight = '700';
+            item.textContent = s;
+            item.onmouseover = function() { this.style.background = '#f3f4f6'; };
+            item.onmouseout = function() { this.style.background = 'transparent'; };
+            item.onclick = function() {
+              if (!_hasWritePermission()) { _checkWritePermission(); return; }
+              iss.status = s;
+              iss.updated = new Date().toISOString();
+              saveIssueData(iss);
+              openIssueDetail(iss.id);
+              _showToast('상태가 "' + s + '"으로 변경되었습니다');
+              document.body.removeChild(menu);
+            };
+            menu.appendChild(item);
+          });
+          statusBadge.style.position = 'relative';
+          statusBadge.appendChild(menu);
+          document.addEventListener('click', function hide() {
+            if (menu.parentNode) statusBadge.removeChild(menu);
+            document.removeEventListener('click', hide);
+          });
+        };
+      }
+      panel.appendChild(headerCard);
+
+      // Title section with inline edit UX
       var titleGroup = document.createElement('div');
       titleGroup.className = 'issue-form-group';
       var titleLabel = document.createElement('label');
       titleLabel.className = 'issue-form-label';
       titleLabel.textContent = '제목';
       titleGroup.appendChild(titleLabel);
+      var titleInputWrapper = document.createElement('div');
+      titleInputWrapper.style.cssText = 'position:relative;display:flex;align-items:center;';
       var titleInput = document.createElement('input');
       titleInput.type = 'text';
       titleInput.id = 'issueDetail_title';
@@ -6351,8 +7353,27 @@
       titleInput.style.fontWeight = 'bold';
       titleInput.style.fontSize = '14px';
       titleInput.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
-      titleGroup.appendChild(titleInput);
+      titleInput.style.paddingRight = canEdit ? '36px' : '8px';
+      titleInputWrapper.appendChild(titleInput);
+      if (canEdit) {
+        var titleEditIcon = document.createElement('button');
+        titleEditIcon.type = 'button';
+        titleEditIcon.textContent = '✏️';
+        titleEditIcon.style.cssText = 'position:absolute;right:8px;background:none;border:none;cursor:pointer;font-size:12px;padding:2px;color:#6b7280;opacity:0;transition:opacity 0.2s;';
+        titleEditIcon.title = '제목 수정';
+        titleInputWrapper.appendChild(titleEditIcon);
+        titleInputWrapper.onmouseenter = function() { titleEditIcon.style.opacity = '1'; };
+        titleInputWrapper.onmouseleave = function() { titleEditIcon.style.opacity = '0'; };
+        titleEditIcon.onclick = function(e) { e.preventDefault(); titleInput.focus(); titleInput.select(); };
+      }
+      titleGroup.appendChild(titleInputWrapper);
       panel.appendChild(titleGroup);
+
+      // Issue Info Section Header
+      var issueInfoHeader = document.createElement('div');
+      issueInfoHeader.style.cssText = 'font-size:10px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin:10px 0 6px;padding:4px 8px;background:#f3f4f6;border-radius:4px;';
+      issueInfoHeader.textContent = '이슈 정보';
+      panel.appendChild(issueInfoHeader);
 
       // Meta Grid: 2-col layout
       var metaGrid1 = document.createElement('div');
@@ -6449,6 +7470,54 @@
       metaGrid2.appendChild(statusGroup);
       panel.appendChild(metaGrid2);
 
+      // Quick status transition bar with colored backgrounds
+      var quickBar = document.createElement('div');
+      quickBar.style.cssText = 'display:flex;gap:8px;padding:12px 16px;background:#f3f4f6;border-bottom:1px solid #e5e7eb;flex-wrap:wrap;';
+
+      var transitions = [];
+      var s = iss.status || '등록';
+      var statusColors = {
+        '등록': { bg: '#fee2e2', text: '#991b1b' },
+        '검토 중': { bg: '#fef3c7', text: '#92400e' },
+        '작업 진행 중': { bg: '#dbeafe', text: '#1e40af' },
+        '검증 진행 중': { bg: '#f3e8ff', text: '#6b21a8' },
+        '완료': { bg: '#d1fae5', text: '#065f46' }
+      };
+
+      if (s === '등록') transitions.push({ label: '→ 검토 중', next: '검토 중', colors: statusColors['검토 중'] });
+      if (s === '검토 중') transitions.push({ label: '→ 작업 진행 중', next: '작업 진행 중', colors: statusColors['작업 진행 중'] });
+      if (s === '작업 진행 중') transitions.push({ label: '→ 검증 진행 중', next: '검증 진행 중', colors: statusColors['검증 진행 중'] });
+      if (s === '검증 진행 중') transitions.push({ label: '→ 완료', next: '완료', colors: statusColors['완료'] });
+      if (s === '검증 진행 중' || s === '작업 진행 중') {
+        transitions.push({ label: '→ 운영배포예정', next: '운영배포예정', colors: { bg: '#f3e8ff', text: '#6b21a8' } });
+      }
+      if (s !== '완료' && s !== '테스트 보류') {
+        transitions.push({ label: '→ 테스트 보류', next: '테스트 보류', colors: { bg: '#f3f4f6', text: '#6b7280' } });
+      }
+      if (s !== '완료') {
+        transitions.push({ label: '→ 현재작업불가', next: '현재작업불가', colors: { bg: '#fee2e2', text: '#991b1b' } });
+      }
+
+      transitions.forEach(function(t) {
+        var btn = document.createElement('button');
+        btn.style.cssText = 'padding:6px 14px;border-radius:6px;border:none;color:' + t.colors.text + ';font-size:12px;font-weight:600;cursor:pointer;background:' + t.colors.bg + ';';
+        btn.textContent = t.label;
+        btn.onmouseover = function() { this.style.opacity = '0.8'; };
+        btn.onmouseout = function() { this.style.opacity = '1'; };
+        btn.onclick = function() {
+          if (!_hasWritePermission()) { _checkWritePermission(); return; }
+          iss.status = t.next;
+          iss.updated = new Date().toISOString();
+          saveIssueData(iss);
+          renderIssues();
+          openIssueDetail(iss.id);
+          _showToast('상태가 "' + t.next + '"으로 변경되었습니다');
+        };
+        quickBar.appendChild(btn);
+      });
+
+      panel.appendChild(quickBar);
+
       // Service | Project
       var metaGrid3 = document.createElement('div');
       metaGrid3.className = 'issue-form-row';
@@ -6503,6 +7572,12 @@
       projectGroup.appendChild(projectSelect);
       metaGrid3.appendChild(projectGroup);
       panel.appendChild(metaGrid3);
+
+      // Assigned Info Section Header
+      var assignedInfoHeader = document.createElement('div');
+      assignedInfoHeader.style.cssText = 'font-size:10px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin:10px 0 6px;padding:4px 8px;background:#f3f4f6;border-radius:4px;';
+      assignedInfoHeader.textContent = '담당 정보';
+      panel.appendChild(assignedInfoHeader);
 
       // Assignee | Environment
       var metaGrid4 = document.createElement('div');
@@ -6715,6 +7790,24 @@
       relatedIssuesInput.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
       relatedIssuesInput.placeholder = '쉼표 분리';
       relatedIssuesGroup.appendChild(relatedIssuesInput);
+
+      // Display related issues as clickable links
+      var relatedIssuesDisplay = document.createElement('div');
+      relatedIssuesDisplay.style.cssText = 'margin-top:8px;display:flex;flex-wrap:wrap;gap:4px;';
+      if (iss.relatedIssues) {
+        var relIds = iss.relatedIssues.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+        relIds.forEach(function(relId) {
+          var link = document.createElement('span');
+          link.style.cssText = 'display:inline-block;padding:3px 8px;background:#eff6ff;color:#2563eb;border-radius:4px;font-size:11px;cursor:pointer;margin:2px;font-family:monospace;border:1px solid #bfdbfe;transition:all 0.1s;';
+          link.textContent = relId;
+          link.title = '이 이슈로 이동';
+          link.onmouseover = function() { this.style.background = '#dbeafe'; this.style.borderColor = '#93c5fd'; };
+          link.onmouseout = function() { this.style.background = '#eff6ff'; this.style.borderColor = '#bfdbfe'; };
+          link.onclick = function(e) { e.stopPropagation(); openIssueDetail(relId); };
+          relatedIssuesDisplay.appendChild(link);
+        });
+      }
+      relatedIssuesGroup.appendChild(relatedIssuesDisplay);
       metaGrid4e.appendChild(relatedIssuesGroup);
 
       var resolutionGroup = document.createElement('div');
@@ -6915,20 +8008,99 @@
       commContainer.style.overflowY = 'auto';
       commContainer.style.marginBottom = '8px';
 
-      if (iss.comments && iss.comments.length > 0) {
-        iss.comments.forEach(function(com) {
+      if (!iss.comments || iss.comments.length === 0) {
+        var emptyState = document.createElement('div');
+        emptyState.style.cssText = 'text-align:center;padding:24px 16px;color:#9ca3af;';
+        emptyState.innerHTML = '<div style="font-size:28px;margin-bottom:8px;">💬</div><div style="font-size:13px;">아직 코멘트가 없습니다.</div><div style="font-size:11px;margin-top:4px;">첫 번째 코멘트를 남겨보세요!</div>';
+        commContainer.appendChild(emptyState);
+      } else {
+        iss.comments.forEach(function(com, comIdx) {
+          if (com.deleted) {
+            var deletedEl = document.createElement('div');
+            deletedEl.style.cssText = 'padding:6px 8px;color:#9ca3af;font-size:11px;font-style:italic;border-bottom:1px solid #f3f4f6;';
+            deletedEl.textContent = '🗑 삭제된 코멘트입니다.';
+            commContainer.appendChild(deletedEl);
+            return;
+          }
           var commEl = document.createElement('div');
           commEl.className = 'comment';
+          commEl.setAttribute('data-com-idx', comIdx);
+
           var header = document.createElement('div');
           header.className = 'comment-header';
+          header.style.cssText = 'display:flex;justify-content:space-between;align-items:center;';
+
+          var leftHeader = document.createElement('div');
+          leftHeader.style.cssText = 'display:flex;align-items:center;gap:6px;';
           var userSpan = document.createElement('span');
           userSpan.className = 'comment-user';
           userSpan.textContent = com.user || '(알 수 없음)';
-          header.appendChild(userSpan);
+          leftHeader.appendChild(userSpan);
           var timeSpan = document.createElement('span');
           timeSpan.className = 'comment-time';
           timeSpan.textContent = new Date(com.timestamp).toLocaleString('ko-KR');
-          header.appendChild(timeSpan);
+          if (com.edited) {
+            var editedMark = document.createElement('span');
+            editedMark.style.cssText = 'font-size:10px;color:#9ca3af;font-style:italic;';
+            editedMark.textContent = '(수정됨)';
+            leftHeader.appendChild(editedMark);
+          }
+          leftHeader.appendChild(timeSpan);
+          header.appendChild(leftHeader);
+
+          // 수정/삭제 버튼 (본인 코멘트만 또는 admin)
+          var isMyComment = state.currentUser && (com.userEmail === state.currentUser.email || state.currentUser.email === com.userEmail);
+          var canEditComment = isMyComment || _hasAdminPermission();
+          if (canEditComment && _hasWritePermission()) {
+            var btnGroup = document.createElement('div');
+            btnGroup.style.cssText = 'display:flex;gap:4px;';
+            var editComBtn = document.createElement('button');
+            editComBtn.style.cssText = 'background:none;border:none;cursor:pointer;font-size:11px;color:#6366f1;padding:2px 4px;';
+            editComBtn.textContent = '수정';
+            editComBtn.onclick = (function(c, idx, el) {
+              return function() {
+                var textDiv = el.querySelector('.comment-text');
+                if (textDiv.contentEditable === 'true') {
+                  // 저장
+                  textDiv.contentEditable = false;
+                  textDiv.style.background = '';
+                  c.text = textDiv.textContent;
+                  c.edited = true;
+                  c.editedAt = new Date().toISOString();
+                  editComBtn.textContent = '수정';
+                  saveIssueData(iss);
+                  _showToast('코멘트가 수정되었습니다');
+                } else {
+                  // 편집 모드
+                  textDiv.contentEditable = true;
+                  textDiv.style.background = '#f8fafc';
+                  textDiv.style.borderRadius = '4px';
+                  textDiv.style.padding = '4px';
+                  textDiv.focus();
+                  editComBtn.textContent = '저장';
+                }
+              };
+            })(com, comIdx, commEl);
+            btnGroup.appendChild(editComBtn);
+
+            var delComBtn = document.createElement('button');
+            delComBtn.style.cssText = 'background:none;border:none;cursor:pointer;font-size:11px;color:#dc2626;padding:2px 4px;';
+            delComBtn.textContent = '삭제';
+            delComBtn.onclick = (function(c) {
+              return function() {
+                if (!confirm('코멘트를 삭제하시겠습니까?')) return;
+                c.deleted = true;
+                c.deletedAt = new Date().toISOString();
+                saveIssueData(iss);
+                // 리렌더
+                openIssueDetail(iss.id);
+                _showToast('코멘트가 삭제되었습니다');
+              };
+            })(com);
+            btnGroup.appendChild(delComBtn);
+            header.appendChild(btnGroup);
+          }
+
           commEl.appendChild(header);
           var textDiv = document.createElement('div');
           textDiv.className = 'comment-text';
@@ -6942,19 +8114,51 @@
       if (state.currentUser) {
         var addComm = document.createElement('div');
         addComm.className = 'add-comment';
-        var input = document.createElement('input');
+        var input = document.createElement('textarea');
         input.id = 'newCommentText';
         input.type = 'text';
-        input.placeholder = '코멘트를 입력하세요...';
+        input.placeholder = '코멘트를 입력하세요... (Shift+Enter 줄바꿈, Enter 전송)';
+        input.style.cssText = 'resize:vertical;min-height:60px;font-family:inherit;';
+        // Character count display
+        var charCount = document.createElement('div');
+        charCount.id = 'commentCharCount';
+        charCount.style.cssText = 'font-size:10px;color:#9ca3af;margin-top:4px;text-align:right;';
+        charCount.textContent = '0 / 500';
+
+        input.oninput = function() {
+          charCount.textContent = this.value.length + ' / 500';
+        };
+
+        input.onkeydown = function(e) {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            addIssueComment(issueId);
+          }
+        };
+
         addComm.appendChild(input);
+        addComm.appendChild(charCount);
         var btn = document.createElement('button');
         btn.textContent = '등록';
-        btn.onclick = function() { addIssueComment(issueId); };
+        btn.style.marginTop = '8px';
+        btn.disabled = !_hasWritePermission();
+        btn.title = _hasWritePermission() ? '' : '쓰기 권한이 없습니다. 관리자에게 요청해주세요.';
+        btn.style.opacity = btn.disabled ? '0.5' : '1';
+        btn.style.cursor = btn.disabled ? 'not-allowed' : 'pointer';
+        btn.onclick = function() { if (!btn.disabled) addIssueComment(issueId); };
         addComm.appendChild(btn);
         commGroup.appendChild(addComm);
       }
 
       panel.appendChild(commGroup);
+
+      // Activity log section
+      var activitySection = document.createElement('div');
+      activitySection.style.cssText = 'font-size:11px;color:#9ca3af;margin-top:16px;padding:12px;background:#f9fafb;border-radius:6px;border:1px solid #f3f4f6;';
+      var createdDate = new Date(iss.created).toLocaleString('ko-KR', {year:'2-digit',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+      var updatedDate = new Date(iss.updated).toLocaleString('ko-KR', {year:'2-digit',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+      activitySection.innerHTML = '<div>생성됨 · ' + createdDate + '</div><div style="margin-top:4px;">마지막 수정 · ' + updatedDate + '</div>';
+      panel.appendChild(activitySection);
 
       document.getElementById('issueDetailTitle').textContent = iss.id + ': ' + iss.title;
 
@@ -6976,6 +8180,8 @@
       document.getElementById('issueDetailBackdrop').classList.remove('open');
       document.getElementById('issueDetailPanel').classList.remove('open');
       _currentIssueId = null;
+      // Re-render the issue list to show any changes made in the detail panel
+      renderIssues();
     }
 
     function saveIssue() {
@@ -7088,6 +8294,34 @@
       }
     }
 
+    function copyIssueAsNew(issueId) {
+      var original = _issues.find(function(i) { return i.id === issueId; });
+      if (!original) return;
+      if (!_hasWritePermission()) { _checkWritePermission(); return; }
+
+      // 이슈 등록 모달 열기
+      _createIssueAttachments = [];
+      document.getElementById('createIssueModal').classList.add('show');
+      createIssue(); // 폼 빌드
+
+      // 약간 딜레이 후 값 채우기
+      setTimeout(function() {
+        var fields = ['title','type','severity','priority','product','platform','environment',
+          'defectType','serviceType','buildCategory','projectId','assignee','verifier',
+          'references','deadline','precondition','testSteps','expectedResult','actualResult','relatedIssues'];
+        fields.forEach(function(f) {
+          var el = document.getElementById('createIssue_' + f);
+          if (el && original[f] !== undefined && original[f] !== null) {
+            el.value = original[f];
+          }
+        });
+        // 제목에 "[복사]" 접두어
+        var titleEl = document.getElementById('createIssue_title');
+        if (titleEl) titleEl.value = '[복사] ' + (original.title || '');
+        _showToast('이슈가 복사되었습니다. 내용을 확인하고 등록하세요.');
+      }, 100);
+    }
+
     function addIssueComment(issueId) {
       var iss = _issues.find(function(i) { return i.id === issueId; });
       if (!iss) return;
@@ -7105,6 +8339,8 @@
       });
 
       document.getElementById('newCommentText').value = '';
+      var charCountEl = document.getElementById('commentCharCount');
+      if (charCountEl) charCountEl.textContent = '0 / 500';
       saveIssueData(iss);
       openIssueDetail(issueId);
       _showToast('댓글이 추가되었습니다');
@@ -7362,8 +8598,17 @@
       titleInput.type = 'text';
       titleInput.id = 'bundleTitle';
       titleInput.className = 'issue-form-input';
-      titleInput.placeholder = '예: 4/15 정기 배포';
+      titleInput.placeholder = '예: v2.4.1 운영 배포';
+      titleInput.oninput = function() {
+        if (this.value.trim()) {
+          this.style.borderColor = '';
+        }
+      };
       titleGroup.appendChild(titleInput);
+      var titleError = document.createElement('div');
+      titleError.id = 'bundleTitleError';
+      titleError.style.cssText = 'font-size:11px;color:#dc2626;margin-top:4px;display:none;';
+      titleGroup.appendChild(titleError);
       view.appendChild(titleGroup);
 
       var dateGroup = document.createElement('div');
@@ -7376,6 +8621,9 @@
       dateInput.type = 'date';
       dateInput.id = 'bundleTargetDate';
       dateInput.className = 'issue-form-input';
+      // 기본값: 7일 후
+      var defaultDate = new Date(Date.now() + 7*24*60*60*1000);
+      dateInput.value = defaultDate.toISOString().split('T')[0];
       dateInput.onfocus = function() { try { this.showPicker(); } catch(e) {} };
       dateGroup.appendChild(dateInput);
       view.appendChild(dateGroup);
@@ -7397,6 +8645,24 @@
       });
       statusGroup.appendChild(statusSelect);
       view.appendChild(statusGroup);
+
+      var envGroup = document.createElement('div');
+      envGroup.className = 'issue-form-group';
+      var envLabel = document.createElement('label');
+      envLabel.className = 'issue-form-label';
+      envLabel.textContent = '배포 환경';
+      envGroup.appendChild(envLabel);
+      var envSel = document.createElement('select');
+      envSel.id = 'bundleEnvironment';
+      envSel.className = 'issue-form-select';
+      [{v:'',l:'선택...'},{v:'운영',l:'운영'},{v:'스테이지',l:'스테이지'},{v:'개발',l:'개발'}].forEach(function(o) {
+        var opt = document.createElement('option');
+        opt.value = o.v;
+        opt.textContent = o.l;
+        envSel.appendChild(opt);
+      });
+      envGroup.appendChild(envSel);
+      view.appendChild(envGroup);
 
       var projGroup = document.createElement('div');
       projGroup.className = 'issue-form-group';
@@ -7463,8 +8729,21 @@
     }
 
     function createDeployBundle() {
-      var title = document.getElementById('bundleTitle').value;
-      if (!title) { _showToast('제목을 입력하세요'); return; }
+      var titleEl = document.getElementById('bundleTitle');
+      var title = titleEl.value.trim();
+      var titleErrorEl = document.getElementById('bundleTitleError');
+
+      // 제목 검증
+      if (!title) {
+        titleEl.style.borderColor = '#dc2626';
+        titleErrorEl.textContent = '배포 제목을 입력해주세요';
+        titleErrorEl.style.display = 'block';
+        return;
+      }
+
+      // 제목 검증 통과
+      titleEl.style.borderColor = '';
+      titleErrorEl.style.display = 'none';
 
       var projChips = Array.from(document.getElementById('bundleProjectChips').querySelectorAll('[data-id]'));
       var projects = projChips.map(c => c.getAttribute('data-id'));
@@ -7477,6 +8756,7 @@
         title: title,
         targetDate: document.getElementById('bundleTargetDate').value,
         status: document.getElementById('bundleStatus').value,
+        environment: document.getElementById('bundleEnvironment') ? document.getElementById('bundleEnvironment').value : '',
         projects: projects,
         issues: issues,
         manualItems: [],
@@ -7497,8 +8777,48 @@
         });
       }
 
+      _bundleSelectedProjects = [];
+      _bundleSelectedIssues = [];
       _showToast('배포가 생성되었습니다');
       switchBundleTab('list');
+    }
+
+    function copyBundleAsNew(bundleId) {
+      var original = _deployBundles.find(function(b) { return b.id === bundleId; });
+      if (!original) return;
+      if (!_hasWritePermission()) { _checkWritePermission(); return; }
+
+      var newBundle = {
+        id: _generateBundleId(),
+        title: '[복사] ' + original.title,
+        targetDate: original.targetDate || '',
+        status: 'planning',
+        environment: original.environment || '',
+        projects: (original.projects || []).slice(),
+        issues: (original.issues || []).slice(),
+        manualItems: (original.manualItems || []).slice(),
+        notes: original.notes || '',
+        agentFeedback: [],
+        created: new Date().toISOString(),
+        createdBy: state.currentUser ? state.currentUser.uid : ''
+      };
+
+      _deployBundles.push(newBundle);
+      _saveDeployBundlesToLocal();
+
+      if (_fb.db) {
+        var updateObj = {};
+        updateObj['deployBundles/' + newBundle.id] = newBundle;
+        _fb.db.ref().update(updateObj).catch(function(err) {
+          console.error('[DeployBundles] Copy error:', err);
+        });
+      }
+
+      // 배포 탭 닫고 목록 새로고침
+      document.getElementById('deployBundleOverlay').style.display = 'none';
+      document.getElementById('deployBundleModal').classList.remove('open');
+      renderDeployBundles();
+      _showToast('[복사] 배포 번들이 새로 생성되었습니다: ' + newBundle.title);
     }
 
     function renderBundleList() {
@@ -7547,62 +8867,130 @@
 
     // Deploy Tab Functions (new tab-based interface)
     function renderDeployBundles() {
-      var searchText = document.getElementById('deploySearchInput').value.toLowerCase();
+      var searchText = document.getElementById('deploySearchInput') ? document.getElementById('deploySearchInput').value.toLowerCase() : '';
+      var envFilter = document.getElementById('deployEnvFilter') ? document.getElementById('deployEnvFilter').value : '';
+      var statusFilter = document.getElementById('deployStatusFilter') ? document.getElementById('deployStatusFilter').value : '';
+      var sortMode = (document.getElementById('deploySortSelect') || {}).value || 'date-desc';
       var container = document.getElementById('deployBundlesContainer');
       container.innerHTML = '';
 
       var filtered = _deployBundles.filter(function(b) {
-        return !searchText || b.title.toLowerCase().includes(searchText);
+        if (searchText && !b.title.toLowerCase().includes(searchText)) return false;
+        if (envFilter && b.environment !== envFilter) return false;
+        if (statusFilter && b.status !== statusFilter) return false;
+        return true;
       });
 
       if (filtered.length === 0) {
-        container.innerHTML = '<div style="text-align:center;padding:40px;color:#9ca3af;">배포 번들이 없습니다</div>';
+        container.innerHTML = '<div style="text-align:center;padding:60px 20px;color:#9ca3af;">' +
+          '<div style="font-size:40px;margin-bottom:12px;">📦</div>' +
+          '<div style="font-size:14px;font-weight:600;color:#374151;margin-bottom:8px;">배포 번들이 없습니다</div>' +
+          '<div style="font-size:12px;margin-bottom:16px;">프로젝트와 이슈를 묶어 배포를 계획해보세요</div>' +
+          (_hasWritePermission() ? '<button class="btn" onclick="openCreateDeployBundle()" style="font-size:13px;padding:8px 20px;">+ 첫 배포 번들 만들기</button>' : '') +
+          '</div>';
         return;
       }
 
+      // 정렬 로직
       filtered.sort(function(a, b) {
-        return new Date(a.targetDate) - new Date(b.targetDate);
+        if (sortMode === 'date-asc') {
+          return new Date(a.targetDate) - new Date(b.targetDate);
+        } else if (sortMode === 'date-desc') {
+          return new Date(b.targetDate) - new Date(a.targetDate);
+        } else if (sortMode === 'status') {
+          var statusOrder = ['planning', 'ready', 'deployed', 'cancelled'];
+          return statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status);
+        }
+        return 0;
       });
 
       filtered.forEach(function(bundle) {
         var card = document.createElement('div');
         card.className = 'deploy-bundle-card';
         card.style.cursor = 'pointer';
+        card.style.cssText = 'cursor:pointer;transition:all 0.2s;';
+        card.onmouseover = function() { this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)'; this.style.transform = 'translateY(-2px)'; };
+        card.onmouseout = function() { this.style.boxShadow = ''; this.style.transform = ''; };
         card.onclick = function() { openDeployBundleDetail(bundle.id); };
 
-        var header = document.createElement('div');
-        header.className = 'deploy-bundle-card-header';
+        // D-day 계산
+        var dday = '';
+        var ddayColor = '#10b981';
+        if (bundle.targetDate) {
+          var diff = Math.ceil((new Date(bundle.targetDate) - new Date()) / (1000 * 60 * 60 * 24));
+          if (diff < 0) { dday = '기한초과 ' + Math.abs(diff) + '일'; ddayColor = '#dc2626'; }
+          else if (diff === 0) { dday = 'D-Day'; ddayColor = '#dc2626'; }
+          else if (diff <= 3) { dday = 'D-' + diff; ddayColor = '#ef4444'; }
+          else if (diff <= 7) { dday = 'D-' + diff; ddayColor = '#f59e0b'; }
+          else { dday = 'D-' + diff; ddayColor = '#10b981'; }
+        }
 
-        var titleDiv = document.createElement('div');
-        titleDiv.className = 'deploy-bundle-title';
-        titleDiv.textContent = bundle.title;
-        header.appendChild(titleDiv);
+        // 상태 맵
+        var statusMap = {planning:'준비중',ready:'배포준비',deployed:'배포완료',cancelled:'취소'};
+        var statusColorMap = {planning:'#f59e0b',ready:'#3b82f6',deployed:'#10b981',cancelled:'#9ca3af'};
+        var sc = statusColorMap[bundle.status] || '#6b7280';
 
+        // 상단 바: 상태뱃지 + D-day 뱃지
+        var topBar = document.createElement('div');
+        topBar.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
         var statusBadge = document.createElement('span');
-        statusBadge.className = 'status-badge status-' + (bundle.status || '등록');
-        statusBadge.textContent = bundle.status || '등록';
-        header.appendChild(statusBadge);
+        statusBadge.style.cssText = 'font-size:11px;font-weight:700;background:' + sc + '22;color:' + sc + ';padding:3px 10px;border-radius:12px;border:1px solid ' + sc + '44;';
+        statusBadge.textContent = statusMap[bundle.status] || bundle.status;
+        topBar.appendChild(statusBadge);
+        if (dday) {
+          var ddayBadge = document.createElement('span');
+          ddayBadge.style.cssText = 'font-size:11px;font-weight:700;color:' + ddayColor + ';';
+          ddayBadge.textContent = dday;
+          topBar.appendChild(ddayBadge);
+        }
+        card.appendChild(topBar);
 
-        card.appendChild(header);
+        // 제목
+        var titleDiv = document.createElement('div');
+        titleDiv.style.cssText = 'font-size:14px;font-weight:700;color:#1f2937;margin-bottom:6px;';
+        titleDiv.textContent = bundle.title;
+        card.appendChild(titleDiv);
 
+        // 정보: 목표 날짜 + 프로젝트
         var infoDiv = document.createElement('div');
-        infoDiv.className = 'deploy-bundle-info';
-        var dateSpan = document.createElement('span');
+        infoDiv.style.cssText = 'font-size:12px;color:#6b7280;margin-bottom:8px;display:flex;flex-direction:column;gap:3px;';
+        var dateSpan = document.createElement('div');
         dateSpan.textContent = '목표: ' + new Date(bundle.targetDate).toLocaleDateString('ko-KR');
         infoDiv.appendChild(dateSpan);
+        if (bundle.projects.length > 0) {
+          var projSpan = document.createElement('div');
+          projSpan.textContent = '프로젝트: ' + bundle.projects.length + '개';
+          infoDiv.appendChild(projSpan);
+        }
         card.appendChild(infoDiv);
 
-        var metaDiv = document.createElement('div');
-        metaDiv.className = 'deploy-bundle-meta';
-        var projCount = document.createElement('span');
-        projCount.className = 'deploy-bundle-count';
-        projCount.textContent = '프로젝트 ' + (bundle.projects.length || 0);
-        metaDiv.appendChild(projCount);
-        var issCount = document.createElement('span');
-        issCount.className = 'deploy-bundle-count';
-        issCount.textContent = '이슈 ' + (bundle.issues.length || 0);
-        metaDiv.appendChild(issCount);
-        card.appendChild(metaDiv);
+        // 번들 이슈들의 상태 집계
+        var bundleIssues = (bundle.issues || []).map(function(id) {
+          return _issues.find(function(i) { return i.id === id; });
+        }).filter(Boolean);
+
+        // 진행 바 + 숫자
+        if (bundleIssues.length > 0) {
+          var done = bundleIssues.filter(function(i) { return i.status === '완료' || i.status === '검증 진행 중'; }).length;
+          var progress_pct = Math.round((done / bundleIssues.length) * 100);
+
+          var progressBar = document.createElement('div');
+          progressBar.style.cssText = 'height:4px;background:#e5e7eb;border-radius:2px;margin-bottom:4px;overflow:hidden;';
+          var progressFill = document.createElement('div');
+          progressFill.style.cssText = 'height:4px;background:#6366f1;border-radius:2px;transition:width 0.3s;width:' + progress_pct + '%;';
+          progressBar.appendChild(progressFill);
+          card.appendChild(progressBar);
+
+          var progressLabel = document.createElement('div');
+          progressLabel.style.cssText = 'font-size:10px;color:#6b7280;';
+          progressLabel.innerHTML = done + '/' + bundleIssues.length + ' 이슈 완료';
+          card.appendChild(progressLabel);
+        } else {
+          var noIssueLabel = document.createElement('div');
+          noIssueLabel.style.cssText = 'font-size:10px;color:#9ca3af;';
+          noIssueLabel.textContent = '이슈 없음';
+          card.appendChild(noIssueLabel);
+        }
 
         container.appendChild(card);
       });
@@ -7611,8 +8999,26 @@
     function openCreateDeployBundle() {
       if (!_hasWritePermission()) { _checkWritePermission(); return; }
       document.getElementById('deployBundleOverlay').style.display = 'flex';
-      document.getElementById('deployBundleModal').classList.add('open');
+      var modal = document.getElementById('deployBundleModal');
+      modal.classList.add('open');
+      // 기존 내용 초기화 후 create 탭으로
+      var bodyEl = modal.querySelector('.deploy-bundle-body');
+      if (bodyEl) bodyEl.innerHTML = '';
       switchBundleTab('create');
+      // 폼 초기화
+      setTimeout(function() {
+        if (document.getElementById('bundleTitle')) document.getElementById('bundleTitle').value = '';
+        if (document.getElementById('bundleTargetDate')) document.getElementById('bundleTargetDate').value = '';
+        if (document.getElementById('bundleStatus')) document.getElementById('bundleStatus').value = 'planning';
+        if (document.getElementById('bundleEnvironment')) document.getElementById('bundleEnvironment').value = '';
+        // 칩 초기화
+        var projChips = document.getElementById('bundleProjectChips');
+        if (projChips) projChips.innerHTML = '';
+        var issChips = document.getElementById('bundleIssueChips');
+        if (issChips) issChips.innerHTML = '';
+        _bundleSelectedProjects = [];
+        _bundleSelectedIssues = [];
+      }, 50);
     }
 
     function openDeployBundleDetail(bundleId) {
@@ -7625,185 +9031,301 @@
 
       var bodyEl = modal.querySelector('.deploy-bundle-body');
       bodyEl.innerHTML = '';
+      bodyEl.style.padding = '0';
 
-      // Header
+      // ── 상단 헤더 ──
       var hdr = document.createElement('div');
-      hdr.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;';
-      var hdrTitle = document.createElement('div');
-      hdrTitle.style.cssText = 'font-size:16px;font-weight:700;';
-      hdrTitle.textContent = bundle.title;
-      hdr.appendChild(hdrTitle);
-      var statusBadge = document.createElement('span');
+      hdr.style.cssText = 'padding:16px 20px;border-bottom:1px solid #e5e7eb;';
+
       var statusMap = {planning:'준비중',ready:'배포준비',deployed:'배포완료',cancelled:'취소'};
-      statusBadge.className = 'status-badge';
-      statusBadge.style.cssText = 'padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600;';
-      if (bundle.status === 'deployed') { statusBadge.style.background = '#bbf7d0'; statusBadge.style.color = '#065f46'; }
-      else if (bundle.status === 'ready') { statusBadge.style.background = '#bfdbfe'; statusBadge.style.color = '#1e40af'; }
-      else if (bundle.status === 'cancelled') { statusBadge.style.background = '#f3f4f6'; statusBadge.style.color = '#6b7280'; }
-      else { statusBadge.style.background = '#fef3c7'; statusBadge.style.color = '#92400e'; }
-      statusBadge.textContent = statusMap[bundle.status] || bundle.status;
-      hdr.appendChild(statusBadge);
+      var statusColorMap = {planning:'#f59e0b',ready:'#3b82f6',deployed:'#10b981',cancelled:'#9ca3af'};
+      var sc = statusColorMap[bundle.status] || '#6b7280';
+
+      hdr.innerHTML =
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">' +
+          '<div>' +
+            '<div style="font-size:16px;font-weight:700;color:#1f2937;margin-bottom:4px;">' + _escHtml(bundle.title) + '</div>' +
+            '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">' +
+              '<span style="font-size:11px;font-weight:700;background:' + sc + '22;color:' + sc + ';padding:3px 10px;border-radius:12px;border:1px solid ' + sc + '44;">' + (statusMap[bundle.status]||bundle.status) + '</span>' +
+              (bundle.targetDate ? '<span style="font-size:11px;color:#6b7280;">🗓 ' + new Date(bundle.targetDate).toLocaleDateString('ko-KR') + '</span>' : '') +
+              (bundle.environment ? '<span style="font-size:11px;font-weight:600;color:#2563eb;background:#eff6ff;padding:2px 8px;border-radius:4px;border:1px solid #bfdbfe;">🌐 ' + _escHtml(bundle.environment) + '</span>' : '') +
+            '</div>' +
+          '</div>' +
+        '</div>';
+
+      // 상태 전환 버튼
+      var transitionBar = document.createElement('div');
+      transitionBar.style.cssText = 'display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center;';
+
+      // 주요 상태 전환 버튼 (큰 스타일)
+      var transitions2 = [];
+      if (bundle.status === 'planning') {
+        transitions2.push({label:'✅ 배포준비 완료', next:'ready', color:'#3b82f6', isPrimary:true});
+      } else if (bundle.status === 'ready') {
+        transitions2.push({label:'🚀 배포 완료 처리', next:'deployed', color:'#10b981', isPrimary:true});
+      }
+
+      transitions2.forEach(function(t) {
+        var btn = document.createElement('button');
+        if (t.isPrimary) {
+          btn.style.cssText = 'padding:8px 16px;border:none;border-radius:6px;background:'+t.color+';color:#fff;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;box-shadow:0 2px 8px '+t.color+'33;';
+        } else {
+          btn.style.cssText = 'padding:6px 12px;border:1px solid '+t.color+';border-radius:6px;color:'+t.color+';font-size:12px;font-weight:600;cursor:pointer;background:transparent;transition:all 0.2s;';
+        }
+        btn.textContent = t.label;
+        btn.onmouseover = function() {
+          if (t.isPrimary) {
+            this.style.background=t.color;
+            this.style.boxShadow='0 4px 12px '+t.color+'44';
+            this.style.transform='translateY(-1px)';
+          } else {
+            this.style.background=t.color;
+            this.style.color='#fff';
+          }
+        };
+        btn.onmouseout = function() {
+          if (t.isPrimary) {
+            this.style.background=t.color;
+            this.style.boxShadow='0 2px 8px '+t.color+'33';
+            this.style.transform='';
+          } else {
+            this.style.background='transparent';
+            this.style.color=t.color;
+          }
+        };
+        btn.onclick = function() {
+          if (!_hasWritePermission()) { _checkWritePermission(); return; }
+          bundle.status = t.next;
+          _saveDeployBundlesToLocal();
+          if (_fb.db) { var o={}; o['deployBundles/'+bundle.id+'/status']=t.next; _fb.db.ref().update(o); }
+          renderDeployBundles();
+          openDeployBundleDetail(bundle.id);
+          _showToast('배포 상태가 "'+statusMap[t.next]+'"으로 변경되었습니다');
+        };
+        transitionBar.appendChild(btn);
+      });
+
+      // 상태별 추가 액션 버튼
+      if (bundle.status === 'deployed') {
+        var completeBadge = document.createElement('span');
+        completeBadge.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:#d1fae5;color:#065f46;border-radius:6px;font-size:12px;font-weight:600;border:1px solid #a7f3d0;';
+        completeBadge.innerHTML = '✅ 배포 완료';
+        transitionBar.appendChild(completeBadge);
+      }
+
+      // 보조 버튼: 되돌리기, 취소
+      if (bundle.status !== 'deployed' && bundle.status !== 'cancelled') {
+        var revertBtn = document.createElement('button');
+        revertBtn.style.cssText = 'padding:6px 12px;border:1px solid #d1d5db;border-radius:6px;color:#6b7280;font-size:12px;font-weight:600;cursor:pointer;background:#fff;transition:all 0.2s;';
+        revertBtn.textContent = '↩ 상태 되돌리기';
+        revertBtn.onmouseover = function() { this.style.background='#f9fafb'; };
+        revertBtn.onmouseout = function() { this.style.background='#fff'; };
+        revertBtn.onclick = function() {
+          if (!_hasWritePermission()) { _checkWritePermission(); return; }
+          var prevStatus = bundle.status === 'ready' ? 'planning' : bundle.status;
+          if (prevStatus === bundle.status) return;
+          bundle.status = prevStatus;
+          _saveDeployBundlesToLocal();
+          if (_fb.db) { var o={}; o['deployBundles/'+bundle.id+'/status']=prevStatus; _fb.db.ref().update(o); }
+          renderDeployBundles();
+          openDeployBundleDetail(bundle.id);
+          _showToast('배포 상태가 "'+statusMap[prevStatus]+'"으로 변경되었습니다');
+        };
+        transitionBar.appendChild(revertBtn);
+
+        var cancelBtn = document.createElement('button');
+        cancelBtn.style.cssText = 'padding:6px 12px;border:1px solid #fecaca;border-radius:6px;color:#dc2626;font-size:12px;font-weight:600;cursor:pointer;background:#fff;transition:all 0.2s;';
+        cancelBtn.textContent = '✗ 취소';
+        cancelBtn.onmouseover = function() { this.style.background='#fef2f2'; };
+        cancelBtn.onmouseout = function() { this.style.background='#fff'; };
+        cancelBtn.onclick = function() {
+          if (!_hasWritePermission()) { _checkWritePermission(); return; }
+          bundle.status = 'cancelled';
+          _saveDeployBundlesToLocal();
+          if (_fb.db) { var o={}; o['deployBundles/'+bundle.id+'/status']='cancelled'; _fb.db.ref().update(o); }
+          renderDeployBundles();
+          openDeployBundleDetail(bundle.id);
+          _showToast('배포가 취소되었습니다');
+        };
+        transitionBar.appendChild(cancelBtn);
+      }
+
+      hdr.appendChild(transitionBar);
       bodyEl.appendChild(hdr);
 
-      // Date
-      var dateDiv = document.createElement('div');
-      dateDiv.style.cssText = 'font-size:13px;color:#6b7280;margin-bottom:16px;';
-      dateDiv.textContent = '배포 목표: ' + (bundle.targetDate ? new Date(bundle.targetDate).toLocaleDateString('ko-KR') : '미정');
-      bodyEl.appendChild(dateDiv);
+      // ── 스크롤 영역 ──
+      var scroll = document.createElement('div');
+      scroll.style.cssText = 'padding:16px 20px;overflow-y:auto;max-height:calc(80vh - 160px);';
 
-      // Linked Projects section
-      var projSection = document.createElement('div');
-      projSection.style.cssText = 'margin-bottom:16px;';
-      var projTitle = document.createElement('div');
-      projTitle.style.cssText = 'font-size:13px;font-weight:700;margin-bottom:8px;color:#374151;';
-      projTitle.textContent = '연결된 프로젝트 (' + (bundle.projects ? bundle.projects.length : 0) + ')';
-      projSection.appendChild(projTitle);
-      if (bundle.projects && bundle.projects.length > 0) {
-        bundle.projects.forEach(function(pid) {
-          var proj = state.projects.find(function(p) { return p.id === pid; });
-          var item = document.createElement('div');
-          item.style.cssText = 'display:flex;align-items:center;gap:8px;padding:8px 10px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;margin-bottom:4px;cursor:pointer;transition:background 0.15s;';
-          item.onmouseenter = function() { this.style.background = '#eef2ff'; };
-          item.onmouseleave = function() { this.style.background = '#f9fafb'; };
-          item.onclick = function() {
-            closeDeployBundleManager();
-            // Switch to projects tab and highlight
-            document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
-            document.querySelectorAll('.tab-content').forEach(function(tc) { tc.classList.remove('active'); });
-            document.querySelector('[data-tab="projects"]').classList.add('active');
-            document.getElementById('projects').classList.add('active');
-            state.currentTab = 'projects';
-            renderProjects();
+      // 이슈 섹션
+      var bundleIssues = (bundle.issues||[]).map(function(id){ return _issues.find(function(i){return i.id===id;}); }).filter(Boolean);
+      var readyCount = bundleIssues.filter(function(i){ return i.status==='완료'||i.status==='검증 진행 중'; }).length;
+      var blockCount = bundleIssues.filter(function(i){ return i.severity==='Block'&&i.status!=='완료'; }).length;
+
+      if (bundleIssues.length > 0) {
+        var issSec = document.createElement('div');
+        issSec.style.marginBottom = '16px';
+
+        var issHdr = document.createElement('div');
+        issHdr.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:10px;';
+        issHdr.innerHTML =
+          '<span style="font-size:13px;font-weight:700;color:#1f2937;">이슈 체크리스트</span>' +
+          '<span style="font-size:11px;background:#f3f4f6;padding:2px 8px;border-radius:12px;color:#6b7280;">' + readyCount + ' / ' + bundleIssues.length + ' 완료</span>' +
+          (blockCount>0 ? '<span style="font-size:11px;background:#fee2e2;color:#991b1b;padding:2px 8px;border-radius:12px;font-weight:700;">⚠ Block ' + blockCount + '개</span>' : '');
+
+        // 진행률 바
+        var pct = bundleIssues.length>0 ? Math.round(readyCount/bundleIssues.length*100) : 0;
+        var progBar = document.createElement('div');
+        progBar.style.cssText = 'height:6px;background:#e5e7eb;border-radius:3px;margin-bottom:10px;overflow:hidden;';
+        progBar.innerHTML = '<div style="height:100%;width:'+pct+'%;background:'+(pct===100?'#10b981':'#6366f1')+';border-radius:3px;transition:width 0.4s;"></div>';
+
+        issHdr.appendChild(progBar);
+        issSec.appendChild(issHdr);
+        issSec.appendChild(progBar);
+
+        var sevColorsD = {'Block':'#ef4444','Major':'#f97316','Minor':'#3b82f6','Trivial':'#9ca3af'};
+
+        bundleIssues.forEach(function(iss) {
+          var isDone = iss.status==='완료' || iss.status==='검증 진행 중';
+          var isBlock = iss.severity==='Block' && !isDone;
+
+          var row = document.createElement('div');
+          row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:6px;border-left:3px solid '+(sevColorsD[iss.severity]||'#e5e7eb')+';margin-bottom:4px;cursor:pointer;transition:all 0.15s;background:'+(isBlock?'#fff5f5':'#f9fafb')+';border:1px solid '+(isBlock?'#fecaca':'#f3f4f6')+';';
+          row.onmouseover = function() { this.style.background='#f3f4f6'; this.style.boxShadow='0 1px 3px rgba(0,0,0,0.05)'; };
+          row.onmouseout = function() { this.style.background=isBlock?'#fff5f5':'#f9fafb'; this.style.boxShadow=''; };
+          row.onclick = function() {
+            openIssueDetail(iss.id);
           };
+
+          // 완료 아이콘
           var icon = document.createElement('span');
-          icon.textContent = '📁';
-          item.appendChild(icon);
-          var name = document.createElement('span');
-          name.style.cssText = 'font-size:13px;font-weight:500;color:#1f2937;';
-          name.textContent = proj ? proj.name : pid;
-          item.appendChild(name);
-          if (proj && proj.status) {
-            var st = document.createElement('span');
-            st.style.cssText = 'font-size:11px;padding:2px 6px;border-radius:3px;background:#e5e7eb;color:#374151;margin-left:auto;';
-            st.textContent = proj.status;
-            item.appendChild(st);
-          }
-          projSection.appendChild(item);
-        });
-      } else {
-        var empty = document.createElement('div');
-        empty.style.cssText = 'font-size:12px;color:#9ca3af;padding:8px;';
-        empty.textContent = '연결된 프로젝트가 없습니다';
-        projSection.appendChild(empty);
-      }
-      bodyEl.appendChild(projSection);
+          icon.style.cssText = 'font-size:14px;flex-shrink:0;';
+          icon.textContent = isDone ? '✅' : (isBlock ? '🚫' : '⬜');
+          row.appendChild(icon);
 
-      // Linked Issues section
-      var issSection = document.createElement('div');
-      issSection.style.cssText = 'margin-bottom:16px;';
-      var issTitle = document.createElement('div');
-      issTitle.style.cssText = 'font-size:13px;font-weight:700;margin-bottom:8px;color:#374151;';
-      issTitle.textContent = '연결된 이슈 (' + (bundle.issues ? bundle.issues.length : 0) + ')';
-      issSection.appendChild(issTitle);
-      if (bundle.issues && bundle.issues.length > 0) {
-        bundle.issues.forEach(function(iid) {
-          var iss = _issues.find(function(i) { return i.id === iid; });
-          var item = document.createElement('div');
-          item.style.cssText = 'display:flex;align-items:center;gap:8px;padding:8px 10px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;margin-bottom:4px;cursor:pointer;transition:background 0.15s;';
-          item.onmouseenter = function() { this.style.background = '#eef2ff'; };
-          item.onmouseleave = function() { this.style.background = '#f9fafb'; };
-          item.onclick = function() {
-            closeDeployBundleManager();
-            // Switch to issues tab and open detail
-            document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
-            document.querySelectorAll('.tab-content').forEach(function(tc) { tc.classList.remove('active'); });
-            document.querySelector('[data-tab="issues"]').classList.add('active');
-            document.getElementById('issues').classList.add('active');
-            state.currentTab = 'issues';
-            renderIssues();
-            setTimeout(function() { openIssueDetail(iid); }, 100);
+          // 내용
+          var info = document.createElement('div');
+          info.style.cssText = 'flex:1;min-width:0;';
+          var topLine = document.createElement('div');
+          topLine.style.cssText = 'display:flex;align-items:center;gap:6px;margin-bottom:2px;';
+          topLine.innerHTML =
+            '<span style="font-size:10px;font-weight:700;color:#6366f1;background:#eff6ff;padding:1px 5px;border-radius:3px;flex-shrink:0;">' + _escHtml(iss.id) + '</span>' +
+            '<span style="font-size:12px;font-weight:600;color:'+(isDone?'#9ca3af':'#1f2937')+';overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'+(isDone?'text-decoration:line-through;':'')+'">' + _escHtml(iss.title) + '</span>';
+          var botLine = document.createElement('div');
+          botLine.style.cssText = 'display:flex;gap:4px;align-items:center;flex-wrap:wrap;';
+          var severitySpan = document.createElement('span');
+          severitySpan.style.cssText = 'font-size:9px;font-weight:700;color:#fff;background:'+(sevColorsD[iss.severity]||'#9ca3af')+';padding:2px 6px;border-radius:3px;';
+          severitySpan.textContent = iss.severity || '-';
+          botLine.appendChild(severitySpan);
+
+          var statusSpan = document.createElement('span');
+          statusSpan.style.cssText = 'font-size:9px;font-weight:600;color:#fff;background:#6b7280;padding:2px 6px;border-radius:3px;';
+          statusSpan.textContent = iss.status || '등록';
+          botLine.appendChild(statusSpan);
+
+          if (iss.assignee) {
+            var member = TEAM.find(function(t){return t.id===iss.assignee;});
+            if (member) {
+              var assigneeSpan = document.createElement('span');
+              assigneeSpan.style.cssText = 'font-size:10px;color:#6b7280;';
+              assigneeSpan.textContent = '👤 ' + member.name;
+              botLine.appendChild(assigneeSpan);
+            }
+          }
+
+          info.appendChild(topLine);
+          info.appendChild(botLine);
+          row.appendChild(info);
+
+          issSec.appendChild(row);
+        });
+
+        scroll.appendChild(issSec);
+      }
+
+      // 프로젝트 섹션
+      var bundleProjects = (bundle.projects||[]).map(function(id){ return state.projects.find(function(p){return p.id===id;}); }).filter(Boolean);
+      if (bundleProjects.length > 0) {
+        var projSec = document.createElement('div');
+        projSec.style.marginBottom = '16px';
+        var projHdr = document.createElement('div');
+        projHdr.style.cssText = 'font-size:13px;font-weight:700;color:#1f2937;margin-bottom:8px;';
+        projHdr.textContent = '연결 프로젝트 (' + bundleProjects.length + ')';
+        projSec.appendChild(projHdr);
+        bundleProjects.forEach(function(proj) {
+          var row = document.createElement('div');
+          row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid #f3f4f6;border-radius:8px;margin-bottom:4px;cursor:pointer;transition:background 0.1s;';
+          row.onmouseover = function() { this.style.background='#f9fafb'; };
+          row.onmouseout = function() { this.style.background=''; };
+          row.innerHTML =
+            '<span style="font-size:12px;">📁</span>' +
+            '<div style="flex:1;">' +
+              '<div style="font-size:12px;font-weight:600;color:#1f2937;">' + _escHtml(proj.name) + '</div>' +
+              '<div style="font-size:10px;color:#9ca3af;">' + proj.id + ' · ' + (proj.status||'') + '</div>' +
+            '</div>';
+          row.onclick = function() {
+            document.getElementById('deployBundleOverlay').style.display='none';
+            modal.classList.remove('open');
+            state.currentTab='projects';
+            document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+            var projTab=document.querySelector('.tab[data-tab="projects"]');
+            if(projTab) projTab.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(function(tc){tc.classList.remove('active');});
+            var projContent=document.getElementById('projects');
+            if(projContent) projContent.classList.add('active');
+            renderAll();
+            setTimeout(function(){ openDetailPanel(proj.id); },100);
           };
-          if (iss) {
-            var sevDot = document.createElement('span');
-            sevDot.style.cssText = 'width:8px;height:8px;border-radius:50%;flex-shrink:0;';
-            if (iss.severity === 'Block') sevDot.style.background = '#dc2626';
-            else if (iss.severity === 'Major') sevDot.style.background = '#f97316';
-            else if (iss.severity === 'Minor') sevDot.style.background = '#3b82f6';
-            else sevDot.style.background = '#9ca3af';
-            item.appendChild(sevDot);
-            var idSpan = document.createElement('span');
-            idSpan.style.cssText = 'font-size:11px;color:#6b7280;font-weight:600;white-space:nowrap;';
-            idSpan.textContent = iss.id;
-            item.appendChild(idSpan);
-            var titleSpan = document.createElement('span');
-            titleSpan.style.cssText = 'font-size:13px;color:#1f2937;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;';
-            titleSpan.textContent = iss.title;
-            item.appendChild(titleSpan);
-            var stBadge = document.createElement('span');
-            stBadge.style.cssText = 'font-size:10px;padding:2px 6px;border-radius:3px;white-space:nowrap;flex-shrink:0;';
-            stBadge.textContent = iss.status || '등록';
-            if (iss.status === '완료') { stBadge.style.background = '#bbf7d0'; stBadge.style.color = '#065f46'; }
-            else if (iss.status === '작업 진행 중') { stBadge.style.background = '#bfdbfe'; stBadge.style.color = '#1e40af'; }
-            else { stBadge.style.background = '#fef3c7'; stBadge.style.color = '#92400e'; }
-            item.appendChild(stBadge);
-          } else {
-            item.innerHTML = '<span style="font-size:12px;color:#9ca3af;">' + iid + ' (삭제됨)</span>';
-          }
-          issSection.appendChild(item);
+          projSec.appendChild(row);
         });
-      } else {
-        var empty2 = document.createElement('div');
-        empty2.style.cssText = 'font-size:12px;color:#9ca3af;padding:8px;';
-        empty2.textContent = '연결된 이슈가 없습니다';
-        issSection.appendChild(empty2);
-      }
-      bodyEl.appendChild(issSection);
-
-      // Notes
-      if (bundle.notes) {
-        var notesDiv = document.createElement('div');
-        notesDiv.style.cssText = 'margin-bottom:16px;';
-        var notesTitle = document.createElement('div');
-        notesTitle.style.cssText = 'font-size:13px;font-weight:700;margin-bottom:4px;color:#374151;';
-        notesTitle.textContent = '메모';
-        notesDiv.appendChild(notesTitle);
-        var notesTxt = document.createElement('div');
-        notesTxt.style.cssText = 'font-size:12px;color:#6b7280;padding:8px;background:#f9fafb;border-radius:6px;white-space:pre-wrap;';
-        notesTxt.textContent = bundle.notes;
-        notesDiv.appendChild(notesTxt);
-        bodyEl.appendChild(notesDiv);
+        scroll.appendChild(projSec);
       }
 
-      // Actions
-      var actions = document.createElement('div');
-      actions.style.cssText = 'display:flex;gap:8px;margin-top:16px;';
-      var editBtn = document.createElement('button');
-      editBtn.className = 'btn';
-      editBtn.style.cssText = 'flex:1;font-size:13px;';
-      editBtn.textContent = '수정';
-      editBtn.onclick = function() {
-        closeDeployBundleManager();
-        document.getElementById('deployBundleOverlay').style.display = 'flex';
-        document.getElementById('deployBundleModal').classList.add('open');
-        switchBundleTab('create');
-        // Pre-fill form
-        setTimeout(function() {
-          var ti = document.getElementById('bundleTitle');
-          if (ti) ti.value = bundle.title;
-          var td = document.getElementById('bundleTargetDate');
-          if (td) td.value = bundle.targetDate || '';
-          var st = document.getElementById('bundleStatus');
-          if (st) st.value = bundle.status || 'planning';
-        }, 100);
+      // 메모 섹션
+      var noteSec = document.createElement('div');
+      noteSec.style.marginBottom = '16px';
+      var noteHdr = document.createElement('div');
+      noteHdr.style.cssText = 'font-size:13px;font-weight:700;color:#1f2937;margin-bottom:6px;';
+      noteHdr.textContent = '메모';
+      var noteArea = document.createElement('textarea');
+      noteArea.style.cssText = 'width:100%;min-height:80px;padding:8px;border:1px solid #e5e7eb;border-radius:8px;font-size:12px;font-family:inherit;resize:vertical;box-sizing:border-box;';
+      noteArea.placeholder = '배포 관련 메모를 입력하세요...';
+      noteArea.value = bundle.notes || '';
+      noteArea.oninput = function() {
+        bundle.notes = this.value;
+        _saveDeployBundlesToLocal();
+        if (_fb.db) { var o={}; o['deployBundles/'+bundle.id+'/notes']=this.value; _fb.db.ref().update(o); }
       };
-      actions.appendChild(editBtn);
-      var closeBtn = document.createElement('button');
-      closeBtn.className = 'btn btn-secondary';
-      closeBtn.style.cssText = 'flex:1;font-size:13px;';
-      closeBtn.textContent = '닫기';
-      closeBtn.onclick = function() { closeDeployBundleManager(); };
-      actions.appendChild(closeBtn);
-      bodyEl.appendChild(actions);
+      noteSec.appendChild(noteHdr);
+      noteSec.appendChild(noteArea);
+      scroll.appendChild(noteSec);
+
+      // 복사 + 삭제 버튼
+      var actionRow = document.createElement('div');
+      actionRow.style.cssText = 'display:flex;gap:8px;';
+      var copyBtn2 = document.createElement('button');
+      copyBtn2.style.cssText = 'flex:1;padding:8px;border:1px solid #e5e7eb;border-radius:8px;font-size:12px;cursor:pointer;background:#fff;color:#374151;';
+      copyBtn2.textContent = '📋 복사하기';
+      copyBtn2.onclick = function() { copyBundleAsNew(bundle.id); };
+      var delBtn = document.createElement('button');
+      delBtn.style.cssText = 'padding:8px 16px;border:1px solid #fecaca;border-radius:8px;font-size:12px;cursor:pointer;background:#fff;color:#dc2626;';
+      delBtn.textContent = '🗑 삭제';
+      delBtn.onclick = function() {
+        if (!_hasWritePermission()) { _checkWritePermission(); return; }
+        if (!confirm('"' + bundle.title + '" 배포 번들을 삭제하시겠습니까?')) return;
+        _deployBundles = _deployBundles.filter(function(b){ return b.id!==bundle.id; });
+        _saveDeployBundlesToLocal();
+        if (_fb.db) _fb.db.ref('deployBundles/'+bundle.id).remove();
+        document.getElementById('deployBundleOverlay').style.display='none';
+        modal.classList.remove('open');
+        renderDeployBundles();
+        _showToast('배포 번들이 삭제되었습니다');
+      };
+      actionRow.appendChild(copyBtn2);
+      actionRow.appendChild(delBtn);
+      scroll.appendChild(actionRow);
+
+      bodyEl.appendChild(scroll);
     }
 
     /* ========== PROJECT DATA ========== */
@@ -9109,6 +10631,35 @@
       var sevColors = { 'Block': '#ef4444', 'Major': '#f97316', 'Minor': '#3b82f6', 'Trivial': '#9ca3af' };
       var dayW = DAY_WIDTH * state.zoom;
 
+      // Add legend at the top of namesScroll
+      var legendRow = document.createElement('div');
+      legendRow.className = 'name-row';
+      legendRow.style.cssText = 'display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f9fafb;border-bottom:1px solid #e5e7eb;flex-wrap:wrap;font-size:11px;';
+      var items = [
+        { label: 'Block', color: '#ef4444' },
+        { label: 'Major', color: '#f97316' },
+        { label: 'Minor', color: '#3b82f6' },
+        { label: 'Trivial', color: '#9ca3af' }
+      ];
+      var legendLabel = document.createElement('span');
+      legendLabel.style.cssText = 'font-weight:600;color:#6b7280;margin-right:4px;';
+      legendLabel.textContent = '심각도:';
+      legendRow.appendChild(legendLabel);
+      items.forEach(function(item) {
+        var dot = document.createElement('span');
+        dot.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + item.color + ';flex-shrink:0;';
+        legendRow.appendChild(dot);
+        var label = document.createElement('span');
+        label.style.cssText = 'color:#6b7280;white-space:nowrap;';
+        label.textContent = item.label;
+        legendRow.appendChild(label);
+      });
+      namesScroll.appendChild(legendRow);
+      var legendBarRow = document.createElement('div');
+      legendBarRow.className = 'bar-row';
+      legendBarRow.style.background = '#f9fafb';
+      ganttBars.appendChild(legendBarRow);
+
       // Filter out completed unless status filter is set
       var filteredIssues = _issues.filter(function(iss) {
         if (!state.filters.status && iss.status === '완료') return false;
@@ -9348,6 +10899,17 @@
               bar.style.background = issSevColors[item.severity] || '#9ca3af';
               bar.style.borderLeft = '3px solid ' + (issSevColors[item.severity] || '#9ca3af');
               bar.style.opacity = '0.75';
+              bar.style.cursor = 'pointer';
+              bar.onclick = function(e) {
+                e.stopPropagation();
+                state.currentTab = 'issues';
+                document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+                document.querySelector('.tab[data-tab="issues"]').classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(function(tc) { tc.classList.remove('active'); });
+                document.getElementById('issues').classList.add('active');
+                renderIssues();
+                openIssueDetail(item.project.id);
+              };
             } else {
               // 리소스 충돌 체크
               const hasConflict = sorted.some(other =>
@@ -9357,9 +10919,6 @@
                 bar.style.border = '2px solid #ef4444';
                 bar.style.boxShadow = '0 0 4px rgba(239,68,68,0.3)';
               }
-            }
-
-            if (!item.isIssue) {
               bar.onmousedown = (e) => { e.preventDefault(); startDrag(e, item.project.id, item.phase); };
               bar.ontouchstart = (e) => { startDrag(e, item.project.id, item.phase); };
             }
@@ -9443,17 +11002,31 @@
             else if (state.currentTab === 'history') renderHistory();
     }
 
-    function _showToast(msg, duration) {
+    function _escHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function _highlightText(text, query) {
+      if (!query) return _escHtml(text);
+      var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return _escHtml(text).replace(new RegExp('(' + escaped + ')', 'gi'), '<mark style="background:#fef08a;border-radius:2px;padding:0 1px;">$1</mark>');
+    }
+
+    function _showToast(msg, duration, type) {
       let toast = document.getElementById('_toast');
       if (!toast) {
         toast = document.createElement('div');
         toast.id = '_toast';
-        toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1f2937;color:white;padding:8px 20px;border-radius:8px;font-size:13px;z-index:999;opacity:0;transition:opacity 0.3s;pointer-events:none;';
         document.body.appendChild(toast);
       }
-      toast.textContent = msg;
+      var bg = type === 'success' ? '#16a34a' : type === 'error' ? '#dc2626' : '#1f2937';
+      var icon = type === 'success' ? '✓ ' : type === 'error' ? '✕ ' : '';
+      toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(0);background:'+bg+';color:white;padding:10px 20px;border-radius:8px;font-size:13px;z-index:9999;opacity:0;transition:opacity 0.25s ease,transform 0.25s ease;pointer-events:none;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.25);font-weight:500;';
+      toast.textContent = icon + msg;
       toast.style.opacity = '1';
-      setTimeout(() => { toast.style.opacity = '0'; }, duration || 1800);
+      if (toast._timeout) clearTimeout(toast._timeout);
+      toast._timeout = setTimeout(() => { toast.style.opacity = '0'; }, duration || 2200);
     }
 
     /* ========== CSV EXPORT ========== */
@@ -9608,7 +11181,7 @@
       ta.style.cssText = 'position:fixed;top:-9999px;';
       document.body.appendChild(ta);
       ta.select();
-      try { document.execCommand('copy'); _showToast('링크가 복사되었습니다'); } catch(e) { _showToast('복사 실패 — URL을 직접 복사해주세요'); }
+      try { document.execCommand('copy'); _showToast('링크가 복사되었습니다', 2000, 'success'); } catch(e) { _showToast('복사 실패 — URL을 직접 복사해주세요', 2000, 'error'); }
       document.body.removeChild(ta);
     }
 
@@ -10875,6 +12448,65 @@
       html += '</div>';
       html += '</div>';
 
+      // ROW 4: 이슈 통계 섹션
+      // 이슈 데이터 집계
+      var issueOpen = _issues.filter(function(i) { return i.status === '등록' || i.status === '검토 중' || i.status === '테스트 보류' || i.status === '현재작업불가'; }).length;
+      var issueProgress = _issues.filter(function(i) { return i.status === '작업 진행 중'; }).length;
+      var issueResolved = _issues.filter(function(i) { return i.status === '검증 진행 중' || i.status === '운영배포예정'; }).length;
+      var issueClosed = _issues.filter(function(i) { return i.status === '완료'; }).length;
+      var issueBlocker = _issues.filter(function(i) { return i.severity === 'Block' && i.status !== '완료'; }).length;
+      var issueInBundle = _deployBundles.reduce(function(sum, b) { return sum + (b.issues ? b.issues.length : 0); }, 0);
+      var issueNotInBundle = _issues.filter(function(i) {
+        return !_deployBundles.some(function(b) { return b.issues && b.issues.indexOf(i.id) !== -1; });
+      }).length;
+
+      // 사용자의 미할당 이슈
+      var myUnassignedIssues = [];
+      if (state.currentUser) {
+        myUnassignedIssues = _issues.filter(function(i) {
+          return !i.assignee && i.status !== '완료' && (i.status === '등록' || i.status === '검토 중');
+        });
+      }
+
+      html += '<div style="margin-top:16px;padding-top:16px;border-top:1px solid #e5e7eb;">';
+      html += '<div style="font-size:13px;font-weight:700;color:#1f2937;margin-bottom:10px;">📊 이슈 현황</div>';
+      html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">';
+
+      // 이슈 통계 카드
+      html += '<div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;">' +
+        '<div style="font-size:11px;color:#6b7280;margin-bottom:4px;">전체 / 미완료</div>' +
+        '<div style="font-size:18px;font-weight:700;margin-bottom:4px;"><span style="color:#374151;">' + _issues.length + '</span> / <span style="color:#f59e0b;">' + (issueOpen + issueProgress + issueResolved) + '</span></div>' +
+        '<div style="display:flex;gap:4px;font-size:10px;">' +
+        '<span style="color:#6b7280;">오픈: ' + issueOpen + '</span>' +
+        '<span style="color:#f59e0b;">진행: ' + issueProgress + '</span>' +
+        '<span style="color:#3b82f6;">검증: ' + issueResolved + '</span>' +
+        '<span style="color:#10b981;">완료: ' + issueClosed + '</span>' +
+        '</div></div>';
+
+      // 배포 현황
+      html += '<div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;">' +
+        '<div style="font-size:11px;color:#6b7280;margin-bottom:4px;">배포 상태</div>' +
+        '<div style="font-size:18px;font-weight:700;margin-bottom:4px;"><span style="color:#7c3aed;">' + issueInBundle + '</span> / <span style="color:#9ca3af;">' + issueNotInBundle + '</span></div>' +
+        '<div style="display:flex;gap:4px;font-size:10px;">' +
+        '<span style="color:#7c3aed;">포함: ' + issueInBundle + '</span>' +
+        '<span style="color:#9ca3af;">미포함: ' + issueNotInBundle + '</span>' +
+        '<span style="color:#dc2626;">Blocker: ' + issueBlocker + '</span>' +
+        '</div></div>';
+
+      // 내 담당 이슈
+      var myAssigned = _issues.filter(function(i) {
+        return (i.assignee === (state.currentUser ? state.currentUser.uid : null) || i.verifier === (state.currentUser ? state.currentUser.uid : null)) && i.status !== '완료';
+      }).length;
+      html += '<div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;">' +
+        '<div style="font-size:11px;color:#6b7280;margin-bottom:4px;">내 담당 이슈</div>' +
+        '<div style="font-size:18px;font-weight:700;margin-bottom:4px;"><span style="color:#2563eb;">' + myAssigned + '</span></div>' +
+        '<div style="display:flex;gap:4px;font-size:10px;">' +
+        '<span style="color:#9ca3af;cursor:pointer;" onclick="switchIssueView(\'my-issues\');document.querySelectorAll(\'.tab\').forEach(function(t){t.classList.remove(\'active\');});document.querySelector(\'.tab[data-tab=\\\"issues\\\"]\').classList.add(\'active\');document.querySelectorAll(\'.tab-content\').forEach(function(tc){tc.classList.remove(\'active\');});document.getElementById(\'issues\').classList.add(\'active\');">내 이슈 보기 -></span>' +
+        '</div></div>';
+
+      html += '</div>';
+      html += '</div>';
+
       var overviewEl = document.getElementById('overviewContent');
       if (overviewEl) overviewEl.innerHTML = html;
       } catch(err) {
@@ -11171,6 +12803,79 @@
     }
 
     /* ========== INIT ========== */
+    /* ========== NOTIFICATION SYSTEM ========== */
+    var _notifications = JSON.parse(localStorage.getItem('af_notifications') || '[]');
+    var uid = typeof state !== 'undefined' && state.currentUser ? state.currentUser.uid : '';
+
+    function _addNotification(msg, type, issueId) {
+      var notif = {
+        id: Date.now(),
+        msg: msg,
+        type: type || 'info',
+        issueId: issueId || null,
+        time: new Date().toISOString(),
+        read: false
+      };
+      _notifications.unshift(notif);
+      if (_notifications.length > 50) _notifications.pop();
+      localStorage.setItem('af_notifications', JSON.stringify(_notifications));
+      _updateNotifBadge();
+    }
+
+    function _updateNotifBadge() {
+      var unread = _notifications.filter(function(n) { return !n.read; }).length;
+      var badge = document.getElementById('notifBadge');
+      if (badge) {
+        if (unread > 0) {
+          badge.style.display = 'flex';
+          badge.textContent = unread > 9 ? '9+' : unread;
+        } else {
+          badge.style.display = 'none';
+        }
+      }
+    }
+
+    function toggleNotifPanel() {
+      var panel = document.getElementById('notifPanel');
+      if (!panel) return;
+      var isOpen = panel.style.display !== 'none';
+      panel.style.display = isOpen ? 'none' : 'flex';
+      if (!isOpen) {
+        renderNotifList();
+        setTimeout(function() {
+          _notifications.forEach(function(n) { n.read = true; });
+          localStorage.setItem('af_notifications', JSON.stringify(_notifications));
+          _updateNotifBadge();
+        }, 1000);
+      }
+    }
+
+    function renderNotifList() {
+      var list = document.getElementById('notifList');
+      if (!list) return;
+      list.innerHTML = '';
+      if (_notifications.length === 0) {
+        list.innerHTML = '<div style="text-align:center;padding:32px;color:#9ca3af;"><div style="font-size:32px;">🔔</div><div style="font-size:13px;margin-top:8px;">알림이 없습니다</div></div>';
+        return;
+      }
+      _notifications.slice(0, 20).forEach(function(n) {
+        var item = document.createElement('div');
+        var icon = n.type === 'success' ? '✅' : n.type === 'warning' ? '⚠️' : 'ℹ️';
+        var timeStr = new Date(n.time).toLocaleString('ko-KR', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+        item.style.cssText = 'padding:10px 8px;border-radius:6px;margin-bottom:4px;cursor:'+(n.issueId?'pointer':'default')+';background:'+(n.read?'transparent':'#eff6ff')+';border-left:3px solid '+(n.read?'transparent':'#6366f1')+';';
+        item.innerHTML = '<div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:14px;">'+icon+'</span><div style="flex:1"><div style="font-size:12px;color:#1f2937;">'+_escHtml(n.msg)+'</div><div style="font-size:10px;color:#9ca3af;margin-top:2px;">'+timeStr+'</div></div></div>';
+        if (n.issueId) item.onclick = function() { openIssueDetail(n.issueId); toggleNotifPanel(); };
+        list.appendChild(item);
+      });
+    }
+
+    function clearAllNotifs() {
+      _notifications = [];
+      localStorage.removeItem('af_notifications');
+      _updateNotifBadge();
+      renderNotifList();
+    }
+
     function init() {
       // Restore admin mode (history는 Firebase init 후 _initAuthCheck에서 로드)
       if (localStorage.getItem('af_adminMode') === 'true') {
@@ -11207,8 +12912,18 @@
           document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
           tab.classList.add('active');
           const tabId = tab.dataset.tab;
-          document.getElementById(tabId).classList.add('active');
+          const content = document.getElementById(tabId);
+
+          // Brief loading fade effect
+          content.style.transition = 'opacity 0.2s ease';
+          content.style.opacity = '0.6';
+          content.classList.add('active');
           state.currentTab = tabId;
+
+          // Fade back in after content renders
+          setTimeout(function() {
+            content.style.opacity = '1';
+          }, 50);
 
           if (tabId === 'projects') renderProjects();
           else if (tabId === 'issues') renderIssues();
@@ -11428,6 +13143,21 @@
         if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) { e.preventDefault(); redo(); return; }
         // Ctrl+E: CSV 내보내기
         if ((e.ctrlKey || e.metaKey) && e.key === 'e') { e.preventDefault(); exportCSV(); return; }
+        // N: 새 이슈 (issues 탭, 입력 중 아닐 때)
+        if (e.key === 'n' && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+          var _t = document.activeElement.tagName.toUpperCase();
+          if (_t !== 'INPUT' && _t !== 'TEXTAREA' && _t !== 'SELECT') {
+            if (state.currentTab === 'issues') { e.preventDefault(); createIssue(); return; }
+          }
+        }
+        // /: 이슈 검색 포커스
+        if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
+          var _t2 = document.activeElement.tagName.toUpperCase();
+          if (_t2 !== 'INPUT' && _t2 !== 'TEXTAREA') {
+            var _si = document.getElementById('issueSearchInput');
+            if (_si) { e.preventDefault(); _si.focus(); _si.select(); return; }
+          }
+        }
         // ESC - Close modals/panels in priority order
         if (e.key === 'Escape') {
           // Lightbox

@@ -5357,7 +5357,7 @@
 
     function createIssue() {
       if (!_hasWritePermission()) { _checkWritePermission(); return; }
-      document.getElementById('createIssueModal').classList.add('open');
+      document.getElementById('createIssueModal').classList.add('show');
       var form = document.getElementById('createIssueForm');
       form.innerHTML = '';
 
@@ -5421,7 +5421,7 @@
     }
 
     function closeCreateIssueModal() {
-      document.getElementById('createIssueModal').classList.remove('open');
+      document.getElementById('createIssueModal').classList.remove('show');
     }
 
     function saveNewIssue() {

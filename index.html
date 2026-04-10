@@ -2910,49 +2910,72 @@
     <!-- Header -->
     <div class="header">
       <div class="header-top">
-        <div class="header-title"><span class="af-logo-text"><svg class="af-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144.3 36.8"><path fill="#2d1478" d="M23.9,21.1v-8.5h-8.4v-3.9h8.4V0h4.1v21.1h-4.1ZM6,20.4c-3.3,0-6-2.6-6-5.9s2.7-6,6-6,6,2.7,6,6-2.7,5.9-6,5.9ZM6,12.6c-1,0-1.9,1-1.9,2s.9,2,1.9,2,2-.9,2-2-.9-2-2-2ZM52.6,21.1V0h4.1v8.7h7v3.9h-7v8.5h-4.1ZM32.5,21.1V4.3h4v5.5h5.6v-5.5h4v16.8s-13.6,0-13.6,0ZM42.1,17.2v-3.4h-5.6v3.4h5.6ZM71.7,36.8l5-4.6,5.1,4.6,2.7-2.9-5.7-5.2v-7.5h9v-3.9h-22.2v3.9h9.1v7.5l-5.7,5.1s2.7,3,2.7,3ZM76.7,13.1c-3.3,0-6-2.6-6-5.9s2.7-6,6-6,6,2.7,6,6-2.7,5.9-6,5.9ZM76.7,5.3c-1,0-1.9.9-1.9,2s.9,2,1.9,2,2-1,2-2-.9-2-2-2ZM110.9,21.1V0h4.1v21.1h-4.1ZM89.7,21.1v-3.9h2.5v-4.6h-2.5v-3.9h16.8v3.9h-2.4v4.6h2.4v3.9h-16.8ZM100,17.2v-4.6h-3.8v4.6h3.8ZM138.2,36.7c-3.3,0-6-2.6-6-5.9s2.7-6,6-6,6,2.7,6,6-2.7,5.9-6,5.9ZM138.2,28.9c-1,0-1.9,1-1.9,2s.9,2,1.9,2,2-1,2-2-.9-2-2-2ZM140.2,21.1V0h4.1v21.1h-4.1ZM118.4,18l5.7-5.1v-5.8h4.1v5.8l5.7,5.2-2.7,3-5.1-4.6-5,4.6-2.7-3h0Z"/></svg></span><span style="font-size:15px;font-weight:500;color:#6b7280;margin-left:12px;">스케줄 대시보드</span> <span id="syncStatus" style="font-size: 11px; font-weight: 400; padding: 2px 8px; border-radius: 10px; margin-left: 4px; background: #f3f4f6; color: #9ca3af;">로컬</span> <span id="deployVersion" style="font-size: 10px; font-weight: 400; color: #9ca3af; margin-left: 6px;" title="최종 배포 버전"></span></div>
+        <!-- 좌측: 로고 + 상태 정보 -->
+        <div class="header-title">
+          <span class="af-logo-text"><svg class="af-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144.3 36.8"><path fill="#2d1478" d="M23.9,21.1v-8.5h-8.4v-3.9h8.4V0h4.1v21.1h-4.1ZM6,20.4c-3.3,0-6-2.6-6-5.9s2.7-6,6-6,6,2.7,6,6-2.7,5.9-6,5.9ZM6,12.6c-1,0-1.9,1-1.9,2s.9,2,1.9,2,2-.9,2-2-.9-2-2-2ZM52.6,21.1V0h4.1v8.7h7v3.9h-7v8.5h-4.1ZM32.5,21.1V4.3h4v5.5h5.6v-5.5h4v16.8s-13.6,0-13.6,0ZM42.1,17.2v-3.4h-5.6v3.4h5.6ZM71.7,36.8l5-4.6,5.1,4.6,2.7-2.9-5.7-5.2v-7.5h9v-3.9h-22.2v3.9h9.1v7.5l-5.7,5.1s2.7,3,2.7,3ZM76.7,13.1c-3.3,0-6-2.6-6-5.9s2.7-6,6-6,6,2.7,6,6-2.7,5.9-6,5.9ZM76.7,5.3c-1,0-1.9.9-1.9,2s.9,2,1.9,2,2-1,2-2-.9-2-2-2ZM110.9,21.1V0h4.1v21.1h-4.1ZM89.7,21.1v-3.9h2.5v-4.6h-2.5v-3.9h16.8v3.9h-2.4v4.6h2.4v3.9h-16.8ZM100,17.2v-4.6h-3.8v4.6h3.8ZM138.2,36.7c-3.3,0-6-2.6-6-5.9s2.7-6,6-6,6,2.7,6,6-2.7,5.9-6,5.9ZM138.2,28.9c-1,0-1.9,1-1.9,2s.9,2,1.9,2,2-1,2-2-.9-2-2-2ZM140.2,21.1V0h4.1v21.1h-4.1ZM118.4,18l5.7-5.1v-5.8h4.1v5.8l5.7,5.2-2.7,3-5.1-4.6-5,4.6-2.7-3h0Z"/></svg></span>
+          <div style="display:flex;align-items:center;gap:6px;margin-left:10px;">
+            <span id="syncStatus" style="font-size:10px;font-weight:500;padding:2px 7px;border-radius:10px;background:#f3f4f6;color:#9ca3af;">로컬</span>
+            <span id="deployVersion" style="font-size:10px;color:#9ca3af;" title="최종 배포 버전"></span>
+          </div>
+        </div>
+        <!-- 우측: 컨트롤 영역 -->
         <div class="header-controls">
-          <input type="text" class="search-input" id="searchInput" placeholder="검색...">
-          <div class="filter-group">
-            <select id="tierFilter">
+          <!-- 스케줄/프로젝트 탭 전용 필터 (기타 탭에서는 숨김) -->
+          <div id="scheduleFilters" style="display:flex;align-items:center;gap:6px;">
+            <input type="text" class="search-input" id="searchInput" placeholder="검색..." style="width:120px;">
+            <select id="tierFilter" style="font-size:12px;padding:4px 6px;border:1px solid #e5e7eb;border-radius:6px;color:#374151;">
               <option value="">전체 티어</option>
               <option value="CRITICAL">CRITICAL</option>
               <option value="TIER1">TIER 1</option>
               <option value="TIER2">TIER 2</option>
               <option value="TIER3">TIER 3</option>
               <option value="TIER4">TIER 4</option>
-              <option value="CONTINUOUS">지속 병행</option>
+              <option value="CONTINUOUS">지속</option>
             </select>
-            <select id="statusFilter">
+            <select id="statusFilter" style="font-size:12px;padding:4px 6px;border:1px solid #e5e7eb;border-radius:6px;color:#374151;">
               <option value="">전체 상태</option>
               <option value="대기">대기</option>
               <option value="진행">진행</option>
               <option value="완료">완료</option>
               <option value="연기">연기</option>
-              <option value="Deprecated">Deprecated</option>
+              <option value="Deprecated">Dep.</option>
             </select>
-            <select id="memberFilter">
+            <select id="memberFilter" style="font-size:12px;padding:4px 6px;border:1px solid #e5e7eb;border-radius:6px;color:#374151;">
               <option value="">전체 멤버</option>
             </select>
           </div>
-          <button class="btn btn-secondary" id="chatToggleBtn" title="채팅" onclick="toggleChatPanel()" style="font-size:16px;padding:6px 10px;display:none;position:relative;">💬<span class="chat-badge" id="chatBadge">0</span></button>
-          <div id="notifBell" onclick="toggleNotifPanel()" style="position:relative;cursor:pointer;padding:4px;border-radius:6px;margin:0 4px;transition:all 0.2s ease;" title="알림" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
-            <span style="font-size:18px;">🔔</span>
-            <span id="notifBadge" style="display:none;position:absolute;top:-2px;right:-2px;background:#ef4444;color:white;border-radius:50%;width:14px;height:14px;font-size:9px;font-weight:700;align-items:center;justify-content:center;line-height:1;"></span>
+          <!-- 구분선 -->
+          <div style="width:1px;height:20px;background:#e5e7eb;margin:0 2px;"></div>
+          <!-- 채팅 버튼 -->
+          <button class="btn btn-secondary" id="chatToggleBtn" title="채팅" onclick="toggleChatPanel()" style="font-size:15px;padding:5px 8px;display:none;position:relative;">💬<span class="chat-badge" id="chatBadge">0</span></button>
+          <!-- 알림 버튼 -->
+          <div id="notifBell" onclick="toggleNotifPanel()" style="position:relative;cursor:pointer;padding:5px 7px;border-radius:6px;transition:all 0.15s;" title="알림" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='transparent'">
+            <span style="font-size:16px;">🔔</span>
+            <span id="notifBadge" style="display:none;position:absolute;top:-1px;right:-1px;background:#ef4444;color:white;border-radius:50%;width:14px;height:14px;font-size:9px;font-weight:700;align-items:center;justify-content:center;line-height:1;"></span>
           </div>
-          <div class="user-header-info" id="userHeaderInfo" style="display:none;">
-            <div class="user-avatar-small" id="userAvatarSmall"></div>
-            <div style="display:flex;flex-direction:column;gap:2px;">
-              <div class="user-name" id="userNameDisplay"></div>
-              <button class="btn btn-secondary" id="logoutBtn" onclick="logoutUser()" style="font-size:11px;padding:2px 6px;">로그아웃</button>
+          <!-- 매뉴얼 -->
+          <button class="btn btn-secondary" onclick="openManual()" style="font-size:12px;padding:5px 8px;" title="사용 매뉴얼">📖</button>
+          <!-- Admin 토글 -->
+          <button class="btn btn-secondary" id="adminToggle" title="Admin Mode" onclick="toggleAdminMode()" style="font-size:15px;padding:5px 8px;position:relative;">🔒<span id="adminNewBadge" style="display:none;position:absolute;top:-5px;right:-5px;background:#dc2626;color:white;font-size:9px;font-weight:700;min-width:14px;height:14px;line-height:14px;text-align:center;border-radius:7px;padding:0 3px;">0</span></button>
+          <!-- Admin 전용 관리 버튼 (뱃지 + 드롭다운으로 통합) -->
+          <div id="adminControls" style="display:none;position:relative;">
+            <button onclick="toggleAdminMenu()" style="font-size:11px;padding:5px 10px;border:1px solid #fca5a5;border-radius:6px;background:#fef2f2;color:#dc2626;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;">
+              <span id="adminBadge" style="font-size:11px;">ADMIN</span> ▾
+            </button>
+            <div id="adminMenu" style="display:none;position:absolute;top:100%;right:0;background:white;border:1px solid #e5e7eb;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,0.12);z-index:300;min-width:130px;margin-top:4px;overflow:hidden;">
+              <button id="memberMgmtBtn" onclick="openMemberManagement();toggleAdminMenu()" style="display:block;width:100%;padding:9px 14px;text-align:left;font-size:12px;border:none;background:white;cursor:pointer;color:#374151;" onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='white'">👥 팀원 관리</button>
+              <button id="serviceMgmtBtn" onclick="openServiceTypeManagement();toggleAdminMenu()" style="display:block;width:100%;padding:9px 14px;text-align:left;font-size:12px;border:none;background:white;cursor:pointer;color:#374151;" onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='white'">⚙️ 서비스 관리</button>
             </div>
           </div>
-          <button class="btn btn-secondary" id="adminToggle" title="Admin Mode" onclick="toggleAdminMode()" style="font-size:16px;padding:6px 10px;position:relative;">🔒<span id="adminNewBadge" style="display:none;position:absolute;top:-6px;right:-6px;background:#dc2626;color:white;font-size:10px;font-weight:700;min-width:16px;height:16px;line-height:16px;text-align:center;border-radius:8px;padding:0 4px;">0</span></button>
-        <span id="adminBadge" style="display:none;background:#dc2626;color:white;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600;margin-left:8px;">ADMIN</span>
-        <button class="btn btn-secondary" id="memberMgmtBtn" onclick="openMemberManagement()" style="display:none;font-size:12px;padding:6px 10px;">팀원 관리</button>
-        <button class="btn btn-secondary" id="serviceMgmtBtn" onclick="openServiceTypeManagement()" style="display:none;font-size:12px;padding:6px 10px;">서비스 관리</button>
-        <button class="btn btn-secondary" onclick="openManual()" style="font-size:12px;padding:6px 10px;" title="사용 매뉴얼">📖 매뉴얼</button>
-      </div>
+          <!-- 사용자 정보 (로그인 후) -->
+          <div class="user-header-info" id="userHeaderInfo" style="display:none;">
+            <div class="user-avatar-small" id="userAvatarSmall"></div>
+            <div style="display:flex;flex-direction:column;gap:1px;">
+              <div class="user-name" id="userNameDisplay"></div>
+              <button class="btn btn-secondary" id="logoutBtn" onclick="logoutUser()" style="font-size:10px;padding:1px 5px;">로그아웃</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Tabs -->
@@ -3184,7 +3207,8 @@
           <button class="btn btn-secondary" style="font-size:12px;padding:4px 8px;" onclick="clearIssueSelection()">취소</button>
         </div>
         <!-- Active Filters Bar -->
-        <div id="activeFiltersBar" style="display:none;padding:6px 16px;background:#f9fafb;border-bottom:1px solid #e5e7eb;gap:6px;flex-wrap:wrap;align-items:center;">
+        <div id="activeFiltersBar" style="display:none;padding:6px 16px;background:#f9fafb;border-bottom:1px solid #e5e7eb;gap:6px;flex-wrap:wrap;align-items:center;"></div>
+        <!-- Issue Cards Container -->
         <div class="issue-cards-grid" id="issuesContainer"></div>
       </div>
 
@@ -3735,6 +3759,23 @@
             }
             state.currentUser.memberId = linked.id;
             state.currentUser.memberName = linked.name;
+            // Firebase UID를 TEAM 멤버에 저장 (권한 동기화용)
+            if (!linked.uid || linked.uid !== user.uid) {
+              linked.uid = user.uid;
+              localStorage.setItem('af_team', JSON.stringify(TEAM));
+              if (_fb.db) {
+                _fb.db.ref('settings/team').set(TEAM);
+              }
+            }
+            // userPermissions 경로 동기화 (Firebase 보안 규칙용)
+            if (_fb.db) {
+              var perm = linked.permission || 'read';
+              if (perm === 'write') {
+                _fb.db.ref('settings/userPermissions/' + user.uid).set(true);
+              } else {
+                _fb.db.ref('settings/userPermissions/' + user.uid).remove();
+              }
+            }
             _updatePresence(linked.id, true);
             // 브라우저 닫을 때 오프라인 처리
             window.addEventListener('beforeunload', function() { _updatePresence(linked.id, false); pushAccessLog('페이지 이탈'); });
@@ -4956,6 +4997,21 @@
     }
 
     /* ========== ADMIN MODE ========== */
+    function toggleAdminMenu() {
+      var menu = document.getElementById('adminMenu');
+      if (!menu) return;
+      menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // 외부 클릭 시 Admin 메뉴 닫기
+    document.addEventListener('click', function(e) {
+      var adminControls = document.getElementById('adminControls');
+      if (adminControls && !adminControls.contains(e.target)) {
+        var menu = document.getElementById('adminMenu');
+        if (menu) menu.style.display = 'none';
+      }
+    });
+
     function toggleAdminMode() {
       const pwd = prompt('Admin Password:');
       if (pwd === '0104') {
@@ -4964,18 +5020,30 @@
         const badge = document.getElementById('adminBadge');
         if (state.adminMode) {
           btn.textContent = '🔓';
-          badge.style.display = 'inline-block';
-          document.getElementById('memberMgmtBtn').style.display = 'inline-block';
-          document.getElementById('serviceMgmtBtn').style.display = 'inline-block';
+          // 새 Admin 드롭다운 방식
+          var adminControls = document.getElementById('adminControls');
+          if (adminControls) adminControls.style.display = 'flex';
           var histBtn = document.getElementById('clearHistoryBtn');
           if (histBtn) histBtn.style.display = 'inline-block';
           localStorage.setItem('af_adminMode', 'true');
+          // 어드민 비밀번호로 인증된 사용자 → 자동으로 쓰기 권한 부여 (부트스트랩)
+          if (_fb.db && state.currentUser && state.currentUser.uid) {
+            _fb.db.ref('settings/userPermissions/' + state.currentUser.uid).set(true);
+            // 현재 사용자의 TEAM 멤버 권한도 write로 업데이트
+            var linked = _getLinkedMember(state.currentUser.email);
+            if (linked && linked.permission !== 'write') {
+              linked.permission = 'write';
+              localStorage.setItem('af_team', JSON.stringify(TEAM));
+              _fb.db.ref('settings/team').set(TEAM);
+            }
+          }
           _showToast('관리자 모드 활성화', 2000, 'success');
         } else {
           btn.textContent = '🔒';
-          badge.style.display = 'none';
-          document.getElementById('memberMgmtBtn').style.display = 'none';
-          document.getElementById('serviceMgmtBtn').style.display = 'none';
+          var adminControls = document.getElementById('adminControls');
+          if (adminControls) adminControls.style.display = 'none';
+          var adminMenu = document.getElementById('adminMenu');
+          if (adminMenu) adminMenu.style.display = 'none';
           var histBtn = document.getElementById('clearHistoryBtn');
           if (histBtn) histBtn.style.display = 'none';
           localStorage.removeItem('af_adminMode');
@@ -5094,6 +5162,14 @@
     function _togglePermission(idx) {
       if (!TEAM[idx]) return;
       TEAM[idx].permission = (TEAM[idx].permission === 'write') ? 'read' : 'write';
+      // Firebase userPermissions 동기화
+      if (_fb.db && TEAM[idx].uid) {
+        if (TEAM[idx].permission === 'write') {
+          _fb.db.ref('settings/userPermissions/' + TEAM[idx].uid).set(true);
+        } else {
+          _fb.db.ref('settings/userPermissions/' + TEAM[idx].uid).remove();
+        }
+      }
       // UI 즉시 갱신
       document.getElementById('memberMgmtOverlay')?.remove();
       _unlockBodyScroll();
@@ -5133,6 +5209,15 @@
       if (_fb.db) {
         _fb.db.ref('settings/team').set(TEAM);
         _fb.db.ref('settings/allowedEmails').set(_allowedEmails);
+        // 팀원별 userPermissions 동기화 (Firebase 보안 규칙에서 사용)
+        TEAM.forEach(function(m) {
+          if (!m.uid) return; // UID 없는 멤버는 다음 로그인 시 자동 동기화
+          if (m.permission === 'write') {
+            _fb.db.ref('settings/userPermissions/' + m.uid).set(true);
+          } else {
+            _fb.db.ref('settings/userPermissions/' + m.uid).remove();
+          }
+        });
       }
       document.getElementById('memberMgmtOverlay')?.remove();
       _unlockBodyScroll();
@@ -5404,7 +5489,8 @@
       { version:'v2026.04.10-11', timestamp:'2026-04-10T15:00:00.000Z', changes:['이슈 관리 탭 추가 (이슈 등록/수정/삭제/상태관리)','이슈 심각도/우선순위/상태 필터링 및 검색','드래그앤드롭 이미지/동영상 첨부 (자동 압축)','이슈 코멘트 스레드','배포 관리 (프로젝트+이슈 묶어 배포일 지정)','QA/UXUI/기획자 에이전트 피드백 시스템','클립보드 붙여넣기 스크린샷 지원'] },
       { version:'v2026.04.10-12', timestamp:'2026-04-10T17:00:00.000Z', changes:['이슈 등록 폼 Progressive Disclosure 적용 (필수 4개 + 선택사항 접기)','SVG 로고 이미지 교체 (어바웃피싱 로고)','이슈 복사하기 버튼 (새 등록으로 처리, [복사] 접두어)','배포 목록 배포환경 필터 추가','코멘트 수정/삭제 기능 + 수정됨 표시','배포 번들 생성 버튼 = 완전 새 폼 (기존값 미복사)','이슈 상세 패널 퀵 워크플로 전환 버튼 (상태별 다음 단계)','이슈 요약 바 컬러 배지 (미처리/진행중/검증중/완료)','내 이슈 뷰 모드 버튼 (내 담당 이슈만 필터)','이슈 카드/테이블 뷰 전환','일괄 상태/담당자 변경 모달 UI','배포 번들 상세 이슈 체크리스트 + 진행률 바','이슈 ID 자동 생성 미리보기 (프로덕트 선택 시)','활성 필터 칩 바 (개별/전체 초기화)'] },
       { version:'v2026.04.10-13', timestamp:'2026-04-10T17:30:00.000Z', changes:['이슈 등록 폼 인라인 필드 오류 표시 (toast→빨간 테두리+오류 텍스트)','토스트 알림 타입 분리: success(초록)/error(빨강)/info(회색)','키보드 단축키: N=새이슈, /=검색포커스, ESC=패널닫기','이슈 상세 패널 너비 600px로 확대','이슈 등록 시 제목 필드 자동 포커스','이슈 상세 제목 클릭 인라인 수정 (✏️ hover)','코멘트 Enter 전송 / Shift+Enter 줄바꿈','코멘트 빈 상태 안내 (💬 이모지)','이슈 ID 복사 버튼 (상세 패널 헤더)','활동 내역: 생성/수정 시각 표시','배포 번들 카드 진행률 바 + D-day 배지','배포 번들 정렬 옵션 (날짜순/상태순)','배포 번들 이슈 행 클릭 → 이슈 상세 패널 연결','이슈 즐겨찾기(★) 기능 + 필터 뷰','이슈 검색어 하이라이트 표시','이슈 목록 그룹화 토글 (상태별 그룹)','컴팩트 뷰 버튼 (1줄 압축 카드)','기한 D-day 표시 (⚠️ 기한초과 / 🔥 임박)','이슈 카드 hover 퀵액션 바 (상세/ID복사/즐겨찾기)'] },
-      { version:'v2026.04.10-14', timestamp:'2026-04-10T20:00:00.000Z', changes:['🔔 알림 벨 시스템: 이슈 업데이트 시 자동 기록, 읽음 처리, 전체 지우기','내 이슈 뷰: 작업담당/검증담당 섹션 분리','빈 상태 3종 개선: 검색 없음 / 필터 없음 / 이슈 없음 (액션 버튼 포함)','Task 유형 선택 시 심각도 자동 Minor 설정','이슈 유형 아이콘: Bug=🐛, Task=✅','심각도 컬러 필 배지 (Block/Major/Minor/Trivial)','스케줄 이슈 뷰 심각도 범례 추가','검색 입력 200ms 디바운스 성능 개선','↻ 데이터 새로고침 버튼 (Firebase 재요청)','배포 번들 생성 빈 모달 버그 수정 (openCreateDeployBundle body 초기화 제거)','요약 바 7개→5개 축소: 미처리/진행중/검증중/완료/내이슈','이슈 도구 모음 고급 필터 접기/펼치기','이슈 카드 overdue 배경 강조 (#fff8f8)','코멘트 권한 없을 때 버튼 비활성화 + 안내','이슈 상세 닫을 때 목록 즉시 갱신'] }
+      { version:'v2026.04.10-14', timestamp:'2026-04-10T20:00:00.000Z', changes:['🔔 알림 벨 시스템: 이슈 업데이트 시 자동 기록, 읽음 처리, 전체 지우기','내 이슈 뷰: 작업담당/검증담당 섹션 분리','빈 상태 3종 개선: 검색 없음 / 필터 없음 / 이슈 없음 (액션 버튼 포함)','Task 유형 선택 시 심각도 자동 Minor 설정','이슈 유형 아이콘: Bug=🐛, Task=✅','심각도 컬러 필 배지 (Block/Major/Minor/Trivial)','스케줄 이슈 뷰 심각도 범례 추가','검색 입력 200ms 디바운스 성능 개선','↻ 데이터 새로고침 버튼 (Firebase 재요청)','배포 번들 생성 빈 모달 버그 수정 (openCreateDeployBundle body 초기화 제거)','요약 바 7개→5개 축소: 미처리/진행중/검증중/완료/내이슈','이슈 도구 모음 고급 필터 접기/펼치기','이슈 카드 overdue 배경 강조 (#fff8f8)','코멘트 권한 없을 때 버튼 비활성화 + 안내','이슈 상세 닫을 때 목록 즉시 갱신'] },
+      { version:'v2026.04.10-15', timestamp:'2026-04-10T21:00:00.000Z', changes:['🔥 [긴급수정] 배포/팀/개요/이력 탭 흰화면 버그 수정 (HTML 중첩 구조 오류: activeFiltersBar 미닫힘)','🔒 Firebase 보안 규칙 강화: settings/userPermissions/{uid} 경로 기반 쓰기 권한 관리','팀원 권한 변경 시 Firebase userPermissions 자동 동기화','로그인 시 TEAM 멤버에 Firebase UID 저장 및 권한 즉시 동기화','상단 네비게이션 개선: 스케줄/프로젝트 탭 전용 필터 (다른 탭에서는 숨김)','Admin 관리 기능 드롭다운으로 통합 (팀원관리 + 서비스관리)','Admin 모드 활성화 시 자동 쓰기 권한 부여 (Firebase Console 수동작업 불필요)'] }
     ];
 
     function _autoSeedReleaseNotes(existingData) {
@@ -13063,9 +13149,8 @@
       if (localStorage.getItem('af_adminMode') === 'true') {
         state.adminMode = true;
         document.getElementById('adminToggle').textContent = '🔓';
-        document.getElementById('adminBadge').style.display = 'inline-block';
-        document.getElementById('memberMgmtBtn').style.display = 'inline-block';
-        document.getElementById('serviceMgmtBtn').style.display = 'inline-block';
+        var adminControls = document.getElementById('adminControls');
+        if (adminControls) adminControls.style.display = 'flex';
         var histBtn = document.getElementById('clearHistoryBtn');
         if (histBtn) histBtn.style.display = 'inline-block';
       }
@@ -13101,6 +13186,12 @@
           content.style.opacity = '0.6';
           content.classList.add('active');
           state.currentTab = tabId;
+
+          // 스케줄/프로젝트 탭에서만 상단 필터 표시
+          var scheduleFilters = document.getElementById('scheduleFilters');
+          if (scheduleFilters) {
+            scheduleFilters.style.display = (tabId === 'schedule' || tabId === 'projects') ? 'flex' : 'none';
+          }
 
           // Fade back in after content renders
           setTimeout(function() {
@@ -13429,6 +13520,7 @@
     window._removeAllowedEmail = _removeAllowedEmail;
     window._revokeSession = _revokeSession;
     window.toggleAdminMode = toggleAdminMode;
+    window.toggleAdminMenu = toggleAdminMenu;
     window.renderAll = renderAll;
     window.loginWithGoogle = loginWithGoogle;
     window.logoutUser = logoutUser;

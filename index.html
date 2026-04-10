@@ -1630,16 +1630,19 @@
       background: white;
       border: 1px solid #e5e7eb;
       border-radius: 8px;
-      padding: 12px;
-      transition: box-shadow 0.2s, border-color 0.2s;
+      padding: 8px 12px;
+      margin-bottom: 4px;
+      transition: box-shadow 0.2s, border-color 0.2s, background 0.15s;
       cursor: pointer;
       display: flex;
       flex-direction: column;
+      border-left: 3px solid transparent;
     }
 
     .issue-card:hover {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       border-color: #d1d5db;
+      background: #f8fafc;
     }
 
     .issue-card-checkbox {
@@ -2031,6 +2034,7 @@
 
     .issue-form-row > .issue-form-group {
       flex: 1;
+      min-width: 0;
       margin-bottom: 0;
     }
 
@@ -2897,6 +2901,7 @@
         <div class="gantt-toolbar" id="ganttToolbar">
           <div class="view-toggle">
             <button class="btn active" data-view="project">프로젝트별</button>
+            <button class="btn" data-view="issue">이슈별</button>
             <button class="btn" data-view="member">담당자별</button>
           </div>
           <div style="flex: 1;"></div>
@@ -5675,17 +5680,6 @@
       form.innerHTML = '';
       _targetAttachmentContext = 'create';
 
-      var _addSection = function(title) {
-        var sec = document.createElement('div');
-        sec.style.cssText = 'margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #f3f4f6;';
-        var h = document.createElement('div');
-        h.style.cssText = 'font-size:12px;font-weight:700;color:#6366f1;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;';
-        h.textContent = title;
-        sec.appendChild(h);
-        form.appendChild(sec);
-        return sec;
-      };
-
       var _addFieldToSection = function(section, labelText, fieldId, fieldType, isRequired, options) {
         var group = document.createElement('div');
         group.className = 'issue-form-group';
@@ -5765,58 +5759,25 @@
         section.appendChild(row);
       };
 
-      // Section 1: 기본 정보
-      var sec1 = _addSection('기본 정보');
-      _addFieldToSection(sec1, '제목', 'createIssue_title', 'text', true);
-      _addRowToSection(sec1, [
+      // === Essential Fields (always visible) ===
+      _addFieldToSection(form, '제목', 'createIssue_title', 'text', true);
+      _addRowToSection(form, [
         { label: '이슈 유형', id: 'createIssue_type', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: 'Bug', l: 'Bug' }, { v: 'Task', l: 'Task' }] },
-        { label: '결함 타입', id: 'createIssue_defectType', type: 'select', required: false, options: [{ v: '', l: '선택...' }, { v: '데이터 에러', l: '데이터 에러' }, { v: '기능 에러', l: '기능 에러' }, { v: '이슈 아님', l: '이슈 아님' }, { v: '기능개선', l: '기능개선' }, { v: '기획 에러', l: '기획 에러' }, { v: '시스템 에러', l: '시스템 에러' }, { v: 'UI 에러', l: 'UI 에러' }] }
+        { label: '심각도', id: 'createIssue_severity', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: 'Block', l: 'Block' }, { v: 'Major', l: 'Major' }, { v: 'Minor', l: 'Minor' }, { v: 'Trivial', l: 'Trivial' }] }
       ]);
-      _addRowToSection(sec1, [
-        { label: '심각도', id: 'createIssue_severity', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: 'Block', l: 'Block' }, { v: 'Major', l: 'Major' }, { v: 'Minor', l: 'Minor' }, { v: 'Trivial', l: 'Trivial' }] },
-        { label: '우선순위', id: 'createIssue_priority', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: '1', l: '1(Critical)' }, { v: '2', l: '2(High)' }, { v: '3', l: '3(Medium)' }, { v: '4', l: '4(Low)' }] }
-      ]);
-      _addRowToSection(sec1, [
-        { label: '배포환경', id: 'createIssue_environment', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: '운영', l: '운영' }, { v: '스테이지', l: '스테이지' }, { v: '개발', l: '개발' }] },
+      _addRowToSection(form, [
+        { label: '프로덕트', id: 'createIssue_product', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: '어바웃피싱 앱', l: '어바웃피싱 앱' }, { v: '어바웃피싱 어드민', l: '어바웃피싱 어드민' }, { v: '샵바이 앱/웹', l: '샵바이 앱/웹' }, { v: '샵바이 어드민', l: '샵바이 어드민' }, { v: '낚시포인트맵', l: '낚시포인트맵' }] },
         { label: '플랫폼', id: 'createIssue_platform', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: 'IOS', l: 'IOS' }, { v: 'AOS', l: 'AOS' }, { v: 'PC', l: 'PC' }, { v: 'MW', l: 'MW' }] }
       ]);
 
-      // Section 2: 연결 정보
-      var sec2 = _addSection('연결 정보');
-      _addRowToSection(sec2, [
-        { label: '프로덕트', id: 'createIssue_product', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: '어바웃피싱 앱', l: '어바웃피싱 앱' }, { v: '어바웃피싱 어드민', l: '어바웃피싱 어드민' }, { v: '샵바이 앱/웹', l: '샵바이 앱/웹' }, { v: '샵바이 어드민', l: '샵바이 어드민' }, { v: '낚시포인트맵', l: '낚시포인트맵' }] },
-        { label: '프로젝트', id: 'createIssue_projectId', type: 'select', required: false, options: [{ v: '', l: '선택...' }].concat((state.projects || []).map(function(p) { return { v: p.id, l: p.name }; })) }
-      ]);
-      _addRowToSection(sec2, [
-        { label: '서비스', id: 'createIssue_serviceType', type: 'select', required: false, options: [{ v: '', l: '선택...' }].concat((SERVICE_TYPES || []).map(function(st) { return { v: st, l: st }; })) },
-        { label: '빌드 카테고리', id: 'createIssue_buildCategory', type: 'select', required: false, options: [{ v: '', l: '선택...' }, { v: '앱', l: '앱' }, { v: '커뮤니티', l: '커뮤니티' }, { v: '쇼핑', l: '쇼핑' }, { v: '중고', l: '중고' }, { v: '예약', l: '예약' }, { v: '백오피스', l: '백오피스' }] }
-      ]);
-      _addFieldToSection(sec2, '관련 이슈 (쉼표 분리)', 'createIssue_relatedIssues', 'text', false);
-
-      // Section 3: 담당
-      var sec3 = _addSection('담당');
-      _addRowToSection(sec3, [
-        { label: '작업 담당자', id: 'createIssue_assignee', type: 'select', required: false, options: [{ v: '', l: '선택...' }].concat(TEAM.map(function(m) { return { v: m.id, l: m.name }; })) },
-        { label: '확인 담당자', id: 'createIssue_verifier', type: 'select', required: false, options: [{ v: '', l: '선택...' }].concat(TEAM.map(function(m) { return { v: m.id, l: m.name }; })) }
-      ]);
-      _addRowToSection(sec3, [
-        { label: '참조자', id: 'createIssue_references', type: 'text', required: false, placeholder: '쉼표 분리' },
-        { label: '처리 기한', id: 'createIssue_deadline', type: 'date', required: false }
-      ]);
-
-      // Section 4: 상세 내용
-      var sec4 = _addSection('상세 내용');
-      _addFieldToSection(sec4, '사전조건', 'createIssue_precondition', 'textarea', false);
-      _addFieldToSection(sec4, '확인절차', 'createIssue_testSteps', 'textarea', false);
-      _addRowToSection(sec4, [
-        { label: '예상결과', id: 'createIssue_expectedResult', type: 'text', required: false },
-        { label: '실제결과', id: 'createIssue_actualResult', type: 'text', required: false }
-      ]);
-
-      // Section 5: 첨부파일
-      var sec5 = _addSection('첨부파일');
+      // === Attachment zone (always visible — QA always needs screenshots) ===
       var attachGroup = document.createElement('div');
       attachGroup.className = 'issue-form-group';
+      attachGroup.style.marginTop = '8px';
+      var attachLabel = document.createElement('label');
+      attachLabel.className = 'issue-form-label';
+      attachLabel.textContent = '첨부파일';
+      attachGroup.appendChild(attachLabel);
       var dropZone = document.createElement('div');
       dropZone.className = 'attachment-zone';
       dropZone.innerHTML = '파일을 드래그&드롭하거나 클립보드에서 붙여넣기';
@@ -5839,7 +5800,71 @@
       attachGrid.className = 'create-issue-attachments';
       attachGrid.id = 'createIssueAttachmentGrid';
       attachGroup.appendChild(attachGrid);
-      sec5.appendChild(attachGroup);
+      form.appendChild(attachGroup);
+
+      // === Collapsible "상세 설정" section ===
+      var detailToggle = document.createElement('div');
+      detailToggle.style.cssText = 'cursor:pointer;padding:10px 0 6px;display:flex;align-items:center;gap:6px;color:#6366f1;font-size:12px;font-weight:600;border-top:1px solid #e5e7eb;margin-top:10px;user-select:none;';
+      detailToggle.innerHTML = '<span class="toggle-arrow" style="font-size:10px;transition:transform 0.2s;">▶</span> 상세 설정 <span style="color:#9ca3af;font-weight:400;font-size:11px;">(선택사항)</span>';
+      detailToggle.onclick = function() {
+        var target = this.nextElementSibling;
+        var arrow = this.querySelector('.toggle-arrow');
+        if (target.style.display === 'none') {
+          target.style.display = 'block';
+          arrow.textContent = '▼';
+        } else {
+          target.style.display = 'none';
+          arrow.textContent = '▶';
+        }
+      };
+      form.appendChild(detailToggle);
+
+      var detailSection = document.createElement('div');
+      detailSection.style.display = 'none';
+      detailSection.style.paddingTop = '8px';
+
+      // Detail fields
+      _addRowToSection(detailSection, [
+        { label: '결함 타입', id: 'createIssue_defectType', type: 'select', required: false, options: [{ v: '', l: '선택...' }, { v: '데이터 에러', l: '데이터 에러' }, { v: '기능 에러', l: '기능 에러' }, { v: '이슈 아님', l: '이슈 아님' }, { v: '기능개선', l: '기능개선' }, { v: '기획 에러', l: '기획 에러' }, { v: '시스템 에러', l: '시스템 에러' }, { v: 'UI 에러', l: 'UI 에러' }] },
+        { label: '우선순위', id: 'createIssue_priority', type: 'select', required: false, options: [{ v: '', l: '선택...' }, { v: '1', l: '1(Critical)' }, { v: '2', l: '2(High)' }, { v: '3', l: '3(Medium)' }, { v: '4', l: '4(Low)' }] }
+      ]);
+      _addRowToSection(detailSection, [
+        { label: '배포환경', id: 'createIssue_environment', type: 'select', required: false, options: [{ v: '', l: '선택...' }, { v: '운영', l: '운영' }, { v: '스테이지', l: '스테이지' }, { v: '개발', l: '개발' }] },
+        { label: '빌드 카테고리', id: 'createIssue_buildCategory', type: 'select', required: false, options: [{ v: '', l: '선택...' }, { v: '앱', l: '앱' }, { v: '커뮤니티', l: '커뮤니티' }, { v: '쇼핑', l: '쇼핑' }, { v: '중고', l: '중고' }, { v: '예약', l: '예약' }, { v: '백오피스', l: '백오피스' }] }
+      ]);
+      _addRowToSection(detailSection, [
+        { label: '프로젝트', id: 'createIssue_projectId', type: 'select', required: false, options: [{ v: '', l: '선택...' }].concat((state.projects || []).map(function(p) { return { v: p.id, l: p.name }; })) },
+        { label: '서비스', id: 'createIssue_serviceType', type: 'select', required: false, options: [{ v: '', l: '선택...' }].concat((SERVICE_TYPES || []).map(function(st) { return { v: st, l: st }; })) }
+      ]);
+      _addFieldToSection(detailSection, '관련 이슈 (쉼표 분리)', 'createIssue_relatedIssues', 'text', false);
+
+      // Divider
+      var divider1 = document.createElement('div');
+      divider1.style.cssText = 'border-top:1px solid #f3f4f6;margin:8px 0;';
+      detailSection.appendChild(divider1);
+
+      _addRowToSection(detailSection, [
+        { label: '작업 담당자', id: 'createIssue_assignee', type: 'select', required: false, options: [{ v: '', l: '선택...' }].concat(TEAM.map(function(m) { return { v: m.id, l: m.name }; })) },
+        { label: '확인 담당자', id: 'createIssue_verifier', type: 'select', required: false, options: [{ v: '', l: '선택...' }].concat(TEAM.map(function(m) { return { v: m.id, l: m.name }; })) }
+      ]);
+      _addRowToSection(detailSection, [
+        { label: '참조자', id: 'createIssue_references', type: 'text', required: false, placeholder: '쉼표 분리' },
+        { label: '처리 기한', id: 'createIssue_deadline', type: 'date', required: false }
+      ]);
+
+      // Divider
+      var divider2 = document.createElement('div');
+      divider2.style.cssText = 'border-top:1px solid #f3f4f6;margin:8px 0;';
+      detailSection.appendChild(divider2);
+
+      _addFieldToSection(detailSection, '사전조건', 'createIssue_precondition', 'textarea', false);
+      _addFieldToSection(detailSection, '확인절차', 'createIssue_testSteps', 'textarea', false);
+      _addRowToSection(detailSection, [
+        { label: '예상결과', id: 'createIssue_expectedResult', type: 'text', required: false },
+        { label: '실제결과', id: 'createIssue_actualResult', type: 'text', required: false }
+      ]);
+
+      form.appendChild(detailSection);
 
       document.getElementById('createIssueModal').addEventListener('paste', function(e) {
         var items = e.clipboardData.items;
@@ -5892,8 +5917,6 @@
       if (!issueData.title) { _showToast('제목을 입력하세요'); return; }
       if (!issueData.type) { _showToast('이슈 유형을 선택하세요'); return; }
       if (!issueData.severity) { _showToast('심각도를 선택하세요'); return; }
-      if (!issueData.priority) { _showToast('우선순위를 선택하세요'); return; }
-      if (!issueData.environment) { _showToast('배포환경을 선택하세요'); return; }
       if (!issueData.platform) { _showToast('플랫폼을 선택하세요'); return; }
       if (!issueData.product) { _showToast('프로덕트를 선택하세요'); return; }
 
@@ -8730,6 +8753,8 @@
       const filtered = filterProjects();
       if (state.view === 'project') {
         renderProjectView(filtered, namesScroll, ganttBars);
+      } else if (state.view === 'issue') {
+        renderIssueView(namesScroll, ganttBars);
       } else {
         renderMemberView(filtered, namesScroll, ganttBars);
       }
@@ -9079,6 +9104,142 @@
       }
     }
 
+    function renderIssueView(namesScroll, ganttBars) {
+      var statusOrder = ['등록', '검토 중', '작업 진행 중', '검증 진행 중', '운영배포예정', '테스트 보류', '현재작업불가', '완료'];
+      var sevColors = { 'Block': '#ef4444', 'Major': '#f97316', 'Minor': '#3b82f6', 'Trivial': '#9ca3af' };
+      var dayW = DAY_WIDTH * state.zoom;
+
+      // Filter out completed unless status filter is set
+      var filteredIssues = _issues.filter(function(iss) {
+        if (!state.filters.status && iss.status === '완료') return false;
+        if (state.filters.search && !iss.title.includes(state.filters.search) && !iss.id.includes(state.filters.search)) return false;
+        return true;
+      });
+
+      var grouped = {};
+      statusOrder.forEach(function(s) { grouped[s] = []; });
+      filteredIssues.forEach(function(iss) {
+        var key = iss.status || '등록';
+        if (!grouped[key]) grouped[key] = [];
+        grouped[key].push(iss);
+      });
+
+      statusOrder.forEach(function(status) {
+        var issues = grouped[status];
+        if (!issues || issues.length === 0) return;
+
+        // Status group header
+        var headerNameRow = document.createElement('div');
+        headerNameRow.className = 'name-row tier-header';
+        headerNameRow.style.color = '#6366f1';
+        headerNameRow.textContent = status + ' (' + issues.length + ')';
+        namesScroll.appendChild(headerNameRow);
+
+        var headerBarRow = document.createElement('div');
+        headerBarRow.className = 'bar-row tier-header';
+        ganttBars.appendChild(headerBarRow);
+
+        issues.sort(function(a, b) {
+          var sevRank = { 'Block': 0, 'Major': 1, 'Minor': 2, 'Trivial': 3 };
+          return (sevRank[a.severity] || 9) - (sevRank[b.severity] || 9);
+        });
+
+        issues.forEach(function(iss) {
+          var nameRow = document.createElement('div');
+          nameRow.className = 'name-row';
+          nameRow.style.cursor = 'pointer';
+          nameRow.style.flexDirection = 'column';
+          nameRow.style.alignItems = 'flex-start';
+          nameRow.style.gap = '1px';
+          nameRow.style.paddingTop = '4px';
+          nameRow.style.paddingBottom = '4px';
+          var topLine = document.createElement('div');
+          topLine.style.cssText = 'display:flex;align-items:center;gap:4px;width:100%;font-size:12px;';
+          var sevDot = document.createElement('span');
+          sevDot.style.cssText = 'width:8px;height:8px;border-radius:50%;flex-shrink:0;background:' + (sevColors[iss.severity] || '#9ca3af');
+          topLine.appendChild(sevDot);
+          var idSpan = document.createElement('span');
+          idSpan.style.cssText = 'font-weight:600;color:#6366f1;flex-shrink:0;font-size:11px;';
+          idSpan.textContent = iss.id;
+          topLine.appendChild(idSpan);
+          var titleSpan = document.createElement('span');
+          titleSpan.style.cssText = 'overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;';
+          titleSpan.textContent = iss.title;
+          topLine.appendChild(titleSpan);
+          nameRow.appendChild(topLine);
+
+          if (iss.assignee) {
+            var assigneeRow = document.createElement('div');
+            assigneeRow.style.cssText = 'font-size:10px;color:#9ca3af;padding-left:12px;';
+            var member = TEAM.find(function(m) { return m.id === iss.assignee; });
+            assigneeRow.textContent = member ? member.name : iss.assignee;
+            nameRow.appendChild(assigneeRow);
+          }
+
+          nameRow.onclick = function() {
+            // Switch to issues tab and open detail
+            state.currentTab = 'issues';
+            document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+            document.querySelector('.tab[data-tab="issues"]').classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(function(tc) { tc.classList.remove('active'); });
+            document.getElementById('issues').classList.add('active');
+            renderIssues();
+            openIssueDetail(iss.id);
+          };
+          namesScroll.appendChild(nameRow);
+
+          // Bar
+          var barRow = document.createElement('div');
+          barRow.className = 'bar-row';
+          barRow.style.height = '36px';
+
+          var created = iss.created ? new Date(iss.created) : null;
+          var deadline = iss.deadline ? parseLocalDate(iss.deadline) : null;
+
+          if (created && deadline && created < GANTT_END && deadline > GANTT_START) {
+            var startDay = daysSinceStart(created);
+            var endDay = daysSinceStart(deadline);
+            if (startDay < 0) startDay = 0;
+            var left = startDay * dayW;
+            var width = Math.max((endDay - startDay + 1) * dayW, 20);
+            var bar = document.createElement('div');
+            bar.style.cssText = 'position:absolute;top:6px;height:22px;border-radius:4px;display:flex;align-items:center;padding:0 6px;font-size:10px;color:#fff;font-weight:600;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;';
+            bar.style.left = left + 'px';
+            bar.style.width = width + 'px';
+            bar.style.background = sevColors[iss.severity] || '#9ca3af';
+            bar.style.opacity = iss.status === '완료' ? '0.5' : '0.85';
+            bar.textContent = iss.title;
+            bar.title = iss.id + ': ' + iss.title + '\n' + (iss.created || '') + ' → ' + (iss.deadline || '');
+            barRow.appendChild(bar);
+          } else if (created) {
+            // Just a dot at creation
+            var startDay = daysSinceStart(created);
+            if (startDay >= 0) {
+              var dot = document.createElement('div');
+              dot.style.cssText = 'position:absolute;top:12px;width:10px;height:10px;border-radius:50%;';
+              dot.style.left = (startDay * dayW - 5) + 'px';
+              dot.style.background = sevColors[iss.severity] || '#9ca3af';
+              dot.title = iss.id + ': ' + iss.title + ' (기한 미설정)';
+              barRow.appendChild(dot);
+            }
+          }
+
+          ganttBars.appendChild(barRow);
+        });
+      });
+
+      if (filteredIssues.length === 0) {
+        var emptyNameRow = document.createElement('div');
+        emptyNameRow.className = 'name-row';
+        emptyNameRow.style.color = '#9ca3af';
+        emptyNameRow.textContent = '등록된 이슈가 없습니다';
+        namesScroll.appendChild(emptyNameRow);
+        var emptyBarRow = document.createElement('div');
+        emptyBarRow.className = 'bar-row';
+        ganttBars.appendChild(emptyBarRow);
+      }
+    }
+
     function renderMemberView(projects, namesScroll, ganttBars) {
       const memberMap = {};
       TEAM.forEach(m => memberMap[m.id] = { member: m, phases: [] });
@@ -9098,6 +9259,24 @@
             });
           }
         });
+      });
+
+      // Also include issues assigned to members
+      _issues.forEach(function(iss) {
+        if (!iss.assignee || !memberMap[iss.assignee]) return;
+        if (iss.status === '완료') return;
+        var issCreated = iss.created ? new Date(iss.created) : null;
+        var issDeadline = iss.deadline ? parseLocalDate(iss.deadline) : null;
+        if (issCreated && issDeadline) {
+          memberMap[iss.assignee].phases.push({
+            project: { id: iss.id, name: iss.title },
+            phase: 'issue',
+            start: issCreated,
+            end: issDeadline,
+            isIssue: true,
+            severity: iss.severity
+          });
+        }
       });
 
       TEAM.forEach(member => {
@@ -9146,7 +9325,8 @@
             // 리본 + 프로젝트명
             const mRibbon = document.createElement('span');
             mRibbon.className = 'phase-ribbon';
-            mRibbon.textContent = PHASE_SHORT[item.phase];
+            mRibbon.textContent = item.isIssue ? '이슈' : PHASE_SHORT[item.phase];
+            if (item.isIssue) mRibbon.style.background = 'rgba(0,0,0,0.3)';
             bar.appendChild(mRibbon);
             const mLabel = document.createElement('span');
             mLabel.className = 'bar-members';
@@ -9154,20 +9334,35 @@
             bar.appendChild(mLabel);
 
             // 툴팁 데이터
-            var phaseData = item.project.phases[item.phase];
-            bar.setAttribute('data-tooltip', item.project.name + ' - ' + PHASE_LABELS[item.phase] + '\n' + (phaseData ? phaseData.start + ' ~ ' + phaseData.end : ''));
-
-            // 리소스 충돌 체크
-            const hasConflict = sorted.some(other =>
-              other !== item && other.start < item.end && other.end > item.start
-            );
-            if (hasConflict) {
-              bar.style.border = '2px solid #ef4444';
-              bar.style.boxShadow = '0 0 4px rgba(239,68,68,0.3)';
+            if (item.isIssue) {
+              bar.setAttribute('data-tooltip', item.project.name + '\n' + (item.start ? item.start.toLocaleDateString() : '') + ' ~ ' + (item.end ? item.end.toLocaleDateString() : ''));
+            } else {
+              var phaseData = item.project.phases[item.phase];
+              bar.setAttribute('data-tooltip', item.project.name + ' - ' + PHASE_LABELS[item.phase] + '\n' + (phaseData ? phaseData.start + ' ~ ' + phaseData.end : ''));
             }
 
-            bar.onmousedown = (e) => { e.preventDefault(); startDrag(e, item.project.id, item.phase); };
-            bar.ontouchstart = (e) => { startDrag(e, item.project.id, item.phase); };
+            // Handle styling for issues
+            if (item.isIssue) {
+              var issSevColors = { 'Block': '#ef4444', 'Major': '#f97316', 'Minor': '#3b82f6', 'Trivial': '#9ca3af' };
+              bar.className = 'gantt-bar';
+              bar.style.background = issSevColors[item.severity] || '#9ca3af';
+              bar.style.borderLeft = '3px solid ' + (issSevColors[item.severity] || '#9ca3af');
+              bar.style.opacity = '0.75';
+            } else {
+              // 리소스 충돌 체크
+              const hasConflict = sorted.some(other =>
+                other !== item && other.start < item.end && other.end > item.start
+              );
+              if (hasConflict) {
+                bar.style.border = '2px solid #ef4444';
+                bar.style.boxShadow = '0 0 4px rgba(239,68,68,0.3)';
+              }
+            }
+
+            if (!item.isIssue) {
+              bar.onmousedown = (e) => { e.preventDefault(); startDrag(e, item.project.id, item.phase); };
+              bar.ontouchstart = (e) => { startDrag(e, item.project.id, item.phase); };
+            }
             row.appendChild(bar);
           });
         });

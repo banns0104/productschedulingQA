@@ -1633,11 +1633,18 @@
       padding: 12px;
       transition: box-shadow 0.2s, border-color 0.2s;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
     }
 
     .issue-card:hover {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       border-color: #d1d5db;
+    }
+
+    .issue-card-checkbox {
+      margin-right: 8px;
+      cursor: pointer;
     }
 
     .issue-card-header {
@@ -1646,6 +1653,8 @@
       align-items: flex-start;
       margin-bottom: 8px;
       gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .issue-card-id {
@@ -1904,6 +1913,162 @@
 
     .attachment-thumb:hover .attachment-remove {
       display: block;
+    }
+
+    /* Issue Summary Bar */
+    .issue-summary-bar {
+      display: flex;
+      gap: 12px;
+      padding: 12px 16px;
+      background: #f9fafb;
+      border-bottom: 1px solid #e5e7eb;
+      align-items: center;
+    }
+
+    .issue-summary-item {
+      padding: 6px 12px;
+      background: white;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #374151;
+    }
+
+    .issue-summary-item:hover {
+      background: #f3f4f6;
+      cursor: pointer;
+    }
+
+    /* Issue View Mode Buttons */
+    .issue-view-btn {
+      padding: 6px 12px;
+      background: white;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      color: #6b7280;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .issue-view-btn:hover {
+      border-color: #2563eb;
+      color: #2563eb;
+    }
+
+    .issue-view-btn.active {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+
+    /* Bulk Action Bar */
+    .issue-bulk-bar {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      background: #fef3c7;
+      border-bottom: 1px solid #fbbf24;
+      align-items: center;
+      font-size: 12px;
+      color: #78350f;
+    }
+
+    /* Issue Card Severity Bar */
+    .issue-card {
+      border-left: 4px solid #9ca3af;
+    }
+
+    .issue-card.severity-critical {
+      border-left-color: #dc2626;
+    }
+
+    .issue-card.severity-major {
+      border-left-color: #f97316;
+    }
+
+    .issue-card.severity-minor {
+      border-left-color: #3b82f6;
+    }
+
+    .issue-card.severity-trivial {
+      border-left-color: #9ca3af;
+    }
+
+    /* Issue Group Header */
+    .issue-group-header {
+      padding: 12px 16px;
+      background: #f3f4f6;
+      border-top: 2px solid #d1d5db;
+      border-bottom: 1px solid #e5e7eb;
+      font-weight: 600;
+      font-size: 13px;
+      color: #374151;
+      margin-top: 16px;
+    }
+
+    /* Issue New Badge */
+    .issue-new-badge {
+      display: inline-block;
+      background: #dc2626;
+      color: white;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 4px;
+      border-radius: 2px;
+      margin-left: 4px;
+    }
+
+    /* Form Layout */
+    .issue-form-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .issue-form-row > .issue-form-group {
+      flex: 1;
+      margin-bottom: 0;
+    }
+
+    /* Create Issue Attachments Preview */
+    .create-issue-attachments {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .create-issue-attachment-thumb {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #f3f4f6;
+      cursor: pointer;
+      border: 1px solid #e5e7eb;
+    }
+
+    .create-issue-attachment-thumb img,
+    .create-issue-attachment-thumb video {
+      width: 100%;
+      height: 80px;
+      object-fit: cover;
+    }
+
+    .create-issue-attachment-remove {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      border-radius: 2px;
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      cursor: pointer;
+      font-size: 12px;
     }
 
     /* Lightbox */
@@ -2757,6 +2922,25 @@
 
       <!-- Tab 3: Issues -->
       <div class="tab-content" id="issues">
+        <!-- Issue Summary Bar -->
+        <div class="issue-summary-bar" id="issueSummaryBar">
+          <div class="issue-summary-item" onclick="filterIssuesByStatus('')" style="cursor:pointer;">
+            <strong id="summaryTotal">전체 0</strong>
+          </div>
+          <div class="issue-summary-item" onclick="filterIssuesByStatus('open')" style="cursor:pointer;">
+            <strong id="summaryOpen">열린이슈 0</strong>
+          </div>
+          <div class="issue-summary-item" onclick="filterIssuesByStatus('in-progress')" style="cursor:pointer;">
+            <strong id="summaryProgress">진행중 0</strong>
+          </div>
+          <div class="issue-summary-item" onclick="filterIssuesByStatus('resolved')" style="cursor:pointer;">
+            <strong id="summaryResolved">해결됨 0</strong>
+          </div>
+          <div class="issue-summary-item" onclick="filterIssuesByStatus('closed')" style="cursor:pointer;">
+            <strong id="summaryClosed">종료 0</strong>
+          </div>
+        </div>
+        <!-- Filter Toolbar Row 1 -->
         <div class="issue-toolbar">
           <select id="issueStatusFilter" onchange="renderIssues()" style="padding:6px 8px;">
             <option value="">전체 상태</option>
@@ -2774,13 +2958,33 @@
             <option value="minor">Minor</option>
             <option value="trivial">Trivial</option>
           </select>
-          <select id="issueProjectFilter" onchange="renderIssues()" style="padding:6px 8px;">
-            <option value="">전체 프로젝트</option>
+          <select id="issuePriorityFilter" onchange="renderIssues()" style="padding:6px 8px;">
+            <option value="">전체 우선순위</option>
+            <option value="highest">최상</option>
+            <option value="high">높음</option>
+            <option value="medium">중간</option>
+            <option value="low">낮음</option>
           </select>
           <input type="text" id="issueSearchInput" placeholder="이슈 검색..." onkeyup="renderIssues()" style="padding:6px 8px; min-width:180px;">
           <div style="flex:1;"></div>
           <button class="btn write-only-ui" onclick="createIssue()" style="font-size:12px;padding:6px 12px;">+ 이슈 등록</button>
           <button class="btn btn-secondary" onclick="openDeployBundleManager()" style="font-size:12px;padding:6px 12px;">📦 배포 관리</button>
+        </div>
+        <!-- View Mode Buttons Row 2 -->
+        <div style="display:flex;gap:8px;padding:8px 16px;border-bottom:1px solid #e5e7eb;">
+          <button class="issue-view-btn active" onclick="switchIssueView('all')">전체</button>
+          <button class="issue-view-btn" onclick="switchIssueView('by-project')">프로젝트별</button>
+          <button class="issue-view-btn" onclick="switchIssueView('by-service')">서비스별</button>
+          <button class="issue-view-btn" onclick="switchIssueView('by-assignee')">담당자별</button>
+        </div>
+        <!-- Bulk Action Bar (hidden by default) -->
+        <div class="issue-bulk-bar" id="issueBulkBar" style="display:none;">
+          <span id="bulkCount">0개 선택</span>
+          <button class="btn btn-secondary" style="font-size:12px;padding:4px 8px;" onclick="bulkUpdateIssueStatus()">상태 변경</button>
+          <button class="btn btn-secondary" style="font-size:12px;padding:4px 8px;" onclick="bulkUpdateIssueAssignee()">담당자 변경</button>
+          <button class="btn btn-secondary" style="color:#dc2626;font-size:12px;padding:4px 8px;" onclick="bulkDeleteIssues()">삭제</button>
+          <div style="flex:1;"></div>
+          <button class="btn btn-secondary" style="font-size:12px;padding:4px 8px;" onclick="clearIssueSelection()">취소</button>
         </div>
         <div class="issue-cards-grid" id="issuesContainer"></div>
       </div>
@@ -2890,6 +3094,7 @@
     <div style="padding:12px 16px;border-top:1px solid #e5e7eb;display:flex;gap:6px;flex-shrink:0;" id="issueDetailActions">
       <button class="btn btn-secondary" onclick="closeIssueDetail()">닫기</button>
       <button class="btn write-only-ui" id="issueDetailSaveBtn" onclick="saveIssue()">저장</button>
+      <button class="btn btn-secondary write-only-ui" onclick="addIssueToBundle()" style="color:#7c3aed;" title="배포 번들에 이 이슈 추가">📦 배포에 추가</button>
       <button class="btn btn-secondary write-only-ui" id="issueDetailDeleteBtn" style="color:#dc2626;" onclick="deleteIssue()">삭제</button>
     </div>
   </div>
@@ -5355,68 +5560,301 @@
       return 'DEP-' + today + '-' + String(maxSuffix + 1).padStart(2, '0');
     }
 
+    var _createIssueAttachments = [];
+
     function createIssue() {
       if (!_hasWritePermission()) { _checkWritePermission(); return; }
+      _createIssueAttachments = [];
       document.getElementById('createIssueModal').classList.add('show');
       var form = document.getElementById('createIssueForm');
       form.innerHTML = '';
+      _targetAttachmentContext = 'create';
 
-      var fields = [
-        { name: 'title', label: '제목', type: 'text', required: true },
-        { name: 'description', label: '설명', type: 'textarea', required: false },
-        { name: 'type', label: '유형', type: 'select', options: ['bug', 'improvement', 'task', 'design'], required: true },
-        { name: 'severity', label: '심각도', type: 'select', options: ['critical', 'major', 'minor', 'trivial'], required: true },
-        { name: 'priority', label: '우선순위', type: 'select', options: ['highest', 'high', 'medium', 'low'], required: true },
-        { name: 'projectId', label: '프로젝트', type: 'select', options: state.projects.map(p => ({ value: p.id, label: p.name })), required: false }
-      ];
+      // Row 1: Title (full width)
+      var titleGroup = document.createElement('div');
+      titleGroup.className = 'issue-form-group';
+      var titleLabel = document.createElement('label');
+      titleLabel.className = 'issue-form-label';
+      titleLabel.textContent = '제목';
+      titleGroup.appendChild(titleLabel);
+      var titleInput = document.createElement('input');
+      titleInput.type = 'text';
+      titleInput.id = 'createIssue_title';
+      titleInput.className = 'issue-form-input';
+      titleInput.placeholder = '이슈 제목을 입력하세요';
+      titleInput.required = true;
+      titleGroup.appendChild(titleInput);
+      form.appendChild(titleGroup);
 
-      fields.forEach(function(field) {
-        var group = document.createElement('div');
-        group.className = 'issue-form-group';
+      // Row 2: Type | Severity
+      var row2 = document.createElement('div');
+      row2.className = 'issue-form-row';
+      var typeGroup = document.createElement('div');
+      typeGroup.className = 'issue-form-group';
+      var typeLabel = document.createElement('label');
+      typeLabel.className = 'issue-form-label';
+      typeLabel.textContent = '유형';
+      typeGroup.appendChild(typeLabel);
+      var typeSelect = document.createElement('select');
+      typeSelect.id = 'createIssue_type';
+      typeSelect.className = 'issue-form-select';
+      typeSelect.required = true;
+      [{ v: '', l: '선택...' }, { v: 'bug', l: '버그' }, { v: 'improvement', l: '개선' }, { v: 'task', l: '작업' }, { v: 'design', l: '디자인' }].forEach(function(o) {
+        var opt = document.createElement('option');
+        opt.value = o.v;
+        opt.textContent = o.l;
+        typeSelect.appendChild(opt);
+      });
+      typeGroup.appendChild(typeSelect);
+      row2.appendChild(typeGroup);
 
-        var label = document.createElement('label');
-        label.className = 'issue-form-label';
-        label.textContent = field.label;
-        group.appendChild(label);
+      var severityGroup = document.createElement('div');
+      severityGroup.className = 'issue-form-group';
+      var severityLabel = document.createElement('label');
+      severityLabel.className = 'issue-form-label';
+      severityLabel.textContent = '심각도';
+      severityGroup.appendChild(severityLabel);
+      var severitySelect = document.createElement('select');
+      severitySelect.id = 'createIssue_severity';
+      severitySelect.className = 'issue-form-select';
+      severitySelect.required = true;
+      [{ v: '', l: '선택...' }, { v: 'critical', l: 'Critical' }, { v: 'major', l: 'Major' }, { v: 'minor', l: 'Minor' }, { v: 'trivial', l: 'Trivial' }].forEach(function(o) {
+        var opt = document.createElement('option');
+        opt.value = o.v;
+        opt.textContent = o.l;
+        severitySelect.appendChild(opt);
+      });
+      severityGroup.appendChild(severitySelect);
+      row2.appendChild(severityGroup);
+      form.appendChild(row2);
 
-        if (field.type === 'textarea') {
-          var textarea = document.createElement('textarea');
-          textarea.id = 'createIssue_' + field.name;
-          textarea.className = 'issue-form-textarea';
-          textarea.placeholder = field.label;
-          group.appendChild(textarea);
-        } else if (field.type === 'select') {
-          var select = document.createElement('select');
-          select.id = 'createIssue_' + field.name;
-          select.className = 'issue-form-select';
-          var opt = document.createElement('option');
-          opt.value = '';
-          opt.textContent = '선택...';
-          select.appendChild(opt);
+      // Row 3: Priority | Environment
+      var row3 = document.createElement('div');
+      row3.className = 'issue-form-row';
+      var priorityGroup = document.createElement('div');
+      priorityGroup.className = 'issue-form-group';
+      var priorityLabel = document.createElement('label');
+      priorityLabel.className = 'issue-form-label';
+      priorityLabel.textContent = '우선순위';
+      priorityGroup.appendChild(priorityLabel);
+      var prioritySelect = document.createElement('select');
+      prioritySelect.id = 'createIssue_priority';
+      prioritySelect.className = 'issue-form-select';
+      prioritySelect.required = true;
+      [{ v: '', l: '선택...' }, { v: 'highest', l: '최상' }, { v: 'high', l: '높음' }, { v: 'medium', l: '중간' }, { v: 'low', l: '낮음' }].forEach(function(o) {
+        var opt = document.createElement('option');
+        opt.value = o.v;
+        opt.textContent = o.l;
+        prioritySelect.appendChild(opt);
+      });
+      priorityGroup.appendChild(prioritySelect);
+      row3.appendChild(priorityGroup);
 
-          var opts = field.options || [];
-          opts.forEach(function(o) {
-            var optEl = document.createElement('option');
-            if (typeof o === 'string') {
-              optEl.value = o;
-              optEl.textContent = o;
-            } else {
-              optEl.value = o.value;
-              optEl.textContent = o.label;
-            }
-            select.appendChild(optEl);
-          });
-          group.appendChild(select);
-        } else {
-          var input = document.createElement('input');
-          input.type = field.type;
-          input.id = 'createIssue_' + field.name;
-          input.className = 'issue-form-input';
-          input.placeholder = field.label;
-          if (field.required) input.required = true;
-          group.appendChild(input);
+      var envGroup = document.createElement('div');
+      envGroup.className = 'issue-form-group';
+      var envLabel = document.createElement('label');
+      envLabel.className = 'issue-form-label';
+      envLabel.textContent = '환경';
+      envGroup.appendChild(envLabel);
+      var envSelect = document.createElement('select');
+      envSelect.id = 'createIssue_environment';
+      envSelect.className = 'issue-form-select';
+      [{ v: '', l: '선택...' }, { v: 'production', l: '운영' }, { v: 'staging', l: '스테이징' }, { v: 'development', l: '개발' }].forEach(function(o) {
+        var opt = document.createElement('option');
+        opt.value = o.v;
+        opt.textContent = o.l;
+        envSelect.appendChild(opt);
+      });
+      envGroup.appendChild(envSelect);
+      row3.appendChild(envGroup);
+      form.appendChild(row3);
+
+      // Row 4: Service | Project
+      var row4 = document.createElement('div');
+      row4.className = 'issue-form-row';
+      var serviceGroup = document.createElement('div');
+      serviceGroup.className = 'issue-form-group';
+      var serviceLabel = document.createElement('label');
+      serviceLabel.className = 'issue-form-label';
+      serviceLabel.textContent = '서비스';
+      serviceGroup.appendChild(serviceLabel);
+      var serviceSelect = document.createElement('select');
+      serviceSelect.id = 'createIssue_serviceType';
+      serviceSelect.className = 'issue-form-select';
+      var opt = document.createElement('option');
+      opt.value = '';
+      opt.textContent = '선택...';
+      serviceSelect.appendChild(opt);
+      SERVICE_TYPES.forEach(function(st) {
+        var o = document.createElement('option');
+        o.value = st;
+        o.textContent = st;
+        serviceSelect.appendChild(o);
+      });
+      serviceGroup.appendChild(serviceSelect);
+      row4.appendChild(serviceGroup);
+
+      var projectGroup = document.createElement('div');
+      projectGroup.className = 'issue-form-group';
+      var projectLabel = document.createElement('label');
+      projectLabel.className = 'issue-form-label';
+      projectLabel.textContent = '프로젝트';
+      projectGroup.appendChild(projectLabel);
+      var projectSelect = document.createElement('select');
+      projectSelect.id = 'createIssue_projectId';
+      projectSelect.className = 'issue-form-select';
+      var opt2 = document.createElement('option');
+      opt2.value = '';
+      opt2.textContent = '선택...';
+      projectSelect.appendChild(opt2);
+      state.projects.forEach(function(p) {
+        var o = document.createElement('option');
+        o.value = p.id;
+        o.textContent = p.name;
+        projectSelect.appendChild(o);
+      });
+      projectGroup.appendChild(projectSelect);
+      row4.appendChild(projectGroup);
+      form.appendChild(row4);
+
+      // Row 5: Assignee
+      var assigneeGroup = document.createElement('div');
+      assigneeGroup.className = 'issue-form-group';
+      var assigneeLabel = document.createElement('label');
+      assigneeLabel.className = 'issue-form-label';
+      assigneeLabel.textContent = '담당자';
+      assigneeGroup.appendChild(assigneeLabel);
+      var assigneeSelect = document.createElement('select');
+      assigneeSelect.id = 'createIssue_assignee';
+      assigneeSelect.className = 'issue-form-select';
+      var opt3 = document.createElement('option');
+      opt3.value = '';
+      opt3.textContent = '선택...';
+      assigneeSelect.appendChild(opt3);
+      TEAM.forEach(function(m) {
+        var o = document.createElement('option');
+        o.value = m.id;
+        o.textContent = m.name;
+        assigneeSelect.appendChild(o);
+      });
+      assigneeGroup.appendChild(assigneeSelect);
+      form.appendChild(assigneeGroup);
+
+      // Row 6: Deadline
+      var deadlineGroup = document.createElement('div');
+      deadlineGroup.className = 'issue-form-group';
+      var deadlineLabel = document.createElement('label');
+      deadlineLabel.className = 'issue-form-label';
+      deadlineLabel.textContent = '처리 기한';
+      deadlineGroup.appendChild(deadlineLabel);
+      var deadlineInput = document.createElement('input');
+      deadlineInput.type = 'date';
+      deadlineInput.id = 'createIssue_deadline';
+      deadlineInput.className = 'issue-form-input';
+      deadlineGroup.appendChild(deadlineInput);
+      form.appendChild(deadlineGroup);
+
+      // Row 7: Description
+      var descGroup = document.createElement('div');
+      descGroup.className = 'issue-form-group';
+      var descLabel = document.createElement('label');
+      descLabel.className = 'issue-form-label';
+      descLabel.textContent = '설명';
+      descGroup.appendChild(descLabel);
+      var descTextarea = document.createElement('textarea');
+      descTextarea.id = 'createIssue_description';
+      descTextarea.className = 'issue-form-textarea';
+      descTextarea.placeholder = '이슈 설명을 입력하세요';
+      descGroup.appendChild(descTextarea);
+      form.appendChild(descGroup);
+
+      // Row 8: Steps to Reproduce
+      var stepsGroup = document.createElement('div');
+      stepsGroup.className = 'issue-form-group';
+      var stepsLabel = document.createElement('label');
+      stepsLabel.className = 'issue-form-label';
+      stepsLabel.textContent = '재현 방법';
+      stepsGroup.appendChild(stepsLabel);
+      var stepsTextarea = document.createElement('textarea');
+      stepsTextarea.id = 'createIssue_stepsToReproduce';
+      stepsTextarea.className = 'issue-form-textarea';
+      stepsTextarea.placeholder = '재현 방법을 입력하세요';
+      stepsGroup.appendChild(stepsTextarea);
+      form.appendChild(stepsGroup);
+
+      // Row 9: Expected vs Actual
+      var row9 = document.createElement('div');
+      row9.className = 'issue-form-row';
+      var expectedGroup = document.createElement('div');
+      expectedGroup.className = 'issue-form-group';
+      var expectedLabel = document.createElement('label');
+      expectedLabel.className = 'issue-form-label';
+      expectedLabel.textContent = '기대 결과';
+      expectedGroup.appendChild(expectedLabel);
+      var expectedTextarea = document.createElement('textarea');
+      expectedTextarea.id = 'createIssue_expectedResult';
+      expectedTextarea.className = 'issue-form-textarea';
+      expectedTextarea.style.minHeight = '60px';
+      expectedTextarea.placeholder = '기대되는 결과를 입력하세요';
+      expectedGroup.appendChild(expectedTextarea);
+      row9.appendChild(expectedGroup);
+
+      var actualGroup = document.createElement('div');
+      actualGroup.className = 'issue-form-group';
+      var actualLabel = document.createElement('label');
+      actualLabel.className = 'issue-form-label';
+      actualLabel.textContent = '실제 결과';
+      actualGroup.appendChild(actualLabel);
+      var actualTextarea = document.createElement('textarea');
+      actualTextarea.id = 'createIssue_actualResult';
+      actualTextarea.className = 'issue-form-textarea';
+      actualTextarea.style.minHeight = '60px';
+      actualTextarea.placeholder = '실제 발생한 결과를 입력하세요';
+      actualGroup.appendChild(actualTextarea);
+      row9.appendChild(actualGroup);
+      form.appendChild(row9);
+
+      // Row 10: Attachments
+      var attachGroup = document.createElement('div');
+      attachGroup.className = 'issue-form-group';
+      var attachLabel = document.createElement('label');
+      attachLabel.className = 'issue-form-label';
+      attachLabel.textContent = '첨부파일';
+      attachGroup.appendChild(attachLabel);
+      var dropZone = document.createElement('div');
+      dropZone.className = 'attachment-zone';
+      dropZone.innerHTML = '파일을 드래그&드롭하거나 클립보드에서 붙여넣기';
+      dropZone.ondrop = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZone.classList.remove('drag-over');
+        _targetAttachmentContext = 'create';
+        handleFileAttachment(e.dataTransfer.files);
+      };
+      dropZone.ondragover = function(e) {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+      };
+      dropZone.ondragleave = function() {
+        dropZone.classList.remove('drag-over');
+      };
+      attachGroup.appendChild(dropZone);
+      var attachGrid = document.createElement('div');
+      attachGrid.className = 'create-issue-attachments';
+      attachGrid.id = 'createIssueAttachmentGrid';
+      attachGroup.appendChild(attachGrid);
+      form.appendChild(attachGroup);
+
+      // Add paste listener
+      document.getElementById('createIssueModal').addEventListener('paste', function(e) {
+        var items = e.clipboardData.items;
+        for (var i = 0; i < items.length; i++) {
+          if (items[i].type.indexOf('image') !== -1) {
+            var file = items[i].getAsFile();
+            _targetAttachmentContext = 'create';
+            handleFileAttachment([file]);
+          }
         }
-        form.appendChild(group);
       });
     }
 
@@ -5433,22 +5871,25 @@
         severity: document.getElementById('createIssue_severity').value,
         priority: document.getElementById('createIssue_priority').value,
         projectId: document.getElementById('createIssue_projectId').value || '',
+        serviceType: document.getElementById('createIssue_serviceType').value || '',
+        assignee: document.getElementById('createIssue_assignee').value || '',
+        deadline: document.getElementById('createIssue_deadline').value || '',
         status: 'open',
-        assignee: '',
         reporter: state.currentUser ? state.currentUser.uid : '',
-        attachments: [],
+        attachments: _createIssueAttachments.slice(),
         comments: [],
         labels: [],
         created: new Date().toISOString(),
         updated: new Date().toISOString(),
         resolvedDate: '',
-        environment: '',
-        stepsToReproduce: '',
-        expectedResult: '',
-        actualResult: ''
+        environment: document.getElementById('createIssue_environment').value || '',
+        stepsToReproduce: document.getElementById('createIssue_stepsToReproduce').value,
+        expectedResult: document.getElementById('createIssue_expectedResult').value,
+        actualResult: document.getElementById('createIssue_actualResult').value
       };
 
       if (!issueData.title) { _showToast('제목을 입력하세요'); return; }
+      if (!issueData.type) { _showToast('유형을 선택하세요'); return; }
       if (!issueData.severity) { _showToast('심각도를 선택하세요'); return; }
       if (!issueData.priority) { _showToast('우선순위를 선택하세요'); return; }
 
@@ -5477,30 +5918,49 @@
       if (state.currentTab === 'issues') renderIssues();
     }
 
+    var _issueViewMode = 'all';
+    var _selectedIssues = {};
+
+    function switchIssueView(mode) {
+      _issueViewMode = mode;
+      var buttons = document.querySelectorAll('.issue-view-btn');
+      buttons.forEach(function(btn) {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      renderIssues();
+    }
+
+    function filterIssuesByStatus(status) {
+      document.getElementById('issueStatusFilter').value = status;
+      renderIssues();
+    }
+
     function renderIssues() {
       var statusFilter = document.getElementById('issueStatusFilter').value;
       var severityFilter = document.getElementById('issueSeverityFilter').value;
-      var projectFilter = document.getElementById('issueProjectFilter').value;
+      var priorityFilter = document.getElementById('issuePriorityFilter').value;
       var searchText = document.getElementById('issueSearchInput').value.toLowerCase();
-
-      // Update project filter dropdown
-      var projSelect = document.getElementById('issueProjectFilter');
-      if (projSelect.options.length === 1) {
-        state.projects.forEach(function(p) {
-          var opt = document.createElement('option');
-          opt.value = p.id;
-          opt.textContent = p.name;
-          projSelect.appendChild(opt);
-        });
-      }
 
       var filtered = _issues.filter(function(iss) {
         if (statusFilter && iss.status !== statusFilter) return false;
         if (severityFilter && iss.severity !== severityFilter) return false;
-        if (projectFilter && iss.projectId !== projectFilter) return false;
+        if (priorityFilter && iss.priority !== priorityFilter) return false;
         if (searchText && !iss.title.toLowerCase().includes(searchText) && !iss.id.toLowerCase().includes(searchText)) return false;
         return true;
       });
+
+      // Update summary bar
+      var total = _issues.length;
+      var open = _issues.filter(function(i) { return i.status === 'open'; }).length;
+      var progress = _issues.filter(function(i) { return i.status === 'in-progress'; }).length;
+      var resolved = _issues.filter(function(i) { return i.status === 'resolved'; }).length;
+      var closed = _issues.filter(function(i) { return i.status === 'closed'; }).length;
+      document.getElementById('summaryTotal').textContent = '전체 ' + total;
+      document.getElementById('summaryOpen').textContent = '열린이슈 ' + open;
+      document.getElementById('summaryProgress').textContent = '진행중 ' + progress;
+      document.getElementById('summaryResolved').textContent = '해결됨 ' + resolved;
+      document.getElementById('summaryClosed').textContent = '종료 ' + closed;
 
       var container = document.getElementById('issuesContainer');
       container.innerHTML = '';
@@ -5510,186 +5970,639 @@
         return;
       }
 
-      filtered.forEach(function(iss) {
-        var card = document.createElement('div');
-        card.className = 'issue-card';
-        card.onclick = function() { openIssueDetail(iss.id); };
+      // Sort by created date (desc)
+      filtered.sort(function(a, b) { return new Date(b.created) - new Date(a.created); });
 
-        var header = document.createElement('div');
-        header.className = 'issue-card-header';
-
-        var id = document.createElement('div');
-        id.className = 'issue-card-id';
-        id.textContent = iss.id;
-        header.appendChild(id);
-
-        var badges = document.createElement('div');
-        badges.style.display = 'flex';
-        badges.style.gap = '4px';
-        var statusBadge = document.createElement('span');
-        statusBadge.className = 'status-badge status-' + iss.status;
-        statusBadge.textContent = iss.status;
-        badges.appendChild(statusBadge);
-        header.appendChild(badges);
-
-        var title = document.createElement('div');
-        title.className = 'issue-card-title';
-        title.textContent = iss.title;
-        card.appendChild(title);
-
-        var badgeRow = document.createElement('div');
-        badgeRow.className = 'issue-badges';
-
-        var sevBadge = document.createElement('span');
-        sevBadge.className = 'severity-badge severity-' + iss.severity;
-        sevBadge.textContent = iss.severity;
-        badgeRow.appendChild(sevBadge);
-
-        var priBadge = document.createElement('span');
-        priBadge.className = 'priority-badge priority-' + iss.priority;
-        priBadge.textContent = iss.priority;
-        badgeRow.appendChild(priBadge);
-
-        card.appendChild(header);
-        card.appendChild(badgeRow);
-
-        var meta = document.createElement('div');
-        meta.className = 'issue-card-meta';
-
-        var attachCount = document.createElement('span');
-        attachCount.className = 'issue-meta-item';
-        attachCount.innerHTML = '📎 ' + (iss.attachments ? iss.attachments.length : 0);
-        meta.appendChild(attachCount);
-
-        var commentCount = document.createElement('span');
-        commentCount.className = 'issue-meta-item';
-        commentCount.innerHTML = '💬 ' + (iss.comments ? iss.comments.length : 0);
-        meta.appendChild(commentCount);
-
-        var date = document.createElement('span');
-        date.className = 'issue-meta-item';
-        date.textContent = new Date(iss.created).toLocaleDateString('ko-KR');
-        meta.appendChild(date);
-
-        card.appendChild(meta);
-        container.appendChild(card);
-      });
+      // Group if needed
+      if (_issueViewMode === 'by-project') {
+        var grouped = {};
+        filtered.forEach(function(iss) {
+          var key = iss.projectId || '(미할당)';
+          if (!grouped[key]) grouped[key] = [];
+          grouped[key].push(iss);
+        });
+        Object.keys(grouped).forEach(function(key) {
+          var header = document.createElement('div');
+          header.className = 'issue-group-header';
+          var projName = key === '(미할당)' ? key : (state.projects.find(function(p) { return p.id === key; }) || {name: key}).name;
+          header.textContent = '📁 ' + projName;
+          container.appendChild(header);
+          grouped[key].forEach(function(iss) {
+            _renderIssueCard(container, iss);
+          });
+        });
+      } else if (_issueViewMode === 'by-service') {
+        var grouped = {};
+        filtered.forEach(function(iss) {
+          var key = iss.serviceType || '(미할당)';
+          if (!grouped[key]) grouped[key] = [];
+          grouped[key].push(iss);
+        });
+        Object.keys(grouped).forEach(function(key) {
+          var header = document.createElement('div');
+          header.className = 'issue-group-header';
+          header.innerHTML = serviceTagHTML(key, '11px') + ' ' + key;
+          container.appendChild(header);
+          grouped[key].forEach(function(iss) {
+            _renderIssueCard(container, iss);
+          });
+        });
+      } else if (_issueViewMode === 'by-assignee') {
+        var grouped = {};
+        filtered.forEach(function(iss) {
+          var key = iss.assignee || '(미할당)';
+          if (!grouped[key]) grouped[key] = [];
+          grouped[key].push(iss);
+        });
+        Object.keys(grouped).forEach(function(key) {
+          var header = document.createElement('div');
+          header.className = 'issue-group-header';
+          var memberName = key === '(미할당)' ? key : (TEAM.find(function(m) { return m.id === key; }) || {name: key}).name;
+          header.textContent = '👤 ' + memberName;
+          container.appendChild(header);
+          grouped[key].forEach(function(iss) {
+            _renderIssueCard(container, iss);
+          });
+        });
+      } else {
+        filtered.forEach(function(iss) {
+          _renderIssueCard(container, iss);
+        });
+      }
     }
+
+    function _renderIssueCard(container, iss) {
+      var card = document.createElement('div');
+      card.className = 'issue-card severity-' + iss.severity;
+      card.style.display = 'flex';
+      card.style.gap = '8px';
+      card.style.alignItems = 'flex-start';
+      var isNew = (Date.now() - new Date(iss.created).getTime()) < 86400000;
+      card.onclick = function(e) {
+        if (e.target.type !== 'checkbox') openIssueDetail(iss.id);
+      };
+
+      // Checkbox wrapper
+      var checkboxWrap = document.createElement('div');
+      checkboxWrap.style.marginTop = '2px';
+      checkboxWrap.style.flexShrink = '0';
+      var checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.className = 'issue-card-checkbox';
+      checkbox.onclick = function(e) {
+        e.stopPropagation();
+        if (e.target.checked) {
+          _selectedIssues[iss.id] = iss;
+        } else {
+          delete _selectedIssues[iss.id];
+        }
+        updateBulkBar();
+      };
+      checkboxWrap.appendChild(checkbox);
+      card.appendChild(checkboxWrap);
+
+      // Content wrapper
+      var content = document.createElement('div');
+      content.style.flex = '1';
+      content.style.minWidth = '0';
+
+      var header = document.createElement('div');
+      header.className = 'issue-card-header';
+      var id = document.createElement('div');
+      id.className = 'issue-card-id';
+      id.style.cursor = 'pointer';
+      id.onclick = function(e) { e.stopPropagation(); copyIssueId(iss.id); };
+      id.textContent = iss.id;
+      if (isNew) id.innerHTML += '<span class="issue-new-badge">NEW</span>';
+      header.appendChild(id);
+
+      var title = document.createElement('div');
+      title.className = 'issue-card-title';
+      title.textContent = iss.title;
+      header.appendChild(title);
+      content.appendChild(header);
+
+      // Badges
+      var badgeRow = document.createElement('div');
+      badgeRow.className = 'issue-badges';
+      var sevBadge = document.createElement('span');
+      sevBadge.className = 'severity-badge severity-' + iss.severity;
+      sevBadge.textContent = iss.severity;
+      badgeRow.appendChild(sevBadge);
+
+      var priBadge = document.createElement('span');
+      priBadge.className = 'priority-badge priority-' + iss.priority;
+      priBadge.textContent = iss.priority;
+      badgeRow.appendChild(priBadge);
+
+      var typeBadge = document.createElement('span');
+      typeBadge.style.display = 'inline-block';
+      typeBadge.style.padding = '2px 6px';
+      typeBadge.style.borderRadius = '3px';
+      typeBadge.style.fontSize = '10px';
+      typeBadge.style.fontWeight = '600';
+      typeBadge.style.background = '#e5e7eb';
+      typeBadge.style.color = '#374151';
+      typeBadge.textContent = iss.type;
+      badgeRow.appendChild(typeBadge);
+
+      content.appendChild(badgeRow);
+
+      // Meta
+      var meta = document.createElement('div');
+      meta.className = 'issue-card-meta';
+
+      if (iss.serviceType) {
+        var sTag = document.createElement('span');
+        sTag.className = 'issue-meta-item';
+        sTag.innerHTML = serviceTagHTML(iss.serviceType, '9px');
+        meta.appendChild(sTag);
+      }
+
+      if (iss.projectId) {
+        var pLink = document.createElement('span');
+        pLink.className = 'issue-meta-item';
+        pLink.style.cursor = 'pointer';
+        pLink.textContent = '📁 ' + (state.projects.find(function(p) { return p.id === iss.projectId; }) || {name: iss.projectId}).name;
+        pLink.onclick = function(e) { e.stopPropagation(); };
+        meta.appendChild(pLink);
+      }
+
+      if (iss.assignee) {
+        var aItem = document.createElement('span');
+        aItem.className = 'issue-meta-item issue-assignee';
+        var member = TEAM.find(function(m) { return m.id === iss.assignee; });
+        if (member) {
+          var avatar = document.createElement('div');
+          avatar.className = 'issue-assignee-avatar';
+          avatar.style.background = member.color;
+          avatar.textContent = member.name.substring(0, 1);
+          aItem.appendChild(avatar);
+          aItem.appendChild(document.createTextNode(member.name));
+        }
+        meta.appendChild(aItem);
+      }
+
+      if (iss.deadline) {
+        var deadline = new Date(iss.deadline);
+        var isOverdue = deadline < new Date() && iss.status !== 'closed' && iss.status !== 'resolved' && iss.status !== 'verified';
+        var dItem = document.createElement('span');
+        dItem.className = 'issue-meta-item';
+        if (isOverdue) {
+          dItem.style.color = '#dc2626';
+          dItem.style.fontWeight = '600';
+          dItem.textContent = '⚠️ 기한초과';
+        } else {
+          dItem.textContent = deadline.toLocaleDateString('ko-KR');
+        }
+        meta.appendChild(dItem);
+      }
+
+      var attachCount = document.createElement('span');
+      attachCount.className = 'issue-meta-item';
+      attachCount.innerHTML = '📎 ' + (iss.attachments ? iss.attachments.length : 0);
+      meta.appendChild(attachCount);
+
+      var commentCount = document.createElement('span');
+      commentCount.className = 'issue-meta-item';
+      commentCount.innerHTML = '💬 ' + (iss.comments ? iss.comments.length : 0);
+      meta.appendChild(commentCount);
+
+      var date = document.createElement('span');
+      date.className = 'issue-meta-item';
+      date.textContent = new Date(iss.created).toLocaleDateString('ko-KR');
+      meta.appendChild(date);
+
+      content.appendChild(meta);
+      card.appendChild(content);
+      container.appendChild(card);
+    }
+
+    function updateBulkBar() {
+      var count = Object.keys(_selectedIssues).length;
+      var bar = document.getElementById('issueBulkBar');
+      if (count > 0) {
+        bar.style.display = 'flex';
+        document.getElementById('bulkCount').textContent = count + '개 선택';
+      } else {
+        bar.style.display = 'none';
+      }
+    }
+
+    function clearIssueSelection() {
+      _selectedIssues = {};
+      updateBulkBar();
+      renderIssues();
+    }
+
+    function bulkUpdateIssueStatus() {
+      var status = prompt('새로운 상태를 입력하세요 (open, in-progress, resolved, verified, closed, reopened):');
+      if (!status) return;
+      Object.keys(_selectedIssues).forEach(function(issueId) {
+        var iss = _issues.find(function(i) { return i.id === issueId; });
+        if (iss) iss.status = status;
+      });
+      _saveIssuesToLocal();
+      saveIssueData(Object.values(_selectedIssues)[0]);
+      _selectedIssues = {};
+      renderIssues();
+    }
+
+    function bulkUpdateIssueAssignee() {
+      var assigneeId = prompt('담당자 ID를 입력하세요:');
+      if (!assigneeId) return;
+      Object.keys(_selectedIssues).forEach(function(issueId) {
+        var iss = _issues.find(function(i) { return i.id === issueId; });
+        if (iss) iss.assignee = assigneeId;
+      });
+      _saveIssuesToLocal();
+      saveIssueData(Object.values(_selectedIssues)[0]);
+      _selectedIssues = {};
+      renderIssues();
+    }
+
+    function bulkDeleteIssues() {
+      if (!confirm(Object.keys(_selectedIssues).length + '개의 이슈를 삭제하시겠습니까?')) return;
+      Object.keys(_selectedIssues).forEach(function(issueId) {
+        _issues = _issues.filter(function(i) { return i.id !== issueId; });
+      });
+      _saveIssuesToLocal();
+      _selectedIssues = {};
+      renderIssues();
+    }
+
+    function copyIssueId(issueId) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(issueId).then(function() {
+          _showToast('이슈 ID가 복사되었습니다');
+        });
+      } else {
+        var el = document.createElement('textarea');
+        el.value = issueId;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        _showToast('이슈 ID가 복사되었습니다');
+      }
+    }
+
+    var _targetAttachmentContext = 'detail';
 
     function openIssueDetail(issueId) {
       var iss = _issues.find(function(i) { return i.id === issueId; });
       if (!iss) return;
 
       _currentIssueId = issueId;
+      _targetAttachmentContext = 'detail';
       document.getElementById('issueDetailBackdrop').classList.add('open');
       document.getElementById('issueDetailPanel').classList.add('open');
 
       var panel = document.getElementById('issueDetailBody');
       panel.innerHTML = '';
 
-      var fields = [
-        { name: 'title', label: 'Title', editable: true },
-        { name: 'description', label: 'Description', type: 'textarea', editable: true },
-        { name: 'type', label: 'Type', type: 'select', options: ['bug', 'improvement', 'task', 'design'], editable: true },
-        { name: 'severity', label: 'Severity', type: 'select', options: ['critical', 'major', 'minor', 'trivial'], editable: true },
-        { name: 'priority', label: 'Priority', type: 'select', options: ['highest', 'high', 'medium', 'low'], editable: true },
-        { name: 'status', label: 'Status', type: 'select', options: ['open', 'in-progress', 'resolved', 'verified', 'closed', 'reopened'], editable: true },
-        { name: 'projectId', label: 'Project', type: 'select', editable: true },
-        { name: 'assignee', label: 'Assignee', type: 'select', editable: true },
-        { name: 'environment', label: 'Environment', editable: true },
-        { name: 'stepsToReproduce', label: 'Steps to Reproduce', type: 'textarea', editable: true },
-        { name: 'expectedResult', label: 'Expected Result', type: 'textarea', editable: true },
-        { name: 'actualResult', label: 'Actual Result', type: 'textarea', editable: true }
-      ];
+      var canEdit = _hasWritePermission();
 
-      fields.forEach(function(field) {
-        var group = document.createElement('div');
-        group.className = 'issue-form-group';
+      // Title section
+      var titleGroup = document.createElement('div');
+      titleGroup.className = 'issue-form-group';
+      var titleLabel = document.createElement('label');
+      titleLabel.className = 'issue-form-label';
+      titleLabel.textContent = '제목';
+      titleGroup.appendChild(titleLabel);
+      var titleInput = document.createElement('input');
+      titleInput.type = 'text';
+      titleInput.id = 'issueDetail_title';
+      titleInput.className = 'issue-form-input';
+      titleInput.value = iss.title || '';
+      titleInput.readOnly = !canEdit;
+      titleInput.style.fontWeight = 'bold';
+      titleInput.style.fontSize = '14px';
+      titleInput.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      titleGroup.appendChild(titleInput);
+      panel.appendChild(titleGroup);
 
-        var label = document.createElement('label');
-        label.className = 'issue-form-label';
-        label.textContent = field.label;
-        group.appendChild(label);
+      // Meta Grid: 2-col layout
+      var metaGrid1 = document.createElement('div');
+      metaGrid1.className = 'issue-form-row';
 
-        var canEdit = field.editable && _hasWritePermission();
-
-        if (field.type === 'textarea') {
-          var textarea = document.createElement('textarea');
-          textarea.id = 'issueDetail_' + field.name;
-          textarea.className = 'issue-form-textarea';
-          textarea.value = iss[field.name] || '';
-          textarea.readOnly = !canEdit;
-          textarea.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
-          group.appendChild(textarea);
-        } else if (field.type === 'select') {
-          var select = document.createElement('select');
-          select.id = 'issueDetail_' + field.name;
-          select.className = 'issue-form-select';
-          select.disabled = !canEdit;
-          select.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
-
-          if (field.name === 'projectId') {
-            var opt = document.createElement('option');
-            opt.value = '';
-            opt.textContent = 'None';
-            select.appendChild(opt);
-            state.projects.forEach(function(p) {
-              var optEl = document.createElement('option');
-              optEl.value = p.id;
-              optEl.textContent = p.name;
-              select.appendChild(optEl);
-            });
-          } else if (field.name === 'assignee') {
-            var opt = document.createElement('option');
-            opt.value = '';
-            opt.textContent = 'Unassigned';
-            select.appendChild(opt);
-            TEAM.forEach(function(m) {
-              var optEl = document.createElement('option');
-              optEl.value = m.id;
-              optEl.textContent = m.name;
-              select.appendChild(optEl);
-            });
-          } else {
-            field.options.forEach(function(o) {
-              var optEl = document.createElement('option');
-              optEl.value = o;
-              optEl.textContent = o;
-              select.appendChild(optEl);
-            });
-          }
-
-          select.value = iss[field.name] || '';
-          group.appendChild(select);
-        } else {
-          var input = document.createElement('input');
-          input.type = 'text';
-          input.id = 'issueDetail_' + field.name;
-          input.className = 'issue-form-input';
-          input.value = iss[field.name] || '';
-          input.readOnly = !canEdit;
-          input.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
-          group.appendChild(input);
-        }
-        panel.appendChild(group);
+      // Type | Severity
+      var typeGroup = document.createElement('div');
+      typeGroup.className = 'issue-form-group';
+      var typeLabel = document.createElement('label');
+      typeLabel.className = 'issue-form-label';
+      typeLabel.textContent = '유형';
+      typeGroup.appendChild(typeLabel);
+      var typeSelect = document.createElement('select');
+      typeSelect.id = 'issueDetail_type';
+      typeSelect.className = 'issue-form-select';
+      typeSelect.disabled = !canEdit;
+      typeSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      [{ v: '', l: '선택...' }, { v: 'bug', l: '버그' }, { v: 'improvement', l: '개선' }, { v: 'task', l: '작업' }, { v: 'design', l: '디자인' }].forEach(function(o) {
+        var opt = document.createElement('option');
+        opt.value = o.v;
+        opt.textContent = o.l;
+        typeSelect.appendChild(opt);
       });
+      typeSelect.value = iss.type || '';
+      typeGroup.appendChild(typeSelect);
+      metaGrid1.appendChild(typeGroup);
+
+      var severityGroup = document.createElement('div');
+      severityGroup.className = 'issue-form-group';
+      var severityLabel = document.createElement('label');
+      severityLabel.className = 'issue-form-label';
+      severityLabel.textContent = '심각도';
+      severityGroup.appendChild(severityLabel);
+      var severitySelect = document.createElement('select');
+      severitySelect.id = 'issueDetail_severity';
+      severitySelect.className = 'issue-form-select';
+      severitySelect.disabled = !canEdit;
+      severitySelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      [{ v: '', l: '선택...' }, { v: 'critical', l: 'Critical' }, { v: 'major', l: 'Major' }, { v: 'minor', l: 'Minor' }, { v: 'trivial', l: 'Trivial' }].forEach(function(o) {
+        var opt = document.createElement('option');
+        opt.value = o.v;
+        opt.textContent = o.l;
+        severitySelect.appendChild(opt);
+      });
+      severitySelect.value = iss.severity || '';
+      severityGroup.appendChild(severitySelect);
+      metaGrid1.appendChild(severityGroup);
+      panel.appendChild(metaGrid1);
+
+      // Priority | Status
+      var metaGrid2 = document.createElement('div');
+      metaGrid2.className = 'issue-form-row';
+
+      var priorityGroup = document.createElement('div');
+      priorityGroup.className = 'issue-form-group';
+      var priorityLabel = document.createElement('label');
+      priorityLabel.className = 'issue-form-label';
+      priorityLabel.textContent = '우선순위';
+      priorityGroup.appendChild(priorityLabel);
+      var prioritySelect = document.createElement('select');
+      prioritySelect.id = 'issueDetail_priority';
+      prioritySelect.className = 'issue-form-select';
+      prioritySelect.disabled = !canEdit;
+      prioritySelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      [{ v: '', l: '선택...' }, { v: 'highest', l: '최상' }, { v: 'high', l: '높음' }, { v: 'medium', l: '중간' }, { v: 'low', l: '낮음' }].forEach(function(o) {
+        var opt = document.createElement('option');
+        opt.value = o.v;
+        opt.textContent = o.l;
+        prioritySelect.appendChild(opt);
+      });
+      prioritySelect.value = iss.priority || '';
+      priorityGroup.appendChild(prioritySelect);
+      metaGrid2.appendChild(priorityGroup);
+
+      var statusGroup = document.createElement('div');
+      statusGroup.className = 'issue-form-group';
+      var statusLabel = document.createElement('label');
+      statusLabel.className = 'issue-form-label';
+      statusLabel.textContent = '상태';
+      statusGroup.appendChild(statusLabel);
+      var statusSelect = document.createElement('select');
+      statusSelect.id = 'issueDetail_status';
+      statusSelect.className = 'issue-form-select';
+      statusSelect.disabled = !canEdit;
+      statusSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      [{ v: '', l: '선택...' }, { v: 'open', l: '열림' }, { v: 'in-progress', l: '진행중' }, { v: 'resolved', l: '해결됨' }, { v: 'verified', l: '검증됨' }, { v: 'closed', l: '종료됨' }, { v: 'reopened', l: '재개됨' }].forEach(function(o) {
+        var opt = document.createElement('option');
+        opt.value = o.v;
+        opt.textContent = o.l;
+        statusSelect.appendChild(opt);
+      });
+      statusSelect.value = iss.status || '';
+      statusGroup.appendChild(statusSelect);
+      metaGrid2.appendChild(statusGroup);
+      panel.appendChild(metaGrid2);
+
+      // Service | Project
+      var metaGrid3 = document.createElement('div');
+      metaGrid3.className = 'issue-form-row';
+
+      var serviceGroup = document.createElement('div');
+      serviceGroup.className = 'issue-form-group';
+      var serviceLabel = document.createElement('label');
+      serviceLabel.className = 'issue-form-label';
+      serviceLabel.textContent = '서비스';
+      serviceGroup.appendChild(serviceLabel);
+      var serviceSelect = document.createElement('select');
+      serviceSelect.id = 'issueDetail_serviceType';
+      serviceSelect.className = 'issue-form-select';
+      serviceSelect.disabled = !canEdit;
+      serviceSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      var opt0 = document.createElement('option');
+      opt0.value = '';
+      opt0.textContent = '선택...';
+      serviceSelect.appendChild(opt0);
+      SERVICE_TYPES.forEach(function(st) {
+        var o = document.createElement('option');
+        o.value = st;
+        o.textContent = st;
+        serviceSelect.appendChild(o);
+      });
+      serviceSelect.value = iss.serviceType || '';
+      serviceGroup.appendChild(serviceSelect);
+      metaGrid3.appendChild(serviceGroup);
+
+      var projectGroup = document.createElement('div');
+      projectGroup.className = 'issue-form-group';
+      var projectLabel = document.createElement('label');
+      projectLabel.className = 'issue-form-label';
+      projectLabel.textContent = '프로젝트';
+      projectGroup.appendChild(projectLabel);
+      var projectSelect = document.createElement('select');
+      projectSelect.id = 'issueDetail_projectId';
+      projectSelect.className = 'issue-form-select';
+      projectSelect.disabled = !canEdit;
+      projectSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      var opt1 = document.createElement('option');
+      opt1.value = '';
+      opt1.textContent = '선택...';
+      projectSelect.appendChild(opt1);
+      state.projects.forEach(function(p) {
+        var o = document.createElement('option');
+        o.value = p.id;
+        o.textContent = p.name;
+        projectSelect.appendChild(o);
+      });
+      projectSelect.value = iss.projectId || '';
+      projectGroup.appendChild(projectSelect);
+      metaGrid3.appendChild(projectGroup);
+      panel.appendChild(metaGrid3);
+
+      // Assignee | Environment
+      var metaGrid4 = document.createElement('div');
+      metaGrid4.className = 'issue-form-row';
+
+      var assigneeGroup = document.createElement('div');
+      assigneeGroup.className = 'issue-form-group';
+      var assigneeLabel = document.createElement('label');
+      assigneeLabel.className = 'issue-form-label';
+      assigneeLabel.textContent = '담당자';
+      assigneeGroup.appendChild(assigneeLabel);
+      var assigneeSelect = document.createElement('select');
+      assigneeSelect.id = 'issueDetail_assignee';
+      assigneeSelect.className = 'issue-form-select';
+      assigneeSelect.disabled = !canEdit;
+      assigneeSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      var opt2 = document.createElement('option');
+      opt2.value = '';
+      opt2.textContent = '선택...';
+      assigneeSelect.appendChild(opt2);
+      TEAM.forEach(function(m) {
+        var o = document.createElement('option');
+        o.value = m.id;
+        o.textContent = m.name;
+        assigneeSelect.appendChild(o);
+      });
+      assigneeSelect.value = iss.assignee || '';
+      assigneeGroup.appendChild(assigneeSelect);
+      metaGrid4.appendChild(assigneeGroup);
+
+      var envGroup = document.createElement('div');
+      envGroup.className = 'issue-form-group';
+      var envLabel = document.createElement('label');
+      envLabel.className = 'issue-form-label';
+      envLabel.textContent = '환경';
+      envGroup.appendChild(envLabel);
+      var envSelect = document.createElement('select');
+      envSelect.id = 'issueDetail_environment';
+      envSelect.className = 'issue-form-select';
+      envSelect.disabled = !canEdit;
+      envSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      [{ v: '', l: '선택...' }, { v: 'production', l: '운영' }, { v: 'staging', l: '스테이징' }, { v: 'development', l: '개발' }].forEach(function(o) {
+        var opt = document.createElement('option');
+        opt.value = o.v;
+        opt.textContent = o.l;
+        envSelect.appendChild(opt);
+      });
+      envSelect.value = iss.environment || '';
+      envGroup.appendChild(envSelect);
+      metaGrid4.appendChild(envGroup);
+      panel.appendChild(metaGrid4);
+
+      // Deadline | Created
+      var metaGrid5 = document.createElement('div');
+      metaGrid5.className = 'issue-form-row';
+
+      var deadlineGroup = document.createElement('div');
+      deadlineGroup.className = 'issue-form-group';
+      var deadlineLabel = document.createElement('label');
+      deadlineLabel.className = 'issue-form-label';
+      deadlineLabel.textContent = '처리 기한';
+      deadlineGroup.appendChild(deadlineLabel);
+      var deadlineInput = document.createElement('input');
+      deadlineInput.type = 'date';
+      deadlineInput.id = 'issueDetail_deadline';
+      deadlineInput.className = 'issue-form-input';
+      deadlineInput.value = iss.deadline || '';
+      deadlineInput.readOnly = !canEdit;
+      deadlineInput.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      deadlineGroup.appendChild(deadlineInput);
+      metaGrid5.appendChild(deadlineGroup);
+
+      var createdGroup = document.createElement('div');
+      createdGroup.className = 'issue-form-group';
+      var createdLabel = document.createElement('label');
+      createdLabel.className = 'issue-form-label';
+      createdLabel.textContent = '등록일';
+      createdGroup.appendChild(createdLabel);
+      var createdInput = document.createElement('input');
+      createdInput.type = 'text';
+      createdInput.className = 'issue-form-input';
+      createdInput.value = new Date(iss.created).toLocaleString('ko-KR');
+      createdInput.readOnly = true;
+      createdInput.style.backgroundColor = '#f3f4f6';
+      createdGroup.appendChild(createdInput);
+      metaGrid5.appendChild(createdGroup);
+      panel.appendChild(metaGrid5);
+
+      // Description
+      var descGroup = document.createElement('div');
+      descGroup.className = 'issue-form-group';
+      var descLabel = document.createElement('label');
+      descLabel.className = 'issue-form-label';
+      descLabel.textContent = '설명';
+      descGroup.appendChild(descLabel);
+      var descTextarea = document.createElement('textarea');
+      descTextarea.id = 'issueDetail_description';
+      descTextarea.className = 'issue-form-textarea';
+      descTextarea.value = iss.description || '';
+      descTextarea.readOnly = !canEdit;
+      descTextarea.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      descGroup.appendChild(descTextarea);
+      panel.appendChild(descGroup);
+
+      // Steps to reproduce
+      var stepsGroup = document.createElement('div');
+      stepsGroup.className = 'issue-form-group';
+      var stepsLabel = document.createElement('label');
+      stepsLabel.className = 'issue-form-label';
+      stepsLabel.textContent = '재현 방법';
+      stepsGroup.appendChild(stepsLabel);
+      var stepsTextarea = document.createElement('textarea');
+      stepsTextarea.id = 'issueDetail_stepsToReproduce';
+      stepsTextarea.className = 'issue-form-textarea';
+      stepsTextarea.value = iss.stepsToReproduce || '';
+      stepsTextarea.readOnly = !canEdit;
+      stepsTextarea.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      stepsGroup.appendChild(stepsTextarea);
+      panel.appendChild(stepsGroup);
+
+      // Expected vs Actual
+      var resultRow = document.createElement('div');
+      resultRow.className = 'issue-form-row';
+
+      var expectedGroup = document.createElement('div');
+      expectedGroup.className = 'issue-form-group';
+      var expectedLabel = document.createElement('label');
+      expectedLabel.className = 'issue-form-label';
+      expectedLabel.textContent = '기대 결과';
+      expectedGroup.appendChild(expectedLabel);
+      var expectedTextarea = document.createElement('textarea');
+      expectedTextarea.id = 'issueDetail_expectedResult';
+      expectedTextarea.className = 'issue-form-textarea';
+      expectedTextarea.value = iss.expectedResult || '';
+      expectedTextarea.readOnly = !canEdit;
+      expectedTextarea.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      expectedGroup.appendChild(expectedTextarea);
+      resultRow.appendChild(expectedGroup);
+
+      var actualGroup = document.createElement('div');
+      actualGroup.className = 'issue-form-group';
+      var actualLabel = document.createElement('label');
+      actualLabel.className = 'issue-form-label';
+      actualLabel.textContent = '실제 결과';
+      actualGroup.appendChild(actualLabel);
+      var actualTextarea = document.createElement('textarea');
+      actualTextarea.id = 'issueDetail_actualResult';
+      actualTextarea.className = 'issue-form-textarea';
+      actualTextarea.value = iss.actualResult || '';
+      actualTextarea.readOnly = !canEdit;
+      actualTextarea.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      actualGroup.appendChild(actualTextarea);
+      resultRow.appendChild(actualGroup);
+      panel.appendChild(resultRow);
 
       // Attachments section
       var attGroup = document.createElement('div');
       attGroup.className = 'issue-form-group';
       var attLabel = document.createElement('label');
       attLabel.className = 'issue-form-label';
-      attLabel.textContent = 'Attachments';
+      attLabel.textContent = '첨부파일';
       attGroup.appendChild(attLabel);
 
-      if (_hasWritePermission()) {
+      if (canEdit) {
         var dropZone = document.createElement('div');
         dropZone.className = 'attachment-zone';
-        dropZone.innerHTML = 'Drag & drop files here or paste from clipboard';
+        dropZone.innerHTML = '파일을 드래그&드롭하거나 클립보드에서 붙여넣기';
         dropZone.ondrop = function(e) {
           e.preventDefault();
           e.stopPropagation();
           dropZone.classList.remove('drag-over');
+          _targetAttachmentContext = 'detail';
           handleFileAttachment(e.dataTransfer.files);
         };
         dropZone.ondragover = function(e) {
@@ -5719,7 +6632,7 @@
             vid.src = att.data;
             thumb.appendChild(vid);
           }
-          if (_hasWritePermission()) {
+          if (canEdit) {
             var removeBtn = document.createElement('button');
             removeBtn.className = 'attachment-remove';
             removeBtn.textContent = '×';
@@ -5737,7 +6650,7 @@
       commGroup.className = 'comments-section';
       var commLabel = document.createElement('div');
       commLabel.className = 'comments-title';
-      commLabel.textContent = 'Comments (' + (iss.comments ? iss.comments.length : 0) + ')';
+      commLabel.textContent = '코멘트 (' + (iss.comments ? iss.comments.length : 0) + ')';
       commGroup.appendChild(commLabel);
 
       var commContainer = document.createElement('div');
@@ -5753,7 +6666,7 @@
           header.className = 'comment-header';
           var userSpan = document.createElement('span');
           userSpan.className = 'comment-user';
-          userSpan.textContent = com.user || 'Anonymous';
+          userSpan.textContent = com.user || '(알 수 없음)';
           header.appendChild(userSpan);
           var timeSpan = document.createElement('span');
           timeSpan.className = 'comment-time';
@@ -5775,10 +6688,10 @@
         var input = document.createElement('input');
         input.id = 'newCommentText';
         input.type = 'text';
-        input.placeholder = 'Add a comment...';
+        input.placeholder = '코멘트를 입력하세요...';
         addComm.appendChild(input);
         var btn = document.createElement('button');
-        btn.textContent = 'Post';
+        btn.textContent = '등록';
         btn.onclick = function() { addIssueComment(issueId); };
         addComm.appendChild(btn);
         commGroup.appendChild(addComm);
@@ -5787,6 +6700,19 @@
       panel.appendChild(commGroup);
 
       document.getElementById('issueDetailTitle').textContent = iss.id + ': ' + iss.title;
+
+      // Add paste listener
+      document.getElementById('issueDetailPanel').addEventListener('paste', function(e) {
+        if (!canEdit) return;
+        var items = e.clipboardData.items;
+        for (var i = 0; i < items.length; i++) {
+          if (items[i].type.indexOf('image') !== -1) {
+            var file = items[i].getAsFile();
+            _targetAttachmentContext = 'detail';
+            handleFileAttachment([file]);
+          }
+        }
+      });
     }
 
     function closeIssueDetail() {
@@ -5810,6 +6736,8 @@
       iss.status = document.getElementById('issueDetail_status').value;
       iss.projectId = document.getElementById('issueDetail_projectId').value;
       iss.assignee = document.getElementById('issueDetail_assignee').value;
+      iss.serviceType = document.getElementById('issueDetail_serviceType').value;
+      iss.deadline = document.getElementById('issueDetail_deadline').value;
       iss.environment = document.getElementById('issueDetail_environment').value;
       iss.stepsToReproduce = document.getElementById('issueDetail_stepsToReproduce').value;
       iss.expectedResult = document.getElementById('issueDetail_expectedResult').value;
@@ -5840,6 +6768,61 @@
       _showToast('이슈가 삭제되었습니다');
     }
 
+    function addIssueToBundle() {
+      if (!_currentIssueId) return;
+      if (!_hasWritePermission()) { _checkWritePermission(); return; }
+      // 기존 배포 번들 목록에서 선택하거나 새로 생성
+      var planningBundles = _deployBundles.filter(function(b) { return b.status === 'planning' || b.status === 'ready'; });
+      var options = planningBundles.map(function(b) { return b.title + ' (' + (b.targetDate || '날짜 미정') + ')'; });
+      options.push('+ 새 배포 번들 생성');
+      var msg = '이슈 ' + _currentIssueId + '을 추가할 배포를 선택하세요:\n\n';
+      options.forEach(function(o, i) { msg += (i + 1) + '. ' + o + '\n'; });
+      var choice = prompt(msg, '1');
+      if (!choice) return;
+      var idx = parseInt(choice) - 1;
+      if (isNaN(idx) || idx < 0) return;
+
+      if (idx === planningBundles.length) {
+        // 새 배포 번들 생성
+        var bundleTitle = prompt('배포 제목:');
+        if (!bundleTitle) return;
+        var bundleDate = prompt('배포 날짜 (YYYY-MM-DD):');
+        var newBundle = {
+          id: _generateBundleId(),
+          title: bundleTitle,
+          targetDate: bundleDate || '',
+          status: 'planning',
+          projects: [],
+          issues: [_currentIssueId],
+          manualItems: [],
+          notes: '',
+          agentFeedback: [],
+          created: new Date().toISOString(),
+          createdBy: state.currentUser ? state.currentUser.uid : ''
+        };
+        _deployBundles.push(newBundle);
+        _saveDeployBundlesToLocal();
+        if (_fb.db) {
+          var obj = {}; obj['deployBundles/' + newBundle.id] = newBundle;
+          _fb.db.ref().update(obj);
+        }
+        _showToast('새 배포 "' + bundleTitle + '"에 이슈가 추가되었습니다');
+      } else if (idx < planningBundles.length) {
+        var bundle = planningBundles[idx];
+        if (!bundle.issues) bundle.issues = [];
+        if (bundle.issues.indexOf(_currentIssueId) !== -1) {
+          _showToast('이미 해당 배포에 포함된 이슈입니다');
+          return;
+        }
+        bundle.issues.push(_currentIssueId);
+        _saveDeployBundlesToLocal();
+        if (_fb.db) {
+          _fb.db.ref('deployBundles/' + bundle.id + '/issues').set(bundle.issues);
+        }
+        _showToast('"' + bundle.title + '" 배포에 이슈가 추가되었습니다');
+      }
+    }
+
     function addIssueComment(issueId) {
       var iss = _issues.find(function(i) { return i.id === issueId; });
       if (!iss) return;
@@ -5864,14 +6847,19 @@
 
     function handleFileAttachment(files) {
       if (!_hasWritePermission()) return;
-      if (!_currentIssueId) return;
 
       Array.from(files).forEach(function(file) {
         if (file.type.startsWith('image/')) {
           var reader = new FileReader();
           reader.onload = function(e) {
             _compressImage(e.target.result, function(compressed) {
-              addAttachment({ type: 'image', data: compressed, name: file.name, size: file.size });
+              var att = { type: 'image', data: compressed, name: file.name, size: file.size, id: 'att_' + Date.now() + '_' + Math.random().toString(36).substr(2,4) };
+              if (_targetAttachmentContext === 'create') {
+                _createIssueAttachments.push(att);
+                renderCreateAttachments();
+              } else {
+                addAttachment(att);
+              }
             });
           };
           reader.readAsDataURL(file);
@@ -5882,11 +6870,47 @@
           }
           var reader = new FileReader();
           reader.onload = function(e) {
-            addAttachment({ type: 'video', data: e.target.result, name: file.name, size: file.size });
+            var att = { type: 'video', data: e.target.result, name: file.name, size: file.size, id: 'att_' + Date.now() };
+            if (_targetAttachmentContext === 'create') {
+              _createIssueAttachments.push(att);
+              renderCreateAttachments();
+            } else {
+              addAttachment(att);
+            }
           };
           reader.readAsDataURL(file);
         }
       });
+    }
+
+    function renderCreateAttachments() {
+      var grid = document.getElementById('createIssueAttachmentGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      _createIssueAttachments.forEach(function(att, idx) {
+        var thumb = document.createElement('div');
+        thumb.className = 'create-issue-attachment-thumb';
+        if (att.type === 'image') {
+          var img = document.createElement('img');
+          img.src = att.data;
+          thumb.appendChild(img);
+        } else if (att.type === 'video') {
+          var vid = document.createElement('video');
+          vid.src = att.data;
+          thumb.appendChild(vid);
+        }
+        var removeBtn = document.createElement('button');
+        removeBtn.className = 'create-issue-attachment-remove';
+        removeBtn.textContent = '×';
+        removeBtn.onclick = function() { removeCreateAttachment(idx); };
+        thumb.appendChild(removeBtn);
+        grid.appendChild(thumb);
+      });
+    }
+
+    function removeCreateAttachment(idx) {
+      _createIssueAttachments.splice(idx, 1);
+      renderCreateAttachments();
     }
 
     function _compressImage(dataUrl, callback) {
@@ -9747,12 +10771,23 @@
     window.closeIssueDetail = closeIssueDetail;
     window.saveIssue = saveIssue;
     window.deleteIssue = deleteIssue;
+    window.addIssueToBundle = addIssueToBundle;
     window.addIssueComment = addIssueComment;
     window.handleFileAttachment = handleFileAttachment;
     window.addAttachment = addAttachment;
     window.removeAttachment = removeAttachment;
     window.showLightbox = showLightbox;
     window.closeLightbox = closeLightbox;
+    window.switchIssueView = switchIssueView;
+    window.filterIssuesByStatus = filterIssuesByStatus;
+    window.toggleIssueSelect = toggleIssueSelect;
+    window.bulkUpdateIssueStatus = bulkUpdateIssueStatus;
+    window.bulkUpdateIssueAssignee = bulkUpdateIssueAssignee;
+    window.bulkDeleteIssues = bulkDeleteIssues;
+    window.clearIssueSelection = clearIssueSelection;
+    window.copyIssueId = copyIssueId;
+    window.renderCreateAttachments = renderCreateAttachments;
+    window.removeCreateAttachment = removeCreateAttachment;
     window.openDeployBundleManager = openDeployBundleManager;
     window.closeDeployBundleManager = closeDeployBundleManager;
     window.switchBundleTab = switchBundleTab;

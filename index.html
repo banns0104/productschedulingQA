@@ -1691,10 +1691,10 @@
       white-space: nowrap;
     }
 
-    .severity-critical { background: #fee2e2; color: #991b1b; }
-    .severity-major { background: #fed7aa; color: #92400e; }
-    .severity-minor { background: #bfdbfe; color: #1e40af; }
-    .severity-trivial { background: #f3f4f6; color: #4b5563; }
+    .severity-Block { background: #fee2e2; color: #991b1b; }
+    .severity-Major { background: #fed7aa; color: #92400e; }
+    .severity-Minor { background: #bfdbfe; color: #1e40af; }
+    .severity-Trivial { background: #f3f4f6; color: #4b5563; }
 
     .priority-badge {
       display: inline-block;
@@ -1705,10 +1705,10 @@
       white-space: nowrap;
     }
 
-    .priority-highest { background: #fca5a5; color: #7f1d1d; }
-    .priority-high { background: #fdba74; color: #9a3412; }
-    .priority-medium { background: #fbbf24; color: #78350f; }
-    .priority-low { background: #86efac; color: #15803d; }
+    .priority-1 { background: #fca5a5; color: #7f1d1d; }
+    .priority-2 { background: #fdba74; color: #9a3412; }
+    .priority-3 { background: #fbbf24; color: #78350f; }
+    .priority-4 { background: #86efac; color: #15803d; }
 
     .status-badge {
       display: inline-block;
@@ -1980,19 +1980,19 @@
       border-left: 4px solid #9ca3af;
     }
 
-    .issue-card.severity-critical {
+    .issue-card.severity-Block {
       border-left-color: #dc2626;
     }
 
-    .issue-card.severity-major {
+    .issue-card.severity-Major {
       border-left-color: #f97316;
     }
 
-    .issue-card.severity-minor {
+    .issue-card.severity-Minor {
       border-left-color: #3b82f6;
     }
 
-    .issue-card.severity-trivial {
+    .issue-card.severity-Trivial {
       border-left-color: #9ca3af;
     }
 
@@ -2927,16 +2927,16 @@
           <div class="issue-summary-item" onclick="filterIssuesByStatus('')" style="cursor:pointer;">
             <strong id="summaryTotal">전체 0</strong>
           </div>
-          <div class="issue-summary-item" onclick="filterIssuesByStatus('open')" style="cursor:pointer;">
+          <div class="issue-summary-item" onclick="filterIssuesByStatus('등록')" style="cursor:pointer;">
             <strong id="summaryOpen">열린이슈 0</strong>
           </div>
-          <div class="issue-summary-item" onclick="filterIssuesByStatus('in-progress')" style="cursor:pointer;">
+          <div class="issue-summary-item" onclick="filterIssuesByStatus('작업 진행 중')" style="cursor:pointer;">
             <strong id="summaryProgress">진행중 0</strong>
           </div>
-          <div class="issue-summary-item" onclick="filterIssuesByStatus('resolved')" style="cursor:pointer;">
+          <div class="issue-summary-item" onclick="filterIssuesByStatus('검증 진행 중')" style="cursor:pointer;">
             <strong id="summaryResolved">해결됨 0</strong>
           </div>
-          <div class="issue-summary-item" onclick="filterIssuesByStatus('closed')" style="cursor:pointer;">
+          <div class="issue-summary-item" onclick="filterIssuesByStatus('완료')" style="cursor:pointer;">
             <strong id="summaryClosed">종료 0</strong>
           </div>
         </div>
@@ -2944,26 +2944,28 @@
         <div class="issue-toolbar">
           <select id="issueStatusFilter" onchange="renderIssues()" style="padding:6px 8px;">
             <option value="">전체 상태</option>
-            <option value="open">열린 이슈</option>
-            <option value="in-progress">진행 중</option>
-            <option value="resolved">해결됨</option>
-            <option value="verified">검증됨</option>
-            <option value="closed">종료됨</option>
-            <option value="reopened">재개됨</option>
+            <option value="등록">등록</option>
+            <option value="검토 중">검토 중</option>
+            <option value="작업 진행 중">작업 진행 중</option>
+            <option value="검증 진행 중">검증 진행 중</option>
+            <option value="완료">완료</option>
+            <option value="운영배포예정">운영배포예정</option>
+            <option value="테스트 보류">테스트 보류</option>
+            <option value="현재작업불가">현재작업불가</option>
           </select>
           <select id="issueSeverityFilter" onchange="renderIssues()" style="padding:6px 8px;">
             <option value="">전체 심각도</option>
-            <option value="critical">Critical</option>
-            <option value="major">Major</option>
-            <option value="minor">Minor</option>
-            <option value="trivial">Trivial</option>
+            <option value="Block">Block</option>
+            <option value="Major">Major</option>
+            <option value="Minor">Minor</option>
+            <option value="Trivial">Trivial</option>
           </select>
           <select id="issuePriorityFilter" onchange="renderIssues()" style="padding:6px 8px;">
             <option value="">전체 우선순위</option>
-            <option value="highest">최상</option>
-            <option value="high">높음</option>
-            <option value="medium">중간</option>
-            <option value="low">낮음</option>
+            <option value="1">1 (Critical)</option>
+            <option value="2">2 (High)</option>
+            <option value="3">3 (Medium)</option>
+            <option value="4">4 (Low)</option>
           </select>
           <input type="text" id="issueSearchInput" placeholder="이슈 검색..." onkeyup="renderIssues()" style="padding:6px 8px; min-width:180px;">
           <div style="flex:1;"></div>
@@ -2974,6 +2976,7 @@
         <div style="display:flex;gap:8px;padding:8px 16px;border-bottom:1px solid #e5e7eb;">
           <button class="issue-view-btn active" onclick="switchIssueView('all')">전체</button>
           <button class="issue-view-btn" onclick="switchIssueView('by-project')">프로젝트별</button>
+          <button class="issue-view-btn" onclick="switchIssueView('by-product')">프로덕트별</button>
           <button class="issue-view-btn" onclick="switchIssueView('by-service')">서비스별</button>
           <button class="issue-view-btn" onclick="switchIssueView('by-assignee')">담당자별</button>
         </div>
@@ -5538,14 +5541,21 @@
     }
 
     function _generateIssueId() {
-      var maxId = 0;
+      // Format: {ProductCode}{YYMMDD}-{Serial}
+      // Product codes: PAA (어바웃피싱 앱), PAD (어드민), PSA (샵바이), PSD (샵바이어드민), PFM (포인트맵)
+      var productCode = 'PAA'; // Default to AboutFishing App
+      var today = new Date();
+      var yymmdd = String(today.getFullYear()).substring(2) + String(today.getMonth() + 1).padStart(2, '0') + String(today.getDate()).padStart(2, '0');
+
+      var maxSerial = 0;
+      var prefix = productCode + yymmdd;
       _issues.forEach(function(iss) {
-        if (iss.id && iss.id.startsWith('ISS-')) {
-          var num = parseInt(iss.id.substring(4));
-          if (!isNaN(num) && num > maxId) maxId = num;
+        if (iss.id && iss.id.startsWith(prefix + '-')) {
+          var serial = parseInt(iss.id.substring(prefix.length + 1));
+          if (!isNaN(serial) && serial > maxSerial) maxSerial = serial;
         }
       });
-      return 'ISS-' + String(maxId + 1).padStart(3, '0');
+      return prefix + '-' + String(maxSerial + 1).padStart(3, '0');
     }
 
     function _generateBundleId() {
@@ -5570,257 +5580,146 @@
       form.innerHTML = '';
       _targetAttachmentContext = 'create';
 
-      // Row 1: Title (full width)
-      var titleGroup = document.createElement('div');
-      titleGroup.className = 'issue-form-group';
-      var titleLabel = document.createElement('label');
-      titleLabel.className = 'issue-form-label';
-      titleLabel.textContent = '제목';
-      titleGroup.appendChild(titleLabel);
-      var titleInput = document.createElement('input');
-      titleInput.type = 'text';
-      titleInput.id = 'createIssue_title';
-      titleInput.className = 'issue-form-input';
-      titleInput.placeholder = '이슈 제목을 입력하세요';
-      titleInput.required = true;
-      titleGroup.appendChild(titleInput);
-      form.appendChild(titleGroup);
+      var _addSection = function(title) {
+        var sec = document.createElement('div');
+        sec.style.cssText = 'margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #e5e7eb;';
+        var h = document.createElement('div');
+        h.style.cssText = 'font-size:13px;font-weight:600;color:#374151;margin-bottom:12px;';
+        h.textContent = title;
+        sec.appendChild(h);
+        form.appendChild(sec);
+        return sec;
+      };
 
-      // Row 2: Type | Severity
-      var row2 = document.createElement('div');
-      row2.className = 'issue-form-row';
-      var typeGroup = document.createElement('div');
-      typeGroup.className = 'issue-form-group';
-      var typeLabel = document.createElement('label');
-      typeLabel.className = 'issue-form-label';
-      typeLabel.textContent = '유형';
-      typeGroup.appendChild(typeLabel);
-      var typeSelect = document.createElement('select');
-      typeSelect.id = 'createIssue_type';
-      typeSelect.className = 'issue-form-select';
-      typeSelect.required = true;
-      [{ v: '', l: '선택...' }, { v: 'bug', l: '버그' }, { v: 'improvement', l: '개선' }, { v: 'task', l: '작업' }, { v: 'design', l: '디자인' }].forEach(function(o) {
-        var opt = document.createElement('option');
-        opt.value = o.v;
-        opt.textContent = o.l;
-        typeSelect.appendChild(opt);
-      });
-      typeGroup.appendChild(typeSelect);
-      row2.appendChild(typeGroup);
+      var _addFieldToSection = function(section, labelText, fieldId, fieldType, isRequired, options) {
+        var group = document.createElement('div');
+        group.className = 'issue-form-group';
+        var label = document.createElement('label');
+        label.className = 'issue-form-label';
+        label.textContent = labelText + (isRequired ? ' *' : '');
+        group.appendChild(label);
+        var field;
+        if (fieldType === 'select') {
+          field = document.createElement('select');
+          field.id = fieldId;
+          field.className = 'issue-form-select';
+          field.required = isRequired;
+          (options || []).forEach(function(o) {
+            var opt = document.createElement('option');
+            opt.value = o.v !== undefined ? o.v : o;
+            opt.textContent = o.l !== undefined ? o.l : o;
+            field.appendChild(opt);
+          });
+        } else if (fieldType === 'textarea') {
+          field = document.createElement('textarea');
+          field.id = fieldId;
+          field.className = 'issue-form-textarea';
+          field.required = isRequired;
+        } else if (fieldType === 'date') {
+          field = document.createElement('input');
+          field.type = 'date';
+          field.id = fieldId;
+          field.className = 'issue-form-input';
+        } else {
+          field = document.createElement('input');
+          field.type = fieldType || 'text';
+          field.id = fieldId;
+          field.className = 'issue-form-input';
+          field.required = isRequired;
+        }
+        group.appendChild(field);
+        section.appendChild(group);
+        return field;
+      };
 
-      var severityGroup = document.createElement('div');
-      severityGroup.className = 'issue-form-group';
-      var severityLabel = document.createElement('label');
-      severityLabel.className = 'issue-form-label';
-      severityLabel.textContent = '심각도';
-      severityGroup.appendChild(severityLabel);
-      var severitySelect = document.createElement('select');
-      severitySelect.id = 'createIssue_severity';
-      severitySelect.className = 'issue-form-select';
-      severitySelect.required = true;
-      [{ v: '', l: '선택...' }, { v: 'critical', l: 'Critical' }, { v: 'major', l: 'Major' }, { v: 'minor', l: 'Minor' }, { v: 'trivial', l: 'Trivial' }].forEach(function(o) {
-        var opt = document.createElement('option');
-        opt.value = o.v;
-        opt.textContent = o.l;
-        severitySelect.appendChild(opt);
-      });
-      severityGroup.appendChild(severitySelect);
-      row2.appendChild(severityGroup);
-      form.appendChild(row2);
+      var _addRowToSection = function(section, fields) {
+        var row = document.createElement('div');
+        row.className = 'issue-form-row';
+        fields.forEach(function(f) {
+          var group = document.createElement('div');
+          group.className = 'issue-form-group';
+          var label = document.createElement('label');
+          label.className = 'issue-form-label';
+          label.textContent = f.label + (f.required ? ' *' : '');
+          group.appendChild(label);
+          var field;
+          if (f.type === 'select') {
+            field = document.createElement('select');
+            field.id = f.id;
+            field.className = 'issue-form-select';
+            field.required = f.required;
+            (f.options || []).forEach(function(o) {
+              var opt = document.createElement('option');
+              opt.value = o.v !== undefined ? o.v : o;
+              opt.textContent = o.l !== undefined ? o.l : o;
+              field.appendChild(opt);
+            });
+          } else {
+            field = document.createElement('input');
+            field.type = f.type || 'text';
+            field.id = f.id;
+            field.className = 'issue-form-input';
+            field.required = f.required;
+            if (f.placeholder) field.placeholder = f.placeholder;
+          }
+          group.appendChild(field);
+          row.appendChild(group);
+        });
+        section.appendChild(row);
+      };
 
-      // Row 3: Priority | Environment
-      var row3 = document.createElement('div');
-      row3.className = 'issue-form-row';
-      var priorityGroup = document.createElement('div');
-      priorityGroup.className = 'issue-form-group';
-      var priorityLabel = document.createElement('label');
-      priorityLabel.className = 'issue-form-label';
-      priorityLabel.textContent = '우선순위';
-      priorityGroup.appendChild(priorityLabel);
-      var prioritySelect = document.createElement('select');
-      prioritySelect.id = 'createIssue_priority';
-      prioritySelect.className = 'issue-form-select';
-      prioritySelect.required = true;
-      [{ v: '', l: '선택...' }, { v: 'highest', l: '최상' }, { v: 'high', l: '높음' }, { v: 'medium', l: '중간' }, { v: 'low', l: '낮음' }].forEach(function(o) {
-        var opt = document.createElement('option');
-        opt.value = o.v;
-        opt.textContent = o.l;
-        prioritySelect.appendChild(opt);
-      });
-      priorityGroup.appendChild(prioritySelect);
-      row3.appendChild(priorityGroup);
+      // Section 1: 기본 정보
+      var sec1 = _addSection('기본 정보');
+      _addFieldToSection(sec1, '제목', 'createIssue_title', 'text', true);
+      _addRowToSection(sec1, [
+        { label: '이슈 유형', id: 'createIssue_type', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: 'Bug', l: 'Bug' }, { v: 'Task', l: 'Task' }] },
+        { label: '결함 타입', id: 'createIssue_defectType', type: 'select', required: false, options: [{ v: '', l: '선택...' }, { v: '데이터 에러', l: '데이터 에러' }, { v: '기능 에러', l: '기능 에러' }, { v: '이슈 아님', l: '이슈 아님' }, { v: '기능개선', l: '기능개선' }, { v: '기획 에러', l: '기획 에러' }, { v: '시스템 에러', l: '시스템 에러' }, { v: 'UI 에러', l: 'UI 에러' }] }
+      ]);
+      _addRowToSection(sec1, [
+        { label: '심각도', id: 'createIssue_severity', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: 'Block', l: 'Block' }, { v: 'Major', l: 'Major' }, { v: 'Minor', l: 'Minor' }, { v: 'Trivial', l: 'Trivial' }] },
+        { label: '우선순위', id: 'createIssue_priority', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: '1', l: '1(Critical)' }, { v: '2', l: '2(High)' }, { v: '3', l: '3(Medium)' }, { v: '4', l: '4(Low)' }] }
+      ]);
+      _addRowToSection(sec1, [
+        { label: '배포환경', id: 'createIssue_environment', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: '운영', l: '운영' }, { v: '스테이지', l: '스테이지' }, { v: '개발', l: '개발' }] },
+        { label: '플랫폼', id: 'createIssue_platform', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: 'IOS', l: 'IOS' }, { v: 'AOS', l: 'AOS' }, { v: 'PC', l: 'PC' }, { v: 'MW', l: 'MW' }] }
+      ]);
 
-      var envGroup = document.createElement('div');
-      envGroup.className = 'issue-form-group';
-      var envLabel = document.createElement('label');
-      envLabel.className = 'issue-form-label';
-      envLabel.textContent = '환경';
-      envGroup.appendChild(envLabel);
-      var envSelect = document.createElement('select');
-      envSelect.id = 'createIssue_environment';
-      envSelect.className = 'issue-form-select';
-      [{ v: '', l: '선택...' }, { v: 'production', l: '운영' }, { v: 'staging', l: '스테이징' }, { v: 'development', l: '개발' }].forEach(function(o) {
-        var opt = document.createElement('option');
-        opt.value = o.v;
-        opt.textContent = o.l;
-        envSelect.appendChild(opt);
-      });
-      envGroup.appendChild(envSelect);
-      row3.appendChild(envGroup);
-      form.appendChild(row3);
+      // Section 2: 연결 정보
+      var sec2 = _addSection('연결 정보');
+      _addRowToSection(sec2, [
+        { label: '프로덕트', id: 'createIssue_product', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: '어바웃피싱 앱', l: '어바웃피싱 앱' }, { v: '어바웃피싱 어드민', l: '어바웃피싱 어드민' }, { v: '샵바이 앱/웹', l: '샵바이 앱/웹' }, { v: '샵바이 어드민', l: '샵바이 어드민' }, { v: '낚시포인트맵', l: '낚시포인트맵' }] },
+        { label: '프로젝트', id: 'createIssue_projectId', type: 'select', required: false, options: [{ v: '', l: '선택...' }].concat((state.projects || []).map(function(p) { return { v: p.id, l: p.name }; })) }
+      ]);
+      _addRowToSection(sec2, [
+        { label: '서비스', id: 'createIssue_serviceType', type: 'select', required: false, options: [{ v: '', l: '선택...' }].concat((SERVICE_TYPES || []).map(function(st) { return { v: st, l: st }; })) },
+        { label: '빌드 카테고리', id: 'createIssue_buildCategory', type: 'select', required: false, options: [{ v: '', l: '선택...' }, { v: '앱', l: '앱' }, { v: '커뮤니티', l: '커뮤니티' }, { v: '쇼핑', l: '쇼핑' }, { v: '중고', l: '중고' }, { v: '예약', l: '예약' }, { v: '백오피스', l: '백오피스' }] }
+      ]);
+      _addFieldToSection(sec2, '관련 이슈 (쉼표 분리)', 'createIssue_relatedIssues', 'text', false);
 
-      // Row 4: Service | Project
-      var row4 = document.createElement('div');
-      row4.className = 'issue-form-row';
-      var serviceGroup = document.createElement('div');
-      serviceGroup.className = 'issue-form-group';
-      var serviceLabel = document.createElement('label');
-      serviceLabel.className = 'issue-form-label';
-      serviceLabel.textContent = '서비스';
-      serviceGroup.appendChild(serviceLabel);
-      var serviceSelect = document.createElement('select');
-      serviceSelect.id = 'createIssue_serviceType';
-      serviceSelect.className = 'issue-form-select';
-      var opt = document.createElement('option');
-      opt.value = '';
-      opt.textContent = '선택...';
-      serviceSelect.appendChild(opt);
-      SERVICE_TYPES.forEach(function(st) {
-        var o = document.createElement('option');
-        o.value = st;
-        o.textContent = st;
-        serviceSelect.appendChild(o);
-      });
-      serviceGroup.appendChild(serviceSelect);
-      row4.appendChild(serviceGroup);
+      // Section 3: 담당
+      var sec3 = _addSection('담당');
+      _addRowToSection(sec3, [
+        { label: '작업 담당자', id: 'createIssue_assignee', type: 'select', required: false, options: [{ v: '', l: '선택...' }].concat(TEAM.map(function(m) { return { v: m.id, l: m.name }; })) },
+        { label: '확인 담당자', id: 'createIssue_verifier', type: 'select', required: false, options: [{ v: '', l: '선택...' }].concat(TEAM.map(function(m) { return { v: m.id, l: m.name }; })) }
+      ]);
+      _addRowToSection(sec3, [
+        { label: '참조자', id: 'createIssue_references', type: 'text', required: false, placeholder: '쉼표 분리' },
+        { label: '처리 기한', id: 'createIssue_deadline', type: 'date', required: false }
+      ]);
 
-      var projectGroup = document.createElement('div');
-      projectGroup.className = 'issue-form-group';
-      var projectLabel = document.createElement('label');
-      projectLabel.className = 'issue-form-label';
-      projectLabel.textContent = '프로젝트';
-      projectGroup.appendChild(projectLabel);
-      var projectSelect = document.createElement('select');
-      projectSelect.id = 'createIssue_projectId';
-      projectSelect.className = 'issue-form-select';
-      var opt2 = document.createElement('option');
-      opt2.value = '';
-      opt2.textContent = '선택...';
-      projectSelect.appendChild(opt2);
-      state.projects.forEach(function(p) {
-        var o = document.createElement('option');
-        o.value = p.id;
-        o.textContent = p.name;
-        projectSelect.appendChild(o);
-      });
-      projectGroup.appendChild(projectSelect);
-      row4.appendChild(projectGroup);
-      form.appendChild(row4);
+      // Section 4: 상세 내용
+      var sec4 = _addSection('상세 내용');
+      _addFieldToSection(sec4, '사전조건', 'createIssue_precondition', 'textarea', false);
+      _addFieldToSection(sec4, '확인절차', 'createIssue_testSteps', 'textarea', false);
+      _addRowToSection(sec4, [
+        { label: '예상결과', id: 'createIssue_expectedResult', type: 'text', required: false },
+        { label: '실제결과', id: 'createIssue_actualResult', type: 'text', required: false }
+      ]);
 
-      // Row 5: Assignee
-      var assigneeGroup = document.createElement('div');
-      assigneeGroup.className = 'issue-form-group';
-      var assigneeLabel = document.createElement('label');
-      assigneeLabel.className = 'issue-form-label';
-      assigneeLabel.textContent = '담당자';
-      assigneeGroup.appendChild(assigneeLabel);
-      var assigneeSelect = document.createElement('select');
-      assigneeSelect.id = 'createIssue_assignee';
-      assigneeSelect.className = 'issue-form-select';
-      var opt3 = document.createElement('option');
-      opt3.value = '';
-      opt3.textContent = '선택...';
-      assigneeSelect.appendChild(opt3);
-      TEAM.forEach(function(m) {
-        var o = document.createElement('option');
-        o.value = m.id;
-        o.textContent = m.name;
-        assigneeSelect.appendChild(o);
-      });
-      assigneeGroup.appendChild(assigneeSelect);
-      form.appendChild(assigneeGroup);
-
-      // Row 6: Deadline
-      var deadlineGroup = document.createElement('div');
-      deadlineGroup.className = 'issue-form-group';
-      var deadlineLabel = document.createElement('label');
-      deadlineLabel.className = 'issue-form-label';
-      deadlineLabel.textContent = '처리 기한';
-      deadlineGroup.appendChild(deadlineLabel);
-      var deadlineInput = document.createElement('input');
-      deadlineInput.type = 'date';
-      deadlineInput.id = 'createIssue_deadline';
-      deadlineInput.className = 'issue-form-input';
-      deadlineGroup.appendChild(deadlineInput);
-      form.appendChild(deadlineGroup);
-
-      // Row 7: Description
-      var descGroup = document.createElement('div');
-      descGroup.className = 'issue-form-group';
-      var descLabel = document.createElement('label');
-      descLabel.className = 'issue-form-label';
-      descLabel.textContent = '설명';
-      descGroup.appendChild(descLabel);
-      var descTextarea = document.createElement('textarea');
-      descTextarea.id = 'createIssue_description';
-      descTextarea.className = 'issue-form-textarea';
-      descTextarea.placeholder = '이슈 설명을 입력하세요';
-      descGroup.appendChild(descTextarea);
-      form.appendChild(descGroup);
-
-      // Row 8: Steps to Reproduce
-      var stepsGroup = document.createElement('div');
-      stepsGroup.className = 'issue-form-group';
-      var stepsLabel = document.createElement('label');
-      stepsLabel.className = 'issue-form-label';
-      stepsLabel.textContent = '재현 방법';
-      stepsGroup.appendChild(stepsLabel);
-      var stepsTextarea = document.createElement('textarea');
-      stepsTextarea.id = 'createIssue_stepsToReproduce';
-      stepsTextarea.className = 'issue-form-textarea';
-      stepsTextarea.placeholder = '재현 방법을 입력하세요';
-      stepsGroup.appendChild(stepsTextarea);
-      form.appendChild(stepsGroup);
-
-      // Row 9: Expected vs Actual
-      var row9 = document.createElement('div');
-      row9.className = 'issue-form-row';
-      var expectedGroup = document.createElement('div');
-      expectedGroup.className = 'issue-form-group';
-      var expectedLabel = document.createElement('label');
-      expectedLabel.className = 'issue-form-label';
-      expectedLabel.textContent = '기대 결과';
-      expectedGroup.appendChild(expectedLabel);
-      var expectedTextarea = document.createElement('textarea');
-      expectedTextarea.id = 'createIssue_expectedResult';
-      expectedTextarea.className = 'issue-form-textarea';
-      expectedTextarea.style.minHeight = '60px';
-      expectedTextarea.placeholder = '기대되는 결과를 입력하세요';
-      expectedGroup.appendChild(expectedTextarea);
-      row9.appendChild(expectedGroup);
-
-      var actualGroup = document.createElement('div');
-      actualGroup.className = 'issue-form-group';
-      var actualLabel = document.createElement('label');
-      actualLabel.className = 'issue-form-label';
-      actualLabel.textContent = '실제 결과';
-      actualGroup.appendChild(actualLabel);
-      var actualTextarea = document.createElement('textarea');
-      actualTextarea.id = 'createIssue_actualResult';
-      actualTextarea.className = 'issue-form-textarea';
-      actualTextarea.style.minHeight = '60px';
-      actualTextarea.placeholder = '실제 발생한 결과를 입력하세요';
-      actualGroup.appendChild(actualTextarea);
-      row9.appendChild(actualGroup);
-      form.appendChild(row9);
-
-      // Row 10: Attachments
+      // Section 5: 첨부파일
+      var sec5 = _addSection('첨부파일');
       var attachGroup = document.createElement('div');
       attachGroup.className = 'issue-form-group';
-      var attachLabel = document.createElement('label');
-      attachLabel.className = 'issue-form-label';
-      attachLabel.textContent = '첨부파일';
-      attachGroup.appendChild(attachLabel);
       var dropZone = document.createElement('div');
       dropZone.className = 'attachment-zone';
       dropZone.innerHTML = '파일을 드래그&드롭하거나 클립보드에서 붙여넣기';
@@ -5843,9 +5742,8 @@
       attachGrid.className = 'create-issue-attachments';
       attachGrid.id = 'createIssueAttachmentGrid';
       attachGroup.appendChild(attachGrid);
-      form.appendChild(attachGroup);
+      sec5.appendChild(attachGroup);
 
-      // Add paste listener
       document.getElementById('createIssueModal').addEventListener('paste', function(e) {
         var items = e.clipboardData.items;
         for (var i = 0; i < items.length; i++) {
@@ -5866,32 +5764,41 @@
       var issueData = {
         id: _generateIssueId(),
         title: document.getElementById('createIssue_title').value,
-        description: document.getElementById('createIssue_description').value,
         type: document.getElementById('createIssue_type').value,
         severity: document.getElementById('createIssue_severity').value,
         priority: document.getElementById('createIssue_priority').value,
+        status: '등록',
+        environment: document.getElementById('createIssue_environment').value || '',
+        platform: document.getElementById('createIssue_platform').value || '',
+        product: document.getElementById('createIssue_product').value || '',
+        defectType: document.getElementById('createIssue_defectType').value || '',
         projectId: document.getElementById('createIssue_projectId').value || '',
         serviceType: document.getElementById('createIssue_serviceType').value || '',
+        buildCategory: document.getElementById('createIssue_buildCategory').value || '',
         assignee: document.getElementById('createIssue_assignee').value || '',
+        verifier: document.getElementById('createIssue_verifier').value || '',
+        references: document.getElementById('createIssue_references').value || '',
+        relatedIssues: document.getElementById('createIssue_relatedIssues').value || '',
         deadline: document.getElementById('createIssue_deadline').value || '',
-        status: 'open',
+        precondition: document.getElementById('createIssue_precondition').value || '',
+        testSteps: document.getElementById('createIssue_testSteps').value || '',
+        expectedResult: document.getElementById('createIssue_expectedResult').value || '',
+        actualResult: document.getElementById('createIssue_actualResult').value || '',
+        resolution: '',
         reporter: state.currentUser ? state.currentUser.uid : '',
         attachments: _createIssueAttachments.slice(),
         comments: [],
-        labels: [],
         created: new Date().toISOString(),
-        updated: new Date().toISOString(),
-        resolvedDate: '',
-        environment: document.getElementById('createIssue_environment').value || '',
-        stepsToReproduce: document.getElementById('createIssue_stepsToReproduce').value,
-        expectedResult: document.getElementById('createIssue_expectedResult').value,
-        actualResult: document.getElementById('createIssue_actualResult').value
+        updated: new Date().toISOString()
       };
 
       if (!issueData.title) { _showToast('제목을 입력하세요'); return; }
-      if (!issueData.type) { _showToast('유형을 선택하세요'); return; }
+      if (!issueData.type) { _showToast('이슈 유형을 선택하세요'); return; }
       if (!issueData.severity) { _showToast('심각도를 선택하세요'); return; }
       if (!issueData.priority) { _showToast('우선순위를 선택하세요'); return; }
+      if (!issueData.environment) { _showToast('배포환경을 선택하세요'); return; }
+      if (!issueData.platform) { _showToast('플랫폼을 선택하세요'); return; }
+      if (!issueData.product) { _showToast('프로덕트를 선택하세요'); return; }
 
       saveIssueData(issueData);
       closeCreateIssueModal();
@@ -5952,10 +5859,10 @@
 
       // Update summary bar
       var total = _issues.length;
-      var open = _issues.filter(function(i) { return i.status === 'open'; }).length;
-      var progress = _issues.filter(function(i) { return i.status === 'in-progress'; }).length;
-      var resolved = _issues.filter(function(i) { return i.status === 'resolved'; }).length;
-      var closed = _issues.filter(function(i) { return i.status === 'closed'; }).length;
+      var open = _issues.filter(function(i) { return i.status === '등록' || i.status === '검토 중' || i.status === '테스트 보류' || i.status === '현재작업불가'; }).length;
+      var progress = _issues.filter(function(i) { return i.status === '작업 진행 중'; }).length;
+      var resolved = _issues.filter(function(i) { return i.status === '검증 진행 중' || i.status === '운영배포예정'; }).length;
+      var closed = _issues.filter(function(i) { return i.status === '완료'; }).length;
       document.getElementById('summaryTotal').textContent = '전체 ' + total;
       document.getElementById('summaryOpen').textContent = '열린이슈 ' + open;
       document.getElementById('summaryProgress').textContent = '진행중 ' + progress;
@@ -5986,6 +5893,22 @@
           header.className = 'issue-group-header';
           var projName = key === '(미할당)' ? key : (state.projects.find(function(p) { return p.id === key; }) || {name: key}).name;
           header.textContent = '📁 ' + projName;
+          container.appendChild(header);
+          grouped[key].forEach(function(iss) {
+            _renderIssueCard(container, iss);
+          });
+        });
+      } else if (_issueViewMode === 'by-product') {
+        var grouped = {};
+        filtered.forEach(function(iss) {
+          var key = iss.product || '(미할당)';
+          if (!grouped[key]) grouped[key] = [];
+          grouped[key].push(iss);
+        });
+        Object.keys(grouped).forEach(function(key) {
+          var header = document.createElement('div');
+          header.className = 'issue-group-header';
+          header.textContent = '📦 ' + key;
           container.appendChild(header);
           grouped[key].forEach(function(iss) {
             _renderIssueCard(container, iss);
@@ -6145,7 +6068,7 @@
 
       if (iss.deadline) {
         var deadline = new Date(iss.deadline);
-        var isOverdue = deadline < new Date() && iss.status !== 'closed' && iss.status !== 'resolved' && iss.status !== 'verified';
+        var isOverdue = deadline < new Date() && iss.status !== '완료';
         var dItem = document.createElement('span');
         dItem.className = 'issue-meta-item';
         if (isOverdue) {
@@ -6196,7 +6119,7 @@
     }
 
     function bulkUpdateIssueStatus() {
-      var status = prompt('새로운 상태를 입력하세요 (open, in-progress, resolved, verified, closed, reopened):');
+      var status = prompt('새로운 상태를 입력하세요:\n등록, 검토 중, 작업 진행 중, 검증 진행 중, 완료, 운영배포예정, 테스트 보류, 현재작업불가');
       if (!status) return;
       Object.keys(_selectedIssues).forEach(function(issueId) {
         var iss = _issues.find(function(i) { return i.id === issueId; });
@@ -6298,7 +6221,7 @@
       typeSelect.className = 'issue-form-select';
       typeSelect.disabled = !canEdit;
       typeSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
-      [{ v: '', l: '선택...' }, { v: 'bug', l: '버그' }, { v: 'improvement', l: '개선' }, { v: 'task', l: '작업' }, { v: 'design', l: '디자인' }].forEach(function(o) {
+      [{ v: '', l: '선택...' }, { v: 'Bug', l: 'Bug' }, { v: 'Task', l: 'Task' }].forEach(function(o) {
         var opt = document.createElement('option');
         opt.value = o.v;
         opt.textContent = o.l;
@@ -6319,7 +6242,7 @@
       severitySelect.className = 'issue-form-select';
       severitySelect.disabled = !canEdit;
       severitySelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
-      [{ v: '', l: '선택...' }, { v: 'critical', l: 'Critical' }, { v: 'major', l: 'Major' }, { v: 'minor', l: 'Minor' }, { v: 'trivial', l: 'Trivial' }].forEach(function(o) {
+      [{ v: '', l: '선택...' }, { v: 'Block', l: 'Block' }, { v: 'Major', l: 'Major' }, { v: 'Minor', l: 'Minor' }, { v: 'Trivial', l: 'Trivial' }].forEach(function(o) {
         var opt = document.createElement('option');
         opt.value = o.v;
         opt.textContent = o.l;
@@ -6345,7 +6268,7 @@
       prioritySelect.className = 'issue-form-select';
       prioritySelect.disabled = !canEdit;
       prioritySelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
-      [{ v: '', l: '선택...' }, { v: 'highest', l: '최상' }, { v: 'high', l: '높음' }, { v: 'medium', l: '중간' }, { v: 'low', l: '낮음' }].forEach(function(o) {
+      [{ v: '', l: '선택...' }, { v: '1', l: '1(Critical)' }, { v: '2', l: '2(High)' }, { v: '3', l: '3(Medium)' }, { v: '4', l: '4(Low)' }].forEach(function(o) {
         var opt = document.createElement('option');
         opt.value = o.v;
         opt.textContent = o.l;
@@ -6366,7 +6289,7 @@
       statusSelect.className = 'issue-form-select';
       statusSelect.disabled = !canEdit;
       statusSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
-      [{ v: '', l: '선택...' }, { v: 'open', l: '열림' }, { v: 'in-progress', l: '진행중' }, { v: 'resolved', l: '해결됨' }, { v: 'verified', l: '검증됨' }, { v: 'closed', l: '종료됨' }, { v: 'reopened', l: '재개됨' }].forEach(function(o) {
+      [{ v: '', l: '선택...' }, { v: '등록', l: '등록' }, { v: '검토 중', l: '검토 중' }, { v: '작업 진행 중', l: '작업 진행 중' }, { v: '검증 진행 중', l: '검증 진행 중' }, { v: '완료', l: '완료' }, { v: '운영배포예정', l: '운영배포예정' }, { v: '테스트 보류', l: '테스트 보류' }, { v: '현재작업불가', l: '현재작업불가' }].forEach(function(o) {
         var opt = document.createElement('option');
         opt.value = o.v;
         opt.textContent = o.l;
@@ -6483,6 +6406,190 @@
       metaGrid4.appendChild(envGroup);
       panel.appendChild(metaGrid4);
 
+      // Platform | Product
+      var metaGrid4b = document.createElement('div');
+      metaGrid4b.className = 'issue-form-row';
+
+      var platformGroup = document.createElement('div');
+      platformGroup.className = 'issue-form-group';
+      var platformLabel = document.createElement('label');
+      platformLabel.className = 'issue-form-label';
+      platformLabel.textContent = '플랫폼';
+      platformGroup.appendChild(platformLabel);
+      var platformSelect = document.createElement('select');
+      platformSelect.id = 'issueDetail_platform';
+      platformSelect.className = 'issue-form-select';
+      platformSelect.disabled = !canEdit;
+      platformSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      [{ v: '', l: '선택...' }, { v: 'IOS', l: 'IOS' }, { v: 'AOS', l: 'AOS' }, { v: 'PC', l: 'PC' }, { v: 'MW', l: 'MW' }].forEach(function(o) {
+        var opt = document.createElement('option');
+        opt.value = o.v;
+        opt.textContent = o.l;
+        platformSelect.appendChild(opt);
+      });
+      platformSelect.value = iss.platform || '';
+      platformGroup.appendChild(platformSelect);
+      metaGrid4b.appendChild(platformGroup);
+
+      var productGroup = document.createElement('div');
+      productGroup.className = 'issue-form-group';
+      var productLabel = document.createElement('label');
+      productLabel.className = 'issue-form-label';
+      productLabel.textContent = '프로덕트';
+      productGroup.appendChild(productLabel);
+      var productSelect = document.createElement('select');
+      productSelect.id = 'issueDetail_product';
+      productSelect.className = 'issue-form-select';
+      productSelect.disabled = !canEdit;
+      productSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      [{ v: '', l: '선택...' }, { v: '어바웃피싱 앱', l: '어바웃피싱 앱' }, { v: '어바웃피싱 어드민', l: '어바웃피싱 어드민' }, { v: '샵바이 앱/웹', l: '샵바이 앱/웹' }, { v: '샵바이 어드민', l: '샵바이 어드민' }, { v: '낚시포인트맵', l: '낚시포인트맵' }].forEach(function(o) {
+        var opt = document.createElement('option');
+        opt.value = o.v;
+        opt.textContent = o.l;
+        productSelect.appendChild(opt);
+      });
+      productSelect.value = iss.product || '';
+      productGroup.appendChild(productSelect);
+      metaGrid4b.appendChild(productGroup);
+      panel.appendChild(metaGrid4b);
+
+      // DefectType | BuildCategory
+      var metaGrid4c = document.createElement('div');
+      metaGrid4c.className = 'issue-form-row';
+
+      var defectTypeGroup = document.createElement('div');
+      defectTypeGroup.className = 'issue-form-group';
+      var defectTypeLabel = document.createElement('label');
+      defectTypeLabel.className = 'issue-form-label';
+      defectTypeLabel.textContent = '결함 타입';
+      defectTypeGroup.appendChild(defectTypeLabel);
+      var defectTypeSelect = document.createElement('select');
+      defectTypeSelect.id = 'issueDetail_defectType';
+      defectTypeSelect.className = 'issue-form-select';
+      defectTypeSelect.disabled = !canEdit;
+      defectTypeSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      [{ v: '', l: '선택...' }, { v: '데이터 에러', l: '데이터 에러' }, { v: '기능 에러', l: '기능 에러' }, { v: '이슈 아님', l: '이슈 아님' }, { v: '기능개선', l: '기능개선' }, { v: '기획 에러', l: '기획 에러' }, { v: '시스템 에러', l: '시스템 에러' }, { v: 'UI 에러', l: 'UI 에러' }].forEach(function(o) {
+        var opt = document.createElement('option');
+        opt.value = o.v;
+        opt.textContent = o.l;
+        defectTypeSelect.appendChild(opt);
+      });
+      defectTypeSelect.value = iss.defectType || '';
+      defectTypeGroup.appendChild(defectTypeSelect);
+      metaGrid4c.appendChild(defectTypeGroup);
+
+      var buildCategoryGroup = document.createElement('div');
+      buildCategoryGroup.className = 'issue-form-group';
+      var buildCategoryLabel = document.createElement('label');
+      buildCategoryLabel.className = 'issue-form-label';
+      buildCategoryLabel.textContent = '빌드 카테고리';
+      buildCategoryGroup.appendChild(buildCategoryLabel);
+      var buildCategorySelect = document.createElement('select');
+      buildCategorySelect.id = 'issueDetail_buildCategory';
+      buildCategorySelect.className = 'issue-form-select';
+      buildCategorySelect.disabled = !canEdit;
+      buildCategorySelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      [{ v: '', l: '선택...' }, { v: '앱', l: '앱' }, { v: '커뮤니티', l: '커뮤니티' }, { v: '쇼핑', l: '쇼핑' }, { v: '중고', l: '중고' }, { v: '예약', l: '예약' }, { v: '백오피스', l: '백오피스' }].forEach(function(o) {
+        var opt = document.createElement('option');
+        opt.value = o.v;
+        opt.textContent = o.l;
+        buildCategorySelect.appendChild(opt);
+      });
+      buildCategorySelect.value = iss.buildCategory || '';
+      buildCategoryGroup.appendChild(buildCategorySelect);
+      metaGrid4c.appendChild(buildCategoryGroup);
+      panel.appendChild(metaGrid4c);
+
+      // Verifier | References
+      var metaGrid4d = document.createElement('div');
+      metaGrid4d.className = 'issue-form-row';
+
+      var verifierGroup = document.createElement('div');
+      verifierGroup.className = 'issue-form-group';
+      var verifierLabel = document.createElement('label');
+      verifierLabel.className = 'issue-form-label';
+      verifierLabel.textContent = '확인 담당자';
+      verifierGroup.appendChild(verifierLabel);
+      var verifierSelect = document.createElement('select');
+      verifierSelect.id = 'issueDetail_verifier';
+      verifierSelect.className = 'issue-form-select';
+      verifierSelect.disabled = !canEdit;
+      verifierSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      var verOpt0 = document.createElement('option');
+      verOpt0.value = '';
+      verOpt0.textContent = '선택...';
+      verifierSelect.appendChild(verOpt0);
+      TEAM.forEach(function(m) {
+        var o = document.createElement('option');
+        o.value = m.id;
+        o.textContent = m.name;
+        verifierSelect.appendChild(o);
+      });
+      verifierSelect.value = iss.verifier || '';
+      verifierGroup.appendChild(verifierSelect);
+      metaGrid4d.appendChild(verifierGroup);
+
+      var referencesGroup = document.createElement('div');
+      referencesGroup.className = 'issue-form-group';
+      var referencesLabel = document.createElement('label');
+      referencesLabel.className = 'issue-form-label';
+      referencesLabel.textContent = '참조자';
+      referencesGroup.appendChild(referencesLabel);
+      var referencesInput = document.createElement('input');
+      referencesInput.type = 'text';
+      referencesInput.id = 'issueDetail_references';
+      referencesInput.className = 'issue-form-input';
+      referencesInput.value = iss.references || '';
+      referencesInput.readOnly = !canEdit;
+      referencesInput.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      referencesInput.placeholder = '쉼표 분리';
+      referencesGroup.appendChild(referencesInput);
+      metaGrid4d.appendChild(referencesGroup);
+      panel.appendChild(metaGrid4d);
+
+      // RelatedIssues | Resolution
+      var metaGrid4e = document.createElement('div');
+      metaGrid4e.className = 'issue-form-row';
+
+      var relatedIssuesGroup = document.createElement('div');
+      relatedIssuesGroup.className = 'issue-form-group';
+      var relatedIssuesLabel = document.createElement('label');
+      relatedIssuesLabel.className = 'issue-form-label';
+      relatedIssuesLabel.textContent = '관련 이슈';
+      relatedIssuesGroup.appendChild(relatedIssuesLabel);
+      var relatedIssuesInput = document.createElement('input');
+      relatedIssuesInput.type = 'text';
+      relatedIssuesInput.id = 'issueDetail_relatedIssues';
+      relatedIssuesInput.className = 'issue-form-input';
+      relatedIssuesInput.value = iss.relatedIssues || '';
+      relatedIssuesInput.readOnly = !canEdit;
+      relatedIssuesInput.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      relatedIssuesInput.placeholder = '쉼표 분리';
+      relatedIssuesGroup.appendChild(relatedIssuesInput);
+      metaGrid4e.appendChild(relatedIssuesGroup);
+
+      var resolutionGroup = document.createElement('div');
+      resolutionGroup.className = 'issue-form-group';
+      var resolutionLabel = document.createElement('label');
+      resolutionLabel.className = 'issue-form-label';
+      resolutionLabel.textContent = '이슈해결책';
+      resolutionGroup.appendChild(resolutionLabel);
+      var resolutionSelect = document.createElement('select');
+      resolutionSelect.id = 'issueDetail_resolution';
+      resolutionSelect.className = 'issue-form-select';
+      resolutionSelect.disabled = !canEdit;
+      resolutionSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      [{ v: '', l: '선택...' }, { v: '완료', l: '완료' }, { v: '수정 계획 없음', l: '수정 계획 없음' }, { v: '다음 예정', l: '다음 예정' }, { v: '재현 불가', l: '재현 불가' }, { v: '중복', l: '중복' }, { v: '버그 아님', l: '버그 아님' }, { v: '취소', l: '취소' }].forEach(function(o) {
+        var opt = document.createElement('option');
+        opt.value = o.v;
+        opt.textContent = o.l;
+        resolutionSelect.appendChild(opt);
+      });
+      resolutionSelect.value = iss.resolution || '';
+      resolutionGroup.appendChild(resolutionSelect);
+      metaGrid4e.appendChild(resolutionGroup);
+      panel.appendChild(metaGrid4e);
+
       // Deadline | Created
       var metaGrid5 = document.createElement('div');
       metaGrid5.className = 'issue-form-row';
@@ -6519,37 +6626,37 @@
       metaGrid5.appendChild(createdGroup);
       panel.appendChild(metaGrid5);
 
-      // Description
-      var descGroup = document.createElement('div');
-      descGroup.className = 'issue-form-group';
-      var descLabel = document.createElement('label');
-      descLabel.className = 'issue-form-label';
-      descLabel.textContent = '설명';
-      descGroup.appendChild(descLabel);
-      var descTextarea = document.createElement('textarea');
-      descTextarea.id = 'issueDetail_description';
-      descTextarea.className = 'issue-form-textarea';
-      descTextarea.value = iss.description || '';
-      descTextarea.readOnly = !canEdit;
-      descTextarea.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
-      descGroup.appendChild(descTextarea);
-      panel.appendChild(descGroup);
+      // Precondition
+      var preconditionGroup = document.createElement('div');
+      preconditionGroup.className = 'issue-form-group';
+      var preconditionLabel = document.createElement('label');
+      preconditionLabel.className = 'issue-form-label';
+      preconditionLabel.textContent = '사전조건';
+      preconditionGroup.appendChild(preconditionLabel);
+      var preconditionTextarea = document.createElement('textarea');
+      preconditionTextarea.id = 'issueDetail_precondition';
+      preconditionTextarea.className = 'issue-form-textarea';
+      preconditionTextarea.value = iss.precondition || '';
+      preconditionTextarea.readOnly = !canEdit;
+      preconditionTextarea.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      preconditionGroup.appendChild(preconditionTextarea);
+      panel.appendChild(preconditionGroup);
 
-      // Steps to reproduce
-      var stepsGroup = document.createElement('div');
-      stepsGroup.className = 'issue-form-group';
-      var stepsLabel = document.createElement('label');
-      stepsLabel.className = 'issue-form-label';
-      stepsLabel.textContent = '재현 방법';
-      stepsGroup.appendChild(stepsLabel);
-      var stepsTextarea = document.createElement('textarea');
-      stepsTextarea.id = 'issueDetail_stepsToReproduce';
-      stepsTextarea.className = 'issue-form-textarea';
-      stepsTextarea.value = iss.stepsToReproduce || '';
-      stepsTextarea.readOnly = !canEdit;
-      stepsTextarea.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
-      stepsGroup.appendChild(stepsTextarea);
-      panel.appendChild(stepsGroup);
+      // TestSteps / Verification Process
+      var testStepsGroup = document.createElement('div');
+      testStepsGroup.className = 'issue-form-group';
+      var testStepsLabel = document.createElement('label');
+      testStepsLabel.className = 'issue-form-label';
+      testStepsLabel.textContent = '확인절차';
+      testStepsGroup.appendChild(testStepsLabel);
+      var testStepsTextarea = document.createElement('textarea');
+      testStepsTextarea.id = 'issueDetail_testSteps';
+      testStepsTextarea.className = 'issue-form-textarea';
+      testStepsTextarea.value = iss.testSteps || '';
+      testStepsTextarea.readOnly = !canEdit;
+      testStepsTextarea.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      testStepsGroup.appendChild(testStepsTextarea);
+      panel.appendChild(testStepsGroup);
 
       // Expected vs Actual
       var resultRow = document.createElement('div');
@@ -6729,19 +6836,27 @@
       if (!iss) return;
 
       iss.title = document.getElementById('issueDetail_title').value;
-      iss.description = document.getElementById('issueDetail_description').value;
       iss.type = document.getElementById('issueDetail_type').value;
       iss.severity = document.getElementById('issueDetail_severity').value;
       iss.priority = document.getElementById('issueDetail_priority').value;
       iss.status = document.getElementById('issueDetail_status').value;
-      iss.projectId = document.getElementById('issueDetail_projectId').value;
-      iss.assignee = document.getElementById('issueDetail_assignee').value;
-      iss.serviceType = document.getElementById('issueDetail_serviceType').value;
-      iss.deadline = document.getElementById('issueDetail_deadline').value;
       iss.environment = document.getElementById('issueDetail_environment').value;
-      iss.stepsToReproduce = document.getElementById('issueDetail_stepsToReproduce').value;
+      iss.platform = document.getElementById('issueDetail_platform').value;
+      iss.product = document.getElementById('issueDetail_product').value;
+      iss.defectType = document.getElementById('issueDetail_defectType').value;
+      iss.projectId = document.getElementById('issueDetail_projectId').value;
+      iss.serviceType = document.getElementById('issueDetail_serviceType').value;
+      iss.buildCategory = document.getElementById('issueDetail_buildCategory').value;
+      iss.assignee = document.getElementById('issueDetail_assignee').value;
+      iss.verifier = document.getElementById('issueDetail_verifier').value;
+      iss.references = document.getElementById('issueDetail_references').value;
+      iss.relatedIssues = document.getElementById('issueDetail_relatedIssues').value;
+      iss.deadline = document.getElementById('issueDetail_deadline').value;
+      iss.precondition = document.getElementById('issueDetail_precondition').value;
+      iss.testSteps = document.getElementById('issueDetail_testSteps').value;
       iss.expectedResult = document.getElementById('issueDetail_expectedResult').value;
       iss.actualResult = document.getElementById('issueDetail_actualResult').value;
+      iss.resolution = document.getElementById('issueDetail_resolution').value;
       iss.updated = new Date().toISOString();
 
       saveIssueData(iss);
@@ -6918,9 +7033,14 @@
       img.onload = function() {
         var canvas = document.createElement('canvas');
         var maxWidth = 800;
-        var scale = maxWidth / img.width;
-        canvas.width = maxWidth;
-        canvas.height = img.height * scale;
+        if (img.width <= maxWidth) {
+          canvas.width = img.width;
+          canvas.height = img.height;
+        } else {
+          var scale = maxWidth / img.width;
+          canvas.width = maxWidth;
+          canvas.height = img.height * scale;
+        }
         var ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         var compressed = canvas.toDataURL('image/jpeg', 0.5);
@@ -7095,9 +7215,9 @@
       issSelect.className = 'issue-form-select';
       var opt2 = document.createElement('option');
       opt2.value = '';
-      opt2.textContent = 'Select an issue...';
+      opt2.textContent = '이슈를 선택하세요...';
       issSelect.appendChild(opt2);
-      var resolved = _issues.filter(function(i) { return i.status === 'resolved' || i.status === 'verified'; });
+      var resolved = _issues.filter(function(i) { return i.status === '검증 진행 중' || i.status === '완료' || i.status === '운영배포예정'; });
       resolved.forEach(function(iss) {
         var o = document.createElement('option');
         o.value = iss.id;
@@ -10780,7 +10900,6 @@
     window.closeLightbox = closeLightbox;
     window.switchIssueView = switchIssueView;
     window.filterIssuesByStatus = filterIssuesByStatus;
-    window.toggleIssueSelect = toggleIssueSelect;
     window.bulkUpdateIssueStatus = bulkUpdateIssueStatus;
     window.bulkUpdateIssueAssignee = bulkUpdateIssueAssignee;
     window.bulkDeleteIssues = bulkDeleteIssues;

@@ -4536,202 +4536,7 @@
 
       '</div>' +
 
-      '</div>
-  <!-- Triage Inbox Panel -->
-  <div class="triage-panel" id="triagePanel">
-    <div class="triage-header">
-      <div class="triage-title">📥 트리아지 인박스 <span class="triage-badge" id="triageBadge">0</span></div>
-      <button onclick="closeTriage()" style="background:none;border:none;font-size:18px;cursor:pointer;color:#9ca3af;">✕</button>
-    </div>
-    <div class="triage-body">
-      <div class="triage-24h-banner" id="triage24hBanner">⚠️ 24시간 이상 미검토 이슈가 있습니다. 빠른 트리아지가 필요합니다.</div>
-      <div id="triageList"></div>
-    </div>
-  </div>
-  <button id="triageFloatBtn" onclick="openTriage()">📥 트리아지 <span class="triage-float-count" id="triageFloatCount">0</span></button>
-
-  <!-- Automation Rules Modal -->
-  <div class="auto-modal-overlay" id="autoModalOverlay" onclick="if(event.target===this)closeAutomation()">
-    <div class="auto-modal">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-        <div style="font-size:14px;font-weight:700;color:#1f2937;">⚡ 자동화 룰 <span style="font-size:10px;font-weight:400;color:#9ca3af;">Monday.com 스타일</span></div>
-        <button onclick="closeAutomation()" style="background:none;border:none;font-size:18px;cursor:pointer;color:#9ca3af;">✕</button>
-      </div>
-      <div style="font-size:10px;color:#6b7280;margin-bottom:12px;">조건이 충족되면 자동으로 실행됩니다. 토글로 활성화/비활성화할 수 있습니다.</div>
-      <div id="autoRulesList"></div>
-      <div style="margin-top:14px;padding-top:14px;border-top:1px solid #e5e7eb;">
-        <div style="font-size:11px;font-weight:700;color:#374151;margin-bottom:8px;">마지막 실행 로그</div>
-        <div id="autoExecLog" style="max-height:100px;overflow-y:auto;background:#1e293b;border-radius:6px;padding:8px;font-size:10px;font-family:monospace;color:#94a3b8;"></div>
-      </div>
-    </div>
-  </div>
-
-    <!-- Cycle 83: Quick Issue Capture Floating Button -->
-    <button id="quickCaptureBtn" onclick="_qcOpen()" title="빠른 이슈 등록 (단축키: N)" style="position:fixed;right:24px;bottom:80px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#818cf8);border:none;box-shadow:0 4px 16px rgba(99,102,241,.4);cursor:pointer;z-index:900;display:flex;align-items:center;justify-content:center;font-size:22px;transition:transform .15s,box-shadow .15s;" onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 6px 20px rgba(99,102,241,.5)';" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 16px rgba(99,102,241,.4)';">+</button>
-
-    <!-- Quick Capture Modal -->
-    <div id="qcModal" style="display:none;position:fixed;inset:0;z-index:1300;background:rgba(0,0,0,.45);align-items:center;justify-content:center;">
-      <div style="background:#fff;border-radius:14px;width:min(520px,94vw);max-height:90vh;overflow-y:auto;box-shadow:0 16px 48px rgba(0,0,0,.22);animation:qcSlideIn .2s ease;">
-        <div style="display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid #e5e7eb;">
-          <span style="font-size:16px;font-weight:700;color:#1f2937;flex:1;">⚡ 빠른 이슈 등록</span>
-          <button onclick="_qcClose()" style="width:28px;height:28px;border:none;background:#f3f4f6;border-radius:50%;cursor:pointer;font-size:14px;">×</button>
-        </div>
-        <div style="padding:20px;">
-          <!-- Title with smart suggestion -->
-          <div style="margin-bottom:14px;">
-            <label style="font-size:11px;font-weight:700;color:#374151;display:block;margin-bottom:5px;">이슈 제목 *</label>
-            <input id="qcTitle" type="text" placeholder="이슈 내용을 입력하면 유형을 자동 감지합니다..." oninput="_qcAutoDetect();_qcCheckDup(this.value)" style="width:100%;padding:10px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:13px;box-sizing:border-box;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#6366f1'" onblur="this.style.borderColor='#e5e7eb'">
-            <div id="qcSmartHint" style="margin-top:5px;font-size:10px;color:#6366f1;min-height:16px;"></div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
-            <div>
-              <label style="font-size:11px;font-weight:700;color:#374151;display:block;margin-bottom:5px;">심각도</label>
-              <select id="qcSeverity" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:12px;outline:none;background:#fff;">
-                <option value="Block">🔴 Block</option>
-                <option value="Critical">🟠 Critical</option>
-                <option value="Major" selected>🟡 Major</option>
-                <option value="Minor">🟢 Minor</option>
-                <option value="Enhancement">🔵 Enhancement</option>
-              </select>
-            </div>
-            <div>
-              <label style="font-size:11px;font-weight:700;color:#374151;display:block;margin-bottom:5px;">담당자</label>
-              <select id="qcAssignee" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:12px;outline:none;background:#fff;">
-                <option value="">미지정</option>
-                <option value="권민준">권민준</option>
-                <option value="이도연">이도연</option>
-                <option value="박재원">박재원</option>
-                <option value="정수아">정수아</option>
-                <option value="최현우">최현우</option>
-                <option value="장미래">장미래</option>
-                <option value="김태양">김태양</option>
-                <option value="송창석">송창석</option>
-              </select>
-            </div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
-            <div>
-              <label style="font-size:11px;font-weight:700;color:#374151;display:block;margin-bottom:5px;">우선순위</label>
-              <select id="qcPriority" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:12px;outline:none;background:#fff;">
-                <option value="P2" selected>📋 P2 보통</option>
-                <option value="P0">🔥 P0 긴급</option>
-                <option value="P1">⚡ P1 높음</option>
-                <option value="P3">🌱 P3 낮음</option>
-              </select>
-            </div>
-            <div>
-              <label style="font-size:11px;font-weight:700;color:#374151;display:block;margin-bottom:5px;">이슈 유형</label>
-              <select id="qcType" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:12px;outline:none;background:#fff;">
-                <option value="bug">🐛 버그</option>
-                <option value="task">📋 작업</option>
-                <option value="improvement">✨ 개선</option>
-                <option value="feature">🚀 기능</option>
-                <option value="chore">🔧 기타</option>
-              </select>
-            </div>
-            <div>
-              <label style="font-size:11px;font-weight:700;color:#374151;display:block;margin-bottom:5px;">기한</label>
-              <input id="qcDue" type="date" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:12px;outline:none;box-sizing:border-box;background:#fff;">
-            </div>
-          </div>
-          <!-- Description (optional) -->
-          <div style="margin-bottom:16px;">
-            <label style="font-size:11px;font-weight:700;color:#374151;display:block;margin-bottom:5px;">설명 <span style="font-weight:400;color:#9ca3af;">(선택)</span></label>
-            <textarea id="qcDesc" rows="3" placeholder="재현 방법, 기대 동작, 실제 동작 등..." style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:12px;resize:none;outline:none;box-sizing:border-box;" onfocus="this.style.borderColor='#6366f1'" onblur="this.style.borderColor='#e5e7eb'"></textarea>
-          </div>
-          <!-- Smart suggestions -->
-          <div id="qcSuggestions" style="display:none;background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:10px;margin-bottom:14px;">
-            <div style="font-size:10px;font-weight:700;color:#0369a1;margin-bottom:6px;">💡 스마트 제안</div>
-            <div id="qcSuggestionList" style="font-size:11px;color:#0369a1;"></div>
-          </div>
-          <div style="display:flex;gap:8px;justify-content:flex-end;">
-            <button onclick="_qcClose()" style="padding:9px 18px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;font-size:12px;cursor:pointer;color:#374151;">취소</button>
-            <button onclick="_qcSave()" style="padding:9px 20px;border:none;border-radius:8px;background:linear-gradient(135deg,#6366f1,#818cf8);color:#fff;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(99,102,241,.3);">⚡ 등록</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- Cycle 85: Global Quick Search (Cmd+K) -->
-    <div id="cmdkOverlay" style="display:none;position:fixed;inset:0;z-index:1500;background:rgba(0,0,0,.5);align-items:flex-start;justify-content:center;padding-top:80px;">
-      <div style="background:#fff;border-radius:12px;width:min(580px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.3);overflow:hidden;animation:qcSlideIn .15s ease;">
-        <div style="display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid #e5e7eb;gap:10px;">
-          <span style="font-size:16px;color:#9ca3af;">🔍</span>
-          <input id="cmdkInput" type="text" placeholder="이슈, 담당자, 버전 검색... (ESC로 닫기)" oninput="_cmdkSearch(this.value)" style="flex:1;border:none;outline:none;font-size:14px;color:#1f2937;" autocomplete="off">
-          <kbd style="padding:2px 6px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:4px;font-size:10px;color:#6b7280;">ESC</kbd>
-        </div>
-        <div id="cmdkResults" style="max-height:400px;overflow-y:auto;">
-          <div style="padding:20px;text-align:center;color:#9ca3af;font-size:12px;">이슈 제목, ID, 담당자로 검색하세요</div>
-        </div>
-        <div style="padding:8px 16px;border-top:1px solid #f3f4f6;display:flex;gap:12px;font-size:10px;color:#9ca3af;">
-          <span>↑↓ 이동</span><span>↵ 열기</span><span>ESC 닫기</span>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- C87: Issue Template Modal -->
-    <div id="tmplModal" style="display:none;position:fixed;inset:0;z-index:1400;background:rgba(0,0,0,.45);align-items:center;justify-content:center;">
-      <div style="background:#fff;border-radius:14px;width:min(480px,94vw);box-shadow:0 16px 48px rgba(0,0,0,.22);overflow:hidden;animation:qcSlideIn .2s ease;">
-        <div style="display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid #e5e7eb;">
-          <span style="font-size:15px;font-weight:700;color:#1f2937;flex:1;">📋 이슈 템플릿 선택</span>
-          <button onclick="_tmplClose()" style="border:none;background:#f3f4f6;border-radius:50%;width:28px;height:28px;cursor:pointer;">×</button>
-        </div>
-        <div style="padding:16px;display:flex;flex-direction:column;gap:10px;" id="tmplList"></div>
-      </div>
-    </div>
-
-    <!-- C88: Sprint Panel -->
-    <div id="sprintPanel" style="display:none;position:fixed;top:0;right:0;width:min(480px,100vw);height:100vh;background:#fff;z-index:600;box-shadow:-4px 0 20px rgba(0,0,0,.12);flex-direction:column;overflow:hidden;">
-      <div style="display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid #e5e7eb;background:#f9fafb;flex-shrink:0;">
-        <span style="font-size:15px;font-weight:700;color:#1f2937;flex:1;">🏃 스프린트 보드</span>
-        <button onclick="_sprintClose()" style="border:none;background:transparent;font-size:18px;cursor:pointer;color:#9ca3af;">✕</button>
-      </div>
-      <div id="sprintContent" style="flex:1;overflow-y:auto;padding:16px;"></div>
-    </div>
-
-
-    <!-- C94: Keyboard Help Overlay -->
-    <div id="kbHelpOverlay" style="display:none;position:fixed;inset:0;z-index:1600;background:rgba(0,0,0,.5);align-items:center;justify-content:center;">
-      <div style="background:#fff;border-radius:14px;width:min(540px,94vw);max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:qcSlideIn .15s ease;">
-        <div style="display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid #e5e7eb;">
-          <span style="font-size:15px;font-weight:700;flex:1;">⌨️ 키보드 단축키</span>
-          <button onclick="_kbHelpClose()" style="border:none;background:#f3f4f6;border-radius:50%;width:28px;height:28px;cursor:pointer;">×</button>
-        </div>
-        <div style="padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-          <div style="grid-column:1/-1;font-size:11px;font-weight:700;color:#6366f1;margin-bottom:4px;">📌 전역 단축키</div>
-          <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f9fafb;border-radius:6px;font-size:11px;"><span>글로벌 검색</span><kbd style="background:#e5e7eb;padding:1px 6px;border-radius:3px;font-size:10px;">Cmd+K</kbd></div>
-          <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f9fafb;border-radius:6px;font-size:11px;"><span>빠른 이슈 등록</span><kbd style="background:#e5e7eb;padding:1px 6px;border-radius:3px;font-size:10px;">N</kbd></div>
-          <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f9fafb;border-radius:6px;font-size:11px;"><span>단축키 도움말</span><kbd style="background:#e5e7eb;padding:1px 6px;border-radius:3px;font-size:10px;">?</kbd></div>
-          <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f9fafb;border-radius:6px;font-size:11px;"><span>검색창 포커스</span><kbd style="background:#e5e7eb;padding:1px 6px;border-radius:3px;font-size:10px;">/</kbd></div>
-          <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f9fafb;border-radius:6px;font-size:11px;"><span>패널/모달 닫기</span><kbd style="background:#e5e7eb;padding:1px 6px;border-radius:3px;font-size:10px;">ESC</kbd></div>
-          <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f9fafb;border-radius:6px;font-size:11px;"><span>실행 취소</span><kbd style="background:#e5e7eb;padding:1px 6px;border-radius:3px;font-size:10px;">Ctrl+Z</kbd></div>
-          <div style="grid-column:1/-1;font-size:11px;font-weight:700;color:#6366f1;margin:8px 0 4px;">🔍 Cmd+K 검색창</div>
-          <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f9fafb;border-radius:6px;font-size:11px;"><span>위/아래 이동</span><kbd style="background:#e5e7eb;padding:1px 6px;border-radius:3px;font-size:10px;">↑ ↓</kbd></div>
-          <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f9fafb;border-radius:6px;font-size:11px;"><span>선택/열기</span><kbd style="background:#e5e7eb;padding:1px 6px;border-radius:3px;font-size:10px;">Enter</kbd></div>
-          <div style="grid-column:1/-1;font-size:10px;color:#9ca3af;margin-top:6px;text-align:center;">? 또는 ESC로 닫기</div>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- C102: Announcement Banner -->
-    <div id="announcementBanner" style="display:none;position:sticky;top:0;z-index:100;background:linear-gradient(135deg,#1e40af,#3730a3);color:#fff;padding:8px 20px;font-size:12px;display:none;align-items:center;gap:10px;">
-      <span style="font-size:14px;">📢</span>
-      <span id="announcementText" style="flex:1;font-weight:600;"></span>
-      <button onclick="_dismissBanner()" style="border:none;background:rgba(255,255,255,.2);border-radius:4px;color:#fff;padding:2px 8px;cursor:pointer;font-size:11px;">✕ 닫기</button>
-    </div>
-
-    <!-- C106: Dashboard Settings Panel -->
-    <div id="dashSettingsPanel" style="display:none;position:fixed;top:0;right:0;width:min(360px,100vw);height:100vh;background:#fff;z-index:700;box-shadow:-4px 0 20px rgba(0,0,0,.12);flex-direction:column;overflow:hidden;">
-      <div style="display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid #e5e7eb;background:#f9fafb;flex-shrink:0;">
-        <span style="font-size:15px;font-weight:700;flex:1;">⚙️ 대시보드 설정</span>
-        <button onclick="_dashSettingsClose()" style="border:none;background:transparent;font-size:18px;cursor:pointer;color:#9ca3af;">✕</button>
-      </div>
-      <div style="flex:1;overflow-y:auto;padding:16px;" id="dashSettingsContent"></div>
-    </div>
-
+      '</div>' +
 </body></html>');
       w.document.close();
     }
@@ -25388,6 +25193,201 @@ setTimeout(function(){var snap={cycles:window._DASHBOARD_CYCLES,version:window._
       init();
     }
   </script>
+  <!-- Triage Inbox Panel -->
+  <div class="triage-panel" id="triagePanel">
+    <div class="triage-header">
+      <div class="triage-title">📥 트리아지 인박스 <span class="triage-badge" id="triageBadge">0</span></div>
+      <button onclick="closeTriage()" style="background:none;border:none;font-size:18px;cursor:pointer;color:#9ca3af;">✕</button>
+    </div>
+    <div class="triage-body">
+      <div class="triage-24h-banner" id="triage24hBanner">⚠️ 24시간 이상 미검토 이슈가 있습니다. 빠른 트리아지가 필요합니다.</div>
+      <div id="triageList"></div>
+    </div>
+  </div>
+  <button id="triageFloatBtn" onclick="openTriage()">📥 트리아지 <span class="triage-float-count" id="triageFloatCount">0</span></button>
+
+  <!-- Automation Rules Modal -->
+  <div class="auto-modal-overlay" id="autoModalOverlay" onclick="if(event.target===this)closeAutomation()">
+    <div class="auto-modal">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div style="font-size:14px;font-weight:700;color:#1f2937;">⚡ 자동화 룰 <span style="font-size:10px;font-weight:400;color:#9ca3af;">Monday.com 스타일</span></div>
+        <button onclick="closeAutomation()" style="background:none;border:none;font-size:18px;cursor:pointer;color:#9ca3af;">✕</button>
+      </div>
+      <div style="font-size:10px;color:#6b7280;margin-bottom:12px;">조건이 충족되면 자동으로 실행됩니다. 토글로 활성화/비활성화할 수 있습니다.</div>
+      <div id="autoRulesList"></div>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid #e5e7eb;">
+        <div style="font-size:11px;font-weight:700;color:#374151;margin-bottom:8px;">마지막 실행 로그</div>
+        <div id="autoExecLog" style="max-height:100px;overflow-y:auto;background:#1e293b;border-radius:6px;padding:8px;font-size:10px;font-family:monospace;color:#94a3b8;"></div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Cycle 83: Quick Issue Capture Floating Button -->
+    <button id="quickCaptureBtn" onclick="_qcOpen()" title="빠른 이슈 등록 (단축키: N)" style="position:fixed;right:24px;bottom:80px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#818cf8);border:none;box-shadow:0 4px 16px rgba(99,102,241,.4);cursor:pointer;z-index:900;display:flex;align-items:center;justify-content:center;font-size:22px;transition:transform .15s,box-shadow .15s;" onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 6px 20px rgba(99,102,241,.5)';" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 16px rgba(99,102,241,.4)';">+</button>
+
+    <!-- Quick Capture Modal -->
+    <div id="qcModal" style="display:none;position:fixed;inset:0;z-index:1300;background:rgba(0,0,0,.45);align-items:center;justify-content:center;">
+      <div style="background:#fff;border-radius:14px;width:min(520px,94vw);max-height:90vh;overflow-y:auto;box-shadow:0 16px 48px rgba(0,0,0,.22);animation:qcSlideIn .2s ease;">
+        <div style="display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid #e5e7eb;">
+          <span style="font-size:16px;font-weight:700;color:#1f2937;flex:1;">⚡ 빠른 이슈 등록</span>
+          <button onclick="_qcClose()" style="width:28px;height:28px;border:none;background:#f3f4f6;border-radius:50%;cursor:pointer;font-size:14px;">×</button>
+        </div>
+        <div style="padding:20px;">
+          <!-- Title with smart suggestion -->
+          <div style="margin-bottom:14px;">
+            <label style="font-size:11px;font-weight:700;color:#374151;display:block;margin-bottom:5px;">이슈 제목 *</label>
+            <input id="qcTitle" type="text" placeholder="이슈 내용을 입력하면 유형을 자동 감지합니다..." oninput="_qcAutoDetect();_qcCheckDup(this.value)" style="width:100%;padding:10px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:13px;box-sizing:border-box;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#6366f1'" onblur="this.style.borderColor='#e5e7eb'">
+            <div id="qcSmartHint" style="margin-top:5px;font-size:10px;color:#6366f1;min-height:16px;"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#374151;display:block;margin-bottom:5px;">심각도</label>
+              <select id="qcSeverity" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:12px;outline:none;background:#fff;">
+                <option value="Block">🔴 Block</option>
+                <option value="Critical">🟠 Critical</option>
+                <option value="Major" selected>🟡 Major</option>
+                <option value="Minor">🟢 Minor</option>
+                <option value="Enhancement">🔵 Enhancement</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#374151;display:block;margin-bottom:5px;">담당자</label>
+              <select id="qcAssignee" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:12px;outline:none;background:#fff;">
+                <option value="">미지정</option>
+                <option value="권민준">권민준</option>
+                <option value="이도연">이도연</option>
+                <option value="박재원">박재원</option>
+                <option value="정수아">정수아</option>
+                <option value="최현우">최현우</option>
+                <option value="장미래">장미래</option>
+                <option value="김태양">김태양</option>
+                <option value="송창석">송창석</option>
+              </select>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#374151;display:block;margin-bottom:5px;">우선순위</label>
+              <select id="qcPriority" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:12px;outline:none;background:#fff;">
+                <option value="P2" selected>📋 P2 보통</option>
+                <option value="P0">🔥 P0 긴급</option>
+                <option value="P1">⚡ P1 높음</option>
+                <option value="P3">🌱 P3 낮음</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#374151;display:block;margin-bottom:5px;">이슈 유형</label>
+              <select id="qcType" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:12px;outline:none;background:#fff;">
+                <option value="bug">🐛 버그</option>
+                <option value="task">📋 작업</option>
+                <option value="improvement">✨ 개선</option>
+                <option value="feature">🚀 기능</option>
+                <option value="chore">🔧 기타</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#374151;display:block;margin-bottom:5px;">기한</label>
+              <input id="qcDue" type="date" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:12px;outline:none;box-sizing:border-box;background:#fff;">
+            </div>
+          </div>
+          <!-- Description (optional) -->
+          <div style="margin-bottom:16px;">
+            <label style="font-size:11px;font-weight:700;color:#374151;display:block;margin-bottom:5px;">설명 <span style="font-weight:400;color:#9ca3af;">(선택)</span></label>
+            <textarea id="qcDesc" rows="3" placeholder="재현 방법, 기대 동작, 실제 동작 등..." style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:12px;resize:none;outline:none;box-sizing:border-box;" onfocus="this.style.borderColor='#6366f1'" onblur="this.style.borderColor='#e5e7eb'"></textarea>
+          </div>
+          <!-- Smart suggestions -->
+          <div id="qcSuggestions" style="display:none;background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:10px;margin-bottom:14px;">
+            <div style="font-size:10px;font-weight:700;color:#0369a1;margin-bottom:6px;">💡 스마트 제안</div>
+            <div id="qcSuggestionList" style="font-size:11px;color:#0369a1;"></div>
+          </div>
+          <div style="display:flex;gap:8px;justify-content:flex-end;">
+            <button onclick="_qcClose()" style="padding:9px 18px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;font-size:12px;cursor:pointer;color:#374151;">취소</button>
+            <button onclick="_qcSave()" style="padding:9px 20px;border:none;border-radius:8px;background:linear-gradient(135deg,#6366f1,#818cf8);color:#fff;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(99,102,241,.3);">⚡ 등록</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Cycle 85: Global Quick Search (Cmd+K) -->
+    <div id="cmdkOverlay" style="display:none;position:fixed;inset:0;z-index:1500;background:rgba(0,0,0,.5);align-items:flex-start;justify-content:center;padding-top:80px;">
+      <div style="background:#fff;border-radius:12px;width:min(580px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.3);overflow:hidden;animation:qcSlideIn .15s ease;">
+        <div style="display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid #e5e7eb;gap:10px;">
+          <span style="font-size:16px;color:#9ca3af;">🔍</span>
+          <input id="cmdkInput" type="text" placeholder="이슈, 담당자, 버전 검색... (ESC로 닫기)" oninput="_cmdkSearch(this.value)" style="flex:1;border:none;outline:none;font-size:14px;color:#1f2937;" autocomplete="off">
+          <kbd style="padding:2px 6px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:4px;font-size:10px;color:#6b7280;">ESC</kbd>
+        </div>
+        <div id="cmdkResults" style="max-height:400px;overflow-y:auto;">
+          <div style="padding:20px;text-align:center;color:#9ca3af;font-size:12px;">이슈 제목, ID, 담당자로 검색하세요</div>
+        </div>
+        <div style="padding:8px 16px;border-top:1px solid #f3f4f6;display:flex;gap:12px;font-size:10px;color:#9ca3af;">
+          <span>↑↓ 이동</span><span>↵ 열기</span><span>ESC 닫기</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- C87: Issue Template Modal -->
+    <div id="tmplModal" style="display:none;position:fixed;inset:0;z-index:1400;background:rgba(0,0,0,.45);align-items:center;justify-content:center;">
+      <div style="background:#fff;border-radius:14px;width:min(480px,94vw);box-shadow:0 16px 48px rgba(0,0,0,.22);overflow:hidden;animation:qcSlideIn .2s ease;">
+        <div style="display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid #e5e7eb;">
+          <span style="font-size:15px;font-weight:700;color:#1f2937;flex:1;">📋 이슈 템플릿 선택</span>
+          <button onclick="_tmplClose()" style="border:none;background:#f3f4f6;border-radius:50%;width:28px;height:28px;cursor:pointer;">×</button>
+        </div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:10px;" id="tmplList"></div>
+      </div>
+    </div>
+
+    <!-- C88: Sprint Panel -->
+    <div id="sprintPanel" style="display:none;position:fixed;top:0;right:0;width:min(480px,100vw);height:100vh;background:#fff;z-index:600;box-shadow:-4px 0 20px rgba(0,0,0,.12);flex-direction:column;overflow:hidden;">
+      <div style="display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid #e5e7eb;background:#f9fafb;flex-shrink:0;">
+        <span style="font-size:15px;font-weight:700;color:#1f2937;flex:1;">🏃 스프린트 보드</span>
+        <button onclick="_sprintClose()" style="border:none;background:transparent;font-size:18px;cursor:pointer;color:#9ca3af;">✕</button>
+      </div>
+      <div id="sprintContent" style="flex:1;overflow-y:auto;padding:16px;"></div>
+    </div>
+
+
+    <!-- C94: Keyboard Help Overlay -->
+    <div id="kbHelpOverlay" style="display:none;position:fixed;inset:0;z-index:1600;background:rgba(0,0,0,.5);align-items:center;justify-content:center;">
+      <div style="background:#fff;border-radius:14px;width:min(540px,94vw);max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:qcSlideIn .15s ease;">
+        <div style="display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid #e5e7eb;">
+          <span style="font-size:15px;font-weight:700;flex:1;">⌨️ 키보드 단축키</span>
+          <button onclick="_kbHelpClose()" style="border:none;background:#f3f4f6;border-radius:50%;width:28px;height:28px;cursor:pointer;">×</button>
+        </div>
+        <div style="padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div style="grid-column:1/-1;font-size:11px;font-weight:700;color:#6366f1;margin-bottom:4px;">📌 전역 단축키</div>
+          <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f9fafb;border-radius:6px;font-size:11px;"><span>글로벌 검색</span><kbd style="background:#e5e7eb;padding:1px 6px;border-radius:3px;font-size:10px;">Cmd+K</kbd></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f9fafb;border-radius:6px;font-size:11px;"><span>빠른 이슈 등록</span><kbd style="background:#e5e7eb;padding:1px 6px;border-radius:3px;font-size:10px;">N</kbd></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f9fafb;border-radius:6px;font-size:11px;"><span>단축키 도움말</span><kbd style="background:#e5e7eb;padding:1px 6px;border-radius:3px;font-size:10px;">?</kbd></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f9fafb;border-radius:6px;font-size:11px;"><span>검색창 포커스</span><kbd style="background:#e5e7eb;padding:1px 6px;border-radius:3px;font-size:10px;">/</kbd></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f9fafb;border-radius:6px;font-size:11px;"><span>패널/모달 닫기</span><kbd style="background:#e5e7eb;padding:1px 6px;border-radius:3px;font-size:10px;">ESC</kbd></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f9fafb;border-radius:6px;font-size:11px;"><span>실행 취소</span><kbd style="background:#e5e7eb;padding:1px 6px;border-radius:3px;font-size:10px;">Ctrl+Z</kbd></div>
+          <div style="grid-column:1/-1;font-size:11px;font-weight:700;color:#6366f1;margin:8px 0 4px;">🔍 Cmd+K 검색창</div>
+          <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f9fafb;border-radius:6px;font-size:11px;"><span>위/아래 이동</span><kbd style="background:#e5e7eb;padding:1px 6px;border-radius:3px;font-size:10px;">↑ ↓</kbd></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f9fafb;border-radius:6px;font-size:11px;"><span>선택/열기</span><kbd style="background:#e5e7eb;padding:1px 6px;border-radius:3px;font-size:10px;">Enter</kbd></div>
+          <div style="grid-column:1/-1;font-size:10px;color:#9ca3af;margin-top:6px;text-align:center;">? 또는 ESC로 닫기</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- C102: Announcement Banner -->
+    <div id="announcementBanner" style="display:none;position:sticky;top:0;z-index:100;background:linear-gradient(135deg,#1e40af,#3730a3);color:#fff;padding:8px 20px;font-size:12px;display:none;align-items:center;gap:10px;">
+      <span style="font-size:14px;">📢</span>
+      <span id="announcementText" style="flex:1;font-weight:600;"></span>
+      <button onclick="_dismissBanner()" style="border:none;background:rgba(255,255,255,.2);border-radius:4px;color:#fff;padding:2px 8px;cursor:pointer;font-size:11px;">✕ 닫기</button>
+    </div>
+
+    <!-- C106: Dashboard Settings Panel -->
+    <div id="dashSettingsPanel" style="display:none;position:fixed;top:0;right:0;width:min(360px,100vw);height:100vh;background:#fff;z-index:700;box-shadow:-4px 0 20px rgba(0,0,0,.12);flex-direction:column;overflow:hidden;">
+      <div style="display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid #e5e7eb;background:#f9fafb;flex-shrink:0;">
+        <span style="font-size:15px;font-weight:700;flex:1;">⚙️ 대시보드 설정</span>
+        <button onclick="_dashSettingsClose()" style="border:none;background:transparent;font-size:18px;cursor:pointer;color:#9ca3af;">✕</button>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding:16px;" id="dashSettingsContent"></div>
+    </div>
+
 </body>
 </html>
     /* ── Kanban Drag & Drop ── */

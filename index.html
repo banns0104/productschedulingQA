@@ -3278,6 +3278,7 @@
     <div class="chat-tabs">
       <button class="chat-tab active" onclick="switchChatTab('global')">전체 채팅</button>
       <button class="chat-tab" onclick="switchChatTab('project')">프로젝트 채팅</button>
+      <button class="chat-tab" id="issueChatTabBtn" onclick="switchChatTab('issue')">이슈 채팅</button>
     </div>
     <div class="chat-content">
       <!-- Global Chat Tab -->
@@ -3316,6 +3317,31 @@
         </div>
         <!-- hidden select for backward compat -->
         <select id="projectChatSelect" style="display:none;"></select>
+      </div>
+      <!-- Issue Chat Tab -->
+      <div class="chat-tab-pane" id="issueChatTab">
+        <!-- 이슈 방 리스트 뷰 -->
+        <div id="issueRoomListView" style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+          <div style="padding:8px 12px;font-size:11px;color:#9ca3af;border-bottom:1px solid #e5e7eb;background:#f9fafb;">이슈를 선택하면 해당 이슈 채팅방이 열립니다</div>
+          <div class="chat-room-list" id="issueRoomList"></div>
+          <div class="chat-disabled" id="issueChatDisabled" style="text-align:center;padding:40px 20px;color:#9ca3af;font-size:13px;">로그인 후 이용 가능합니다</div>
+        </div>
+        <!-- 이슈 방 내부 뷰 (숨김) -->
+        <div id="issueRoomView" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
+          <div class="chat-room-back" onclick="backToIssueRoomList()">
+            <span class="chat-room-back-arrow">←</span>
+            <span id="issueRoomTitle">이슈 채팅</span>
+          </div>
+          <div id="issueRoomMeta" style="padding:6px 12px;font-size:11px;color:#6b7280;background:#f9fafb;border-bottom:1px solid #e5e7eb;cursor:pointer;" onclick="openCurrentIssueDetail()"></div>
+          <div class="chat-messages" id="issueChatMessages"></div>
+          <div style="position:relative;">
+            <div class="mention-autocomplete" id="issueMentionAC"></div>
+            <div class="chat-input-area" id="issueChatInput" style="display:none;">
+              <input type="text" class="chat-input" id="issueChatText" placeholder="@멘션 또는 메시지 입력..." oninput="handleMentionInput(this,'issueMentionAC')" onkeydown="handleMentionKey(event,this,'issue','issueMentionAC')" onkeypress="if(event.key==='Enter'&&!document.getElementById('issueMentionAC').classList.contains('show')) sendChatMessage('issue')">
+              <button class="chat-send-btn" onclick="sendChatMessage('issue')">전송</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -3684,6 +3710,7 @@
       currentUser: null,
       currentChatTab: 'global',
       selectedProjectChat: null,
+      selectedIssueChat: null,
       chatListeners: {}
     };
 
@@ -4481,15 +4508,138 @@
       renderRoomList();
     }
 
+    /* ========== 이슈 채팅방 ========== */
+    function renderIssueRoomList() {
+      var list = document.getElementById('issueRoomList');
+      if (!list) return;
+      list.innerHTML = '';
+      // 완료 제외, 최근 업데이트순
+      var activeIssues = _issues.filter(function(iss) { return iss.status !== '완료'; });
+      activeIssues.sort(function(a, b) { return (b.updated || b.created || 0) > (a.updated || a.created || 0) ? 1 : -1; });
+      if (activeIssues.length === 0) {
+        list.innerHTML = '<div style="padding:24px;text-align:center;color:#9ca3af;font-size:12px;">진행 중인 이슈가 없습니다</div>';
+        return;
+      }
+      var sevColors = { 'Block': '#ef4444', 'Major': '#f97316', 'Minor': '#3b82f6', 'Trivial': '#9ca3af' };
+      activeIssues.slice(0, 30).forEach(function(iss) {
+        var item = document.createElement('div');
+        item.className = 'chat-room-item';
+        item.style.cssText = 'padding:8px 12px;cursor:pointer;border-bottom:1px solid #f3f4f6;';
+        item.onmouseover = function() { this.style.background = '#f9fafb'; };
+        item.onmouseout = function() { this.style.background = ''; };
+        var assigneeMember = TEAM.find(function(m) { return m.id === iss.assignee; });
+        item.innerHTML =
+          '<div style="display:flex;align-items:center;gap:6px;">' +
+            '<span style="width:8px;height:8px;border-radius:50%;background:' + (sevColors[iss.severity] || '#9ca3af') + ';flex-shrink:0;"></span>' +
+            '<span style="font-size:11px;font-weight:700;color:#6366f1;">' + iss.id + '</span>' +
+            '<span style="font-size:12px;color:#1f2937;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;">' + _escHtml(iss.title) + '</span>' +
+          '</div>' +
+          '<div style="display:flex;gap:8px;margin-top:3px;padding-left:14px;">' +
+            '<span style="font-size:10px;color:#9ca3af;">' + (iss.status || '') + '</span>' +
+            (assigneeMember ? '<span style="font-size:10px;color:#9ca3af;">· ' + assigneeMember.name + '</span>' : '') +
+          '</div>';
+        item.onclick = function() { enterIssueRoom(iss.id); };
+        list.appendChild(item);
+      });
+    }
+
+    function enterIssueRoom(issueId) {
+      var iss = _issues.find(function(i) { return i.id === issueId; });
+      if (!iss) return;
+      state.selectedIssueChat = issueId;
+      document.getElementById('issueRoomTitle').textContent = iss.id + ' · ' + iss.title;
+      var meta = document.getElementById('issueRoomMeta');
+      if (meta) {
+        var assigneeMember = TEAM.find(function(m) { return m.id === iss.assignee; });
+        meta.textContent = '📋 ' + (iss.status || '등록') + (assigneeMember ? '  👤 ' + assigneeMember.name : '') + (iss.deadline ? '  📅 ' + iss.deadline : '') + '  →  클릭하여 이슈 상세 보기';
+      }
+      document.getElementById('issueRoomListView').style.display = 'none';
+      document.getElementById('issueRoomView').style.display = 'flex';
+      loadIssueChatMessages(issueId);
+    }
+
+    function backToIssueRoomList() {
+      state.selectedIssueChat = null;
+      if (state.chatListeners['issue']) {
+        state.chatListeners['issue']();
+        state.chatListeners['issue'] = null;
+      }
+      document.getElementById('issueRoomView').style.display = 'none';
+      document.getElementById('issueRoomListView').style.display = 'flex';
+      renderIssueRoomList();
+    }
+
+    function openCurrentIssueDetail() {
+      if (!state.selectedIssueChat) return;
+      openIssueDetail(state.selectedIssueChat);
+    }
+
+    function loadIssueChatMessages(issueId) {
+      if (!_fb.db || !state.currentUser) {
+        document.getElementById('issueChatInput').style.display = 'none';
+        return;
+      }
+      document.getElementById('issueChatInput').style.display = 'flex';
+      if (state.chatListeners['issue']) state.chatListeners['issue']();
+
+      var messagesEl = document.getElementById('issueChatMessages');
+      messagesEl.innerHTML = '';
+
+      var path = 'chats/issue/' + issueId;
+      var initRef = _fb.db.ref(path).orderByChild('timestamp').limitToLast(CHAT_PAGE_SIZE);
+      initRef.once('value', function(snapshot) {
+        var msgs = [];
+        snapshot.forEach(function(child) { msgs.push(Object.assign({ key: child.key }, child.val())); });
+        msgs.forEach(function(msg) { appendChatMessage(msg, 'issueChatMessages'); });
+        setTimeout(function() { messagesEl.scrollTop = messagesEl.scrollHeight; }, 50);
+      });
+
+      var liveRef = _fb.db.ref(path).orderByChild('timestamp').startAt(Date.now());
+      var listener = liveRef.on('child_added', function(snap) {
+        var msg = snap.val();
+        if (msg) appendChatMessage(msg, 'issueChatMessages');
+      });
+      state.chatListeners['issue'] = function() { liveRef.off('child_added', listener); };
+    }
+
+    // 이슈 채팅 패널에서 직접 이슈 채팅방 열기
+    function openIssueChatFromSchedule(issueId) {
+      var panel = document.getElementById('chatPanel');
+      if (!panel.classList.contains('open')) {
+        panel.classList.add('open');
+        clearChatBadge();
+        _lockBodyScroll();
+      }
+      switchChatTab('issue');
+      setTimeout(function() { enterIssueRoom(issueId); }, 50);
+    }
+
     function switchChatTab(tab) {
       state.currentChatTab = tab;
       document.querySelectorAll('.chat-tab').forEach(function(t) { t.classList.remove('active'); });
       document.querySelectorAll('.chat-tab-pane').forEach(function(p) { p.classList.remove('active'); });
       var tabBtns = document.querySelectorAll('.chat-tab');
-      tabBtns.forEach(function(t) { if ((tab === 'global' && t.textContent.includes('전체')) || (tab === 'project' && t.textContent.includes('프로젝트'))) t.classList.add('active'); });
+      tabBtns.forEach(function(t) {
+        if (tab === 'global' && t.textContent.includes('전체')) t.classList.add('active');
+        else if (tab === 'project' && t.textContent.includes('프로젝트')) t.classList.add('active');
+        else if (tab === 'issue' && t.textContent.includes('이슈')) t.classList.add('active');
+      });
       if (tab === 'global') {
         document.getElementById('globalChatTab').classList.add('active');
         if (state.currentUser && _fb.db) loadGlobalChatMessages();
+      } else if (tab === 'issue') {
+        document.getElementById('issueChatTab').classList.add('active');
+        if (state.currentUser && _fb.db) {
+          document.getElementById('issueChatDisabled').style.display = 'none';
+          if (state.selectedIssueChat) {
+            document.getElementById('issueRoomListView').style.display = 'none';
+            document.getElementById('issueRoomView').style.display = 'flex';
+          } else {
+            document.getElementById('issueRoomListView').style.display = 'flex';
+            document.getElementById('issueRoomView').style.display = 'none';
+            renderIssueRoomList();
+          }
+        }
       } else {
         document.getElementById('projectChatTab').classList.add('active');
         // Show room list by default, or room view if already in a room
@@ -4727,6 +4877,8 @@
       let path = 'chats/global';
       if (type === 'project' && state.selectedProjectChat) {
         path = 'chats/project/' + state.selectedProjectChat;
+      } else if (type === 'issue' && state.selectedIssueChat) {
+        path = 'chats/issue/' + state.selectedIssueChat;
       }
 
       // Extract mentioned names
@@ -10899,29 +11051,34 @@
       var sevColors = { 'Block': '#ef4444', 'Major': '#f97316', 'Minor': '#3b82f6', 'Trivial': '#9ca3af' };
       var dayW = DAY_WIDTH * state.zoom;
 
-      // Add legend at the top of namesScroll
+      // Add legend + action buttons at the top of namesScroll
       var legendRow = document.createElement('div');
       legendRow.className = 'name-row';
-      legendRow.style.cssText = 'display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f9fafb;border-bottom:1px solid #e5e7eb;flex-wrap:wrap;font-size:11px;';
-      var items = [
-        { label: 'Block', color: '#ef4444' },
-        { label: 'Major', color: '#f97316' },
-        { label: 'Minor', color: '#3b82f6' },
-        { label: 'Trivial', color: '#9ca3af' }
-      ];
+      legendRow.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 12px;background:#f9fafb;border-bottom:1px solid #e5e7eb;flex-wrap:wrap;font-size:11px;';
       var legendLabel = document.createElement('span');
-      legendLabel.style.cssText = 'font-weight:600;color:#6b7280;margin-right:4px;';
+      legendLabel.style.cssText = 'font-weight:600;color:#6b7280;margin-right:2px;';
       legendLabel.textContent = '심각도:';
       legendRow.appendChild(legendLabel);
-      items.forEach(function(item) {
+      [{ label: 'Block', color: '#ef4444' }, { label: 'Major', color: '#f97316' }, { label: 'Minor', color: '#3b82f6' }, { label: 'Trivial', color: '#9ca3af' }].forEach(function(item) {
         var dot = document.createElement('span');
-        dot.style.cssText = 'width:8px;height:8px;border-radius:50%;background:' + item.color + ';flex-shrink:0;';
+        dot.style.cssText = 'width:7px;height:7px;border-radius:50%;background:' + item.color + ';flex-shrink:0;';
         legendRow.appendChild(dot);
         var label = document.createElement('span');
         label.style.cssText = 'color:#6b7280;white-space:nowrap;';
         label.textContent = item.label;
         legendRow.appendChild(label);
       });
+      var spacer = document.createElement('div');
+      spacer.style.flex = '1';
+      legendRow.appendChild(spacer);
+      if (_hasWritePermission()) {
+        var addIssueBtn = document.createElement('button');
+        addIssueBtn.style.cssText = 'font-size:11px;padding:3px 8px;background:#6366f1;color:#fff;border:none;border-radius:5px;cursor:pointer;font-weight:600;';
+        addIssueBtn.textContent = '+ 이슈 등록';
+        addIssueBtn.title = '새 이슈 등록 (단축키: N)';
+        addIssueBtn.onclick = function() { createIssue(); };
+        legendRow.appendChild(addIssueBtn);
+      }
       namesScroll.appendChild(legendRow);
       var legendBarRow = document.createElement('div');
       legendBarRow.className = 'bar-row';
@@ -10995,16 +11152,32 @@
             nameRow.appendChild(assigneeRow);
           }
 
-          nameRow.onclick = function() {
-            // Switch to issues tab and open detail
-            state.currentTab = 'issues';
-            document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
-            document.querySelector('.tab[data-tab="issues"]').classList.add('active');
-            document.querySelectorAll('.tab-content').forEach(function(tc) { tc.classList.remove('active'); });
-            document.getElementById('issues').classList.add('active');
-            renderIssues();
-            openIssueDetail(iss.id);
-          };
+          // 액션 버튼 행 (채팅, 일정 설정, 상세보기)
+          var actionRow = document.createElement('div');
+          actionRow.style.cssText = 'display:flex;align-items:center;gap:4px;padding-left:12px;';
+          var chatBtn = document.createElement('button');
+          chatBtn.style.cssText = 'font-size:10px;padding:1px 5px;border:1px solid #e5e7eb;border-radius:3px;background:#fff;cursor:pointer;color:#6b7280;';
+          chatBtn.textContent = '💬 채팅';
+          chatBtn.title = '이슈 채팅방 열기';
+          chatBtn.onclick = function(e) { e.stopPropagation(); openIssueChatFromSchedule(iss.id); };
+          actionRow.appendChild(chatBtn);
+          if (_hasWritePermission()) {
+            var schedBtn = document.createElement('button');
+            schedBtn.style.cssText = 'font-size:10px;padding:1px 5px;border:1px solid #e5e7eb;border-radius:3px;background:#fff;cursor:pointer;color:#6b7280;';
+            schedBtn.textContent = '📅 일정';
+            schedBtn.title = '이슈 일정 설정';
+            schedBtn.onclick = function(e) { e.stopPropagation(); openIssueSchedulePopup(iss.id, schedBtn); };
+            actionRow.appendChild(schedBtn);
+          }
+          var detailBtn = document.createElement('button');
+          detailBtn.style.cssText = 'font-size:10px;padding:1px 5px;border:1px solid #e5e7eb;border-radius:3px;background:#fff;cursor:pointer;color:#6b7280;';
+          detailBtn.textContent = '상세';
+          detailBtn.title = '이슈 상세 보기';
+          detailBtn.onclick = function(e) { e.stopPropagation(); openIssueDetail(iss.id); };
+          actionRow.appendChild(detailBtn);
+          nameRow.appendChild(actionRow);
+
+          nameRow.onclick = function() { openIssueDetail(iss.id); };
           namesScroll.appendChild(nameRow);
 
           // Bar
@@ -11012,33 +11185,42 @@
           barRow.className = 'bar-row';
           barRow.style.height = '36px';
 
-          var created = iss.created ? new Date(iss.created) : null;
-          var deadline = iss.deadline ? parseLocalDate(iss.deadline) : null;
+          // 일정: scheduleStart/scheduleEnd 우선, 없으면 created/deadline 사용
+          var barStart = iss.scheduleStart ? parseLocalDate(iss.scheduleStart) : (iss.created ? new Date(iss.created) : null);
+          var barEnd = iss.scheduleEnd ? parseLocalDate(iss.scheduleEnd) : (iss.deadline ? parseLocalDate(iss.deadline) : null);
+          var hasSchedule = !!(iss.scheduleStart && iss.scheduleEnd);
 
-          if (created && deadline && created < GANTT_END && deadline > GANTT_START) {
-            var startDay = daysSinceStart(created);
-            var endDay = daysSinceStart(deadline);
+          if (barStart && barEnd && barStart < GANTT_END && barEnd > GANTT_START) {
+            var startDay = daysSinceStart(barStart);
+            var endDay = daysSinceStart(barEnd);
             if (startDay < 0) startDay = 0;
             var left = startDay * dayW;
             var width = Math.max((endDay - startDay + 1) * dayW, 20);
             var bar = document.createElement('div');
-            bar.style.cssText = 'position:absolute;top:6px;height:22px;border-radius:4px;display:flex;align-items:center;padding:0 6px;font-size:10px;color:#fff;font-weight:600;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;';
+            bar.style.cssText = 'position:absolute;top:6px;height:22px;border-radius:4px;display:flex;align-items:center;padding:0 6px;font-size:10px;color:#fff;font-weight:600;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor:pointer;';
             bar.style.left = left + 'px';
             bar.style.width = width + 'px';
             bar.style.background = sevColors[iss.severity] || '#9ca3af';
-            bar.style.opacity = iss.status === '완료' ? '0.5' : '0.85';
+            bar.style.opacity = iss.status === '완료' ? '0.45' : '0.85';
+            if (!hasSchedule) bar.style.borderStyle = 'dashed';
             bar.textContent = iss.title;
-            bar.title = iss.id + ': ' + iss.title + '\n' + (iss.created || '') + ' → ' + (iss.deadline || '');
+            bar.title = iss.id + ': ' + iss.title + '\n' + (hasSchedule ? '📅 ' + iss.scheduleStart + ' → ' + iss.scheduleEnd : '작성일 기준 (일정 미설정)') + '\n클릭하여 일정 설정';
+            if (_hasWritePermission()) {
+              bar.onclick = function(e) { e.stopPropagation(); openIssueSchedulePopup(iss.id, bar); };
+            }
             barRow.appendChild(bar);
-          } else if (created) {
+          } else if (barStart) {
             // Just a dot at creation
-            var startDay = daysSinceStart(created);
+            var startDay = daysSinceStart(barStart);
             if (startDay >= 0) {
               var dot = document.createElement('div');
-              dot.style.cssText = 'position:absolute;top:12px;width:10px;height:10px;border-radius:50%;';
+              dot.style.cssText = 'position:absolute;top:12px;width:10px;height:10px;border-radius:50%;cursor:pointer;';
               dot.style.left = (startDay * dayW - 5) + 'px';
               dot.style.background = sevColors[iss.severity] || '#9ca3af';
-              dot.title = iss.id + ': ' + iss.title + ' (기한 미설정)';
+              dot.title = iss.id + ': ' + iss.title + ' (일정 미설정 - 클릭하여 설정)';
+              if (_hasWritePermission()) {
+                dot.onclick = function(e) { e.stopPropagation(); openIssueSchedulePopup(iss.id, dot); };
+              }
               barRow.appendChild(dot);
             }
           }
@@ -12161,6 +12343,104 @@
       renderGantt();
       if (state.currentTab === 'projects') renderProjects();
       _showToast(phaseLabel + ' 스케줄이 등록되었습니다');
+    }
+
+    /* ========== 이슈 일정 설정 팝업 ========== */
+    function openIssueSchedulePopup(issueId, anchorEl) {
+      var iss = _issues.find(function(i) { return i.id === issueId; });
+      if (!iss) return;
+
+      var existing = document.getElementById('issueSchedulePopup');
+      if (existing) existing.remove();
+
+      var popup = document.createElement('div');
+      popup.id = 'issueSchedulePopup';
+      popup.style.cssText = 'position:fixed;z-index:10000;background:white;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.18);padding:16px;min-width:260px;';
+
+      // 위치 계산
+      var rect = anchorEl.getBoundingClientRect();
+      var top = rect.bottom + 6;
+      var left = Math.min(rect.left, window.innerWidth - 280);
+      if (top + 220 > window.innerHeight) top = rect.top - 220;
+      popup.style.top = top + 'px';
+      popup.style.left = Math.max(8, left) + 'px';
+
+      var startVal = iss.scheduleStart || iss.deadline || '';
+      var endVal = iss.scheduleEnd || iss.deadline || '';
+
+      popup.innerHTML =
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">' +
+          '<div>' +
+            '<div style="font-size:12px;font-weight:700;color:#6366f1;">' + iss.id + '</div>' +
+            '<div style="font-size:13px;font-weight:600;color:#1f2937;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px;">' + _escHtml(iss.title) + '</div>' +
+          '</div>' +
+          '<button onclick="document.getElementById(\'issueSchedulePopup\').remove()" style="background:none;border:none;font-size:18px;cursor:pointer;color:#9ca3af;padding:0;line-height:1;">×</button>' +
+        '</div>' +
+        '<div style="display:flex;flex-direction:column;gap:8px;">' +
+          '<label style="font-size:11px;color:#6b7280;font-weight:600;">시작일</label>' +
+          '<input type="date" id="issueSchedStart" value="' + startVal + '" style="padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;">' +
+          '<label style="font-size:11px;color:#6b7280;font-weight:600;">종료일</label>' +
+          '<input type="date" id="issueSchedEnd" value="' + endVal + '" style="padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;">' +
+        '</div>' +
+        '<div style="display:flex;gap:8px;margin-top:12px;">' +
+          '<button onclick="saveIssueSchedule(\'' + issueId + '\')" style="flex:1;padding:8px;background:#6366f1;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;">저장</button>' +
+          (iss.scheduleStart ? '<button onclick="clearIssueSchedule(\'' + issueId + '\')" style="padding:8px 10px;background:#fff;color:#dc2626;border:1px solid #fecaca;border-radius:6px;font-size:12px;cursor:pointer;">초기화</button>' : '') +
+        '</div>';
+
+      document.body.appendChild(popup);
+
+      // 외부 클릭 시 닫기
+      setTimeout(function() {
+        document.addEventListener('mousedown', function _closeIssueSchedPopup(e) {
+          if (!popup.contains(e.target)) {
+            popup.remove();
+            document.removeEventListener('mousedown', _closeIssueSchedPopup);
+          }
+        });
+      }, 50);
+    }
+
+    function saveIssueSchedule(issueId) {
+      var iss = _issues.find(function(i) { return i.id === issueId; });
+      if (!iss) return;
+      var startVal = document.getElementById('issueSchedStart').value;
+      var endVal = document.getElementById('issueSchedEnd').value;
+      if (!startVal || !endVal) { _showToast('시작일과 종료일을 모두 입력해주세요', 2000, 'warning'); return; }
+      if (startVal > endVal) { _showToast('종료일이 시작일보다 빠릅니다', 2000, 'warning'); return; }
+
+      iss.scheduleStart = startVal;
+      iss.scheduleEnd = endVal;
+      iss.updated = new Date().toISOString();
+
+      // 저장
+      var ls = JSON.parse(localStorage.getItem(_LS_ISSUES_KEY) || '[]');
+      var idx = ls.findIndex(function(i) { return i.id === issueId; });
+      if (idx >= 0) ls[idx] = iss; else ls.push(iss);
+      localStorage.setItem(_LS_ISSUES_KEY, JSON.stringify(ls));
+      if (_fb.db) _fb.db.ref('issues/' + issueId).update({ scheduleStart: startVal, scheduleEnd: endVal, updated: iss.updated });
+
+      document.getElementById('issueSchedulePopup')?.remove();
+      pushHistory('수정', issueId, '이슈 일정', '', startVal + '~' + endVal);
+      _showToast('이슈 일정이 저장되었습니다', 2000, 'success');
+      renderGantt();
+    }
+
+    function clearIssueSchedule(issueId) {
+      var iss = _issues.find(function(i) { return i.id === issueId; });
+      if (!iss) return;
+      delete iss.scheduleStart;
+      delete iss.scheduleEnd;
+      iss.updated = new Date().toISOString();
+
+      var ls = JSON.parse(localStorage.getItem(_LS_ISSUES_KEY) || '[]');
+      var idx = ls.findIndex(function(i) { return i.id === issueId; });
+      if (idx >= 0) ls[idx] = iss;
+      localStorage.setItem(_LS_ISSUES_KEY, JSON.stringify(ls));
+      if (_fb.db) _fb.db.ref('issues/' + issueId).update({ scheduleStart: null, scheduleEnd: null, updated: iss.updated });
+
+      document.getElementById('issueSchedulePopup')?.remove();
+      _showToast('이슈 일정이 초기화되었습니다');
+      renderGantt();
     }
 
     // 프로젝트 정렬 상태
@@ -13535,6 +13815,13 @@
     window.sortProjects = sortProjects;
     window.enterRoom = enterRoom;
     window.backToRoomList = backToRoomList;
+    window.enterIssueRoom = enterIssueRoom;
+    window.backToIssueRoomList = backToIssueRoomList;
+    window.openCurrentIssueDetail = openCurrentIssueDetail;
+    window.openIssueChatFromSchedule = openIssueChatFromSchedule;
+    window.openIssueSchedulePopup = openIssueSchedulePopup;
+    window.saveIssueSchedule = saveIssueSchedule;
+    window.clearIssueSchedule = clearIssueSchedule;
     window._recalcCreateScore = _recalcCreateScore;
     // 서비스 종류는 체크박스 방식으로 전환됨 (addServiceTag 등 삭제됨)
     window.renderDetailServiceTags = renderDetailServiceTags;

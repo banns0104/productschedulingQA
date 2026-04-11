@@ -2954,6 +2954,115 @@
       color: #d97706;
       font-weight: 600;
     }
+
+    /* ===== CYCLE 4: 빠른 필터 칩 ===== */
+    .quick-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: #fafbff;
+      border-bottom: 1px solid #e5e7eb;
+      flex-wrap: wrap;
+    }
+    .qf-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 16px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid #e5e7eb;
+      background: #fff;
+      color: #374151;
+      transition: all 0.15s;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .qf-chip:hover { background: #f3f4f6; border-color: #9ca3af; }
+    .qf-chip.active { background: #6366f1; color: #fff; border-color: #6366f1; }
+    .qf-chip.active-red { background: #dc2626; color: #fff; border-color: #dc2626; }
+    .qf-chip.active-amber { background: #d97706; color: #fff; border-color: #d97706; }
+    .qf-chip-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.12);
+      color: inherit;
+      border-radius: 8px;
+      padding: 0 5px;
+      font-size: 10px;
+      min-width: 16px;
+    }
+    /* ===== CYCLE 5: 이슈 그룹 헤더 ===== */
+    .issue-group-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px 4px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #374151;
+      border-bottom: 1px solid #e5e7eb;
+      margin-top: 8px;
+      background: #f9fafb;
+    }
+    .issue-group-count {
+      background: #e5e7eb;
+      color: #374151;
+      border-radius: 8px;
+      padding: 1px 7px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    /* ===== CYCLE 4: CSV Export 버튼 ===== */
+    .btn-export-csv {
+      background: #f0fdf4;
+      color: #166534;
+      border: 1px solid #86efac;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-export-csv:hover { background: #dcfce7; }
+    /* ===== CYCLE 6: 배포탭 통계바 ===== */
+    .deploy-stats-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 8px 16px;
+      background: linear-gradient(90deg, #f0f9ff 0%, #e0f2fe 100%);
+      border-bottom: 1px solid #bae6fd;
+      font-size: 12px;
+      flex-wrap: wrap;
+    }
+    .deploy-stat-item {
+      display: flex; align-items: center; gap: 5px;
+    }
+    .deploy-stat-val { font-weight: 700; font-size: 15px; color: #374151; }
+    .deploy-stat-val.blue { color: #2563eb; }
+    .deploy-stat-val.green { color: #059669; }
+    .deploy-stat-val.red { color: #dc2626; }
+    /* ===== CYCLE 6: 번들 카드 이슈 바 ===== */
+    .bundle-issue-bar {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+    .bundle-iss-badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
   </style>
   <!-- Firebase SDK (정적 로딩) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -3243,6 +3352,21 @@
             <kbd style="font-size:8px;padding:1px 3px;background:#4f46e5;border-radius:2px;border:none;color:#fff;margin-left:2px;">N</kbd>
           </div>
         </div>
+        <!-- ===== CYCLE 4: 빠른 필터 칩 바 ===== -->
+        <div class="quick-filter-bar" id="quickFilterBar">
+          <span style="font-size:11px;color:#9ca3af;font-weight:600;white-space:nowrap;">빠른 필터:</span>
+          <button class="qf-chip active" id="qfc-all" onclick="quickFilterIssues('all',this)">전체 <span class="qf-chip-count" id="qfc-cnt-all">0</span></button>
+          <button class="qf-chip" id="qfc-open" onclick="quickFilterIssues('open',this)">🔴 미처리 <span class="qf-chip-count" id="qfc-cnt-open">0</span></button>
+          <button class="qf-chip" id="qfc-block" onclick="quickFilterIssues('block',this)">🚫 Block <span class="qf-chip-count" id="qfc-cnt-block">0</span></button>
+          <button class="qf-chip" id="qfc-p01" onclick="quickFilterIssues('p01',this)">⚡ P0/P1 <span class="qf-chip-count" id="qfc-cnt-p01">0</span></button>
+          <button class="qf-chip" id="qfc-today" onclick="quickFilterIssues('today',this)">📋 오늘 <span class="qf-chip-count" id="qfc-cnt-today">0</span></button>
+          <button class="qf-chip" id="qfc-overdue" onclick="quickFilterIssues('overdue',this)">⏰ 기한초과 <span class="qf-chip-count" id="qfc-cnt-overdue">0</span></button>
+          <div style="margin-left:auto;display:flex;gap:6px;align-items:center;">
+            <button class="qf-chip" onclick="setIssueDensity('comfortable')" id="density-comfortable" title="넓게 보기" style="font-size:10px;padding:3px 7px;">⊟ 넓게</button>
+            <button class="qf-chip" onclick="setIssueDensity('compact')" id="density-compact" title="좁게 보기" style="font-size:10px;padding:3px 7px;">⊞ 좁게</button>
+            <button class="btn-export-csv" onclick="exportIssuesToCSV()" title="이슈 목록 CSV 다운로드">⬇ CSV</button>
+          </div>
+        </div>
         <!-- Filter Toolbar Row 1 - Essential Filters -->
         <div class="issue-toolbar">
           <select id="issueStatusFilter" onchange="renderIssues()" style="padding:6px 8px;" title="상태 필터">
@@ -3332,6 +3456,13 @@
           <div style="flex:1;"></div>
           <button class="btn btn-secondary" style="font-size:12px;padding:4px 8px;" onclick="clearIssueSelection()">취소</button>
         </div>
+        <!-- ===== CYCLE 5: 그룹/정렬 툴바 ===== -->
+        <div style="display:flex;align-items:center;gap:6px;padding:4px 16px;background:#f9fafb;border-bottom:1px solid #f0f0f0;flex-wrap:wrap;">
+          <span style="font-size:11px;color:#9ca3af;font-weight:600;">그룹:</span>
+          <button class="groupby-btn qf-chip" data-mode="severity" onclick="toggleGroupBy('severity')" style="font-size:10px;padding:3px 8px;">심각도별</button>
+          <button class="groupby-btn qf-chip" data-mode="status" onclick="toggleGroupBy('status')" style="font-size:10px;padding:3px 8px;">상태별</button>
+          <button class="groupby-btn qf-chip" data-mode="none" onclick="toggleGroupBy('none')" style="font-size:10px;padding:3px 8px;">그룹 해제</button>
+        </div>
         <!-- Active Filters Bar -->
         <div id="activeFiltersBar" style="display:none;padding:6px 16px;background:#f9fafb;border-bottom:1px solid #e5e7eb;gap:6px;flex-wrap:wrap;align-items:center;"></div>
         <!-- Issue Cards Container -->
@@ -3340,6 +3471,14 @@
 
       <!-- Tab 4: Deploy -->
       <div class="tab-content" id="deploy">
+        <!-- ===== CYCLE 6: 배포 통계 바 ===== -->
+        <div class="deploy-stats-bar" id="deployStatsBar">
+          <div class="deploy-stat-item">📦 <span class="deploy-stat-val blue" id="dstat_total">-</span> <span style="color:#6b7280">전체</span></div>
+          <div class="deploy-stat-item">🚀 <span class="deploy-stat-val green" id="dstat_ready">-</span> <span style="color:#6b7280">배포준비</span></div>
+          <div class="deploy-stat-item">✅ <span class="deploy-stat-val green" id="dstat_done">-</span> <span style="color:#6b7280">완료</span></div>
+          <div class="deploy-stat-item">⚠️ <span class="deploy-stat-val red" id="dstat_overdue">-</span> <span style="color:#6b7280">기한초과</span></div>
+          <div class="deploy-stat-item" style="margin-left:auto;font-size:10px;color:#9ca3af;" id="dstat_updated"></div>
+        </div>
         <!-- Deploy Toolbar -->
         <div class="issue-toolbar">
           <input type="text" id="deploySearchInput" placeholder="배포 번들 검색..." onkeyup="renderDeployBundles()" style="padding:6px 8px; min-width:180px;">
@@ -6676,6 +6815,24 @@
       renderIssues();
     }
 
+    // CYCLE 8: 밀도 토글 (빠른 필터 칩 연동)
+    function setIssueDensity(mode) {
+      if (mode === 'compact') {
+        setIssueDisplay('compact');
+        var dc = document.getElementById('density-compact');
+        var dco = document.getElementById('density-comfortable');
+        if (dc) dc.className = 'qf-chip active';
+        if (dco) dco.className = 'qf-chip';
+      } else {
+        setIssueDisplay('card');
+        var dc2 = document.getElementById('density-compact');
+        var dco2 = document.getElementById('density-comfortable');
+        if (dc2) dc2.className = 'qf-chip';
+        if (dco2) dco2.className = 'qf-chip active';
+      }
+    }
+
+
     function toggleIssueGrouping() {
       _issueGrouped = !_issueGrouped;
       var btn = document.getElementById('issueGroupBtn');
@@ -6783,6 +6940,137 @@
         var n = new Date();
         eT.textContent = '업데이트 ' + n.getHours() + ':' + String(n.getMinutes()).padStart(2,'0');
       }
+    }
+
+    // ===== CYCLE 4: 빠른 필터 칩 =====
+    var _activeQuickFilter = 'all';
+    function quickFilterIssues(type, btn) {
+      _activeQuickFilter = type;
+      // Reset all chips
+      document.querySelectorAll('.qf-chip').forEach(function(c) {
+        c.className = 'qf-chip';
+      });
+      if (btn) btn.className = 'qf-chip ' + (type === 'block' || type === 'overdue' ? 'active-red' : type === 'p01' ? 'active-amber' : 'active');
+      // Apply filter via existing status select
+      var statusSel = document.getElementById('issueStatusFilter');
+      var sevSel = document.getElementById('issueSeverityFilter');
+      if (statusSel) statusSel.value = '';
+      if (sevSel) sevSel.value = '';
+      renderIssues();
+    }
+    function _applyQuickFilter(issues) {
+      var today = new Date(); today.setHours(0,0,0,0);
+      switch (_activeQuickFilter) {
+        case 'open':    return issues.filter(function(i){ return i.status !== '완료'; });
+        case 'block':   return issues.filter(function(i){ return i.severity === 'Block' && i.status !== '완료'; });
+        case 'p01':     return issues.filter(function(i){ return (i.priority === '0' || i.priority === 0 || i.priority === 'P0' || i.priority === '1' || i.priority === 1 || i.priority === 'P1') && i.status !== '완료'; });
+        case 'today':   return issues.filter(function(i){ var c = new Date(i.created); c.setHours(0,0,0,0); return c.getTime() === today.getTime(); });
+        case 'overdue': return issues.filter(function(i){ if (!i.deadline || i.status === '완료') return false; var d = new Date(i.deadline); d.setHours(0,0,0,0); return d < today; });
+        default:        return issues;
+      }
+    }
+    function updateQuickFilterCounts() {
+      if (!_issues || !_issues.length) return;
+      var today = new Date(); today.setHours(0,0,0,0);
+      var counts = { all: _issues.length, open: 0, block: 0, p01: 0, today: 0, overdue: 0 };
+      _issues.forEach(function(i) {
+        if (i.status !== '완료') counts.open++;
+        if (i.severity === 'Block' && i.status !== '완료') counts.block++;
+        if ((i.priority === '0' || i.priority === 0 || i.priority === 'P0' || i.priority === '1' || i.priority === 1 || i.priority === 'P1') && i.status !== '완료') counts.p01++;
+        if (i.created) { var c = new Date(i.created); c.setHours(0,0,0,0); if (c.getTime() === today.getTime()) counts.today++; }
+        if (i.deadline && i.status !== '완료') { var d = new Date(i.deadline); d.setHours(0,0,0,0); if (d < today) counts.overdue++; }
+      });
+      Object.keys(counts).forEach(function(k) {
+        var el = document.getElementById('qfc-cnt-' + k);
+        if (el) el.textContent = counts[k];
+      });
+    }
+
+    // ===== CYCLE 4: CSV Export =====
+    function exportIssuesToCSV() {
+      var headers = ['ID','제목','타입','심각도','우선순위','상태','프로덕트','결함유형','플랫폼','담당자','마감일','생성일'];
+      var rows = [headers.join(',')];
+      var filtered = _applyQuickFilter(_issues);
+      filtered.forEach(function(i) {
+        var row = [
+          i.id || '',
+          '"' + (i.title || '').replace(/"/g,'""') + '"',
+          i.type || '',
+          i.severity || '',
+          i.priority || '',
+          i.status || '',
+          i.product || '',
+          i.defectType || '',
+          i.platform || '',
+          i.assignee || '',
+          i.deadline || '',
+          i.created ? new Date(i.created).toLocaleDateString('ko-KR') : ''
+        ];
+        rows.push(row.join(','));
+      });
+      var blob = new Blob(['\uFEFF' + rows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'QA_issues_' + new Date().toISOString().slice(0,10) + '.csv';
+      a.click();
+    }
+
+    // ===== CYCLE 5: 이슈 심각도별 그룹 렌더링 =====
+    var _groupByMode = 'none'; // 'none' | 'severity' | 'status'
+    function toggleGroupBy(mode) {
+      _groupByMode = (_groupByMode === mode) ? 'none' : mode;
+      document.querySelectorAll('.groupby-btn').forEach(function(b) {
+        b.classList.toggle('active', b.dataset.mode === _groupByMode);
+      });
+      renderIssues();
+    }
+    function _renderIssuesGrouped(container, issues) {
+      var groups = {};
+      var groupOrder = [];
+      if (_groupByMode === 'severity') {
+        groupOrder = ['Block','Major','Minor','Trivial'];
+        var groupIcons = {'Block':'🚫','Major':'⚠️','Minor':'ℹ️','Trivial':'▪'};
+        groupOrder.forEach(function(g) { groups[g] = { label: groupIcons[g] + ' ' + g, items: [], color: {'Block':'#dc2626','Major':'#f59e0b','Minor':'#3b82f6','Trivial':'#9ca3af'}[g] }; });
+        issues.forEach(function(i) { var g = i.severity || 'Trivial'; if (groups[g]) groups[g].items.push(i); });
+      } else if (_groupByMode === 'status') {
+        groupOrder = ['등록','검토 중','작업 진행 중','검증 진행 중','완료','테스트 보류'];
+        groupOrder.forEach(function(g) { groups[g] = { label: g, items: [], color: '#6366f1' }; });
+        issues.forEach(function(i) { var g = i.status || '등록'; if (!groups[g]) { groups[g] = { label: g, items: [], color: '#9ca3af' }; groupOrder.push(g); } groups[g].items.push(i); });
+      }
+      groupOrder.forEach(function(gKey) {
+        var grp = groups[gKey];
+        if (!grp || !grp.items.length) return;
+        var hdr = document.createElement('div');
+        hdr.className = 'issue-group-header';
+        hdr.innerHTML = '<span style="width:10px;height:10px;border-radius:50%;background:' + grp.color + ';display:inline-block;flex-shrink:0;"></span><span>' + grp.label + '</span><span class="issue-group-count">' + grp.items.length + '</span>';
+        container.appendChild(hdr);
+        grp.items.forEach(function(iss) { _renderIssueCard(container, iss); });
+      });
+    }
+
+    // ===== CYCLE 6: 배포 통계 바 업데이트 =====
+    function updateDeployStatsBar() {
+      if (!_deployBundles || !_deployBundles.length) return;
+      var total = _deployBundles.length, ready = 0, done = 0, overdue = 0;
+      var today = new Date();
+      _deployBundles.forEach(function(b) {
+        if (b.status === 'ready') ready++;
+        if (b.status === 'deployed') done++;
+        if (b.targetDate && b.status !== 'deployed' && b.status !== 'cancelled') {
+          if (new Date(b.targetDate) < today) overdue++;
+        }
+      });
+      var setEl = function(id, val) { var e = document.getElementById(id); if(e) e.textContent = val; };
+      setEl('dstat_total', total); setEl('dstat_ready', ready); setEl('dstat_done', done); setEl('dstat_overdue', overdue);
+      var eU = document.getElementById('dstat_updated');
+      if (eU) { var n = new Date(); eU.textContent = n.getHours() + ':' + String(n.getMinutes()).padStart(2,'0') + ' 업데이트'; }
+    }
+
+    // ===== CYCLE 7: 검색 텍스트 하이라이트 =====
+    function _highlightText(text, query) {
+      if (!query || !text) return text || '';
+      var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return text.replace(new RegExp('(' + escaped + ')', 'gi'), '<mark style="background:#fef08a;padding:0;border-radius:2px;">$1</mark>');
     }
 
 function renderIssues() {
@@ -6948,6 +7236,12 @@ function renderIssues() {
       }
 
       // Sort
+      // CYCLE 4: 빠른 필터 적용
+      filtered = _applyQuickFilter(filtered);
+      updateQuickFilterCounts();
+      // CYCLE 4: 빠른 필터 적용
+      filtered = _applyQuickFilter(filtered);
+      updateQuickFilterCounts();
       filtered.sort(function(a, b) {
         var aVal, bVal;
         switch(_issueSortKey) {
@@ -7132,9 +7426,14 @@ function renderIssues() {
           }
         });
       } else {
-        filtered.forEach(function(iss) {
-          _renderIssueCard(container, iss);
-        });
+        // CYCLE 5: 그룹보기 지원
+        if (_groupByMode !== 'none') {
+          _renderIssuesGrouped(container, filtered);
+        } else {
+          filtered.forEach(function(iss) {
+            _renderIssueCard(container, iss);
+          });
+        }
       }
 
       // 긴급 뱃지 업데이트
@@ -9644,6 +9943,26 @@ function renderIssues() {
           progressLabel.style.cssText = 'font-size:10px;color:#6b7280;';
           progressLabel.innerHTML = done + '/' + bundleIssues.length + ' 이슈 완료';
           card.appendChild(progressLabel);
+          // CYCLE 6: 심각도별 이슈 뱃지 바
+          var issueBadgeBar = document.createElement('div');
+          issueBadgeBar.className = 'bundle-issue-bar';
+          var sevCounts = { 'Block': 0, 'Major': 0, 'Minor': 0 };
+          bundleIssues.forEach(function(i) { if (i.status !== '완료' && sevCounts[i.severity] !== undefined) sevCounts[i.severity]++; });
+          var sevBadgeDefs = [
+            { key: 'Block', label: '🚫 Block', bg: '#fee2e2', color: '#991b1b' },
+            { key: 'Major', label: '⚠️ Major', bg: '#fff7ed', color: '#c2410c' },
+            { key: 'Minor', label: 'ℹ️ Minor', bg: '#eff6ff', color: '#1d4ed8' }
+          ];
+          sevBadgeDefs.forEach(function(def) {
+            if (sevCounts[def.key] > 0) {
+              var sb = document.createElement('span');
+              sb.className = 'bundle-iss-badge';
+              sb.style.cssText = 'background:' + def.bg + ';color:' + def.color + ';border:1px solid ' + def.color + '44;';
+              sb.textContent = def.label + ' ' + sevCounts[def.key];
+              issueBadgeBar.appendChild(sb);
+            }
+          });
+          if (issueBadgeBar.children.length > 0) card.appendChild(issueBadgeBar);
         } else {
           var noIssueLabel = document.createElement('div');
           noIssueLabel.style.cssText = 'font-size:10px;color:#9ca3af;';
@@ -9653,6 +9972,7 @@ function renderIssues() {
 
         container.appendChild(card);
       });
+      updateDeployStatsBar(); // CYCLE 6
     }
 
     function openCreateDeployBundle() {

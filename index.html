@@ -3063,6 +3063,264 @@
       border-radius: 4px;
       white-space: nowrap;
     }
+
+    /* ===== CYCLE 9: 빠른 이슈 캡처 바 ===== */
+    .quick-capture-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: linear-gradient(135deg, #fafbff 0%, #f0f4ff 100%);
+      border-bottom: 2px solid #e0e7ff;
+    }
+    .qc-icon { font-size: 18px; flex-shrink: 0; }
+    .qc-title-input {
+      flex: 1;
+      padding: 7px 12px;
+      border: 1.5px solid #c7d2fe;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+      min-width: 0;
+    }
+    .qc-title-input:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
+    .qc-title-input::placeholder { color: #a5b4fc; }
+    .qc-select {
+      padding: 7px 8px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+      background: #fff;
+      cursor: pointer;
+    }
+    .qc-select:focus { outline: none; border-color: #6366f1; }
+    .qc-submit-btn {
+      padding: 7px 16px;
+      background: #6366f1;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .qc-submit-btn:hover { background: #4f46e5; }
+    .qc-submit-btn:disabled { background: #a5b4fc; cursor: not-allowed; }
+    .qc-more-btn {
+      padding: 7px 12px;
+      background: transparent;
+      color: #6366f1;
+      border: 1.5px solid #c7d2fe;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+    .qc-more-btn:hover { background: #eff1ff; }
+    .qc-success {
+      color: #059669;
+      font-size: 11px;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s;
+      white-space: nowrap;
+    }
+    .qc-success.show { opacity: 1; }
+    /* Modal 2-step */
+    .modal-step-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid #e5e7eb;
+      margin: 0 0 16px;
+    }
+    .modal-step-tab {
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #9ca3af;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.15s;
+    }
+    .modal-step-tab.active { color: #6366f1; border-bottom-color: #6366f1; }
+    .modal-step-panel { display: none; }
+    .modal-step-panel.active { display: block; }
+
+    /* ===== CYCLE 10: Deploy 1뎁스 어코디언 ===== */
+    .deploy-bundle-card {
+      border-radius: 10px;
+      border: 1.5px solid #e5e7eb;
+      background: #fff;
+      margin-bottom: 8px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .deploy-bundle-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+    .deploy-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .deploy-card-header:hover { background: #f9fafb; }
+    .deploy-card-chevron {
+      font-size: 11px;
+      color: #9ca3af;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+    .deploy-card-chevron.open { transform: rotate(90deg); }
+    .deploy-card-body {
+      display: none;
+      padding: 0 16px 14px;
+      border-top: 1px solid #f3f4f6;
+    }
+    .deploy-card-body.open { display: block; }
+    .deploy-inline-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      transition: all 0.15s;
+    }
+    .deploy-inline-action:hover { background: #f3f4f6; }
+    .deploy-inline-action.primary { background: #6366f1; color: #fff; border-color: #6366f1; }
+    .deploy-inline-action.primary:hover { background: #4f46e5; }
+    .deploy-inline-action.success { background: #059669; color: #fff; border-color: #059669; }
+    .deploy-inline-action.danger { background: #dc2626; color: #fff; border-color: #dc2626; }
+    /* Quick Deploy Form */
+    .quick-deploy-form {
+      background: #f8f9ff;
+      border: 2px dashed #c7d2fe;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 12px;
+      display: none;
+    }
+    .quick-deploy-form.open { display: block; }
+    .qdf-row {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+    .qdf-group { display: flex; flex-direction: column; gap: 4px; }
+    .qdf-label { font-size: 10px; font-weight: 700; color: #6b7280; }
+    .qdf-input, .qdf-select {
+      padding: 6px 10px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 12px;
+      background: #fff;
+    }
+    .qdf-input:focus, .qdf-select:focus { outline: none; border-color: #6366f1; }
+    .qdf-title-input { min-width: 220px; }
+    .deploy-issue-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      margin-bottom: 3px;
+      font-size: 12px;
+    }
+    .deploy-issue-row:hover { background: #f9fafb; }
+
+    /* ===== CYCLE 11: 릴리즈노트 탭 ===== */
+    .rn-container { padding: 20px; max-width: 760px; margin: 0 auto; }
+    .rn-version-block {
+      background: #fff;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .rn-version-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      background: linear-gradient(90deg, #f8f9ff 0%, #eff1ff 100%);
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .rn-version-tag {
+      font-size: 13px;
+      font-weight: 800;
+      color: #6366f1;
+      background: #e0e7ff;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .rn-version-date { font-size: 11px; color: #9ca3af; }
+    .rn-version-title { font-size: 14px; font-weight: 700; color: #1f2937; flex: 1; }
+    .rn-body { padding: 14px 20px; }
+    .rn-section-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 10px 0 6px;
+    }
+    .rn-section-title:first-child { margin-top: 0; }
+    .rn-item {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      padding: 4px 0;
+      font-size: 13px;
+      color: #374151;
+      line-height: 1.5;
+    }
+    .rn-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 3px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .rn-badge-new    { background: #d1fae5; color: #065f46; }
+    .rn-badge-improve { background: #dbeafe; color: #1e40af; }
+    .rn-badge-fix    { background: #fee2e2; color: #991b1b; }
+    .rn-badge-ux     { background: #fef9c3; color: #713f12; }
+    /* Notification improvements */
+    .notif-filter-bar {
+      display: flex;
+      gap: 4px;
+      padding: 8px 12px;
+      border-bottom: 1px solid #e5e7eb;
+      flex-wrap: wrap;
+    }
+    .notif-filter-chip {
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      color: #6b7280;
+    }
+    .notif-filter-chip.active { background: #6366f1; color: #fff; border-color: #6366f1; }
   </style>
   <!-- Firebase SDK (정적 로딩) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -3222,6 +3480,7 @@
         <button class="tab" data-tab="team">팀</button>
         <button class="tab" data-tab="overview">개요</button>
         <button class="tab" data-tab="history">이력</button>
+        <button class="tab" data-tab="releasenotes">릴리즈</button>
       </div>
     </div>
 
@@ -3230,6 +3489,12 @@
       <div style="padding:16px;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center;">
         <span style="font-size:15px;font-weight:700;">알림</span>
         <button onclick="toggleNotifPanel()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#6b7280;">×</button>
+      </div>
+      <div class="notif-filter-bar" id="notifFilterBar">
+        <button class="notif-filter-chip active" onclick="filterNotifs('all',this)">전체</button>
+        <button class="notif-filter-chip" onclick="filterNotifs('issue',this)">이슈</button>
+        <button class="notif-filter-chip" onclick="filterNotifs('deploy',this)">배포</button>
+        <button class="notif-filter-chip" onclick="filterNotifs('unread',this)">미읽음</button>
       </div>
       <div id="notifList" style="flex:1;overflow-y:auto;padding:8px;"></div>
       <div style="padding:12px;border-top:1px solid #e5e7eb;">
@@ -3351,6 +3616,27 @@
             <span style="font-size:12px;font-weight:700;">+ 이슈</span>
             <kbd style="font-size:8px;padding:1px 3px;background:#4f46e5;border-radius:2px;border:none;color:#fff;margin-left:2px;">N</kbd>
           </div>
+        </div>
+        <!-- ===== CYCLE 9: 빠른 이슈 캡처 바 ===== -->
+        <div class="quick-capture-bar" id="quickCaptureBar">
+          <span class="qc-icon">🐛</span>
+          <input class="qc-title-input" id="qc_title" placeholder="이슈 제목 입력 후 Enter 또는 등록 버튼... (N키로 상세 모달)" onkeydown="if(event.key==='Enter')quickCaptureSubmit()" oninput="document.getElementById('qc_submitBtn').disabled=!this.value.trim()">
+          <select class="qc-select" id="qc_severity" title="심각도">
+            <option value="Major">⚠️ Major</option>
+            <option value="Block">🚫 Block</option>
+            <option value="Minor">ℹ️ Minor</option>
+            <option value="Trivial">▪ Trivial</option>
+          </select>
+          <select class="qc-select" id="qc_product" title="프로덕트" style="max-width:130px;">
+            <option value="">프로덕트</option>
+            <option value="어바웃피싱 앱">AF 앱</option>
+            <option value="어바웃피싱 어드민">AF 어드민</option>
+            <option value="샵바이 앱/웹">샵바이</option>
+            <option value="낚시포인트맵">포인트맵</option>
+          </select>
+          <button class="qc-submit-btn" id="qc_submitBtn" onclick="quickCaptureSubmit()" disabled>⚡ 빠른 등록</button>
+          <button class="qc-more-btn" onclick="openCreateIssueModal ? (openCreateIssueModal(), false) : null" title="상세 폼으로 등록">상세 ▸</button>
+          <span class="qc-success" id="qc_success">✓ 등록됨!</span>
         </div>
         <!-- ===== CYCLE 4: 빠른 필터 칩 바 ===== -->
         <div class="quick-filter-bar" id="quickFilterBar">
@@ -3502,6 +3788,40 @@
           </select>
           <div style="flex:1;"></div>
           <button class="btn write-only-ui" onclick="openCreateDeployBundle()" style="font-size:12px;padding:6px 12px;">+ 배포 번들 생성</button>
+          <button class="btn btn-secondary" onclick="toggleQuickDeployForm()" style="font-size:12px;padding:5px 12px;" title="빠른 등록 폼 토글">⚡ 빠른 등록</button>
+        </div>
+        <!-- ===== CYCLE 10: 빠른 배포 등록 폼 ===== -->
+        <div class="quick-deploy-form" id="quickDeployForm">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <span style="font-size:13px;font-weight:700;color:#374151;">🚀 새 배포 번들 빠른 등록</span>
+            <button onclick="toggleQuickDeployForm()" style="background:none;border:none;font-size:18px;cursor:pointer;color:#9ca3af;">×</button>
+          </div>
+          <div class="qdf-row">
+            <div class="qdf-group" style="flex:1;min-width:200px;">
+              <label class="qdf-label">배포 제목 *</label>
+              <input class="qdf-input qdf-title-input" id="qdf_title" placeholder="예: v2.4.1 운영 배포" onkeydown="if(event.key==='Enter')submitQuickDeploy()">
+            </div>
+            <div class="qdf-group">
+              <label class="qdf-label">목표일</label>
+              <input class="qdf-input" id="qdf_date" type="date" style="width:140px;">
+            </div>
+            <div class="qdf-group">
+              <label class="qdf-label">환경</label>
+              <select class="qdf-select" id="qdf_env">
+                <option value="운영">운영</option>
+                <option value="스테이지">스테이지</option>
+                <option value="개발">개발</option>
+              </select>
+            </div>
+            <div class="qdf-group">
+              <label class="qdf-label">상태</label>
+              <select class="qdf-select" id="qdf_status">
+                <option value="planning">준비중</option>
+                <option value="ready">배포준비</option>
+              </select>
+            </div>
+            <button class="deploy-inline-action primary" onclick="submitQuickDeploy()" style="padding:8px 16px;font-size:13px;margin-top:18px;">⚡ 등록</button>
+          </div>
         </div>
         <!-- Deploy Bundles List -->
         <div class="issue-cards-grid" id="deployBundlesContainer"></div>
@@ -3515,6 +3835,94 @@
       <!-- Tab 4: Overview -->
       <div class="tab-content" id="overview">
         <div id="overviewContent" style="padding:20px;"></div>
+      </div>
+      <!-- ===== CYCLE 11: 릴리즈노트 탭 ===== -->
+      <div class="tab-content" id="releasenotes">
+        <div class="rn-container">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+            <h2 style="margin:0;font-size:18px;font-weight:800;color:#1f2937;">📋 릴리즈 노트</h2>
+            <span style="font-size:11px;color:#9ca3af;">QA Dashboard 개선 이력</span>
+          </div>
+
+          <div class="rn-version-block">
+            <div class="rn-version-header">
+              <span class="rn-version-tag">v1.11</span>
+              <span class="rn-version-title">릴리즈노트 탭 · 알림 개선 · Deploy 1뎁스</span>
+              <span class="rn-version-date">2026-04-12</span>
+            </div>
+            <div class="rn-body">
+              <div class="rn-section-title">신규</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>릴리즈노트 탭 신규 추가 — 전체 개선 이력 한눈에 확인</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>이슈 빠른 캡처 바 — 제목+심각도+프로덕트 3필드로 즉시 등록 (Enter)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>Deploy 간편 등록 폼 — ⚡ 빠른 등록 버튼으로 배포 번들 즉시 생성</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>Deploy 1뎁스 어코디언 — 배포 카드 클릭 시 모달 없이 인라인 펼침</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>배포 카드 내 상태 원클릭 변경 버튼 (준비중/배포준비/배포완료/취소)</div>
+              <div class="rn-section-title">개선</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-improve">UP</span>알림 패널 필터 칩 추가 (전체/이슈/배포/시스템)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-improve">UP</span>이슈 등록 스마트 기본값 — 마지막 사용한 심각도/프로덕트 자동 세팅</div>
+            </div>
+          </div>
+
+          <div class="rn-version-block">
+            <div class="rn-version-header">
+              <span class="rn-version-tag">v1.8–1.10</span>
+              <span class="rn-version-title">빠른 필터 · 그룹뷰 · CSV · Deploy 통계</span>
+              <span class="rn-version-date">2026-04-12 00:00</span>
+            </div>
+            <div class="rn-body">
+              <div class="rn-section-title">이슈 탭</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>빠른 필터 칩 — 전체/미처리/Block/P0-P1/오늘/기한초과 원클릭</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>심각도별/상태별 그룹 보기 토글</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>CSV Export — 현재 필터 기준 이슈 다운로드 (BOM UTF-8)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>밀도 토글 (⊟ 넓게 / ⊞ 좁게)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-improve">UP</span>검색어 하이라이트 (카드 제목 형광 표시)</div>
+              <div class="rn-section-title">배포 탭</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>배포 통계바 (전체/배포준비/완료/기한초과)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>번들 카드 이슈 심각도 뱃지 (Block/Major/Minor 미완료 수)</div>
+            </div>
+          </div>
+
+          <div class="rn-version-block">
+            <div class="rn-version-header">
+              <span class="rn-version-tag">v1.4–1.7</span>
+              <span class="rn-version-title">마감일 긴급도 · P0 펄스 · Defect/Platform 뱃지</span>
+              <span class="rn-version-date">2026-04-11 23:40</span>
+            </div>
+            <div class="rn-body">
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>마감일 긴급도 뱃지 — D-Day / D-3 / 초과+Nd 색상 4단계</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>상태 코너 도트 — 카드 우상단 색깔 점 (등록/진행/완료/보류)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>P0 카드 펄스 애니메이션 — 2초 주기 박스섀도 진동</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>Defect Type 인라인 뱃지 — 결함 유형 메타 행 표시</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>Platform 아이콘 뱃지 — 🍎iOS / 🤖Android / 🌐Web / 📱All</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>7일 이상 미해결 이슈 경과일 경고 표시</div>
+            </div>
+          </div>
+
+          <div class="rn-version-block">
+            <div class="rn-version-header">
+              <span class="rn-version-tag">v1.1–1.3</span>
+              <span class="rn-version-title">QA 통계 상태바 · 심각도 아이콘 · 카드 컬러</span>
+              <span class="rn-version-date">2026-04-11 23:30</span>
+            </div>
+            <div class="rn-body">
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>QA 통계 상태바 — 오늘 등록 / 미해결 Block / 이번주 해결률 / Critical 합계</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>심각도 이모지 아이콘 — 🚫Block / ⚠️Major / ℹ️Minor / ▪Trivial</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>카드 좌측 컬러 보더 — 심각도별 3px 색상선</div>
+            </div>
+          </div>
+
+          <div class="rn-version-block">
+            <div class="rn-version-header">
+              <span class="rn-version-tag">v1.0</span>
+              <span class="rn-version-title">베이스 — Cycle 23 (2026-04-11 01:01)</span>
+              <span class="rn-version-date">2026-04-11</span>
+            </div>
+            <div class="rn-body">
+              <div class="rn-item"><span class="rn-badge rn-badge-improve">BASE</span>Firebase Realtime DB 연동 QA 이슈 관리 대시보드 (cycle23 기준)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-improve">BASE</span>이슈 등록/상세/수정/삭제, 배포 번들 관리, 팀/스케줄/프로젝트 연동</div>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- Tab 5: History -->
       <div class="tab-content" id="history">
@@ -7073,6 +7481,78 @@
       return text.replace(new RegExp('(' + escaped + ')', 'gi'), '<mark style="background:#fef08a;padding:0;border-radius:2px;">$1</mark>');
     }
 
+    // ===== CYCLE 9: 빠른 이슈 캡처 =====
+    var _qcLastSettings = JSON.parse(localStorage.getItem('qa_qc_settings') || '{}');
+
+    function quickCaptureSubmit() {
+      var titleEl = document.getElementById('qc_title');
+      var sevEl = document.getElementById('qc_severity');
+      var prodEl = document.getElementById('qc_product');
+      var title = (titleEl || {}).value || '';
+      if (!title.trim()) return;
+
+      var sev = (sevEl || {}).value || 'Major';
+      var prod = (prodEl || {}).value || '';
+
+      // Build minimal issue
+      var issueData = {
+        id: _generateIssueId(),
+        title: title.trim(),
+        type: 'Bug',
+        severity: sev,
+        priority: sev === 'Block' ? '0' : sev === 'Major' ? '1' : '2',
+        status: '등록',
+        product: prod,
+        platform: '',
+        defectType: '',
+        assignee: '',
+        created: new Date().toISOString(),
+        updated: new Date().toISOString(),
+        attachments: [],
+        comments: []
+      };
+
+      saveIssueData(issueData);
+      _addNotification('이슈 빠른 등록: ' + title.trim(), 'success', issueData.id);
+
+      // Save last settings
+      _qcLastSettings = { severity: sev, product: prod };
+      localStorage.setItem('qa_qc_settings', JSON.stringify(_qcLastSettings));
+
+      // Reset + feedback
+      if (titleEl) titleEl.value = '';
+      var btn = document.getElementById('qc_submitBtn');
+      if (btn) btn.disabled = true;
+      var succ = document.getElementById('qc_success');
+      if (succ) {
+        succ.textContent = '✓ #' + issueData.id + ' 등록!';
+        succ.classList.add('show');
+        setTimeout(function() { succ.classList.remove('show'); }, 2500);
+      }
+      renderIssues();
+    }
+
+    function _initQuickCaptureDefaults() {
+      var settings = JSON.parse(localStorage.getItem('qa_qc_settings') || '{}');
+      var sevEl = document.getElementById('qc_severity');
+      var prodEl = document.getElementById('qc_product');
+      if (sevEl && settings.severity) sevEl.value = settings.severity;
+      if (prodEl && settings.product) prodEl.value = settings.product;
+    }
+
+    // ===== CYCLE 9: 이슈 등록 모달 스마트 기본값 =====
+    function _applyIssueModalSmartDefaults() {
+      var settings = JSON.parse(localStorage.getItem('qa_qc_settings') || '{}');
+      if (settings.severity) {
+        var sevEl = document.getElementById('createIssue_severity');
+        if (sevEl && !sevEl.value) sevEl.value = settings.severity;
+      }
+      if (settings.product) {
+        var prodEl = document.getElementById('createIssue_product');
+        if (prodEl && !prodEl.value) prodEl.value = settings.product;
+      }
+    }
+
 function renderIssues() {
       var statusFilter = document.getElementById('issueStatusFilter').value;
       var productFilter = document.getElementById('issueProductFilter').value;
@@ -9824,7 +10304,152 @@ function renderIssues() {
     }
 
     // Deploy Tab Functions (new tab-based interface)
-    function renderDeployBundles() {
+        // ===== CYCLE 10: Deploy 1뎁스 어코디언 =====
+    var _openBundleId = null;
+
+    function toggleDeployAccordion(bundleId) {
+      if (_openBundleId === bundleId) {
+        _openBundleId = null;
+      } else {
+        _openBundleId = bundleId;
+      }
+      renderDeployBundles();
+    }
+
+    function toggleQuickDeployForm() {
+      var form = document.getElementById('quickDeployForm');
+      if (!form) return;
+      var isOpen = form.classList.contains('open');
+      form.classList.toggle('open', !isOpen);
+      if (!isOpen) {
+        // Set default date to +7 days
+        var dateEl = document.getElementById('qdf_date');
+        if (dateEl && !dateEl.value) {
+          var d = new Date(Date.now() + 7*24*60*60*1000);
+          dateEl.value = d.toISOString().split('T')[0];
+        }
+        setTimeout(function() {
+          var t = document.getElementById('qdf_title');
+          if (t) t.focus();
+        }, 100);
+      }
+    }
+
+    function submitQuickDeploy() {
+      if (!_hasWritePermission()) { _checkWritePermission(); return; }
+      var title = (document.getElementById('qdf_title') || {}).value || '';
+      if (!title.trim()) {
+        var el = document.getElementById('qdf_title');
+        if (el) { el.style.borderColor = '#dc2626'; el.focus(); }
+        return;
+      }
+      var date = (document.getElementById('qdf_date') || {}).value || '';
+      var env = (document.getElementById('qdf_env') || {}).value || '운영';
+      var status = (document.getElementById('qdf_status') || {}).value || 'planning';
+
+      var bundle = {
+        id: 'DEP-' + Date.now(),
+        title: title.trim(),
+        targetDate: date,
+        environment: env,
+        status: status,
+        issues: [],
+        projects: [],
+        created: new Date().toISOString(),
+        updated: new Date().toISOString()
+      };
+
+      _deployBundles.unshift(bundle);
+      _saveDeployBundlesToLocal();
+      if (_fb.db) { var _obj1={}; _obj1['deployBundles/'+bundle.id]=bundle; _fb.db.ref().update(_obj1).catch(function(err){console.error(err);}); }
+      _addNotification('배포 번들 등록: ' + bundle.title, 'success');
+
+      // Reset + close
+      document.getElementById('qdf_title').value = '';
+      document.getElementById('qdf_date').value = '';
+      toggleQuickDeployForm();
+      renderDeployBundles();
+    }
+
+    function changeDeployBundleStatus(bundleId, newStatus) {
+      var bundle = _deployBundles.find(function(b) { return b.id === bundleId; });
+      if (!bundle) return;
+      bundle.status = newStatus;
+      bundle.updated = new Date().toISOString();
+      _saveDeployBundlesToLocal();
+      if (_fb.db) { var _obj2={}; _obj2['deployBundles/'+bundle.id]=bundle; _fb.db.ref().update(_obj2).catch(function(err){console.error(err);}); }
+      _addNotification('배포 상태 변경: ' + bundle.title + ' → ' + ({planning:'준비중',ready:'배포준비',deployed:'배포완료',cancelled:'취소'}[newStatus]||newStatus), 'success');
+      renderDeployBundles();
+    }
+
+    function _renderDeployBundleAccordionBody(bundle, bodyEl) {
+      bodyEl.innerHTML = '';
+      var statusMap = {planning:'준비중',ready:'배포준비',deployed:'배포완료',cancelled:'취소'};
+      var statusColorMap = {planning:'#f59e0b',ready:'#3b82f6',deployed:'#10b981',cancelled:'#9ca3af'};
+
+      // Status change buttons
+      var statusRow = document.createElement('div');
+      statusRow.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 12px;';
+      var statusDefs = ['planning','ready','deployed','cancelled'];
+      statusDefs.forEach(function(s) {
+        var btn = document.createElement('button');
+        btn.className = 'deploy-inline-action' + (bundle.status === s ? ' primary' : '');
+        btn.style.cssText += ';background:' + (bundle.status === s ? statusColorMap[s] : '#f9fafb') + ';color:' + (bundle.status === s ? '#fff' : '#374151') + ';border-color:' + statusColorMap[s] + '44;';
+        btn.textContent = statusMap[s];
+        if (bundle.status !== s) {
+          btn.onclick = (function(sid) { return function(e) { e.stopPropagation(); changeDeployBundleStatus(bundle.id, sid); }; })(s);
+        }
+        statusRow.appendChild(btn);
+      });
+      bodyEl.appendChild(statusRow);
+
+      // Linked issues
+      var bundleIssues = (bundle.issues || []).map(function(id) {
+        return _issues.find(function(i) { return i.id === id; });
+      }).filter(Boolean);
+
+      if (bundleIssues.length > 0) {
+        var issHdr = document.createElement('div');
+        issHdr.style.cssText = 'font-size:11px;font-weight:700;color:#6b7280;margin-bottom:6px;';
+        issHdr.textContent = '연결된 이슈 (' + bundleIssues.length + ')';
+        bodyEl.appendChild(issHdr);
+        bundleIssues.slice(0, 8).forEach(function(iss) {
+          var row = document.createElement('div');
+          row.className = 'deploy-issue-row';
+          row.style.cursor = 'pointer';
+          row.onclick = function() { openIssueDetail(iss.id); };
+          var sevIcon = {'Block':'🚫','Major':'⚠️','Minor':'ℹ️','Trivial':'▪'}[iss.severity] || '';
+          row.innerHTML = '<span style="font-size:10px;color:#6366f1;font-weight:700;flex-shrink:0;">' + iss.id + '</span>'
+            + '<span style="font-size:11px;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + _escHtml(iss.title||'') + '</span>'
+            + '<span style="font-size:10px;">' + sevIcon + '</span>'
+            + '<span style="font-size:10px;color:' + ({'등록':'#6366f1','진행중':'#f59e0b','완료':'#10b981','보류':'#9ca3af'}[iss.status]||'#9ca3af') + ';font-weight:600;">' + (iss.status||'') + '</span>';
+          bodyEl.appendChild(row);
+        });
+        if (bundleIssues.length > 8) {
+          var more = document.createElement('div');
+          more.style.cssText = 'font-size:10px;color:#9ca3af;padding:4px 8px;';
+          more.textContent = '+ ' + (bundleIssues.length-8) + '개 더...';
+          bodyEl.appendChild(more);
+        }
+      } else {
+        var noIss = document.createElement('div');
+        noIss.style.cssText = 'font-size:11px;color:#9ca3af;padding:8px 0;';
+        noIss.textContent = '연결된 이슈 없음 — 상세보기에서 이슈를 추가하세요';
+        bodyEl.appendChild(noIss);
+      }
+
+      // Open detail link
+      var detailLink = document.createElement('div');
+      detailLink.style.cssText = 'margin-top:10px;padding-top:8px;border-top:1px solid #f3f4f6;display:flex;gap:8px;';
+      var detailBtn = document.createElement('button');
+      detailBtn.className = 'deploy-inline-action';
+      detailBtn.textContent = '✏️ 상세 편집';
+      detailBtn.onclick = function(e) { e.stopPropagation(); openDeployBundleDetail(bundle.id); };
+      detailLink.appendChild(detailBtn);
+      bodyEl.appendChild(detailLink);
+    }
+
+function renderDeployBundles() {
       var searchText = document.getElementById('deploySearchInput') ? document.getElementById('deploySearchInput').value.toLowerCase() : '';
       var envFilter = document.getElementById('deployEnvFilter') ? document.getElementById('deployEnvFilter').value : '';
       var statusFilter = document.getElementById('deployStatusFilter') ? document.getElementById('deployStatusFilter').value : '';
@@ -9969,6 +10594,25 @@ function renderIssues() {
           noIssueLabel.textContent = '이슈 없음';
           card.appendChild(noIssueLabel);
         }
+
+        // CYCLE 10: Add accordion body
+        var accordBody = document.createElement('div');
+        accordBody.className = 'deploy-card-body' + (_openBundleId === bundle.id ? ' open' : '');
+        _renderDeployBundleAccordionBody(bundle, accordBody);
+        card.appendChild(accordBody);
+
+        // Make card header clickable for accordion
+        card.style.cursor = 'default';
+        // Find topBar and make it the toggle trigger
+        if (card.firstChild) {
+          card.firstChild.style.cursor = 'pointer';
+          card.firstChild.title = '클릭해서 펼치기/접기';
+          card.firstChild.onclick = (function(bid) {
+            return function(e) { e.stopPropagation(); toggleDeployAccordion(bid); };
+          })(bundle.id);
+        }
+        // Update old onclick to just open detail (only via detail button inside accordion)
+        card.onclick = null;
 
         container.appendChild(card);
       });
@@ -13943,7 +14587,16 @@ function renderIssues() {
       }
     }
 
-    function renderNotifList() {
+        // ===== CYCLE 11: 알림 필터 =====
+    var _notifFilter = 'all';
+    function filterNotifs(type, btn) {
+      _notifFilter = type;
+      document.querySelectorAll('.notif-filter-chip').forEach(function(c) { c.classList.remove('active'); });
+      if (btn) btn.classList.add('active');
+      renderNotifList();
+    }
+
+function renderNotifList() {
       var list = document.getElementById('notifList');
       if (!list) return;
       list.innerHTML = '';
@@ -13951,7 +14604,13 @@ function renderIssues() {
         list.innerHTML = '<div style="text-align:center;padding:32px;color:#9ca3af;"><div style="font-size:32px;">🔔</div><div style="font-size:13px;margin-top:8px;">알림이 없습니다</div></div>';
         return;
       }
-      _notifications.slice(0, 20).forEach(function(n) {
+      var filteredNotifs = _notifications.filter(function(n) {
+        if (_notifFilter === 'issue') return n.issueId || (n.msg && n.msg.includes('이슈'));
+        if (_notifFilter === 'deploy') return n.msg && (n.msg.includes('배포') || n.msg.includes('번들'));
+        if (_notifFilter === 'unread') return !n.read;
+        return true;
+      });
+      filteredNotifs.slice(0, 20).forEach(function(n) {
         var item = document.createElement('div');
         var icon = n.type === 'success' ? '✅' : n.type === 'warning' ? '⚠️' : 'ℹ️';
         var timeStr = new Date(n.time).toLocaleString('ko-KR', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
@@ -13970,6 +14629,7 @@ function renderIssues() {
     }
 
     function init() {
+      setTimeout(_initQuickCaptureDefaults, 500); // CYCLE 9: quick capture defaults
       // Restore admin mode (history는 Firebase init 후 _initAuthCheck에서 로드)
       if (localStorage.getItem('af_adminMode') === 'true') {
         state.adminMode = true;

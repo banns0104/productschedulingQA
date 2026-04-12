@@ -3638,117 +3638,135 @@
           <button class="qc-more-btn" onclick="openCreateIssueModal ? (openCreateIssueModal(), false) : null" title="상세 폼으로 등록">상세 ▸</button>
           <span class="qc-success" id="qc_success">✓ 등록됨!</span>
         </div>
-        <!-- ===== CYCLE 4: 빠른 필터 칩 바 ===== -->
-        <div class="quick-filter-bar" id="quickFilterBar">
-          <span style="font-size:11px;color:#9ca3af;font-weight:600;white-space:nowrap;">빠른 필터:</span>
+        <!-- ===== UNIFIED SMART TOOLBAR (v1.13) ===== -->
+        <div class="smart-toolbar" id="smartToolbar">
+          <!-- 퀵 필터 칩 -->
           <button class="qf-chip active" id="qfc-all" onclick="quickFilterIssues('all',this)">전체 <span class="qf-chip-count" id="qfc-cnt-all">0</span></button>
           <button class="qf-chip" id="qfc-open" onclick="quickFilterIssues('open',this)">🔴 미처리 <span class="qf-chip-count" id="qfc-cnt-open">0</span></button>
           <button class="qf-chip" id="qfc-block" onclick="quickFilterIssues('block',this)">🚫 Block <span class="qf-chip-count" id="qfc-cnt-block">0</span></button>
           <button class="qf-chip" id="qfc-p01" onclick="quickFilterIssues('p01',this)">⚡ P0/P1 <span class="qf-chip-count" id="qfc-cnt-p01">0</span></button>
-          <button class="qf-chip" id="qfc-today" onclick="quickFilterIssues('today',this)">📋 오늘 <span class="qf-chip-count" id="qfc-cnt-today">0</span></button>
-          <button class="qf-chip" id="qfc-overdue" onclick="quickFilterIssues('overdue',this)">⏰ 기한초과 <span class="qf-chip-count" id="qfc-cnt-overdue">0</span></button>
-
-        </div>
-        <!-- Filter Toolbar Row 1 - Essential Filters -->
-        <div class="issue-toolbar">
-          <select id="issueStatusFilter" onchange="renderIssues()" style="padding:6px 8px;" title="상태 필터">
-            <option value="">전체 상태</option>
-            <option value="등록">등록</option>
-            <option value="검토 중">검토 중</option>
-            <option value="작업 진행 중">작업 진행 중</option>
-            <option value="검증 진행 중">검증 진행 중</option>
-            <option value="완료">완료</option>
-            <option value="운영배포예정">운영배포예정</option>
-            <option value="테스트 보류">테스트 보류</option>
-            <option value="현재작업불가">현재작업불가</option>
-          </select>
-          <select id="issueProductFilter" onchange="renderIssues()" style="padding:6px 8px;" title="프로덕트 필터">
-            <option value="">전체 프로덕트</option>
-            <option value="어바웃피싱 앱">어바웃피싱 앱</option>
-            <option value="어바웃피싱 어드민">어바웃피싱 어드민</option>
-            <option value="샵바이 앱/웹">샵바이 앱/웹</option>
-            <option value="샵바이 어드민">샵바이 어드민</option>
-            <option value="낚시포인트맵">낚시포인트맵</option>
-          </select>
-          <select id="issueSeverityFilter" onchange="renderIssues()" style="padding:6px 8px;" title="심각도 필터">
-            <option value="">전체 심각도</option>
-            <option value="Block">Block</option>
-            <option value="Major">Major</option>
-            <option value="Minor">Minor</option>
-            <option value="Trivial">Trivial</option>
-          </select>
-          <input type="text" id="issueSearchInput" placeholder="이슈 검색..." oninput="_debounceSearch()" style="padding:6px 8px; min-width:180px;" title="이슈 검색 (단축키: /)">
-
-          <details id="advFilterPanel" style="display:contents;">
-            <summary style="cursor:pointer;color:#6b7280;font-size:11px;padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;list-style:none;white-space:nowrap;background:white;font-weight:500;">고급 필터 ▾</summary>
-            <select id="issueDefectTypeFilter" onchange="renderIssues()" style="padding:6px 8px;" title="결함 타입 필터">
-              <option value="">전체 결함타입</option>
-              <option value="데이터 에러">데이터 에러</option>
-              <option value="기능 에러">기능 에러</option>
-              <option value="이슈 아님">이슈 아님</option>
-              <option value="기능개선">기능개선</option>
-              <option value="기획 에러">기획 에러</option>
-              <option value="시스템 에러">시스템 에러</option>
-              <option value="UI 에러">UI 에러</option>
-            </select>
-            <select id="issuePriorityFilter" onchange="renderIssues()" style="padding:6px 8px;" title="우선순위 필터">
-              <option value="">전체 우선순위</option>
-              <option value="1">1 (Critical)</option>
-              <option value="2">2 (High)</option>
-              <option value="3">3 (Medium)</option>
-              <option value="4">4 (Low)</option>
-            </select>
-            <select id="issueBundleFilter" onchange="renderIssues()" style="padding:6px 8px;" title="배포 상태 필터">
-              <option value="">전체 배포상태</option>
-              <option value="in-bundle">배포 포함</option>
-              <option value="no-bundle">배포 미포함</option>
-            </select>
-          </details>
-
-          <button onclick="refreshIssueData()" style="padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;cursor:pointer;background:#fff;color:#6b7280;" title="데이터 새로고침 (로컬 필터는 유지, 최신 데이터 불러오기)">↻</button>
-          <button onclick="resetIssueFilters()" style="padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:11px;cursor:pointer;background:#fff;color:#6b7280;" title="필터 초기화">✕ 초기화</button>
-          <div style="flex:1;"></div>
-        </div>
-        <!-- View Mode Row - redesigned for clarity -->
-        <div style="display:flex;gap:6px;padding:7px 16px;border-bottom:1px solid #e5e7eb;align-items:center;background:#fff;flex-wrap:wrap;">
-          <!-- 내 이슈 (특별 강조) -->
-          <button class="issue-view-btn" id="myIssueBtn" onclick="switchIssueView('my-issues')" style="background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;font-weight:700;">👤 내 이슈</button>
-          <div style="width:1px;height:18px;background:#e5e7eb;margin:0 2px;"></div>
-          <!-- 뷰 모드 -->
-          <button class="issue-view-btn active" onclick="switchIssueView('all')">전체</button>
-          <button class="issue-view-btn" onclick="switchIssueView('bookmarks')">⭐ 즐겨찾기</button>
-          <!-- 그룹뷰 드롭다운 -->
-          <div style="position:relative;display:inline-block;">
-            <button class="issue-view-btn" id="issueGroupViewBtn" onclick="toggleGroupViewDropdown()" title="그룹 기준 선택" style="padding-right:14px;">그룹뷰 ▾</button>
-            <div id="groupViewDropdown" style="display:none;position:absolute;top:calc(100% + 4px);left:0;background:#fff;border:1px solid #e5e7eb;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.1);z-index:200;min-width:120px;padding:4px 0;">
-              <button onclick="switchIssueView('by-project');toggleGroupViewDropdown()" style="display:block;width:100%;text-align:left;padding:7px 14px;font-size:12px;border:none;background:none;cursor:pointer;color:#374151;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='none'">📁 프로젝트별</button>
-              <button onclick="switchIssueView('by-product');toggleGroupViewDropdown()" style="display:block;width:100%;text-align:left;padding:7px 14px;font-size:12px;border:none;background:none;cursor:pointer;color:#374151;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='none'">📦 프로덕트별</button>
-              <button onclick="switchIssueView('by-assignee');toggleGroupViewDropdown()" style="display:block;width:100%;text-align:left;padding:7px 14px;font-size:12px;border:none;background:none;cursor:pointer;color:#374151;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='none'">👤 담당자별</button>
+          <button class="qf-chip" id="qfc-today" onclick="quickFilterIssues('today',this)">오늘 <span class="qf-chip-count" id="qfc-cnt-today">0</span></button>
+          <button class="qf-chip" id="qfc-overdue" onclick="quickFilterIssues('overdue',this)">⏰ 초과 <span class="qf-chip-count" id="qfc-cnt-overdue">0</span></button>
+          <div class="st-divider"></div>
+          <!-- 검색창 -->
+          <input type="text" class="st-search" id="issueSearchInput" placeholder="이슈 검색..." oninput="_debounceSearch()" title="검색 (/)">
+          <!-- 필터 팝오버 -->
+          <div class="filter-popover-wrap" id="filterPopoverWrap">
+            <button class="filter-popover-btn" id="filterPopoverBtn" onclick="toggleFilterPopover()">
+              필터 <span id="filterActiveBadge" class="fp-badge" style="display:none;">0</span> <span style="font-size:10px;color:#9ca3af;">▾</span>
+            </button>
+            <div class="filter-popover-panel" id="filterPopoverPanel">
+              <div class="fp-row">
+                <div class="fp-label">상태</div>
+                <select class="fp-select" id="issueStatusFilter" onchange="renderIssues();_updateFilterBadge();">
+                  <option value="">전체 상태</option>
+                  <option value="등록">등록</option>
+                  <option value="검토 중">검토 중</option>
+                  <option value="작업 진행 중">작업 진행 중</option>
+                  <option value="검증 진행 중">검증 진행 중</option>
+                  <option value="완료">완료</option>
+                  <option value="운영배포예정">운영배포예정</option>
+                  <option value="테스트 보류">테스트 보류</option>
+                  <option value="현재작업불가">현재작업불가</option>
+                </select>
+              </div>
+              <div class="fp-row">
+                <div class="fp-label">프로덕트</div>
+                <select class="fp-select" id="issueProductFilter" onchange="renderIssues();_updateFilterBadge();">
+                  <option value="">전체 프로덕트</option>
+                  <option value="어바웃피싱 앱">어바웃피싱 앱</option>
+                  <option value="어바웃피싱 어드민">어바웃피싱 어드민</option>
+                  <option value="샵바이 앱/웹">샵바이 앱/웹</option>
+                  <option value="샵바이 어드민">샵바이 어드민</option>
+                  <option value="낚시포인트맵">낚시포인트맵</option>
+                </select>
+              </div>
+              <div class="fp-row">
+                <div class="fp-label">심각도</div>
+                <select class="fp-select" id="issueSeverityFilter" onchange="renderIssues();_updateFilterBadge();">
+                  <option value="">전체 심각도</option>
+                  <option value="Block">🚫 Block</option>
+                  <option value="Major">⚠️ Major</option>
+                  <option value="Minor">ℹ️ Minor</option>
+                  <option value="Trivial">▪ Trivial</option>
+                </select>
+              </div>
+              <div class="fp-adv-section">
+                <button class="fp-adv-toggle" onclick="_toggleAdvFilters(this)">▾ 고급 필터</button>
+                <div class="fp-adv-filters" id="fpAdvFilters">
+                  <div class="fp-row">
+                    <div class="fp-label">결함 타입</div>
+                    <select class="fp-select" id="issueDefectTypeFilter" onchange="renderIssues();_updateFilterBadge();">
+                      <option value="">전체 결함타입</option>
+                      <option value="데이터 에러">데이터 에러</option>
+                      <option value="기능 에러">기능 에러</option>
+                      <option value="이슈 아님">이슈 아님</option>
+                      <option value="기능개선">기능개선</option>
+                      <option value="기획 에러">기획 에러</option>
+                      <option value="시스템 에러">시스템 에러</option>
+                      <option value="UI 에러">UI 에러</option>
+                    </select>
+                  </div>
+                  <div class="fp-row">
+                    <div class="fp-label">우선순위</div>
+                    <select class="fp-select" id="issuePriorityFilter" onchange="renderIssues();_updateFilterBadge();">
+                      <option value="">전체 우선순위</option>
+                      <option value="1">P0 (Critical)</option>
+                      <option value="2">P1 (High)</option>
+                      <option value="3">P2 (Medium)</option>
+                      <option value="4">P3 (Low)</option>
+                    </select>
+                  </div>
+                  <div class="fp-row">
+                    <div class="fp-label">배포 포함 여부</div>
+                    <select class="fp-select" id="issueBundleFilter" onchange="renderIssues();_updateFilterBadge();">
+                      <option value="">전체</option>
+                      <option value="in-bundle">배포 포함</option>
+                      <option value="no-bundle">배포 미포함</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="fp-footer">
+                <button class="fp-reset-btn" onclick="resetIssueFilters();closeFilterPopover();">✕ 필터 초기화</button>
+              </div>
             </div>
           </div>
-          <div style="flex:1;"></div>
-          <!-- 그룹화 칩 (인라인) -->
-          <div style="display:flex;align-items:center;gap:4px;border:1px solid #e5e7eb;border-radius:6px;padding:3px 6px;background:#f9fafb;">
-            <span style="font-size:10px;color:#9ca3af;font-weight:600;margin-right:2px;">그룹:</span>
-            <button class="groupby-btn qf-chip" data-mode="severity" onclick="toggleGroupBy('severity')" style="font-size:10px;padding:2px 7px;">심각도</button>
-            <button class="groupby-btn qf-chip" data-mode="status" onclick="toggleGroupBy('status')" style="font-size:10px;padding:2px 7px;">상태</button>
-            <button class="groupby-btn qf-chip" data-mode="none" onclick="toggleGroupBy('none')" style="font-size:10px;padding:2px 7px;">해제</button>
+          <button onclick="refreshIssueData()" title="새로고침" style="padding:5px 8px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px;cursor:pointer;background:#fff;color:#9ca3af;flex-shrink:0;" onmouseover="this.style.color='#374151'" onmouseout="this.style.color='#9ca3af'">↻</button>
+          <div style="flex:1;min-width:4px;"></div>
+          <!-- 뷰 모드 -->
+          <div class="st-view-group">
+            <button class="st-view-btn my-issue" id="myIssueBtn" onclick="switchIssueView('my-issues')">👤 내 이슈</button>
+            <button class="st-view-btn active" id="stViewAll" onclick="switchIssueView('all')">전체</button>
+            <button class="st-view-btn" id="stViewBookmarks" onclick="switchIssueView('bookmarks')">⭐</button>
           </div>
-          <div style="width:1px;height:18px;background:#e5e7eb;margin:0 3px;"></div>
+          <!-- 그룹/뷰 드롭다운 (그룹+뷰 통합) -->
+          <div class="st-group-wrap" id="stGroupWrap">
+            <button class="st-group-btn" id="stGroupBtn" onclick="toggleStGroupPanel()">그룹&amp;뷰 <span id="stGroupLabel" style="color:#9ca3af;font-size:10px;">없음</span> ▾</button>
+            <div class="st-group-panel" id="stGroupPanel">
+              <button class="st-group-item active" data-mode="none" onclick="toggleGroupBy('none');closeStGroupPanel();">— 그룹 없음</button>
+              <button class="st-group-item" data-mode="severity" onclick="toggleGroupBy('severity');closeStGroupPanel();">🎯 심각도별</button>
+              <button class="st-group-item" data-mode="status" onclick="toggleGroupBy('status');closeStGroupPanel();">🔄 상태별</button>
+              <div style="height:1px;background:#f3f4f6;margin:4px 0;"></div>
+              <button class="st-group-item" data-mode="product" onclick="switchIssueView('by-product');closeStGroupPanel();">📦 프로덕트별 뷰</button>
+              <button class="st-group-item" data-mode="project" onclick="switchIssueView('by-project');closeStGroupPanel();">📁 프로젝트별 뷰</button>
+              <button class="st-group-item" data-mode="assignee" onclick="switchIssueView('by-assignee');closeStGroupPanel();">👤 담당자별 뷰</button>
+            </div>
+          </div>
+          <div class="st-divider"></div>
           <!-- 밀도 -->
-          <button onclick="setIssueDensity('comfortable')" id="density-comfortable" title="넓게 보기" style="padding:3px 7px;font-size:10px;border:1px solid #d1d5db;border-radius:4px 0 0 4px;background:#fff;color:#374151;cursor:pointer;">⊟</button>
-          <button onclick="setIssueDensity('compact')" id="density-compact" title="좁게 보기" style="padding:3px 7px;font-size:10px;border:1px solid #d1d5db;border-left:none;border-radius:0 4px 4px 0;background:#fff;color:#374151;cursor:pointer;">⊞</button>
-          <div style="width:1px;height:18px;background:#e5e7eb;margin:0 3px;"></div>
+          <button onclick="setIssueDensity('comfortable')" id="density-comfortable" title="넓게" style="padding:4px 7px;font-size:11px;border:1.5px solid #e5e7eb;border-radius:6px 0 0 6px;background:#fff;color:#6b7280;cursor:pointer;">⊟</button>
+          <button onclick="setIssueDensity('compact')" id="density-compact" title="좁게" style="padding:4px 7px;font-size:11px;border:1.5px solid #e5e7eb;border-left:none;border-radius:0 6px 6px 0;background:#fff;color:#6b7280;cursor:pointer;">⊞</button>
           <!-- 디스플레이 모드 -->
-          <button id="issueDisplayCard" onclick="setIssueDisplay('card')" style="padding:4px 8px;border:1px solid #d1d5db;border-radius:4px 0 0 4px;font-size:11px;background:#6366f1;color:#fff;cursor:pointer;" title="카드 뷰">▦ 카드</button>
-          <button id="issueDisplayTable" onclick="setIssueDisplay('table')" style="padding:4px 8px;border:1px solid #d1d5db;border-radius:0;font-size:11px;background:#fff;color:#374151;cursor:pointer;" title="테이블 뷰">☰ 테이블</button>
-          <button id="issueDisplayCompact" onclick="setIssueDisplay('compact')" style="padding:4px 8px;border:1px solid #d1d5db;border-radius:0 4px 4px 0;font-size:11px;color:#374151;background:#fff;cursor:pointer;" title="컴팩트 뷰">≡ 컴팩트</button>
-          <div style="width:1px;height:18px;background:#e5e7eb;margin:0 3px;"></div>
-          <!-- CSV export -->
-          <button class="btn-export-csv" onclick="exportIssuesToCSV()" title="이슈 목록 CSV 다운로드" style="padding:4px 8px;font-size:11px;">⬇ CSV</button>
-          <span id="urgentBadge" style="display:none;background:#fef2f2;color:#dc2626;border:1px solid #fecaca;border-radius:12px;padding:2px 10px;font-size:11px;font-weight:700;margin-left:4px;"></span>
+          <div class="st-display-group">
+            <button class="st-display-btn active" id="issueDisplayCard" onclick="setIssueDisplay('card')" title="카드">▦ 카드</button>
+            <button class="st-display-btn" id="issueDisplayTable" onclick="setIssueDisplay('table')" title="테이블">☰ 테이블</button>
+            <button class="st-display-btn" id="issueDisplayCompact" onclick="setIssueDisplay('compact')" title="컴팩트">≡ 컴팩트</button>
+          </div>
+          <button class="st-csv-btn" onclick="exportIssuesToCSV()" title="CSV 다운로드">↓ CSV</button>
+          <span id="urgentBadge" style="display:none;background:#fef2f2;color:#dc2626;border:1px solid #fecaca;border-radius:12px;padding:2px 10px;font-size:11px;font-weight:700;"></span>
         </div>
-        <!-- Bulk Action Bar (hidden by default) -->
+                <!-- Bulk Action Bar (hidden by default) -->
         <div class="issue-bulk-bar" id="issueBulkBar" style="display:none;">
           <span id="bulkCount">0개 선택</span>
           <button class="btn btn-secondary" style="font-size:12px;padding:4px 8px;" onclick="bulkUpdateIssueStatus()">상태 변경</button>
@@ -7254,46 +7272,148 @@
 
     function switchIssueView(mode) {
       _issueViewMode = mode;
-      var buttons = document.querySelectorAll('.issue-view-btn');
-      buttons.forEach(function(btn) {
+      // 뷰 버튼 active 상태 (st-view-btn + issue-view-btn 모두 처리)
+      document.querySelectorAll('.issue-view-btn, .st-view-btn').forEach(function(btn) {
         btn.classList.remove('active');
       });
-      event.target.classList.add('active');
+      if (mode === 'my-issues') {
+        var mb = document.getElementById('myIssueBtn'); if (mb) mb.classList.add('active');
+      } else if (mode === 'all') {
+        var ab = document.getElementById('stViewAll'); if (ab) ab.classList.add('active');
+      } else if (mode === 'bookmarks') {
+        var bb = document.getElementById('stViewBookmarks'); if (bb) bb.classList.add('active');
+      }
+      // 그룹뷰 패널 라벨 업데이트
+      var labelMap = { 'by-product':'프로덕트별', 'by-project':'프로젝트별', 'by-assignee':'담당자별' };
+      if (labelMap[mode]) _updateStGroupLabel(mode, labelMap[mode]);
+      else if (mode === 'all' || mode === 'my-issues' || mode === 'bookmarks') {
+        // 그룹뷰 패널 초기화는 안 함 (별도 groupBy 상태 유지)
+      }
       renderIssues();
     }
 
     function setIssueDisplay(mode) {
       _issueDisplay = mode;
-      document.getElementById('issueDisplayCard').style.background = mode === 'card' ? '#6366f1' : '#fff';
-      document.getElementById('issueDisplayCard').style.color = mode === 'card' ? '#fff' : '#374151';
-      document.getElementById('issueDisplayTable').style.background = mode === 'table' ? '#6366f1' : '#fff';
-      document.getElementById('issueDisplayTable').style.color = mode === 'table' ? '#fff' : '#374151';
-      var compactBtn = document.getElementById('issueDisplayCompact');
-      if (compactBtn) {
-        compactBtn.style.background = mode === 'compact' ? '#6366f1' : '#fff';
-        compactBtn.style.color = mode === 'compact' ? '#fff' : '#374151';
-      }
+      var ids = { card: 'issueDisplayCard', table: 'issueDisplayTable', compact: 'issueDisplayCompact' };
+      Object.keys(ids).forEach(function(m) {
+        var el = document.getElementById(ids[m]); if (!el) return;
+        var isActive = m === mode;
+        // st-display-btn 스타일
+        el.classList.toggle('active', isActive);
+        // 인라인 스타일 (구 버전 호환)
+        el.style.background = isActive ? '#6366f1' : '';
+        el.style.color = isActive ? '#fff' : '';
+      });
       renderIssues();
     }
 
     // CYCLE 8: 밀도 토글 (빠른 필터 칩 연동)
     function setIssueDensity(mode) {
+      var dc = document.getElementById('density-compact');
+      var dco = document.getElementById('density-comfortable');
       if (mode === 'compact') {
         setIssueDisplay('compact');
-        var dc = document.getElementById('density-compact');
-        var dco = document.getElementById('density-comfortable');
-        if (dc) dc.className = 'qf-chip active';
-        if (dco) dco.className = 'qf-chip';
+        if (dc) { dc.style.background = '#6366f1'; dc.style.color = '#fff'; dc.style.borderColor = '#6366f1'; }
+        if (dco) { dco.style.background = '#fff'; dco.style.color = '#6b7280'; dco.style.borderColor = '#e5e7eb'; }
       } else {
         setIssueDisplay('card');
-        var dc2 = document.getElementById('density-compact');
-        var dco2 = document.getElementById('density-comfortable');
-        if (dc2) dc2.className = 'qf-chip';
-        if (dco2) dco2.className = 'qf-chip active';
+        if (dco) { dco.style.background = '#6366f1'; dco.style.color = '#fff'; dco.style.borderColor = '#6366f1'; }
+        if (dc) { dc.style.background = '#fff'; dc.style.color = '#6b7280'; dc.style.borderColor = '#e5e7eb'; }
       }
     }
 
 
+
+
+    /* ===== SMART TOOLBAR JS (v1.13) ===== */
+
+    // 필터 팝오버
+    function toggleFilterPopover() {
+      var panel = document.getElementById('filterPopoverPanel');
+      var btn = document.getElementById('filterPopoverBtn');
+      if (!panel) return;
+      var isOpen = panel.classList.contains('open');
+      if (isOpen) { closeFilterPopover(); return; }
+      panel.classList.add('open');
+      if (btn) btn.classList.add('has-filter');
+      setTimeout(function() {
+        document.addEventListener('mousedown', _fpOutsideClick);
+      }, 0);
+    }
+    function closeFilterPopover() {
+      var panel = document.getElementById('filterPopoverPanel');
+      var btn = document.getElementById('filterPopoverBtn');
+      if (panel) panel.classList.remove('open');
+      _updateFilterBadge();
+      document.removeEventListener('mousedown', _fpOutsideClick);
+    }
+    function _fpOutsideClick(e) {
+      var wrap = document.getElementById('filterPopoverWrap');
+      if (wrap && !wrap.contains(e.target)) closeFilterPopover();
+    }
+    function _updateFilterBadge() {
+      var fields = ['issueStatusFilter','issueProductFilter','issueSeverityFilter','issueDefectTypeFilter','issuePriorityFilter','issueBundleFilter'];
+      var count = fields.filter(function(id) {
+        var el = document.getElementById(id);
+        return el && el.value;
+      }).length;
+      var badge = document.getElementById('filterActiveBadge');
+      var btn = document.getElementById('filterPopoverBtn');
+      if (badge) { badge.textContent = count; badge.style.display = count > 0 ? 'inline-flex' : 'none'; }
+      if (btn) { btn.classList.toggle('has-filter', count > 0); }
+    }
+    function _toggleAdvFilters(btn) {
+      var panel = document.getElementById('fpAdvFilters');
+      if (!panel) return;
+      var isOpen = panel.classList.contains('open');
+      panel.classList.toggle('open', !isOpen);
+      btn.textContent = isOpen ? '▾ 고급 필터' : '▴ 고급 필터 닫기';
+    }
+
+    // 그룹&뷰 패널
+    function toggleStGroupPanel() {
+      var panel = document.getElementById('stGroupPanel');
+      var btn = document.getElementById('stGroupBtn');
+      if (!panel) return;
+      var isOpen = panel.classList.contains('open');
+      if (isOpen) { closeStGroupPanel(); return; }
+      panel.classList.add('open');
+      if (btn) btn.classList.add('active');
+      setTimeout(function() {
+        document.addEventListener('mousedown', _sgOutsideClick);
+      }, 0);
+    }
+    function closeStGroupPanel() {
+      var panel = document.getElementById('stGroupPanel');
+      var btn = document.getElementById('stGroupBtn');
+      if (panel) panel.classList.remove('open');
+      document.removeEventListener('mousedown', _sgOutsideClick);
+    }
+    function _sgOutsideClick(e) {
+      var wrap = document.getElementById('stGroupWrap');
+      if (wrap && !wrap.contains(e.target)) closeStGroupPanel();
+    }
+    function _updateStGroupLabel(mode, label) {
+      var el = document.getElementById('stGroupLabel');
+      var btn = document.getElementById('stGroupBtn');
+      if (el) el.textContent = label || mode || '없음';
+      if (btn) btn.classList.toggle('active', mode && mode !== 'none');
+      // 패널 아이템 active 업데이트
+      document.querySelectorAll('.st-group-item').forEach(function(item) {
+        item.classList.toggle('active', item.dataset.mode === mode);
+      });
+    }
+
+    // 뷰 버튼 active 상태 관리
+    function _updateStViewBtns(view) {
+      var map = { 'all': 'stViewAll', 'my-issues': 'myIssueBtn', 'bookmarks': 'stViewBookmarks' };
+      ['stViewAll','myIssueBtn','stViewBookmarks'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.classList.remove('active');
+      });
+      var target = map[view];
+      if (target) { var el = document.getElementById(target); if (el) el.classList.add('active'); }
+    }
 
     function toggleGroupViewDropdown() {
       var dd = document.getElementById('groupViewDropdown');
@@ -7338,6 +7458,7 @@
       if (document.getElementById('issueSearchInput')) document.getElementById('issueSearchInput').value = '';
       if (document.getElementById('issueBundleFilter')) document.getElementById('issueBundleFilter').value = '';
       renderIssues();
+      _updateFilterBadge();
     }
 
     var _searchDebounceTimer;
@@ -7499,9 +7620,11 @@
     var _groupByMode = 'none'; // 'none' | 'severity' | 'status'
     function toggleGroupBy(mode) {
       _groupByMode = (_groupByMode === mode) ? 'none' : mode;
-      document.querySelectorAll('.groupby-btn').forEach(function(b) {
+      document.querySelectorAll('.groupby-btn, .st-group-item[data-mode]').forEach(function(b) {
         b.classList.toggle('active', b.dataset.mode === _groupByMode);
       });
+      var labelMap = { 'none':'없음', 'severity':'심각도별', 'status':'상태별' };
+      _updateStGroupLabel(_groupByMode, labelMap[_groupByMode] || _groupByMode);
       renderIssues();
     }
     function _renderIssuesGrouped(container, issues) {

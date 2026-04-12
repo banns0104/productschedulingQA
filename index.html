@@ -3321,6 +3321,225 @@
       color: #6b7280;
     }
     .notif-filter-chip.active { background: #6366f1; color: #fff; border-color: #6366f1; }
+    /* ===== CYCLE 13: 스마트 툴바 CSS (v1.13) ===== */
+    .smart-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 12px;
+      background: #fafbff;
+      border-bottom: 1px solid #e5e7eb;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      min-height: 44px;
+    }
+    .smart-toolbar::-webkit-scrollbar { height: 3px; }
+    .smart-toolbar::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 2px; }
+    .st-divider {
+      width: 1px;
+      height: 20px;
+      background: #e5e7eb;
+      flex-shrink: 0;
+      margin: 0 2px;
+    }
+    .st-search {
+      width: 150px;
+      min-width: 90px;
+      padding: 5px 10px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 12px;
+      background: #fff;
+      color: #374151;
+      flex-shrink: 1;
+    }
+    .st-search:focus { outline: none; border-color: #6366f1; }
+    /* 필터 팝오버 */
+    .filter-popover-wrap { position: relative; flex-shrink: 0; }
+    .filter-popover-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 10px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      background: #fff;
+      color: #6b7280;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .filter-popover-btn:hover { border-color: #9ca3af; color: #374151; }
+    .filter-popover-btn.has-filter { border-color: #6366f1; color: #6366f1; background: #f0f0ff; }
+    .fp-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #6366f1;
+      color: #fff;
+      border-radius: 8px;
+      padding: 0 5px;
+      font-size: 10px;
+      min-width: 16px;
+    }
+    .filter-popover-panel {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      z-index: 1000;
+      background: #fff;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 14px;
+      min-width: 240px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+    .filter-popover-panel.open { display: block; }
+    .fp-row { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .fp-label { font-size: 11px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.4px; }
+    .fp-select {
+      padding: 6px 8px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 7px;
+      font-size: 12px;
+      color: #374151;
+      background: #fff;
+      cursor: pointer;
+    }
+    .fp-select:focus { outline: none; border-color: #6366f1; }
+    .fp-adv-section { margin-top: 4px; }
+    .fp-adv-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 0;
+      border: none;
+      background: none;
+      font-size: 12px;
+      color: #6366f1;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .fp-adv-filters { display: none; margin-top: 8px; }
+    .fp-adv-filters.open { display: block; }
+    .fp-footer { margin-top: 8px; padding-top: 8px; border-top: 1px solid #f3f4f6; }
+    .fp-reset-btn {
+      padding: 5px 10px;
+      border: 1.5px solid #fecaca;
+      border-radius: 7px;
+      background: #fff;
+      color: #dc2626;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .fp-reset-btn:hover { background: #fef2f2; }
+    /* 뷰 모드 */
+    .st-view-group {
+      display: inline-flex;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .st-view-btn {
+      padding: 4px 10px;
+      border: none;
+      background: #fff;
+      font-size: 12px;
+      color: #6b7280;
+      cursor: pointer;
+      font-weight: 600;
+      white-space: nowrap;
+      border-right: 1px solid #e5e7eb;
+    }
+    .st-view-btn:last-child { border-right: none; }
+    .st-view-btn:hover { background: #f9fafb; color: #374151; }
+    .st-view-btn.active { background: #6366f1; color: #fff; }
+    /* 그룹&뷰 드롭다운 */
+    .st-group-wrap { position: relative; flex-shrink: 0; }
+    .st-group-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 10px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      background: #fff;
+      color: #374151;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .st-group-btn:hover { border-color: #9ca3af; }
+    .st-group-btn.active { border-color: #6366f1; color: #6366f1; }
+    .st-group-panel {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      z-index: 1000;
+      background: #fff;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 6px;
+      min-width: 180px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+    }
+    .st-group-panel.open { display: block; }
+    .st-group-item {
+      display: block;
+      width: 100%;
+      padding: 7px 10px;
+      border: none;
+      background: none;
+      font-size: 12px;
+      color: #374151;
+      text-align: left;
+      cursor: pointer;
+      border-radius: 7px;
+      font-weight: 500;
+    }
+    .st-group-item:hover { background: #f3f4f6; }
+    .st-group-item.active { background: #f0f0ff; color: #6366f1; font-weight: 700; }
+    /* 디스플레이 모드 */
+    .st-display-group {
+      display: inline-flex;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .st-display-btn {
+      padding: 4px 9px;
+      border: none;
+      background: #fff;
+      font-size: 11px;
+      color: #6b7280;
+      cursor: pointer;
+      font-weight: 600;
+      white-space: nowrap;
+      border-right: 1px solid #e5e7eb;
+    }
+    .st-display-btn:last-child { border-right: none; }
+    .st-display-btn:hover { background: #f9fafb; color: #374151; }
+    .st-display-btn.active { background: #f3f4f6; color: #374151; }
+    .st-csv-btn {
+      padding: 4px 9px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 7px;
+      background: #fff;
+      font-size: 11px;
+      color: #6b7280;
+      cursor: pointer;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .st-csv-btn:hover { border-color: #9ca3af; color: #374151; }
   </style>
   <!-- Firebase SDK (정적 로딩) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -3869,6 +4088,26 @@
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
             <h2 style="margin:0;font-size:18px;font-weight:800;color:#1f2937;">📋 릴리즈 노트</h2>
             <span style="font-size:11px;color:#9ca3af;">QA Dashboard 개선 이력</span>
+          </div>
+
+          <div class="rn-version-block" style="border-color:#6366f1;">
+            <div class="rn-version-header" style="background:linear-gradient(135deg,#6366f1 0%,#4f46e5 100%);color:white;border-radius:8px 8px 0 0;">
+              <span class="rn-version-tag" style="background:rgba(255,255,255,0.2);color:white;">v1.13</span>
+              <span class="rn-version-title" style="color:white;">KPI 대시보드 · P0 자동알림 · TC연계 · @멘션 · 툴바 CSS 수정</span>
+              <span class="rn-version-date" style="color:rgba(255,255,255,0.7);">2026-04-12</span>
+            </div>
+            <div class="rn-body">
+              <div class="rn-section-title">신규</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>개요 탭 KPI 메트릭 — MTTR, 이번주 해결률, TC커버리지, 7일 미처리 추이 바차트</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>P0/Block 자동 알림 — 48h 이상 미해결 시 자동 경보 알림 발송 (24h 중복 방지)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>개요 탭 P0 장기 미해결 목록 — 경과 시간 + 이슈 목록 빨간 카드로 표시</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>이슈 TC ID 연계 — 이슈 등록/상세에서 테스트케이스 ID + 회귀 여부 입력 가능</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>@멘션 알림 — 이슈 댓글에서 @팀원이름 입력 시 해당 팀원 자동 알림 발송</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>알림 타입 구분 — manual / p0-auto / mention 으로 알림 출처 분류</div>
+              <div class="rn-section-title">수정</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-fix">FIX</span>이슈탭 스마트 툴바 CSS 전체 누락 수정 — .smart-toolbar, .filter-popover-panel 등 17개 클래스</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-fix">FIX</span>매뉴얼 NaN 오류 수정 — 릴리즈노트 항목 뒤 이중 + 연산자(+ +) 제거</div>
+            </div>
           </div>
 
           <div class="rn-version-block">
@@ -4722,7 +4961,7 @@
         '<li><a href="#deploy">배포 탭 (배포 번들 관리)</a></li>' +
         '<li><a href="#notifications">알림 시스템</a></li>' +
         '<li><a href="#history">이력 탭 (변경 이력 / 접속 이력)</a></li>' +
-        '<li><a href="#releasenotes">릴리즈노트 탭 (QA 개선 이력 / 배포 이력)</a></li>' + +
+        '<li><a href="#releasenotes">릴리즈노트 탭 (QA 개선 이력 / 배포 이력)</a></li>' +
         '<li><a href="#detail">프로젝트 상세 패널</a></li>' +
         '<li><a href="#chat">채팅 시스템</a></li>' +
         '<li><a href="#admin">관리자 모드</a></li>' +
@@ -4787,7 +5026,16 @@
       /* 6 개요 */
       '<div class="s" id="overview">' +
         '<h2><span class="ic">📊</span> 6. 개요 탭</h2>' +
-        '<p>프로젝트 전체 현황을 한눈에 파악할 수 있는 요약 대시보드입니다. 상태별 분포, 티어별 분포, 서비스 종류별 분포 등 통계를 제공합니다.</p>' +
+        '<p>프로젝트와 이슈 전체 현황을 한눈에 파악할 수 있는 요약 대시보드입니다.</p>' +
+        '<h3>📈 KPI 메트릭 섹션</h3>' +
+        '<ul>' +
+          '<li><strong>MTTR</strong> (Mean Time To Resolve): 완료된 이슈의 평균 해결 소요 시간</li>' +
+          '<li><strong>이번 주 해결률</strong>: 이번 주 신규 이슈 대비 해결 비율 (%)</li>' +
+          '<li><strong>TC 커버리지</strong>: 테스트케이스 ID가 연결된 이슈 비율</li>' +
+          '<li><strong>7일 미처리 추이</strong>: 요일별 미처리 이슈 수 바차트</li>' +
+        '</ul>' +
+        '<h3>🚨 P0/Block 장기 미해결</h3><p>48시간 이상 미해결된 Block/P0 이슈가 있으면 KPI 섹션 상단에 빨간 배지로 표시되고 목록이 펼쳐집니다.</p>' +
+        '<h3>기타 섹션</h3><p>상태별 현황, 진행 중 작업, 마감 임박 목록, 팀원별 업무 현황, 티어 분포, 리스크 프로젝트, GMV 기여 안건 등이 카드 형태로 표시됩니다.</p>' +
       '</div>' +
 
       /* 이슈 탭 */
@@ -6802,6 +7050,7 @@
             console.log('[Issues] loaded from Firebase:', _issues.length, 'issues');
             _saveIssuesToLocal();
             if (state.currentTab === 'issues') renderIssues();
+            setTimeout(_checkP0AutoAlerts, 500);
           }
         });
       }
@@ -7193,6 +7442,8 @@
         verifier: document.getElementById('createIssue_verifier').value || '',
         references: document.getElementById('createIssue_references').value || '',
         relatedIssues: document.getElementById('createIssue_relatedIssues').value || '',
+        tcId: (document.getElementById('createIssue_tcId') ? document.getElementById('createIssue_tcId').value : '') || '',
+        isRegression: (document.getElementById('createIssue_isRegression') ? document.getElementById('createIssue_isRegression').value : '') || '',
         deadline: document.getElementById('createIssue_deadline').value || '',
         precondition: document.getElementById('createIssue_precondition').value || '',
         testSteps: document.getElementById('createIssue_testSteps').value || '',
@@ -7241,6 +7492,7 @@
       saveIssueData(issueData);
       closeCreateIssueModal();
       _showToast('이슈가 생성되었습니다', 2000, 'success');
+      setTimeout(_checkP0AutoAlerts, 200);
     }
 
     function saveIssueData(issueData) {
@@ -9405,6 +9657,49 @@ function renderIssues() {
       panel.appendChild(metaGrid4d);
 
       // RelatedIssues | Resolution
+      // TC ID + 회귀 여부 행
+      var metaGridTc = document.createElement('div');
+      metaGridTc.className = 'issue-form-row';
+
+      var tcGroup = document.createElement('div');
+      tcGroup.className = 'issue-form-group';
+      var tcLabel = document.createElement('label');
+      tcLabel.className = 'issue-form-label';
+      tcLabel.textContent = '🧪 TC ID';
+      tcGroup.appendChild(tcLabel);
+      var tcInput = document.createElement('input');
+      tcInput.type = 'text';
+      tcInput.id = 'issueDetail_tcId';
+      tcInput.className = 'issue-form-input';
+      tcInput.value = iss.tcId || '';
+      tcInput.readOnly = !canEdit;
+      tcInput.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      tcInput.placeholder = 'TC-001, TC-002';
+      tcGroup.appendChild(tcInput);
+      metaGridTc.appendChild(tcGroup);
+
+      var regressionGroup = document.createElement('div');
+      regressionGroup.className = 'issue-form-group';
+      var regressionLabel = document.createElement('label');
+      regressionLabel.className = 'issue-form-label';
+      regressionLabel.textContent = '회귀 여부';
+      regressionGroup.appendChild(regressionLabel);
+      var regressionSelect = document.createElement('select');
+      regressionSelect.id = 'issueDetail_isRegression';
+      regressionSelect.className = 'issue-form-select';
+      regressionSelect.disabled = !canEdit;
+      regressionSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
+      [{ v: '', l: '해당없음' }, { v: 'regression', l: '🔁 회귀' }, { v: 'new', l: '🆕 신규 발생' }].forEach(function(o) {
+        var opt = document.createElement('option');
+        opt.value = o.v; opt.textContent = o.l;
+        if (iss.isRegression === o.v) opt.selected = true;
+        regressionSelect.appendChild(opt);
+      });
+      regressionGroup.appendChild(regressionSelect);
+      metaGridTc.appendChild(regressionGroup);
+
+      panel.appendChild(metaGridTc);
+
       var metaGrid4e = document.createElement('div');
       metaGrid4e.className = 'issue-form-row';
 
@@ -9840,6 +10135,8 @@ function renderIssues() {
       iss.verifier = document.getElementById('issueDetail_verifier').value;
       iss.references = document.getElementById('issueDetail_references').value;
       iss.relatedIssues = document.getElementById('issueDetail_relatedIssues').value;
+      if (document.getElementById('issueDetail_tcId')) iss.tcId = document.getElementById('issueDetail_tcId').value;
+      if (document.getElementById('issueDetail_isRegression')) iss.isRegression = document.getElementById('issueDetail_isRegression').value;
       iss.deadline = document.getElementById('issueDetail_deadline').value;
       iss.precondition = document.getElementById('issueDetail_precondition').value;
       iss.testSteps = document.getElementById('issueDetail_testSteps').value;
@@ -9971,12 +10268,26 @@ function renderIssues() {
         attachments: []
       });
 
+      // @멘션 감지: @이름 패턴 파싱 → 해당 팀원에게 알림 생성
+      var mentionPattern = /@([\uAC00-\uD7A3\w]+)/g;
+      var match;
+      var mentioned = [];
+      while ((match = mentionPattern.exec(text)) !== null) {
+        var mentionedName = match[1];
+        var mentionedMember = TEAM.find(function(m) { return m.name === mentionedName || m.id === mentionedName; });
+        if (mentionedMember && mentioned.indexOf(mentionedMember.id) === -1) {
+          mentioned.push(mentionedMember.id);
+          var commenter = state.currentUser ? (state.currentUser.displayName || '누군가') : '누군가';
+          _addNotification('💬 @' + mentionedName + ' 님이 이슈 [' + issueId + ']에서 멘션됨 ← ' + commenter + ': "' + text.substring(0, 40) + (text.length > 40 ? '...' : '') + '"', 'info', issueId, 'mention');
+        }
+      }
+
       document.getElementById('newCommentText').value = '';
       var charCountEl = document.getElementById('commentCharCount');
       if (charCountEl) charCountEl.textContent = '0 / 500';
       saveIssueData(iss);
       openIssueDetail(issueId);
-      _showToast('댓글이 추가되었습니다');
+      _showToast(mentioned.length > 0 ? '댓글 등록 + @멘션 알림 ' + mentioned.length + '건 발송' : '댓글이 추가되었습니다');
     }
 
     function handleFileAttachment(files) {
@@ -14127,6 +14438,33 @@ function renderDeployBundles() {
       _showToast('변경 이력이 초기화되었습니다');
     }
 
+
+    // ===== P0/Block 자동 알림 체크 (48h+ 미해결) =====
+    function _checkP0AutoAlerts() {
+      try {
+        var now = new Date();
+        var THRESHOLD_MS = 48 * 3600000;
+        var alerted = [];
+        _issues.forEach(function(issue) {
+          var isP0 = issue.severity === 'Block' || issue.priority === '1';
+          var notDone = issue.status !== '완료';
+          if (!isP0 || !notDone || !issue.created) return;
+          var ageMs = now.getTime() - new Date(issue.created).getTime();
+          if (ageMs < THRESHOLD_MS) return;
+          var alreadyNotified = _notifications.some(function(n) {
+            return n.issueId === issue.id && n.notifType === 'p0-auto' && 
+                   (now.getTime() - new Date(n.time || 0).getTime()) < 24 * 3600000;
+          });
+          if (alreadyNotified) return;
+          var hrs = Math.floor(ageMs / 3600000);
+          var daysLabel = hrs >= 24 ? Math.floor(hrs/24) + '일' : hrs + 'h';
+          _addNotification('🚨 P0 알림: ' + issue.severity + ' 미해결 ' + daysLabel + ' — ' + issue.title, 'error', issue.id, 'p0-auto');
+          alerted.push(issue.id);
+        });
+        if (alerted.length > 0) console.log('[P0AutoAlert] ' + alerted.length + '건:', alerted.join(', '));
+      } catch(e) { console.warn('[P0AutoAlert] error:', e); }
+    }
+
     function renderOverview() {
       try {
       var all = state.projects;
@@ -14433,6 +14771,121 @@ function renderDeployBundles() {
       html += '</div>';
       html += '</div>';
 
+      // === KPI 분석 섹션 (MTTR, 해결률, P0 알림, 미처리 추이) ===
+      var now = new Date();
+      var weekAgoMs = now.getTime() - 7 * 86400000;
+
+      // MTTR 계산 (완료 이슈의 평균 해결시간)
+      var resolvedIssues = _issues.filter(function(i) { return i.status === '완료' && i.created && i.updated; });
+      var mttrMs = 0;
+      if (resolvedIssues.length > 0) {
+        mttrMs = resolvedIssues.reduce(function(sum, i) {
+          return sum + (new Date(i.updated).getTime() - new Date(i.created).getTime());
+        }, 0) / resolvedIssues.length;
+      }
+      var mttrHours = Math.round(mttrMs / 3600000);
+      var mttrLabel = mttrHours >= 24 ? Math.round(mttrHours/24) + '일' : mttrHours + '시간';
+
+      // 이번 주 해결률
+      var thisWeekResolved = _issues.filter(function(i) {
+        return i.status === '완료' && i.updated && new Date(i.updated).getTime() >= weekAgoMs;
+      }).length;
+      var thisWeekCreated = _issues.filter(function(i) {
+        return i.created && new Date(i.created).getTime() >= weekAgoMs;
+      }).length;
+      var resolveRate = thisWeekCreated > 0 ? Math.round(thisWeekResolved / thisWeekCreated * 100) : 0;
+
+      // P0/Block 미해결 (> 48h)
+      var p0Unresolved = _issues.filter(function(i) {
+        var isP0 = i.severity === 'Block' || i.priority === '1';
+        var notDone = i.status !== '완료';
+        var over48h = i.created && (now.getTime() - new Date(i.created).getTime()) > 48 * 3600000;
+        return isP0 && notDone && over48h;
+      });
+
+      // 미처리 추이 (최근 7일 - 각 날짜별 오픈 이슈)
+      var trendData = [];
+      for (var d = 6; d >= 0; d--) {
+        var dayStart = new Date(now.getTime() - d * 86400000);
+        dayStart.setHours(0,0,0,0);
+        var dayEnd = new Date(dayStart.getTime() + 86400000);
+        var openCount = _issues.filter(function(i) {
+          var created = i.created ? new Date(i.created) : null;
+          if (!created) return false;
+          return created < dayEnd && i.status !== '완료';
+        }).length;
+        trendData.push({ day: ['일','월','화','수','목','금','토'][dayStart.getDay()], count: openCount });
+      }
+      var maxTrend = Math.max.apply(null, trendData.map(function(d) { return d.count; })) || 1;
+
+      // TC 커버리지
+      var issuesWithTc = _issues.filter(function(i) { return i.tcId && i.tcId.trim(); }).length;
+      var tcCoverage = _issues.length > 0 ? Math.round(issuesWithTc / _issues.length * 100) : 0;
+
+      html += '<div style="margin-top:14px;padding-top:14px;border-top:1px solid #e5e7eb;">';
+      html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">' +
+        '<div style="font-size:13px;font-weight:700;color:#1f2937;">📈 KPI 메트릭</div>' +
+        (p0Unresolved.length > 0 ? '<span style="background:#fef2f2;color:#dc2626;border:1px solid #fecaca;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:700;">⚠️ P0/Block ' + p0Unresolved.length + '건 48h+ 미해결</span>' : '') +
+        '</div>';
+
+      html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr 2fr;gap:10px;">';
+
+      // MTTR
+      html += '<div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;">' +
+        '<div style="font-size:10px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;">MTTR</div>' +
+        '<div style="font-size:22px;font-weight:800;color:#2563eb;margin:4px 0;">' + (resolvedIssues.length > 0 ? mttrLabel : '-') + '</div>' +
+        '<div style="font-size:10px;color:#9ca3af;">평균 해결 시간 (' + resolvedIssues.length + '건 기준)</div>' +
+        '</div>';
+
+      // 이번 주 해결률
+      html += '<div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;">' +
+        '<div style="font-size:10px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;">이번 주 해결률</div>' +
+        '<div style="font-size:22px;font-weight:800;color:' + (resolveRate >= 80 ? '#10b981' : resolveRate >= 50 ? '#f59e0b' : '#dc2626') + ';margin:4px 0;">' + resolveRate + '%</div>' +
+        '<div style="font-size:10px;color:#9ca3af;">' + thisWeekResolved + '건 해결 / ' + thisWeekCreated + '건 신규</div>' +
+        '</div>';
+
+      // TC 커버리지
+      html += '<div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;">' +
+        '<div style="font-size:10px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;">TC 커버리지</div>' +
+        '<div style="font-size:22px;font-weight:800;color:#7c3aed;margin:4px 0;">' + tcCoverage + '%</div>' +
+        '<div style="font-size:10px;color:#9ca3af;">' + issuesWithTc + '/' + _issues.length + '건 TC 연결됨</div>' +
+        '</div>';
+
+      // 미처리 추이 바차트
+      html += '<div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;">' +
+        '<div style="font-size:10px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">7일 미처리 추이</div>' +
+        '<div style="display:flex;align-items:flex-end;gap:4px;height:40px;">' +
+        trendData.map(function(d) {
+          var pct = maxTrend > 0 ? Math.max(d.count / maxTrend * 100, 5) : 5;
+          return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;">' +
+            '<div style="font-size:8px;color:#9ca3af;">' + d.count + '</div>' +
+            '<div style="width:100%;background:#6366f1;border-radius:2px 2px 0 0;height:' + pct + '%;min-height:3px;"></div>' +
+            '<div style="font-size:8px;color:#9ca3af;">' + d.day + '</div>' +
+            '</div>';
+        }).join('') +
+        '</div></div>';
+
+      html += '</div>';
+
+      // P0 미해결 목록
+      if (p0Unresolved.length > 0) {
+        html += '<div style="margin-top:10px;background:#fef2f2;border:1.5px solid #fecaca;border-radius:8px;padding:12px;">';
+        html += '<div style="font-size:12px;font-weight:700;color:#dc2626;margin-bottom:8px;">🚨 P0/Block 장기 미해결 (48h+)</div>';
+        html += '<div style="display:flex;flex-direction:column;gap:6px;">';
+        p0Unresolved.slice(0, 5).forEach(function(i) {
+          var hrsOld = Math.floor((now.getTime() - new Date(i.created).getTime()) / 3600000);
+          html += '<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:white;border-radius:6px;border:1px solid #fecaca;">' +
+            '<span style="font-size:10px;font-weight:700;color:#dc2626;">' + i.id + '</span>' +
+            '<span style="flex:1;font-size:12px;color:#374151;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + i.title + '</span>' +
+            '<span style="font-size:10px;background:#dc2626;color:white;border-radius:4px;padding:1px 6px;font-weight:700;">' + i.severity + '</span>' +
+            '<span style="font-size:10px;color:#dc2626;font-weight:600;">' + (hrsOld >= 24 ? Math.floor(hrsOld/24) + '일' : hrsOld + 'h') + ' 경과</span>' +
+            '</div>';
+        });
+        html += '</div></div>';
+      }
+
+      html += '</div>';
+
       var overviewEl = document.getElementById('overviewContent');
       if (overviewEl) overviewEl.innerHTML = html;
       } catch(err) {
@@ -14733,12 +15186,13 @@ function renderDeployBundles() {
     var _notifications = JSON.parse(localStorage.getItem('af_notifications') || '[]');
     var uid = typeof state !== 'undefined' && state.currentUser ? state.currentUser.uid : '';
 
-    function _addNotification(msg, type, issueId) {
+    function _addNotification(msg, type, issueId, notifType) {
       var notif = {
         id: Date.now(),
         msg: msg,
         type: type || 'info',
         issueId: issueId || null,
+        notifType: notifType || 'manual',
         time: new Date().toISOString(),
         read: false
       };

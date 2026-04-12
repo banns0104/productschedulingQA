@@ -3647,11 +3647,7 @@
           <button class="qf-chip" id="qfc-p01" onclick="quickFilterIssues('p01',this)">⚡ P0/P1 <span class="qf-chip-count" id="qfc-cnt-p01">0</span></button>
           <button class="qf-chip" id="qfc-today" onclick="quickFilterIssues('today',this)">📋 오늘 <span class="qf-chip-count" id="qfc-cnt-today">0</span></button>
           <button class="qf-chip" id="qfc-overdue" onclick="quickFilterIssues('overdue',this)">⏰ 기한초과 <span class="qf-chip-count" id="qfc-cnt-overdue">0</span></button>
-          <div style="margin-left:auto;display:flex;gap:6px;align-items:center;">
-            <button class="qf-chip" onclick="setIssueDensity('comfortable')" id="density-comfortable" title="넓게 보기" style="font-size:10px;padding:3px 7px;">⊟ 넓게</button>
-            <button class="qf-chip" onclick="setIssueDensity('compact')" id="density-compact" title="좁게 보기" style="font-size:10px;padding:3px 7px;">⊞ 좁게</button>
-            <button class="btn-export-csv" onclick="exportIssuesToCSV()" title="이슈 목록 CSV 다운로드">⬇ CSV</button>
-          </div>
+
         </div>
         <!-- Filter Toolbar Row 1 - Essential Filters -->
         <div class="issue-toolbar">
@@ -3713,25 +3709,44 @@
           <button onclick="resetIssueFilters()" style="padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:11px;cursor:pointer;background:#fff;color:#6b7280;" title="필터 초기화">✕ 초기화</button>
           <div style="flex:1;"></div>
         </div>
-        <!-- View Mode Buttons Row 2 -->
-        <div style="display:flex;gap:8px;padding:8px 16px;border-bottom:1px solid #e5e7eb;align-items:center;">
+        <!-- View Mode Row - redesigned for clarity -->
+        <div style="display:flex;gap:6px;padding:7px 16px;border-bottom:1px solid #e5e7eb;align-items:center;background:#fff;flex-wrap:wrap;">
+          <!-- 내 이슈 (특별 강조) -->
           <button class="issue-view-btn" id="myIssueBtn" onclick="switchIssueView('my-issues')" style="background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;font-weight:700;">👤 내 이슈</button>
-          <div style="width:1px;height:20px;background:#e5e7eb;margin:0 4px;"></div>
+          <div style="width:1px;height:18px;background:#e5e7eb;margin:0 2px;"></div>
+          <!-- 뷰 모드 -->
           <button class="issue-view-btn active" onclick="switchIssueView('all')">전체</button>
           <button class="issue-view-btn" onclick="switchIssueView('bookmarks')">⭐ 즐겨찾기</button>
-          <button class="issue-view-btn" onclick="switchIssueView('by-project')">프로젝트별</button>
-          <button class="issue-view-btn" onclick="switchIssueView('by-product')">프로덕트별</button>
-          <button class="issue-view-btn" onclick="switchIssueView('by-assignee')">담당자별</button>
+          <!-- 그룹뷰 드롭다운 -->
+          <div style="position:relative;display:inline-block;">
+            <button class="issue-view-btn" id="issueGroupViewBtn" onclick="toggleGroupViewDropdown()" title="그룹 기준 선택" style="padding-right:14px;">그룹뷰 ▾</button>
+            <div id="groupViewDropdown" style="display:none;position:absolute;top:calc(100% + 4px);left:0;background:#fff;border:1px solid #e5e7eb;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.1);z-index:200;min-width:120px;padding:4px 0;">
+              <button onclick="switchIssueView('by-project');toggleGroupViewDropdown()" style="display:block;width:100%;text-align:left;padding:7px 14px;font-size:12px;border:none;background:none;cursor:pointer;color:#374151;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='none'">📁 프로젝트별</button>
+              <button onclick="switchIssueView('by-product');toggleGroupViewDropdown()" style="display:block;width:100%;text-align:left;padding:7px 14px;font-size:12px;border:none;background:none;cursor:pointer;color:#374151;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='none'">📦 프로덕트별</button>
+              <button onclick="switchIssueView('by-assignee');toggleGroupViewDropdown()" style="display:block;width:100%;text-align:left;padding:7px 14px;font-size:12px;border:none;background:none;cursor:pointer;color:#374151;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='none'">👤 담당자별</button>
+            </div>
+          </div>
           <div style="flex:1;"></div>
-          <button id="issueGroupBtn" onclick="toggleIssueGrouping()" title="상태별 그룹화"
-            style="padding:5px 10px;border:1px solid #d1d5db;border-radius:6px;font-size:11px;color:#374151;background:white;cursor:pointer;margin-right:8px;">
-            ☰ 그룹화
-          </button>
-          <div style="width:1px;height:20px;background:#e5e7eb;margin:0 4px;"></div>
+          <!-- 그룹화 칩 (인라인) -->
+          <div style="display:flex;align-items:center;gap:4px;border:1px solid #e5e7eb;border-radius:6px;padding:3px 6px;background:#f9fafb;">
+            <span style="font-size:10px;color:#9ca3af;font-weight:600;margin-right:2px;">그룹:</span>
+            <button class="groupby-btn qf-chip" data-mode="severity" onclick="toggleGroupBy('severity')" style="font-size:10px;padding:2px 7px;">심각도</button>
+            <button class="groupby-btn qf-chip" data-mode="status" onclick="toggleGroupBy('status')" style="font-size:10px;padding:2px 7px;">상태</button>
+            <button class="groupby-btn qf-chip" data-mode="none" onclick="toggleGroupBy('none')" style="font-size:10px;padding:2px 7px;">해제</button>
+          </div>
+          <div style="width:1px;height:18px;background:#e5e7eb;margin:0 3px;"></div>
+          <!-- 밀도 -->
+          <button onclick="setIssueDensity('comfortable')" id="density-comfortable" title="넓게 보기" style="padding:3px 7px;font-size:10px;border:1px solid #d1d5db;border-radius:4px 0 0 4px;background:#fff;color:#374151;cursor:pointer;">⊟</button>
+          <button onclick="setIssueDensity('compact')" id="density-compact" title="좁게 보기" style="padding:3px 7px;font-size:10px;border:1px solid #d1d5db;border-left:none;border-radius:0 4px 4px 0;background:#fff;color:#374151;cursor:pointer;">⊞</button>
+          <div style="width:1px;height:18px;background:#e5e7eb;margin:0 3px;"></div>
+          <!-- 디스플레이 모드 -->
           <button id="issueDisplayCard" onclick="setIssueDisplay('card')" style="padding:4px 8px;border:1px solid #d1d5db;border-radius:4px 0 0 4px;font-size:11px;background:#6366f1;color:#fff;cursor:pointer;" title="카드 뷰">▦ 카드</button>
           <button id="issueDisplayTable" onclick="setIssueDisplay('table')" style="padding:4px 8px;border:1px solid #d1d5db;border-radius:0;font-size:11px;background:#fff;color:#374151;cursor:pointer;" title="테이블 뷰">☰ 테이블</button>
           <button id="issueDisplayCompact" onclick="setIssueDisplay('compact')" style="padding:4px 8px;border:1px solid #d1d5db;border-radius:0 4px 4px 0;font-size:11px;color:#374151;background:#fff;cursor:pointer;" title="컴팩트 뷰">≡ 컴팩트</button>
-          <span id="urgentBadge" style="display:none;background:#fef2f2;color:#dc2626;border:1px solid #fecaca;border-radius:12px;padding:2px 10px;font-size:11px;font-weight:700;margin-left:8px;"></span>
+          <div style="width:1px;height:18px;background:#e5e7eb;margin:0 3px;"></div>
+          <!-- CSV export -->
+          <button class="btn-export-csv" onclick="exportIssuesToCSV()" title="이슈 목록 CSV 다운로드" style="padding:4px 8px;font-size:11px;">⬇ CSV</button>
+          <span id="urgentBadge" style="display:none;background:#fef2f2;color:#dc2626;border:1px solid #fecaca;border-radius:12px;padding:2px 10px;font-size:11px;font-weight:700;margin-left:4px;"></span>
         </div>
         <!-- Bulk Action Bar (hidden by default) -->
         <div class="issue-bulk-bar" id="issueBulkBar" style="display:none;">
@@ -3742,13 +3757,7 @@
           <div style="flex:1;"></div>
           <button class="btn btn-secondary" style="font-size:12px;padding:4px 8px;" onclick="clearIssueSelection()">취소</button>
         </div>
-        <!-- ===== CYCLE 5: 그룹/정렬 툴바 ===== -->
-        <div style="display:flex;align-items:center;gap:6px;padding:4px 16px;background:#f9fafb;border-bottom:1px solid #f0f0f0;flex-wrap:wrap;">
-          <span style="font-size:11px;color:#9ca3af;font-weight:600;">그룹:</span>
-          <button class="groupby-btn qf-chip" data-mode="severity" onclick="toggleGroupBy('severity')" style="font-size:10px;padding:3px 8px;">심각도별</button>
-          <button class="groupby-btn qf-chip" data-mode="status" onclick="toggleGroupBy('status')" style="font-size:10px;padding:3px 8px;">상태별</button>
-          <button class="groupby-btn qf-chip" data-mode="none" onclick="toggleGroupBy('none')" style="font-size:10px;padding:3px 8px;">그룹 해제</button>
-        </div>
+
         <!-- Active Filters Bar -->
         <div id="activeFiltersBar" style="display:none;padding:6px 16px;background:#f9fafb;border-bottom:1px solid #e5e7eb;gap:6px;flex-wrap:wrap;align-items:center;"></div>
         <!-- Issue Cards Container -->
@@ -3846,6 +3855,28 @@
 
           <div class="rn-version-block">
             <div class="rn-version-header">
+              <span class="rn-version-tag">v1.12</span>
+              <span class="rn-version-title">릴리즈노트 탭 분리 · 이슈탭 UX 개선 · 매뉴얼 갱신</span>
+              <span class="rn-version-date">2026-04-12</span>
+            </div>
+            <div class="rn-body">
+              <div class="rn-section-title">신규</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>릴리즈노트 탭 독립 분리 — 이력탭 서브탭에서 최상위 탭으로 승격</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>릴리즈노트 탭에 Firebase 배포이력 동적 섹션 추가 (팀원 등록분)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>그룹뷰 ▾ 드롭다운 — 프로젝트별/프로덕트별/담당자별 뷰를 드롭다운으로 통합</div>
+              <div class="rn-section-title">개선</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-ux">UX</span>이슈탭 6행 → 4행으로 축소 — 그룹화 칩을 뷰 행에 인라인 통합</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-ux">UX</span>밀도 토글(⊟⊞) + CSV 버튼을 뷰 모드 행 우측으로 이동 (필터 영역 분리)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-improve">UP</span>매뉴얼 전체 갱신 — 빠른캡처, 배포빠른등록, 1뎁스 어코디언, 알림필터, 릴리즈탭 섹션 추가</div>
+              <div class="rn-section-title">수정</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-fix">FIX</span>quickCaptureSubmit: _saveIssues() → saveIssueData() 수정</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-fix">FIX</span>submitQuickDeploy: _saveDeployBundles() → _saveDeployBundlesToLocal() + 권한체크 추가</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-fix">FIX</span>changeDeployBundleStatus: 동일 저장 패턴 수정 + undefined 함수 호출 제거</div>
+            </div>
+          </div>
+
+          <div class="rn-version-block">
+            <div class="rn-version-header">
               <span class="rn-version-tag">v1.11</span>
               <span class="rn-version-title">릴리즈노트 탭 · 알림 개선 · Deploy 1뎁스</span>
               <span class="rn-version-date">2026-04-12</span>
@@ -3922,6 +3953,14 @@
               <div class="rn-item"><span class="rn-badge rn-badge-improve">BASE</span>이슈 등록/상세/수정/삭제, 배포 번들 관리, 팀/스케줄/프로젝트 연동</div>
             </div>
           </div>
+          <!-- Dynamic deploy log section -->
+          <div style="border-top:2px solid #e5e7eb;margin-top:24px;padding-top:20px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+              <h2 style="margin:0;font-size:18px;font-weight:800;color:#1f2937;">🚀 배포 이력</h2>
+              <span style="font-size:11px;color:#9ca3af;">Firebase 저장 배포 이력 (팀원 등록분)</span>
+            </div>
+            <div id="rnDeployLogContainer"></div>
+          </div>
         </div>
       </div>
       <!-- Tab 5: History -->
@@ -3930,7 +3969,6 @@
           <div style="display:flex;gap:8px;margin-bottom:16px;">
             <button class="btn" id="histTabChanges" onclick="switchHistoryTab('changes')" style="font-size:13px;padding:6px 16px;">변경 이력</button>
             <button class="btn btn-secondary" id="histTabAccess" onclick="switchHistoryTab('access')" style="font-size:13px;padding:6px 16px;">접속 이력</button>
-            <button class="btn btn-secondary" id="histTabDeploy" onclick="switchHistoryTab('deploy')" style="font-size:13px;padding:6px 16px;">릴리즈노트</button>
             <div style="flex:1;"></div>
             <button class="btn-secondary btn" onclick="clearHistory()" id="clearHistoryBtn" style="font-size:12px;display:none;">이력 초기화</button>
           </div>
@@ -4665,7 +4703,8 @@
         '<li><a href="#issues">이슈 탭 (이슈 등록/추적/관리)</a></li>' +
         '<li><a href="#deploy">배포 탭 (배포 번들 관리)</a></li>' +
         '<li><a href="#notifications">알림 시스템</a></li>' +
-        '<li><a href="#history">이력 탭 (변경 / 접속 / 릴리즈노트)</a></li>' +
+        '<li><a href="#history">이력 탭 (변경 이력 / 접속 이력)</a></li>' +
+        '<li><a href="#releasenotes">릴리즈노트 탭 (QA 개선 이력 / 배포 이력)</a></li>' + +
         '<li><a href="#detail">프로젝트 상세 패널</a></li>' +
         '<li><a href="#chat">채팅 시스템</a></li>' +
         '<li><a href="#admin">관리자 모드</a></li>' +
@@ -4737,7 +4776,8 @@
       '<div class="s" id="issues">' +
         '<h2><span class="ic">🐛</span> 이슈 탭 (이슈 등록/추적/관리)</h2>' +
         '<p>버그, Task 등 모든 이슈를 등록하고 상태를 추적하는 핵심 탭입니다.</p>' +
-        '<h3>이슈 등록</h3><p>"+ 새 이슈 등록" 버튼 클릭 또는 키보드 <span class="sc">N</span> 단축키로 등록 폼을 엽니다.</p>' +
+        '<h3>빠른 캡처 바 (⚡)</h3><p>이슈 탭 상단 파란/보라 입력창에 제목만 입력하고 Enter 또는 "⚡ 빠른 등록" 버튼을 누르면 즉시 등록됩니다. 심각도·프로덕트 선택 후 Enter로 1초 만에 이슈 생성. 마지막 사용 값이 자동 유지됩니다.</p>' +
+        '<h3>상세 이슈 등록</h3><p>"상세 ▸" 버튼 또는 키보드 <span class="sc">N</span> 단축키로 전체 등록 폼을 엽니다.</p>' +
         '<ul><li><strong>필수 4개</strong>: 제목, 이슈 유형(Bug/Task), 심각도, 프로덕트, 플랫폼</li><li><strong>선택 사항</strong>: "상세 설정 ▾" 클릭 시 결함 타입, 우선순위, 배포환경, 담당자, 기한 등 추가 입력 가능</li><li>첨부파일은 드래그앤드롭 또는 클립보드 붙여넣기(Ctrl+V)로 추가</li></ul>' +
         '<h3>이슈 유형 & 심각도</h3>' +
         '<table><thead><tr><th>심각도</th><th>의미</th><th>색상</th></tr></thead><tbody>' +
@@ -4753,7 +4793,9 @@
           '<li><strong>전체</strong> — 모든 이슈 표시</li>' +
           '<li><strong>내 이슈</strong> — 나에게 할당된 이슈만 표시 (작업담당/검증담당 구분)</li>' +
           '<li><strong>즐겨찾기(⭐)</strong> — 별표 추가한 이슈만 표시</li>' +
+          '<li><strong>그룹뷰 ▾</strong> — 드롭다운에서 프로젝트별/프로덕트별/담당자별 그룹 뷰 선택</li>' +
         '</ul>' +
+        '<h3>그룹화 & 밀도</h3><p>뷰 행 우측의 "그룹:" 칩(심각도/상태/해제)으로 카드를 즉시 그룹화. ⊟ 넓게 / ⊞ 좁게 버튼으로 카드 밀도 조절 가능.</p>' +
         '<h3>표시 형식</h3><ul>' +
           '<li><strong>카드</strong> — 심각도 좌측 컬러 바 + 제목 + 상태 + 담당자</li>' +
           '<li><strong>테이블</strong> — 컬럼 정렬 클릭 가능 (ID/상태/심각도/기한)</li>' +
@@ -4776,7 +4818,9 @@
         '<h2><span class="ic">🚀</span> 배포 탭 (배포 번들 관리)</h2>' +
         '<p>프로젝트와 이슈를 묶어서 배포 계획을 세우고 진행 상황을 관리하는 탭입니다.</p>' +
         '<h3>배포 번들이란?</h3><p>특정 배포에 포함될 이슈 목록과 대상 날짜를 함께 관리하는 단위입니다. 여러 이슈를 하나의 배포로 묶어 진행률을 한눈에 파악할 수 있습니다.</p>' +
-        '<h3>번들 생성</h3><p>"+ 배포 번들 생성" 버튼 클릭 후 제목, 목표일(기본 7일 후 자동 설정), 배포 환경, 연결 프로젝트/이슈를 입력합니다.</p>' +
+        '<h3>⚡ 빠른 등록</h3><p>"⚡ 빠른 등록" 버튼 클릭 시 배포 탭 상단에 인라인 폼이 펼쳐집니다. 제목 + 목표일 + 환경 + 상태만 입력하고 등록. 이슈 연결 등 세부 설정은 이후 상세에서 추가 가능합니다.</p>' +
+        '<h3>번들 상세 생성</h3><p>"+ 배포 번들 생성" 버튼 클릭 후 제목, 목표일(기본 7일 후 자동 설정), 배포 환경, 연결 프로젝트/이슈를 입력합니다.</p>' +
+        '<h3>1뎁스 어코디언</h3><p>배포 카드 클릭 시 모달 팝업 없이 카드 아래에 바로 상세 내용이 펼쳐집니다. 상태 원클릭 변경 버튼(준비중/배포준비/배포완료/취소)이 인라인으로 표시됩니다.</p>' +
         '<h3>번들 카드 정보</h3><ul>' +
           '<li><strong>상태 배지</strong>: 준비중 / 배포준비 / 배포완료 / 취소</li>' +
           '<li><strong>D-day 배지</strong>: 목표일까지 남은 일수 (D-3 이내 빨강)</li>' +
@@ -4799,23 +4843,31 @@
         '</ul>' +
         '<h3>알림 읽음 처리</h3><p>패널을 열면 1초 후 자동으로 모두 읽음 처리됩니다. 읽지 않은 알림은 벨 아이콘에 빨간 숫자 배지로 표시됩니다.</p>' +
         '<h3>알림 클릭</h3><p>이슈 관련 알림을 클릭하면 해당 이슈 상세 패널이 바로 열립니다.</p>' +
+        '<h3>알림 필터</h3><p>알림 패널 상단의 필터 칩(전체/이슈/배포/시스템)으로 알림 유형을 필터링하여 볼 수 있습니다.</p>' +
         '<h3>알림 지우기</h3><p>하단 "모두 지우기" 버튼으로 알림을 초기화합니다. 알림은 localStorage에 저장됩니다(최대 50개).</p>' +
       '</div>' +
 
       /* 7 이력 */
       '<div class="s" id="history">' +
         '<h2><span class="ic">📝</span> 7. 이력 탭</h2>' +
-        '<p>세 가지 서브탭으로 구성됩니다.</p>' +
+        '<p>두 가지 서브탭으로 구성됩니다.</p>' +
         '<h3>변경 이력</h3><p>프로젝트 데이터의 모든 변경 사항이 자동으로 기록됩니다. 누가, 언제, 어떤 프로젝트의 어떤 필드를 어떻게 변경했는지 이전값/이후값과 함께 표시됩니다.</p>' +
         '<h3>접속 이력</h3><p>팀원들의 로그인/로그아웃/페이지 이탈 기록입니다. 신규 직원이 처음 접속하면 "신규 접속 (자동 등록)"으로 표시됩니다.</p>' +
-        '<h3>릴리즈노트</h3><p>이 대시보드 HTML 자체의 GitHub 배포 이력입니다. 버전별로 어떤 기능이 추가/수정되었는지 기록됩니다.</p>' +
-        '<ul><li>쓰기 권한자는 상단 등록 폼에서 버전과 작업 내역을 직접 입력하여 새 릴리즈노트를 등록할 수 있습니다.</li><li>작업 내역은 한 줄에 하나씩 작성합니다.</li></ul>' +
         '<div class="co">모든 이력은 Firebase에 저장되어 누구든 같은 데이터를 볼 수 있습니다. 캐시를 비워도 사라지지 않습니다.</div>' +
       '</div>' +
 
-      /* 8 상세 패널 */
+      /* 릴리즈노트 탭 */
+      '<div class="s" id="releasenotes">' +
+        '<h2><span class="ic">📋</span> 8. 릴리즈노트 탭</h2>' +
+        '<p>두 가지 섹션으로 구성됩니다.</p>' +
+        '<h3>QA 대시보드 개선 이력</h3><p>이 QA 대시보드 자체의 기능 개선 이력을 버전별로 정리한 정적 목록입니다. v1.0 (베이스)부터 최신 버전까지 어떤 기능이 추가/개선/수정되었는지 확인할 수 있습니다.</p>' +
+        '<h3>배포 이력 (Firebase 연동)</h3><p>팀원이 직접 등록한 GitHub 배포/릴리즈 이력입니다. 쓰기 권한이 있으면 상단 등록 폼에서 버전과 작업 내역을 직접 입력할 수 있습니다.</p>' +
+        '<ul><li>버전명(예: v2026.04.12), 작업 내역(한 줄에 하나씩) 입력 후 등록</li><li>Firebase에 저장되어 모든 팀원이 같은 이력을 볼 수 있습니다</li></ul>' +
+      '</div>' +
+
+      /* 9 상세 패널 */
       '<div class="s" id="detail">' +
-        '<h2><span class="ic">🔍</span> 8. 프로젝트 상세 패널</h2>' +
+        '<h2><span class="ic">🔍</span> 9. 프로젝트 상세 패널</h2>' +
         '<p>프로젝트를 클릭하면 우측에 슬라이드 패널이 열립니다.</p>' +
         '<h3>요약 카드</h3><p>티어, 상태, 서비스 종류, 일정, 담당자, GMV 영향도가 상단에 요약됩니다.</p>' +
         '<h3>우선순위 점수 (쓰기 권한)</h3><p>영향도, 긴급도, 복잡도, 의존도 4개 슬라이더를 조절하면 총점이 자동 계산됩니다.</p>' +
@@ -4833,7 +4885,7 @@
 
       /* 9 채팅 */
       '<div class="s" id="chat">' +
-        '<h2><span class="ic">💬</span> 9. 채팅 시스템</h2>' +
+        '<h2><span class="ic">💬</span> 10. 채팅 시스템</h2>' +
         '<p>상단의 💬 버튼을 클릭하면 채팅 패널이 열립니다.</p>' +
         '<h3>전체 채팅</h3><p>모든 팀원이 참여하는 공용 채팅방입니다.</p>' +
         '<h3>프로젝트별 채팅</h3><p>각 프로젝트마다 자동으로 채팅방이 생성됩니다. 드롭다운에서 프로젝트를 선택하여 해당 방으로 이동합니다.</p>' +
@@ -4844,7 +4896,7 @@
 
       /* 10 관리자 */
       '<div class="s" id="admin">' +
-        '<h2><span class="ic">🔒</span> 10. 관리자 모드</h2>' +
+        '<h2><span class="ic">🔒</span> 11. 관리자 모드</h2>' +
         '<p>우측 상단 🔒 버튼을 클릭하고 비밀번호를 입력하면 관리자 모드로 전환됩니다.</p>' +
         '<h3>신규 접속자 뱃지</h3><p>🔒 버튼에 빨간 숫자 뱃지가 표시되면 미확인 신규 접속자가 있다는 의미입니다. 팀원 관리에 진입하면 뱃지가 초기화됩니다.</p>' +
         '<h3>팀원 관리</h3><ul>' +
@@ -4860,7 +4912,7 @@
 
       /* 11 딥링크 */
       '<div class="s" id="deeplink">' +
-        '<h2><span class="ic">🔗</span> 11. 딥링크 (프로젝트 링크 공유)</h2>' +
+        '<h2><span class="ic">🔗</span> 12. 딥링크 (프로젝트 링크 공유)</h2>' +
         '<p>특정 프로젝트를 다른 팀원에게 바로 공유할 수 있습니다.</p>' +
         '<h3>링크 복사</h3><p>프로젝트 상세 패널 상단의 "🔗 링크 복사" 버튼을 클릭하면 URL이 클립보드에 복사됩니다.</p>' +
         '<h3>링크로 접속</h3>' +
@@ -4870,7 +4922,7 @@
 
       /* 12 단축키 */
       '<div class="s" id="etc">' +
-        '<h2><span class="ic">⌨️</span> 12. 단축키 및 기타 기능</h2>' +
+        '<h2><span class="ic">⌨️</span> 13. 단축키 및 기타 기능</h2>' +
         '<h3>실행 취소 / 다시 실행</h3><p>프로젝트 데이터 변경 후 실수로 잘못 수정했을 때 되돌리기가 가능합니다.</p>' +
         '<table><thead><tr><th>기능</th><th>방법</th></tr></thead><tbody>' +
           '<tr><td>실행 취소 (Undo)</td><td><span class="sc">Ctrl+Z</span> 또는 ↩ 버튼</td></tr>' +
@@ -4883,7 +4935,7 @@
 
       /* 13 Firebase */
       '<div class="s" id="fb">' +
-        '<h2><span class="ic">🔥</span> 13. Firebase 연동 안내</h2>' +
+        '<h2><span class="ic">🔥</span> 14. Firebase 연동 안내</h2>' +
         '<p>이 대시보드는 Firebase Realtime Database를 사용하여 모든 데이터를 실시간 동기화합니다.</p>' +
         '<h3>저장 구조</h3>' +
         '<table><thead><tr><th>경로</th><th>내용</th></tr></thead><tbody>' +
@@ -6364,6 +6416,7 @@
           try { localStorage.setItem(_LS_DEPLOY_KEY, JSON.stringify(_deployLogs)); } catch(e) {}
         }
         if (state.currentTab === 'history' && _historyTab === 'deploy') renderHistory();
+        if (state.currentTab === 'releasenotes') { var rnc = document.getElementById('rnDeployLogContainer'); if (rnc) _renderDeployLog(rnc); }
       }, function(err) {
         console.error('[Deploy] Firebase listener error:', err);
       });
@@ -6444,7 +6497,7 @@
     var _historyTab = 'changes';
     function switchHistoryTab(tab) {
       _historyTab = tab;
-      var tabs = { changes: 'histTabChanges', access: 'histTabAccess', deploy: 'histTabDeploy' };
+      var tabs = { changes: 'histTabChanges', access: 'histTabAccess' };
       Object.keys(tabs).forEach(function(k) {
         var btn = document.getElementById(tabs[k]);
         if (!btn) return;
@@ -7241,6 +7294,25 @@
     }
 
 
+
+    function toggleGroupViewDropdown() {
+      var dd = document.getElementById('groupViewDropdown');
+      if (!dd) return;
+      var isOpen = dd.style.display !== 'none';
+      dd.style.display = isOpen ? 'none' : 'block';
+      if (!isOpen) {
+        // 외부 클릭 시 닫기
+        setTimeout(function() {
+          document.addEventListener('click', function _closeDD(e) {
+            if (!e.target.closest || !e.target.closest('#groupViewDropdown') && !e.target.closest('#issueGroupViewBtn')) {
+              var d = document.getElementById('groupViewDropdown');
+              if (d) d.style.display = 'none';
+              document.removeEventListener('click', _closeDD);
+            }
+          });
+        }, 0);
+      }
+    }
     function toggleIssueGrouping() {
       _issueGrouped = !_issueGrouped;
       var btn = document.getElementById('issueGroupBtn');
@@ -13839,12 +13911,6 @@ function renderDeployBundles() {
         return;
       }
 
-      if (_historyTab === 'deploy') {
-        if (clearBtn) clearBtn.style.display = 'none';
-        _renderDeployLog(container);
-        return;
-      }
-
       // 변경 이력 렌더링
       if (clearBtn) clearBtn.style.display = state.currentUser ? '' : 'none';
       var hist = (state.history || []).slice().reverse();
@@ -14688,6 +14754,11 @@ function renderNotifList() {
           else if (tabId === 'deploy') renderDeployBundles();
           else if (tabId === 'team') renderTeam();
           else if (tabId === 'overview') renderOverview();
+          else if (tabId === 'releasenotes') {
+            if (_fb.db && _deployLogs.length === 0) loadDeployLogs();
+            var rnc = document.getElementById('rnDeployLogContainer');
+            if (rnc) _renderDeployLog(rnc);
+          }
           else if (tabId === 'history') {
             // 이력 탭 진입 시 Firebase 리스너가 아직 안 걸려 있으면 재등록
             if (_fb.db && state.history.length === 0) {

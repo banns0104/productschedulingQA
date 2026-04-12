@@ -2231,34 +2231,140 @@
       word-break: break-word;
     }
 
-    .add-comment {
+    /* Comment Input Zone — Linear/GitHub style */
+    .comment-input-zone {
+      margin-top: 12px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      background: #fafafa;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      overflow: hidden;
+    }
+    .comment-input-zone:focus-within {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.10);
+      background: #fff;
+    }
+    .comment-input-header {
       display: flex;
-      gap: 6px;
-      margin-top: 8px;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px 4px 12px;
+      border-bottom: 1px solid #f3f4f6;
     }
-
-    .add-comment input {
-      flex: 1;
-      padding: 6px 8px;
-      border: 1px solid #d1d5db;
-      border-radius: 4px;
-      font-size: 12px;
+    .comment-input-avatar {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg,#6366f1,#818cf8);
+      color: #fff; font-size: 10px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
     }
-
-    .add-comment button {
-      padding: 6px 12px;
-      background: #2563eb;
-      color: white;
+    .comment-input-hint {
+      font-size: 10px; color: #9ca3af;
+      margin-left: auto; flex-shrink: 0;
+    }
+    .comment-input-zone textarea {
+      width: 100%;
+      min-height: 72px;
+      padding: 10px 12px;
       border: none;
-      border-radius: 4px;
+      background: transparent;
+      font-size: 12px;
+      font-family: inherit;
+      resize: vertical;
+      outline: none;
+      color: #1f2937;
+      box-sizing: border-box;
+      line-height: 1.55;
+    }
+    .comment-input-zone textarea::placeholder { color: #c0c4cc; }
+    .comment-input-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px 8px 12px;
+      border-top: 1px solid #f3f4f6;
+    }
+    .comment-char-count { font-size: 10px; color: #c0c4cc; }
+    .comment-char-count.warn { color: #f59e0b; font-weight: 600; }
+    .comment-submit-btn {
+      padding: 5px 14px;
+      background: #6366f1;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
+      transition: background 0.15s;
     }
+    .comment-submit-btn:hover:not(:disabled) { background: #4f46e5; }
+    .comment-submit-btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
-    .add-comment button:hover {
-      background: #1d4ed8;
+    /* Issue Schedule Modal */
+    .issue-sched-overlay {
+      position: fixed; inset: 0; z-index: 9500;
+      background: rgba(0,0,0,0.35);
+      display: none; align-items: center; justify-content: center;
     }
+    .issue-sched-overlay.open { display: flex; }
+    .issue-sched-modal {
+      background: #fff; border-radius: 14px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.22);
+      padding: 24px; width: 400px; max-width: 94vw;
+      max-height: 90vh; overflow-y: auto;
+    }
+    .issue-sched-modal h3 {
+      margin: 0 0 4px 0; font-size: 15px; font-weight: 700; color: #1f2937;
+    }
+    .issue-sched-modal .ism-id {
+      font-size: 11px; font-weight: 700; color: #6366f1; margin-bottom: 2px;
+    }
+    .issue-sched-modal .ism-title {
+      font-size: 13px; color: #374151; font-weight: 600;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin-bottom: 16px; padding-bottom: 12px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .ism-field-group { margin-bottom: 14px; }
+    .ism-field-group label {
+      display: block; font-size: 11px; font-weight: 600;
+      color: #6b7280; margin-bottom: 5px;
+    }
+    .ism-field-group input[type=date] {
+      width: 100%; padding: 7px 10px; border: 1.5px solid #d1d5db;
+      border-radius: 7px; font-size: 13px; box-sizing: border-box;
+      font-family: inherit; transition: border-color 0.15s;
+    }
+    .ism-field-group input[type=date]:focus { border-color: #6366f1; outline: none; }
+    .ism-assignee-list {
+      display: flex; flex-direction: column; gap: 6px;
+      max-height: 180px; overflow-y: auto;
+      border: 1.5px solid #e5e7eb; border-radius: 8px;
+      padding: 8px 10px; background: #fafafa;
+    }
+    .ism-assignee-list label {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; cursor: pointer; font-weight: 400; color: #1f2937;
+    }
+    .ism-assignee-list input[type=checkbox] { width: 14px; height: 14px; accent-color: #6366f1; cursor: pointer; }
+    .ism-footer {
+      display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px;
+      padding-top: 14px; border-top: 1px solid #f3f4f6;
+    }
+    .ism-save-btn {
+      padding: 8px 20px; background: #6366f1; color: #fff;
+      border: none; border-radius: 7px; font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .ism-save-btn:hover { background: #4f46e5; }
+    .ism-cancel-btn {
+      padding: 8px 14px; background: #fff; color: #6b7280;
+      border: 1.5px solid #e5e7eb; border-radius: 7px;
+      font-size: 13px; cursor: pointer;
+    }
+    .ism-cancel-btn:hover { background: #f9fafb; }
 
     /* Deploy Bundle */
     .deploy-bundle-modal {
@@ -4092,6 +4198,25 @@
 
           <div class="rn-version-block" style="border-color:#6366f1;">
             <div class="rn-version-header" style="background:linear-gradient(135deg,#6366f1 0%,#4f46e5 100%);color:white;border-radius:8px 8px 0 0;">
+              <span class="rn-version-tag" style="background:rgba(255,255,255,0.2);color:white;">v1.14</span>
+              <span class="rn-version-title" style="color:white;">배포목록 버그수정 · 코멘트 UI · 이슈별 일정/담당자 모달 · 매뉴얼 갱신</span>
+              <span class="rn-version-date" style="color:rgba(255,255,255,0.7);">2026-04-13</span>
+            </div>
+            <div class="rn-body">
+              <div class="rn-section-title">신규</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>이슈별 뷰 일정/담당자 모달 — "+ 일정" 버튼으로 풀모달 열기 (시작일·종료일·담당자 복수선택)</div>
+              <div class="rn-section-title">개선</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-ux">UX</span>이슈 상세 코멘트 입력 UI 전면 개편 — Linear/GitHub 스타일 수직 레이아웃, 아바타+힌트+포커스 글로우</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-ux">UX</span>코멘트 등록 버튼 — 텍스트 없을 때 비활성화, 입력 시 활성, Enter=전송, Shift+Enter=줄바꿈</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-ux">UX</span>이슈별 뷰 "+ 일정" 버튼 — 일정 등록 시 날짜 미리보기(MM-DD) 표시, 보라색 강조 스타일</div>
+              <div class="rn-section-title">수정</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-fix">FIX</span>배포 번들 생성 후 모달 자동 닫힘 + 배포탭 목록 즉시 갱신 (switchBundleTab→닫기+렌더링)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-fix">FIX</span>Firebase deployBundles 리스너 — 데이터 수신 시 배포탭 활성화 상태이면 목록 자동 갱신</div>
+            </div>
+          </div>
+
+          <div class="rn-version-block">
+            <div class="rn-version-header" style="background:linear-gradient(135deg,#6366f1 0%,#4f46e5 100%);color:white;border-radius:8px 8px 0 0;">
               <span class="rn-version-tag" style="background:rgba(255,255,255,0.2);color:white;">v1.13</span>
               <span class="rn-version-title" style="color:white;">KPI 대시보드 · P0 자동알림 · TC연계 · @멘션 · 툴바 CSS 수정</span>
               <span class="rn-version-date" style="color:rgba(255,255,255,0.7);">2026-04-12</span>
@@ -4430,6 +4555,30 @@
       <div class="modal-actions">
         <button class="btn btn-secondary" onclick="closeEditModal()">취소</button>
         <button class="btn" onclick="saveEdit()">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Issue Schedule Modal (이슈별 뷰 담당자 할당 모달) -->
+  <div id="issueSchedModalOverlay" class="issue-sched-overlay" onclick="if(event.target===this)closeIssueScheduleModal()">
+    <div class="issue-sched-modal">
+      <div class="ism-id" id="ismIssueId"></div>
+      <div class="ism-title" id="ismIssueTitle"></div>
+      <div class="ism-field-group">
+        <label>시작일</label>
+        <input type="date" id="ismStartDate" onfocus="try{this.showPicker()}catch(e){}">
+      </div>
+      <div class="ism-field-group">
+        <label>종료일</label>
+        <input type="date" id="ismEndDate" onfocus="try{this.showPicker()}catch(e){}">
+      </div>
+      <div class="ism-field-group">
+        <label>담당자 (복수 선택 가능)</label>
+        <div id="ismAssigneeList" class="ism-assignee-list"></div>
+      </div>
+      <div class="ism-footer">
+        <button class="ism-cancel-btn" onclick="closeIssueScheduleModal()">취소</button>
+        <button class="ism-save-btn" onclick="saveIssueScheduleModal()">저장</button>
       </div>
     </div>
   </div>
@@ -4999,7 +5148,7 @@
       '<div class="s" id="schedule">' +
         '<h2><span class="ic">📅</span> 3. 스케줄 탭 (Gantt 차트)</h2>' +
         '<p>프로젝트별 페이즈(기획/디자인/프론트엔드/백엔드/QA) 일정을 시각적으로 보여주는 Gantt 차트입니다.</p>' +
-        '<h3>뷰 전환</h3><ul><li><strong>프로젝트 뷰</strong> — 프로젝트별로 묶어서 표시 (기본)</li><li><strong>담당자 뷰</strong> — 팀원별로 할당된 일정 표시</li></ul>' +
+        '<h3>뷰 전환</h3><ul><li><strong>프로젝트 뷰</strong> — 프로젝트별로 묶어서 표시 (기본). 각 열(행)의 좌측에 "+ 일정" 버튼으로 페이즈별 일정·담당자 할당.</li><li><strong>이슈 뷰</strong> — 등록된 이슈를 상태별 그룹으로 표시. 각 이슈 행에 <strong>"+ 일정" 버튼</strong>(보라색)이 있어 클릭하면 시작일·종료일·담당자(복수 선택 가능)를 설정하는 풀 모달이 열립니다. 이미 일정이 등록된 경우 버튼에 날짜(MM-DD)가 표시됩니다.</li><li><strong>담당자 뷰</strong> — 팀원별로 할당된 일정 표시</li></ul>' +
         '<h3>줌 컨트롤</h3><p>좌측 상단의 − / + 버튼 또는 줌 슬라이더로 타임라인 확대/축소가 가능합니다. 날짜 헤더에 월요일(진한선), 주말(회색), 오늘(빨간선)이 강조됩니다.</p>' +
         '<h3>바 드래그 (쓰기 권한)</h3><p>Gantt 바의 좌/우 끝을 드래그하면 시작/종료일을 변경합니다. 바 중앙을 드래그하면 전체 기간이 이동합니다.</p>' +
         '<h3>바 겹침 처리</h3><p>동일 프로젝트에서 페이즈 날짜가 겹치면 자동으로 레인(행)을 분배하여 겹치지 않게 표시됩니다.</p>' +
@@ -5070,6 +5219,7 @@
         '<h3>필터 & 검색</h3><p>상태/프로덕트/심각도/검색어 필터 조합 가능. 활성 필터는 칩으로 표시되며 개별 또는 전체 초기화 가능. "고급 필터 ▾"를 펼치면 결함 타입, 우선순위, 배포 상태 필터도 사용 가능합니다.</p><p>검색창에 키워드 입력 시 카드 내 매칭 텍스트가 <mark style="background:#fef08a;">하이라이트</mark> 됩니다. 단축키: <span class="sc">/</span></p>' +
         '<h3>일괄 처리</h3><p>이슈 카드의 체크박스로 여러 이슈를 선택 후 "상태 변경" 또는 "담당자 변경" 일괄 처리 가능합니다.</p>' +
         '<h3>이슈 상세 패널</h3><p>이슈 카드 클릭 시 우측에 상세 패널이 열립니다. 제목 클릭으로 인라인 수정, 상태 드롭다운으로 즉시 변경, 코멘트 스레드 확인/작성 가능합니다. 이슈 ID 옆 "복사" 버튼으로 ID를 클립보드에 복사합니다.</p>' +
+        '<h3>코멘트 입력 (v1.14 개선)</h3><p>코멘트 입력 영역이 Linear/GitHub 스타일로 개편되었습니다. 입력창에 텍스트를 입력하면 "등록" 버튼이 활성화되며, <span class="sc">Enter</span>로 전송, <span class="sc">Shift+Enter</span>로 줄바꿈합니다. 글자수 카운터(0/500)가 하단에 표시되며 400자 초과 시 경고 색상으로 변경됩니다. 댓글에 <span class="sc">@팀원이름</span>을 입력하면 해당 팀원에게 자동 알림이 발송됩니다.</p>' +
         '<h3>기한 표시</h3><ul><li><strong>⚠️ 기한 초과</strong> — 기한이 지난 이슈 (빨강)</li><li><strong>🔥 D-N</strong> — 3일 이내 (주황)</li><li><strong>D-N</strong> — 7일 이내 (노랑)</li></ul>' +
         '<h3>키보드 단축키</h3>' +
         '<table><thead><tr><th>단축키</th><th>기능</th></tr></thead><tbody>' +
@@ -5085,7 +5235,7 @@
         '<p>프로젝트와 이슈를 묶어서 배포 계획을 세우고 진행 상황을 관리하는 탭입니다.</p>' +
         '<h3>배포 번들이란?</h3><p>특정 배포에 포함될 이슈 목록과 대상 날짜를 함께 관리하는 단위입니다. 여러 이슈를 하나의 배포로 묶어 진행률을 한눈에 파악할 수 있습니다.</p>' +
         '<h3>⚡ 빠른 등록</h3><p>"⚡ 빠른 등록" 버튼 클릭 시 배포 탭 상단에 인라인 폼이 펼쳐집니다. 제목 + 목표일 + 환경 + 상태만 입력하고 등록. 이슈 연결 등 세부 설정은 이후 상세에서 추가 가능합니다.</p>' +
-        '<h3>번들 상세 생성</h3><p>"+ 배포 번들 생성" 버튼 클릭 후 제목, 목표일(기본 7일 후 자동 설정), 배포 환경, 연결 프로젝트/이슈를 입력합니다.</p>' +
+        '<h3>번들 상세 생성</h3><p>"+ 배포 번들 생성" 버튼 클릭 후 제목, 목표일(기본 7일 후 자동 설정), 배포 환경, 연결 프로젝트/이슈를 입력합니다. 등록 완료 시 모달이 자동으로 닫히고 배포 탭 목록에서 즉시 확인할 수 있습니다 (v1.14 수정).</p>' +
         '<h3>1뎁스 어코디언</h3><p>배포 카드 클릭 시 모달 팝업 없이 카드 아래에 바로 상세 내용이 펼쳐집니다. 상태 원클릭 변경 버튼(준비중/배포준비/배포완료/취소)이 인라인으로 표시됩니다.</p>' +
         '<h3>번들 카드 정보</h3><ul>' +
           '<li><strong>상태 배지</strong>: 준비중 / 배포준비 / 배포완료 / 취소</li>' +
@@ -7079,6 +7229,10 @@
               }
             });
             _saveDeployBundlesToLocal();
+            // Deploy 탭이 활성화되어 있으면 목록 갱신
+            if (state.currentTab === 'deploy') {
+              try { renderDeployBundles(); } catch(e) {}
+            }
           }
         });
       }
@@ -10040,42 +10194,76 @@ function renderIssues() {
       commGroup.appendChild(commContainer);
 
       if (state.currentUser) {
+        var canWrite = _hasWritePermission();
+        // ── Linear / GitHub style comment input zone ──
         var addComm = document.createElement('div');
-        addComm.className = 'add-comment';
+        addComm.className = 'comment-input-zone';
+
+        // Header: avatar + label + @mention hint
+        var hdr = document.createElement('div');
+        hdr.className = 'comment-input-header';
+        var avt = document.createElement('div');
+        avt.className = 'comment-input-avatar';
+        var uName = (state.currentUser.displayName || state.currentUser.email || '?');
+        avt.textContent = uName.charAt(0).toUpperCase();
+        var lbl = document.createElement('span');
+        lbl.style.cssText = 'font-size:11px;font-weight:600;color:#374151;';
+        lbl.textContent = '코멘트 추가';
+        var hint = document.createElement('span');
+        hint.className = 'comment-input-hint';
+        hint.textContent = '@멘션 · Enter 전송 · Shift+Enter 줄바꿈';
+        hdr.appendChild(avt);
+        hdr.appendChild(lbl);
+        hdr.appendChild(hint);
+        addComm.appendChild(hdr);
+
+        // Textarea
         var input = document.createElement('textarea');
         input.id = 'newCommentText';
-        input.type = 'text';
-        input.placeholder = '코멘트를 입력하세요... (Shift+Enter 줄바꿈, Enter 전송)';
-        input.style.cssText = 'resize:vertical;min-height:60px;font-family:inherit;';
-        // Character count display
-        var charCount = document.createElement('div');
-        charCount.id = 'commentCharCount';
-        charCount.style.cssText = 'font-size:10px;color:#9ca3af;margin-top:4px;text-align:right;';
-        charCount.textContent = '0 / 500';
+        input.placeholder = canWrite ? '코멘트를 입력하세요...' : '쓰기 권한이 없습니다. 관리자에게 요청해주세요.';
+        input.disabled = !canWrite;
 
         input.oninput = function() {
-          charCount.textContent = this.value.length + ' / 500';
+          var len = this.value.length;
+          charCount.textContent = len + ' / 500';
+          charCount.className = 'comment-char-count' + (len > 400 ? ' warn' : '');
+          submitBtn.disabled = !canWrite || len === 0;
         };
-
         input.onkeydown = function(e) {
           if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            addIssueComment(issueId);
+            if (canWrite && this.value.trim()) addIssueComment(issueId);
           }
         };
-
         addComm.appendChild(input);
-        addComm.appendChild(charCount);
-        var btn = document.createElement('button');
-        btn.textContent = '등록';
-        btn.style.marginTop = '8px';
-        btn.disabled = !_hasWritePermission();
-        btn.title = _hasWritePermission() ? '' : '쓰기 권한이 없습니다. 관리자에게 요청해주세요.';
-        btn.style.opacity = btn.disabled ? '0.5' : '1';
-        btn.style.cursor = btn.disabled ? 'not-allowed' : 'pointer';
-        btn.onclick = function() { if (!btn.disabled) addIssueComment(issueId); };
-        addComm.appendChild(btn);
+
+        // Footer: char count + submit button
+        var footer = document.createElement('div');
+        footer.className = 'comment-input-footer';
+
+        var charCount = document.createElement('span');
+        charCount.id = 'commentCharCount';
+        charCount.className = 'comment-char-count';
+        charCount.textContent = '0 / 500';
+
+        var submitBtn = document.createElement('button');
+        submitBtn.className = 'comment-submit-btn';
+        submitBtn.textContent = '등록';
+        submitBtn.disabled = true;
+        submitBtn.title = canWrite ? 'Enter로도 전송할 수 있습니다' : '쓰기 권한이 없습니다';
+        submitBtn.onclick = function() { if (!submitBtn.disabled) addIssueComment(issueId); };
+
+        footer.appendChild(charCount);
+        footer.appendChild(submitBtn);
+        addComm.appendChild(footer);
+
         commGroup.appendChild(addComm);
+      } else {
+        // 비로그인 상태 안내
+        var loginHint = document.createElement('div');
+        loginHint.style.cssText = 'margin-top:10px;padding:10px 12px;background:#f9fafb;border:1px dashed #d1d5db;border-radius:8px;font-size:11px;color:#9ca3af;text-align:center;';
+        loginHint.textContent = '로그인 후 코멘트를 등록할 수 있습니다';
+        commGroup.appendChild(loginHint);
       }
 
       panel.appendChild(commGroup);
@@ -10723,8 +10911,10 @@ function renderIssues() {
 
       _bundleSelectedProjects = [];
       _bundleSelectedIssues = [];
-      _showToast('배포가 생성되었습니다');
-      switchBundleTab('list');
+      // 모달 닫고 배포 탭 목록에서 바로 확인 가능하도록
+      closeDeployBundleManager();
+      renderDeployBundles();
+      _showToast('배포 번들이 생성되었습니다. 배포 탭에서 확인하세요.');
     }
 
     function copyBundleAsNew(bundleId) {
@@ -12858,10 +13048,11 @@ function renderDeployBundles() {
           actionRow.appendChild(chatBtn);
           if (_hasWritePermission()) {
             var schedBtn = document.createElement('button');
-            schedBtn.style.cssText = 'font-size:10px;padding:1px 5px;border:1px solid #e5e7eb;border-radius:3px;background:#fff;cursor:pointer;color:#6b7280;';
-            schedBtn.textContent = '📅 일정';
-            schedBtn.title = '이슈 일정 설정';
-            schedBtn.onclick = function(e) { e.stopPropagation(); openIssueSchedulePopup(iss.id, schedBtn); };
+            schedBtn.style.cssText = 'font-size:10px;padding:1px 6px;border:1.5px solid #6366f1;border-radius:4px;background:#f5f3ff;cursor:pointer;color:#6366f1;font-weight:700;';
+            // 이미 일정 있으면 날짜 표시
+            schedBtn.textContent = iss.scheduleStart ? ('📅 ' + iss.scheduleStart.slice(5)) : '+ 일정';
+            schedBtn.title = '이슈 일정 및 담당자 할당 모달 열기';
+            schedBtn.onclick = function(e) { e.stopPropagation(); openIssueScheduleModal(iss.id); };
             actionRow.appendChild(schedBtn);
           }
           var detailBtn = document.createElement('button');
@@ -14136,6 +14327,85 @@ function renderDeployBundles() {
       document.getElementById('issueSchedulePopup')?.remove();
       _showToast('이슈 일정이 초기화되었습니다');
       renderGantt();
+    }
+
+    /* ========== 이슈 일정 등록 모달 (담당자 할당 포함) ========== */
+    var _ismCurrentIssueId = null;
+
+    function openIssueScheduleModal(issueId) {
+      if (!_checkWritePermission()) return;
+      var iss = _issues.find(function(i) { return i.id === issueId; });
+      if (!iss) return;
+      _ismCurrentIssueId = issueId;
+
+      document.getElementById('ismIssueId').textContent = iss.id;
+      document.getElementById('ismIssueTitle').textContent = iss.title;
+
+      // 기존 일정 값 채우기
+      document.getElementById('ismStartDate').value = iss.scheduleStart || iss.deadline || '';
+      document.getElementById('ismEndDate').value = iss.scheduleEnd || iss.deadline || '';
+
+      // 담당자 체크박스
+      var listEl = document.getElementById('ismAssigneeList');
+      listEl.innerHTML = '';
+      var currentAssignees = iss.assignees || (iss.assignee ? [iss.assignee] : []);
+      TEAM.forEach(function(m) {
+        var label = document.createElement('label');
+        var cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.className = 'ism-assignee-cb';
+        cb.value = m.id;
+        cb.checked = currentAssignees.indexOf(m.id) !== -1;
+        var dot = document.createElement('span');
+        dot.style.cssText = 'display:inline-block;width:8px;height:8px;border-radius:50%;background:' + m.color + ';flex-shrink:0;';
+        var nameSpan = document.createElement('span');
+        nameSpan.textContent = m.name;
+        var roleSpan = document.createElement('span');
+        roleSpan.style.color = '#9ca3af';
+        roleSpan.textContent = ' (' + m.role + ')';
+        label.appendChild(cb);
+        label.appendChild(dot);
+        label.appendChild(nameSpan);
+        label.appendChild(roleSpan);
+        listEl.appendChild(label);
+      });
+
+      document.getElementById('issueSchedModalOverlay').classList.add('open');
+      _lockBodyScroll();
+    }
+
+    function closeIssueScheduleModal() {
+      document.getElementById('issueSchedModalOverlay').classList.remove('open');
+      _ismCurrentIssueId = null;
+      _unlockBodyScroll();
+    }
+
+    function saveIssueScheduleModal() {
+      if (!_ismCurrentIssueId) return;
+      var iss = _issues.find(function(i) { return i.id === _ismCurrentIssueId; });
+      if (!iss) return;
+
+      var startVal = document.getElementById('ismStartDate').value;
+      var endVal = document.getElementById('ismEndDate').value;
+      if (!startVal || !endVal) { _showToast('시작일과 종료일을 모두 입력해주세요', 2000, 'warning'); return; }
+      if (startVal > endVal) { _showToast('종료일이 시작일보다 빠릅니다', 2000, 'warning'); return; }
+
+      var checkedBoxes = document.querySelectorAll('.ism-assignee-cb:checked');
+      var newAssignees = Array.from(checkedBoxes).map(function(cb) { return cb.value; });
+
+      var oldSchedule = (iss.scheduleStart || '') + '~' + (iss.scheduleEnd || '');
+      iss.scheduleStart = startVal;
+      iss.scheduleEnd = endVal;
+      iss.assignees = newAssignees;
+      if (newAssignees.length > 0) iss.assignee = newAssignees[0]; // 호환성
+      iss.updated = new Date().toISOString();
+
+      saveIssueData(iss);
+      pushHistory('수정', iss.id, '이슈 일정/담당자', oldSchedule, startVal + '~' + endVal + ' / ' + newAssignees.join(','));
+      closeIssueScheduleModal();
+      _showToast('이슈 일정과 담당자가 저장되었습니다', 2000, 'success');
+      renderGantt();
+      if (state.currentTab === 'issues') renderIssues();
     }
 
     // 프로젝트 정렬 상태
@@ -15675,6 +15945,9 @@ function renderNotifList() {
     window.openIssueSchedulePopup = openIssueSchedulePopup;
     window.saveIssueSchedule = saveIssueSchedule;
     window.clearIssueSchedule = clearIssueSchedule;
+    window.openIssueScheduleModal = openIssueScheduleModal;
+    window.closeIssueScheduleModal = closeIssueScheduleModal;
+    window.saveIssueScheduleModal = saveIssueScheduleModal;
     window._recalcCreateScore = _recalcCreateScore;
     // 서비스 종류는 체크박스 방식으로 전환됨 (addServiceTag 등 삭제됨)
     window.renderDetailServiceTags = renderDetailServiceTags;

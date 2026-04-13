@@ -2366,6 +2366,58 @@
     }
     .ism-cancel-btn:hover { background: #f9fafb; }
 
+    /* ===== Multi-chip Select Widget ===== */
+    .mc-wrap { position:relative; width:100%; }
+    .mc-display {
+      display:flex; align-items:center; flex-wrap:wrap; gap:4px;
+      min-height:34px; padding:4px 28px 4px 8px; border:1.5px solid #e5e7eb;
+      border-radius:7px; background:#fff; cursor:pointer; position:relative;
+      font-size:12px; transition:border-color 0.15s;
+    }
+    .mc-display:hover { border-color:#6366f1; }
+    .mc-display.mc-open { border-color:#6366f1; box-shadow:0 0 0 3px rgba(99,102,241,0.12); }
+    .mc-display-arrow {
+      position:absolute; right:8px; top:50%; transform:translateY(-50%);
+      font-size:10px; color:#9ca3af; pointer-events:none;
+    }
+    .mc-ph { color:#9ca3af; font-size:12px; }
+    .mc-chip {
+      display:inline-flex; align-items:center; gap:3px;
+      padding:2px 6px; background:#eff6ff; color:#2563eb;
+      border:1px solid #bfdbfe; border-radius:10px; font-size:11px; font-weight:600;
+      white-space:nowrap;
+    }
+    .mc-chip-x {
+      cursor:pointer; font-size:12px; color:#93c5fd; line-height:1;
+      padding:0 2px; border-radius:50%;
+    }
+    .mc-chip-x:hover { color:#2563eb; }
+    .mc-dropdown {
+      position:absolute; top:calc(100% + 4px); left:0; right:0; z-index:9999;
+      background:#fff; border:1.5px solid #6366f1; border-radius:8px;
+      box-shadow:0 8px 24px rgba(99,102,241,0.18); overflow:hidden;
+    }
+    .mc-search {
+      width:100%; box-sizing:border-box; padding:8px 12px;
+      border:none; border-bottom:1px solid #f3f4f6;
+      font-size:12px; outline:none; background:#f9fafb;
+    }
+    .mc-opts { max-height:180px; overflow-y:auto; }
+    .mc-opt {
+      display:flex; align-items:center; gap:8px;
+      padding:7px 12px; cursor:pointer; font-size:12px; color:#374151;
+      transition:background 0.1s;
+    }
+    .mc-opt:hover { background:#eff6ff; }
+    .mc-opt input[type=checkbox] { width:14px; height:14px; accent-color:#6366f1; cursor:pointer; flex-shrink:0; }
+    .mc-opt-avatar {
+      width:20px; height:20px; border-radius:50%; color:#fff;
+      display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; flex-shrink:0;
+    }
+    .mc-opt-issue-id { font-size:10px; font-weight:700; color:#6366f1; font-family:monospace; flex-shrink:0; }
+    .mc-opt-issue-title { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; min-width:0; }
+    .mc-no-result { padding:10px 12px; font-size:12px; color:#9ca3af; text-align:center; }
+
     /* Deploy Bundle */
     .deploy-bundle-modal {
       display: none;
@@ -3952,15 +4004,21 @@
             <option value="Minor">ℹ️ Minor</option>
             <option value="Trivial">▪ Trivial</option>
           </select>
-          <select class="qc-select" id="qc_product" title="프로덕트" style="max-width:130px;">
-            <option value="">프로덕트</option>
-            <option value="어바웃피싱 앱">AF 앱</option>
-            <option value="어바웃피싱 어드민">AF 어드민</option>
-            <option value="샵바이 앱/웹">샵바이</option>
-            <option value="낚시포인트맵">포인트맵</option>
+          <select class="qc-select" id="qc_service" title="서비스" style="max-width:130px;">
+            <option value="">서비스</option>
+            <option value="고객앱">고객앱</option>
+            <option value="선주모바일">선주모바일</option>
+            <option value="비즈페이지">비즈페이지</option>
+            <option value="예약웹">예약웹</option>
+            <option value="쇼핑웹">쇼핑웹</option>
+            <option value="어드민">어드민</option>
+            <option value="샵바이어드민">샵바이어드민</option>
+            <option value="선박예약어드민">선박예약어드민</option>
+            <option value="포인트맵">포인트맵</option>
+            <option value="기타">기타</option>
           </select>
           <button class="qc-submit-btn" id="qc_submitBtn" onclick="quickCaptureSubmit()" disabled>⚡ 빠른 등록</button>
-          <button class="qc-more-btn" onclick="openCreateIssueModal ? (openCreateIssueModal(), false) : null" title="상세 폼으로 등록">상세 ▸</button>
+          <button class="qc-more-btn" onclick="createIssue()" title="상세 폼으로 등록">상세 ▸</button>
           <span class="qc-success" id="qc_success">✓ 등록됨!</span>
         </div>
         <!-- ===== UNIFIED SMART TOOLBAR (v1.13) ===== -->
@@ -3996,14 +4054,19 @@
                 </select>
               </div>
               <div class="fp-row">
-                <div class="fp-label">프로덕트</div>
-                <select class="fp-select" id="issueProductFilter" onchange="renderIssues();_updateFilterBadge();">
-                  <option value="">전체 프로덕트</option>
-                  <option value="어바웃피싱 앱">어바웃피싱 앱</option>
-                  <option value="어바웃피싱 어드민">어바웃피싱 어드민</option>
-                  <option value="샵바이 앱/웹">샵바이 앱/웹</option>
-                  <option value="샵바이 어드민">샵바이 어드민</option>
-                  <option value="낚시포인트맵">낚시포인트맵</option>
+                <div class="fp-label">서비스</div>
+                <select class="fp-select" id="issueServiceFilter" onchange="renderIssues();_updateFilterBadge();">
+                  <option value="">전체 서비스</option>
+                  <option value="고객앱">고객앱</option>
+                  <option value="선주모바일">선주모바일</option>
+                  <option value="비즈페이지">비즈페이지</option>
+                  <option value="예약웹">예약웹</option>
+                  <option value="쇼핑웹">쇼핑웹</option>
+                  <option value="어드민">어드민</option>
+                  <option value="샵바이어드민">샵바이어드민</option>
+                  <option value="선박예약어드민">선박예약어드민</option>
+                  <option value="포인트맵">포인트맵</option>
+                  <option value="기타">기타</option>
                 </select>
               </div>
               <div class="fp-row">
@@ -4050,6 +4113,12 @@
                       <option value="no-bundle">배포 미포함</option>
                     </select>
                   </div>
+                  <div class="fp-row">
+                    <div class="fp-label">프로젝트</div>
+                    <select class="fp-select" id="issueProjectFilter" onchange="renderIssues();_updateFilterBadge();">
+                      <option value="">전체 프로젝트</option>
+                    </select>
+                  </div>
                 </div>
               </div>
               <div class="fp-footer">
@@ -4073,7 +4142,7 @@
               <button class="st-group-item" data-mode="severity" onclick="toggleGroupBy('severity');closeStGroupPanel();">🎯 심각도별</button>
               <button class="st-group-item" data-mode="status" onclick="toggleGroupBy('status');closeStGroupPanel();">🔄 상태별</button>
               <div style="height:1px;background:#f3f4f6;margin:4px 0;"></div>
-              <button class="st-group-item" data-mode="product" onclick="switchIssueView('by-product');closeStGroupPanel();">📦 프로덕트별 뷰</button>
+              <button class="st-group-item" data-mode="service" onclick="switchIssueView('by-service');closeStGroupPanel();">📦 서비스별 뷰</button>
               <button class="st-group-item" data-mode="project" onclick="switchIssueView('by-project');closeStGroupPanel();">📁 프로젝트별 뷰</button>
               <button class="st-group-item" data-mode="assignee" onclick="switchIssueView('by-assignee');closeStGroupPanel();">👤 담당자별 뷰</button>
             </div>
@@ -4194,6 +4263,63 @@
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
             <h2 style="margin:0;font-size:18px;font-weight:800;color:#1f2937;">📋 릴리즈 노트</h2>
             <span style="font-size:11px;color:#9ca3af;">QA Dashboard 개선 이력</span>
+          </div>
+
+          <div class="rn-version-block" style="border-left:3px solid #7c3aed;padding:12px;background:#faf5ff;border-radius:8px;margin-bottom:14px;">
+            <div class="rn-version-header">
+              <span class="rn-version-title" style="color:#7c3aed;">v1.17 — 서비스/플랫폼 다중선택 · 코멘트 첨부 · 이력 검색</span>
+              <span class="rn-version-date">2026-04-13</span>
+            </div>
+            <div class="rn-items">
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>플랫폼 멀티셀렉트 — 이슈 등록/조회에서 복수 플랫폼 선택 가능</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>서비스 멀티셀렉트 — 이슈 등록/조회에서 복수 서비스 선택 가능 + 선박예약어드민 추가</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>프로덕트 필드 통합 — 서비스 기준으로 일원화, 프로덕트 필드 전체 제거</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>이슈 상세 링크 복사 — 🔗 링크 버튼으로 이슈 URL 복사</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>코멘트 파일 첨부 — 이미지/동영상을 코멘트에 직접 첨부</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>코멘트 @mention 자동완성 — @ 입력 시 팀원 선택 드롭다운 표시</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>이력탭 검색/필터 — 변경이력·접속이력 키워드 검색 및 유형 필터</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>배포 번들 등록 시 배포 내용 메모 입력 영역 추가</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-fix">FIX</span>빠른 등록 '상세▸' 버튼 동작 불가 버그 수정</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-fix">FIX</span>필터 팝오버·그룹&뷰 패널 HTML 구조 오류 수정 (스마트 툴바 정상화)</div>
+            </div>
+          </div>
+
+          <div class="rn-version-block" style="border-color:#0891b2;">
+            <div class="rn-version-header" style="background:linear-gradient(135deg,#0891b2 0%,#0e7490 100%);color:white;border-radius:8px 8px 0 0;">
+              <span class="rn-version-tag" style="background:rgba(255,255,255,0.2);color:white;">v1.16</span>
+              <span class="rn-version-title" style="color:white;">이슈 필드 멀티셀렉트 · 프로젝트→이슈 연동</span>
+              <span class="rn-version-date" style="color:rgba(255,255,255,0.7);">2026-04-13</span>
+            </div>
+            <div class="rn-body">
+              <div class="rn-section-title">신규</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>이슈 담당자 — 단일 선택 → 멀티 chip 선택으로 전환 (여러 명 동시 배정, 아바타 복수 표시)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>이슈 참조자 — 기본값 개발팀 전체 자동 선택, chip 멀티셀렉트로 전환</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>이슈 관련이슈 — 텍스트 입력 → 기존 이슈 검색 멀티셀렉트 (이슈 ID + 제목 검색)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>이슈 프로젝트 — 단일 선택 → 멀티 chip 선택으로 전환 (복수 프로젝트 연결)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>프로젝트 상세 패널 — "🐛 이슈 N건" 버튼 추가 → 클릭 시 이슈탭으로 이동 + 해당 프로젝트로 자동 필터링</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>이슈 필터 팝오버 — 고급 필터에 "프로젝트" 필터 추가</div>
+              <div class="rn-section-title">개선</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-ux">UX</span>담당자별 뷰 — 다중 담당자 지원 (각 담당자 그룹에 중복 표시)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-ux">UX</span>프로젝트별 뷰 — 다중 프로젝트 지원 (각 프로젝트 그룹에 중복 표시)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-ux">UX</span>내 이슈 뷰 — 다중 담당자 배열에서 본인 포함 여부 체크</div>
+            </div>
+          </div>
+
+          <div class="rn-version-block" style="border-color:#059669;">
+            <div class="rn-version-header" style="background:linear-gradient(135deg,#059669 0%,#047857 100%);color:white;border-radius:8px 8px 0 0;">
+              <span class="rn-version-tag" style="background:rgba(255,255,255,0.2);color:white;">v1.15</span>
+              <span class="rn-version-title" style="color:white;">일정 삭제 기능 · 배포목록 실시간 갱신 완전 수정</span>
+              <span class="rn-version-date" style="color:rgba(255,255,255,0.7);">2026-04-13</span>
+            </div>
+            <div class="rn-body">
+              <div class="rn-section-title">신규</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>스케줄 탭 프로젝트별 — 페이즈 일정 수정 모달에 "🗑 삭제" 버튼 추가 (기존 일정 있을 때만 표시)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>스케줄 탭 이슈별 — 이슈 일정 모달에 "🗑 삭제" 버튼 추가 (기존 일정 있을 때만 표시)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-new">NEW</span>일정 삭제 시 담당자 할당도 함께 초기화, Undo 지원, 이력에 기록</div>
+              <div class="rn-section-title">수정</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-fix">FIX</span>배포 번들 Firebase 리스너 — 탭 상태 무관하게 항상 목록 갱신 (탭 조건 제거, null 컨테이너 안전처리)</div>
+              <div class="rn-item"><span class="rn-badge rn-badge-fix">FIX</span>Firebase 데이터 없을 때 _deployBundles 스테일 데이터 잔존 버그 수정</div>
+            </div>
           </div>
 
           <div class="rn-version-block" style="border-color:#6366f1;">
@@ -4460,6 +4586,7 @@
   <div class="issue-detail-panel" id="issueDetailPanel">
     <div class="issue-detail-header">
       <div class="issue-detail-title" id="issueDetailTitle">이슈 상세</div>
+      <button onclick="copyIssueLink()" title="이슈 링크 복사" style="background:none;border:1.5px solid #e5e7eb;border-radius:6px;padding:3px 7px;font-size:11px;color:#6b7280;cursor:pointer;margin-right:4px;" onmouseover="this.style.borderColor='#6366f1';this.style.color='#6366f1'" onmouseout="this.style.borderColor='#e5e7eb';this.style.color='#6b7280'">🔗 링크</button>
       <button class="issue-detail-close" onclick="closeIssueDetail()">×</button>
     </div>
     <div class="issue-detail-body" id="issueDetailBody"></div>
@@ -4552,9 +4679,12 @@
         <label class="modal-label">담당자</label>
         <div id="editAssigneeList" style="display: flex; flex-direction: column; gap: 6px;"></div>
       </div>
-      <div class="modal-actions">
-        <button class="btn btn-secondary" onclick="closeEditModal()">취소</button>
-        <button class="btn" onclick="saveEdit()">저장</button>
+      <div class="modal-actions" style="justify-content:space-between;">
+        <button class="btn" id="editDeleteBtn" onclick="deletePhaseSchedule()" style="background:#fff;color:#dc2626;border:1.5px solid #fecaca;margin-right:auto;" title="이 페이즈 일정 전체 삭제">🗑 삭제</button>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-secondary" onclick="closeEditModal()">취소</button>
+          <button class="btn" onclick="saveEdit()">저장</button>
+        </div>
       </div>
     </div>
   </div>
@@ -4576,9 +4706,12 @@
         <label>담당자 (복수 선택 가능)</label>
         <div id="ismAssigneeList" class="ism-assignee-list"></div>
       </div>
-      <div class="ism-footer">
-        <button class="ism-cancel-btn" onclick="closeIssueScheduleModal()">취소</button>
-        <button class="ism-save-btn" onclick="saveIssueScheduleModal()">저장</button>
+      <div class="ism-footer" style="justify-content:space-between;">
+        <button id="ismDeleteBtn" onclick="deleteIssueScheduleModal()" style="padding:8px 14px;background:#fff;color:#dc2626;border:1.5px solid #fecaca;border-radius:7px;font-size:12px;cursor:pointer;display:none;" title="이슈 일정 삭제">🗑 삭제</button>
+        <div style="display:flex;gap:8px;margin-left:auto;">
+          <button class="ism-cancel-btn" onclick="closeIssueScheduleModal()">취소</button>
+          <button class="ism-save-btn" onclick="saveIssueScheduleModal()">저장</button>
+        </div>
       </div>
     </div>
   </div>
@@ -4759,7 +4892,7 @@
       qa: 'QA'
     };
 
-    const SERVICE_TYPES = ['고객앱', '선주모바일', '비즈페이지', '예약웹', '쇼핑웹', '어드민', '샵바이어드민', '포인트맵', '기타'];
+    const SERVICE_TYPES = ['고객앱', '선주모바일', '비즈페이지', '예약웹', '쇼핑웹', '어드민', '샵바이어드민', '선박예약어드민', '포인트맵', '기타'];
     const SERVICE_COLORS = {
       '고객앱': { bg: '#dbeafe', color: '#1d4ed8' },
       '선주모바일': { bg: '#fce7f3', color: '#be185d' },
@@ -5148,7 +5281,7 @@
       '<div class="s" id="schedule">' +
         '<h2><span class="ic">📅</span> 3. 스케줄 탭 (Gantt 차트)</h2>' +
         '<p>프로젝트별 페이즈(기획/디자인/프론트엔드/백엔드/QA) 일정을 시각적으로 보여주는 Gantt 차트입니다.</p>' +
-        '<h3>뷰 전환</h3><ul><li><strong>프로젝트 뷰</strong> — 프로젝트별로 묶어서 표시 (기본). 각 열(행)의 좌측에 "+ 일정" 버튼으로 페이즈별 일정·담당자 할당.</li><li><strong>이슈 뷰</strong> — 등록된 이슈를 상태별 그룹으로 표시. 각 이슈 행에 <strong>"+ 일정" 버튼</strong>(보라색)이 있어 클릭하면 시작일·종료일·담당자(복수 선택 가능)를 설정하는 풀 모달이 열립니다. 이미 일정이 등록된 경우 버튼에 날짜(MM-DD)가 표시됩니다.</li><li><strong>담당자 뷰</strong> — 팀원별로 할당된 일정 표시</li></ul>' +
+        '<h3>뷰 전환</h3><ul><li><strong>프로젝트 뷰</strong> — 프로젝트별로 묶어서 표시 (기본). 각 열(행)의 좌측에 "+ 일정" 버튼으로 페이즈별 일정·담당자 할당. 기존 일정이 있는 경우 수정 모달에 <strong>"🗑 삭제" 버튼</strong>이 표시되며, 클릭 시 해당 페이즈의 일정과 담당자 할당이 함께 삭제됩니다.</li><li><strong>이슈 뷰</strong> — 등록된 이슈를 상태별 그룹으로 표시. 각 이슈 행에 <strong>"+ 일정" 버튼</strong>(보라색)이 있어 클릭하면 시작일·종료일·담당자(복수 선택 가능)를 설정하는 풀 모달이 열립니다. 이미 일정이 등록된 경우 버튼에 날짜(MM-DD)가 표시되며, 모달에 <strong>"🗑 삭제" 버튼</strong>이 나타나 이슈 일정을 삭제할 수 있습니다.</li><li><strong>담당자 뷰</strong> — 팀원별로 할당된 일정 표시</li></ul>' +
         '<h3>줌 컨트롤</h3><p>좌측 상단의 − / + 버튼 또는 줌 슬라이더로 타임라인 확대/축소가 가능합니다. 날짜 헤더에 월요일(진한선), 주말(회색), 오늘(빨간선)이 강조됩니다.</p>' +
         '<h3>바 드래그 (쓰기 권한)</h3><p>Gantt 바의 좌/우 끝을 드래그하면 시작/종료일을 변경합니다. 바 중앙을 드래그하면 전체 기간이 이동합니다.</p>' +
         '<h3>바 겹침 처리</h3><p>동일 프로젝트에서 페이즈 날짜가 겹치면 자동으로 레인(행)을 분배하여 겹치지 않게 표시됩니다.</p>' +
@@ -5219,7 +5352,7 @@
         '<h3>필터 & 검색</h3><p>상태/프로덕트/심각도/검색어 필터 조합 가능. 활성 필터는 칩으로 표시되며 개별 또는 전체 초기화 가능. "고급 필터 ▾"를 펼치면 결함 타입, 우선순위, 배포 상태 필터도 사용 가능합니다.</p><p>검색창에 키워드 입력 시 카드 내 매칭 텍스트가 <mark style="background:#fef08a;">하이라이트</mark> 됩니다. 단축키: <span class="sc">/</span></p>' +
         '<h3>일괄 처리</h3><p>이슈 카드의 체크박스로 여러 이슈를 선택 후 "상태 변경" 또는 "담당자 변경" 일괄 처리 가능합니다.</p>' +
         '<h3>이슈 상세 패널</h3><p>이슈 카드 클릭 시 우측에 상세 패널이 열립니다. 제목 클릭으로 인라인 수정, 상태 드롭다운으로 즉시 변경, 코멘트 스레드 확인/작성 가능합니다. 이슈 ID 옆 "복사" 버튼으로 ID를 클립보드에 복사합니다.</p>' +
-        '<h3>코멘트 입력 (v1.14 개선)</h3><p>코멘트 입력 영역이 Linear/GitHub 스타일로 개편되었습니다. 입력창에 텍스트를 입력하면 "등록" 버튼이 활성화되며, <span class="sc">Enter</span>로 전송, <span class="sc">Shift+Enter</span>로 줄바꿈합니다. 글자수 카운터(0/500)가 하단에 표시되며 400자 초과 시 경고 색상으로 변경됩니다. 댓글에 <span class="sc">@팀원이름</span>을 입력하면 해당 팀원에게 자동 알림이 발송됩니다.</p>' +
+        '<h3>코멘트 입력 (v1.17 개선)</h3><p>코멘트 입력 영역이 Linear/GitHub 스타일로 개편되었습니다. 입력창에 텍스트를 입력하면 "등록" 버튼이 활성화되며, <span class="sc">Enter</span>로 전송, <span class="sc">Shift+Enter</span>로 줄바꿈합니다. 글자수 카운터(0/500)가 하단에 표시되며 400자 초과 시 경고 색상으로 변경됩니다.</p><ul><li><strong>파일 첨부 (v1.17)</strong> — "📎 첨부" 버튼으로 이미지 또는 동영상을 코멘트에 직접 첨부 가능합니다 (2MB 이하)</li><li><strong>@mention 자동완성 (v1.17)</strong> — @ 기호 입력 후 팀원 이름 검색 시 드롭다운에서 팀원을 선택하면 해당 팀원에게 자동 알림 발송</li></ul>' +
         '<h3>기한 표시</h3><ul><li><strong>⚠️ 기한 초과</strong> — 기한이 지난 이슈 (빨강)</li><li><strong>🔥 D-N</strong> — 3일 이내 (주황)</li><li><strong>D-N</strong> — 7일 이내 (노랑)</li></ul>' +
         '<h3>키보드 단축키</h3>' +
         '<table><thead><tr><th>단축키</th><th>기능</th></tr></thead><tbody>' +
@@ -5267,8 +5400,8 @@
       '<div class="s" id="history">' +
         '<h2><span class="ic">📝</span> 7. 이력 탭</h2>' +
         '<p>두 가지 서브탭으로 구성됩니다.</p>' +
-        '<h3>변경 이력</h3><p>프로젝트 데이터의 모든 변경 사항이 자동으로 기록됩니다. 누가, 언제, 어떤 프로젝트의 어떤 필드를 어떻게 변경했는지 이전값/이후값과 함께 표시됩니다.</p>' +
-        '<h3>접속 이력</h3><p>팀원들의 로그인/로그아웃/페이지 이탈 기록입니다. 신규 직원이 처음 접속하면 "신규 접속 (자동 등록)"으로 표시됩니다.</p>' +
+        '<h3>변경 이력</h3><p>프로젝트 데이터의 모든 변경 사항이 자동으로 기록됩니다. 누가, 언제, 어떤 프로젝트의 어떤 필드를 어떻게 변경했는지 이전값/이후값과 함께 표시됩니다.</p><ul><li><strong>검색/필터 (v1.17)</strong> — 상단의 검색창에 프로젝트명/사용자/내용을 입력하여 키워드 검색 가능하며, "유형" 드롭다운으로 생성/수정/삭제/상태변경 이벤트만 필터링할 수 있습니다.</li></ul>' +
+        '<h3>접속 이력</h3><p>팀원들의 로그인/로그아웃/페이지 이탈 기록입니다. 신규 직원이 처음 접속하면 "신규 접속 (자동 등록)"으로 표시됩니다.</p><ul><li><strong>검색/필터 (v1.17)</strong> — 상단의 검색창에 팀원 이름/이메일을 입력하여 검색 가능하며, "액션" 드롭다운으로 로그인/로그아웃만 필터링할 수 있습니다.</li></ul>' +
         '<div class="co">모든 이력은 Firebase에 저장되어 누구든 같은 데이터를 볼 수 있습니다. 캐시를 비워도 사라지지 않습니다.</div>' +
       '</div>' +
 
@@ -7229,11 +7362,13 @@
               }
             });
             _saveDeployBundlesToLocal();
-            // Deploy 탭이 활성화되어 있으면 목록 갱신
-            if (state.currentTab === 'deploy') {
-              try { renderDeployBundles(); } catch(e) {}
-            }
+          } else {
+            // Firebase에 데이터 없음 → 로컬 초기화
+            _deployBundles = [];
           }
+          // 탭 여부와 무관하게 항상 컨테이너 갱신 (탭이 비활성이어도 DOM에 존재)
+          var _dc = document.getElementById('deployBundlesContainer');
+          if (_dc) { try { renderDeployBundles(); } catch(e) { console.warn('[Deploy]', e); } }
         });
       }
     }
@@ -7252,18 +7387,14 @@
     }
 
     function _generateIssueId() {
-      // Format: {ProductCode}{YYMMDD}-{Serial}
-      // Product codes: PAA (어바웃피싱 앱), PAD (어드민), PSA (샵바이), PSD (샵바이어드민), PFM (포인트맵)
-      var productMap = {
-        '어바웃피싱 앱': 'PAA',
-        '어바웃피싱 어드민': 'PAD',
-        '샵바이 앱/웹': 'PSA',
-        '샵바이 어드민': 'PSD',
-        '낚시포인트맵': 'PFM'
+      // Format: {ServiceCode}{YYMMDD}-{Serial}
+      var serviceCodeMap = {
+        '고객앱':'CAP','선주모바일':'CAP','비즈페이지':'BIZ','예약웹':'RSV',
+        '쇼핑웹':'SHP','어드민':'ADM','샵바이어드민':'SBA','선박예약어드민':'RSA','포인트맵':'PFM','기타':'ISS'
       };
+      var selServices = (typeof _getMcValues === 'function') ? _getMcValues('create_serviceTypes') : [];
+      var productCode = (selServices.length > 0 && serviceCodeMap[selServices[0]]) ? serviceCodeMap[selServices[0]] : 'ISS';
 
-      var selectedProduct = document.getElementById('createIssue_product') ? document.getElementById('createIssue_product').value : '';
-      var productCode = productMap[selectedProduct] || 'PAA'; // Default to AboutFishing App
       var today = new Date();
       var yymmdd = String(today.getFullYear()).substring(2) + String(today.getMonth() + 1).padStart(2, '0') + String(today.getDate()).padStart(2, '0');
 
@@ -7382,54 +7513,34 @@
       // === Essential Fields (always visible) ===
       _addFieldToSection(form, '제목', 'createIssue_title', 'text', true);
 
-      // ID 미리보기 (프로덕트 선택 후 업데이트)
+      // ID 미리보기
       var idPreviewDiv = document.createElement('div');
       idPreviewDiv.id = 'createIssueIdPreview';
       idPreviewDiv.style.cssText = 'font-size:10px;color:#9ca3af;margin:-4px 0 6px;padding:3px 8px;background:#f9fafb;border-radius:4px;display:inline-block;';
-      idPreviewDiv.textContent = '이슈 ID: 프로덕트 선택 후 생성됩니다';
+      idPreviewDiv.textContent = '이슈 ID: 저장 시 자동 생성됩니다';
       form.appendChild(idPreviewDiv);
 
       _addRowToSection(form, [
         { label: '이슈 유형', id: 'createIssue_type', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: 'Bug', l: 'Bug' }, { v: 'Task', l: 'Task' }] },
         { label: '심각도', id: 'createIssue_severity', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: 'Block', l: 'Block' }, { v: 'Major', l: 'Major' }, { v: 'Minor', l: 'Minor' }, { v: 'Trivial', l: 'Trivial' }] }
       ]);
-      _addRowToSection(form, [
-        { label: '프로덕트', id: 'createIssue_product', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: '어바웃피싱 앱', l: '어바웃피싱 앱' }, { v: '어바웃피싱 어드민', l: '어바웃피싱 어드민' }, { v: '샵바이 앱/웹', l: '샵바이 앱/웹' }, { v: '샵바이 어드민', l: '샵바이 어드민' }, { v: '낚시포인트맵', l: '낚시포인트맵' }] },
-        { label: '플랫폼', id: 'createIssue_platform', type: 'select', required: true, options: [{ v: '', l: '선택...' }, { v: 'IOS', l: 'IOS' }, { v: 'AOS', l: 'AOS' }, { v: 'PC', l: 'PC' }, { v: 'MW', l: 'MW' }] }
-      ]);
+      // 플랫폼 멀티셀렉트
+      var platRow = document.createElement('div');
+      platRow.className = 'issue-form-row';
+      var platGrp = document.createElement('div');
+      platGrp.className = 'issue-form-group';
+      var platLbl = document.createElement('label');
+      platLbl.className = 'issue-form-label';
+      platLbl.textContent = '플랫폼 *';
+      platGrp.appendChild(platLbl);
+      platGrp.appendChild(_buildMcSelect('create_platforms',
+        [{v:'IOS',l:'IOS'},{v:'AOS',l:'AOS'},{v:'PC',l:'PC'},{v:'MW',l:'MW'}], [],
+        {placeholder:'플랫폼 선택...'}));
+      platRow.appendChild(platGrp);
+      form.appendChild(platRow);
 
-      // 프로덕트 선택 시 ID 미리보기 업데이트
+      // Type-aware form behavior: show/hide severity for Task
       setTimeout(function() {
-        var productSel = document.getElementById('createIssue_product');
-        if (productSel) {
-          productSel.onchange = function() {
-            var previewEl = document.getElementById('createIssueIdPreview');
-            if (!previewEl) return;
-            var productMap = {
-              '어바웃피싱 앱':'PAA','어바웃피싱 어드민':'PAD',
-              '샵바이 앱/웹':'PSA','샵바이 어드민':'PSD','낚시포인트맵':'PFM'
-            };
-            var code = productMap[this.value] || 'PAA';
-            var today = new Date();
-            var yy = String(today.getFullYear()).slice(2);
-            var mm = String(today.getMonth()+1).padStart(2,'0');
-            var dd = String(today.getDate()).padStart(2,'0');
-            var maxSuffix = 0;
-            _issues.forEach(function(iss) {
-              var prefix = code + yy + mm + dd;
-              if (iss.id && iss.id.startsWith(prefix)) {
-                var suffix = parseInt(iss.id.substring(prefix.length+1));
-                if (!isNaN(suffix) && suffix > maxSuffix) maxSuffix = suffix;
-              }
-            });
-            var nextId = code + yy + mm + dd + '-' + String(maxSuffix+1).padStart(2,'0');
-            previewEl.textContent = '이슈 ID: ' + nextId;
-            previewEl.style.color = '#6366f1';
-            previewEl.style.fontWeight = '600';
-          };
-        }
-
-        // Type-aware form behavior: show/hide severity for Task
         var typeSel = document.getElementById('createIssue_type');
         var severitySel = document.getElementById('createIssue_severity');
         if (typeSel && severitySel) {
@@ -7521,25 +7632,102 @@
         { label: '배포환경', id: 'createIssue_environment', type: 'select', required: false, options: [{ v: '', l: '선택...' }, { v: '운영', l: '운영' }, { v: '스테이지', l: '스테이지' }, { v: '개발', l: '개발' }] },
         { label: '빌드 카테고리', id: 'createIssue_buildCategory', type: 'select', required: false, options: [{ v: '', l: '선택...' }, { v: '앱', l: '앱' }, { v: '커뮤니티', l: '커뮤니티' }, { v: '쇼핑', l: '쇼핑' }, { v: '중고', l: '중고' }, { v: '예약', l: '예약' }, { v: '백오피스', l: '백오피스' }] }
       ]);
-      _addRowToSection(detailSection, [
-        { label: '프로젝트', id: 'createIssue_projectId', type: 'select', required: false, options: [{ v: '', l: '선택...' }].concat((state.projects || []).map(function(p) { return { v: p.id, l: p.name }; })) },
-        { label: '서비스', id: 'createIssue_serviceType', type: 'select', required: false, options: [{ v: '', l: '선택...' }].concat((SERVICE_TYPES || []).map(function(st) { return { v: st, l: st }; })) }
-      ]);
-      _addFieldToSection(detailSection, '관련 이슈 (쉼표 분리)', 'createIssue_relatedIssues', 'text', false);
+      // 프로젝트 (멀티셀렉트) + 서비스 2열
+      var rowProjSvc = document.createElement('div');
+      rowProjSvc.className = 'issue-form-row';
+      // 프로젝트 멀티셀렉트
+      var projGrp = document.createElement('div');
+      projGrp.className = 'issue-form-group';
+      var projLbl = document.createElement('label');
+      projLbl.className = 'issue-form-label';
+      projLbl.textContent = '프로젝트';
+      projGrp.appendChild(projLbl);
+      projGrp.appendChild(_buildMcSelect('create_projectIds',
+        (state.projects||[]).map(function(p){return{v:p.id,l:p.name};}), [], {placeholder:'프로젝트 선택...'}));
+      rowProjSvc.appendChild(projGrp);
+      // 서비스 멀티셀렉트
+      var svcGrp = document.createElement('div');
+      svcGrp.className = 'issue-form-group';
+      var svcLbl = document.createElement('label');
+      svcLbl.className = 'issue-form-label';
+      svcLbl.textContent = '서비스';
+      svcGrp.appendChild(svcLbl);
+      svcGrp.appendChild(_buildMcSelect('create_serviceTypes',
+        (SERVICE_TYPES||[]).map(function(st){return{v:st,l:st};}), [],
+        {placeholder:'서비스 선택...'}));
+      rowProjSvc.appendChild(svcGrp);
+      detailSection.appendChild(rowProjSvc);
+
+      // 관련 이슈 (검색 멀티셀렉트)
+      var relGrp = document.createElement('div');
+      relGrp.className = 'issue-form-group';
+      var relLbl = document.createElement('label');
+      relLbl.className = 'issue-form-label';
+      relLbl.textContent = '관련 이슈';
+      relGrp.appendChild(relLbl);
+      var relOpts = (_issues||[]).map(function(i){return{v:i.id,l:i.title||'(제목없음)'};});
+      relGrp.appendChild(_buildMcSelect('create_relatedIssues', relOpts, [], {placeholder:'이슈 검색...', isIssue:true, maxHeight:'150px'}));
+      detailSection.appendChild(relGrp);
 
       // Divider
       var divider1 = document.createElement('div');
       divider1.style.cssText = 'border-top:1px solid #f3f4f6;margin:8px 0;';
       detailSection.appendChild(divider1);
 
-      _addRowToSection(detailSection, [
-        { label: '작업 담당자', id: 'createIssue_assignee', type: 'select', required: false, options: [{ v: '', l: '선택...' }].concat(TEAM.map(function(m) { return { v: m.id, l: m.name }; })) },
-        { label: '확인 담당자', id: 'createIssue_verifier', type: 'select', required: false, options: [{ v: '', l: '선택...' }].concat(TEAM.map(function(m) { return { v: m.id, l: m.name }; })) }
-      ]);
-      _addRowToSection(detailSection, [
-        { label: '참조자', id: 'createIssue_references', type: 'text', required: false, placeholder: '쉼표 분리' },
-        { label: '처리 기한', id: 'createIssue_deadline', type: 'date', required: false }
-      ]);
+      // 담당자 멀티셀렉트 (작업) + 확인담당자 단일셀렉트
+      var rowAssign = document.createElement('div');
+      rowAssign.className = 'issue-form-row';
+      var assGrp = document.createElement('div');
+      assGrp.className = 'issue-form-group';
+      var assLbl = document.createElement('label');
+      assLbl.className = 'issue-form-label';
+      assLbl.textContent = '작업 담당자';
+      assGrp.appendChild(assLbl);
+      assGrp.appendChild(_buildMcSelect('create_assignees',
+        TEAM.map(function(m){return{v:m.id,l:m.name,color:m.color,sub:m.role};}), [],
+        {placeholder:'담당자 선택...'}));
+      rowAssign.appendChild(assGrp);
+      var verGrp = document.createElement('div');
+      verGrp.className = 'issue-form-group';
+      var verLbl = document.createElement('label');
+      verLbl.className = 'issue-form-label';
+      verLbl.textContent = '확인 담당자';
+      verGrp.appendChild(verLbl);
+      var verSel = document.createElement('select');
+      verSel.id = 'createIssue_verifier';
+      verSel.className = 'issue-form-select';
+      [{v:'',l:'선택...'}].concat(TEAM.map(function(m){return{v:m.id,l:m.name};})).forEach(function(o){var op=document.createElement('option');op.value=o.v;op.textContent=o.l;verSel.appendChild(op);});
+      verGrp.appendChild(verSel);
+      rowAssign.appendChild(verGrp);
+      detailSection.appendChild(rowAssign);
+
+      // 참조자 (멀티셀렉트, 개발팀 기본 선택) + 처리 기한
+      var rowRefDl = document.createElement('div');
+      rowRefDl.className = 'issue-form-row';
+      var refGrp = document.createElement('div');
+      refGrp.className = 'issue-form-group';
+      var refLbl = document.createElement('label');
+      refLbl.className = 'issue-form-label';
+      refLbl.textContent = '참조자';
+      refGrp.appendChild(refLbl);
+      refGrp.appendChild(_buildMcSelect('create_references',
+        TEAM.map(function(m){return{v:m.id,l:m.name,color:m.color,sub:m.role};}),
+        _DEV_TEAM_IDS,
+        {placeholder:'참조자 선택...'}));
+      rowRefDl.appendChild(refGrp);
+      var dlGrp = document.createElement('div');
+      dlGrp.className = 'issue-form-group';
+      var dlLbl = document.createElement('label');
+      dlLbl.className = 'issue-form-label';
+      dlLbl.textContent = '처리 기한';
+      dlGrp.appendChild(dlLbl);
+      var dlIn = document.createElement('input');
+      dlIn.type = 'date';
+      dlIn.id = 'createIssue_deadline';
+      dlIn.className = 'issue-form-input';
+      dlGrp.appendChild(dlIn);
+      rowRefDl.appendChild(dlGrp);
+      detailSection.appendChild(rowRefDl);
 
       // Divider
       var divider2 = document.createElement('div');
@@ -7586,16 +7774,19 @@
         priority: document.getElementById('createIssue_priority').value,
         status: '등록',
         environment: document.getElementById('createIssue_environment').value || '',
-        platform: document.getElementById('createIssue_platform').value || '',
-        product: document.getElementById('createIssue_product').value || '',
+        platforms: _getMcValues('create_platforms'),
+        platform: (_getMcValues('create_platforms')[0] || ''),
         defectType: document.getElementById('createIssue_defectType').value || '',
-        projectId: document.getElementById('createIssue_projectId').value || '',
-        serviceType: document.getElementById('createIssue_serviceType').value || '',
+        projectIds: _getMcValues('create_projectIds'),
+        projectId: (_getMcValues('create_projectIds')[0] || ''),
+        serviceTypes: _getMcValues('create_serviceTypes'),
+        serviceType: (_getMcValues('create_serviceTypes')[0] || ''),
         buildCategory: document.getElementById('createIssue_buildCategory').value || '',
-        assignee: document.getElementById('createIssue_assignee').value || '',
+        assignees: _getMcValues('create_assignees'),
+        assignee: (_getMcValues('create_assignees')[0] || ''),
         verifier: document.getElementById('createIssue_verifier').value || '',
-        references: document.getElementById('createIssue_references').value || '',
-        relatedIssues: document.getElementById('createIssue_relatedIssues').value || '',
+        references: _getMcValues('create_references'),
+        relatedIssues: _getMcValues('create_relatedIssues'),
         tcId: (document.getElementById('createIssue_tcId') ? document.getElementById('createIssue_tcId').value : '') || '',
         isRegression: (document.getElementById('createIssue_isRegression') ? document.getElementById('createIssue_isRegression').value : '') || '',
         deadline: document.getElementById('createIssue_deadline').value || '',
@@ -7635,8 +7826,6 @@
       if (!issueData.title) _setFieldError('createIssue_title', '제목을 입력하세요');
       if (!issueData.type) _setFieldError('createIssue_type', '이슈 유형을 선택하세요');
       if (!issueData.severity) _setFieldError('createIssue_severity', '심각도를 선택하세요');
-      if (!issueData.product) _setFieldError('createIssue_product', '프로덕트를 선택하세요');
-      if (!issueData.platform) _setFieldError('createIssue_platform', '플랫폼을 선택하세요');
       if (_validationErrors.length > 0) {
         _validationErrors[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
         _validationErrors[0].focus();
@@ -7690,7 +7879,7 @@
         var bb = document.getElementById('stViewBookmarks'); if (bb) bb.classList.add('active');
       }
       // 그룹뷰 패널 라벨 업데이트
-      var labelMap = { 'by-product':'프로덕트별', 'by-project':'프로젝트별', 'by-assignee':'담당자별' };
+      var labelMap = { 'by-service':'서비스별', 'by-project':'프로젝트별', 'by-assignee':'담당자별' };
       if (labelMap[mode]) _updateStGroupLabel(mode, labelMap[mode]);
       else if (mode === 'all' || mode === 'my-issues' || mode === 'bookmarks') {
         // 그룹뷰 패널 초기화는 안 함 (별도 groupBy 상태 유지)
@@ -7758,7 +7947,7 @@
       if (wrap && !wrap.contains(e.target)) closeFilterPopover();
     }
     function _updateFilterBadge() {
-      var fields = ['issueStatusFilter','issueProductFilter','issueSeverityFilter','issueDefectTypeFilter','issuePriorityFilter','issueBundleFilter'];
+      var fields = ['issueStatusFilter','issueServiceFilter','issueSeverityFilter','issueDefectTypeFilter','issuePriorityFilter','issueBundleFilter','issueProjectFilter'];
       var count = fields.filter(function(id) {
         var el = document.getElementById(id);
         return el && el.value;
@@ -7857,12 +8046,13 @@
 
     function resetIssueFilters() {
       if (document.getElementById('issueStatusFilter')) document.getElementById('issueStatusFilter').value = '';
-      if (document.getElementById('issueProductFilter')) document.getElementById('issueProductFilter').value = '';
+      if (document.getElementById('issueServiceFilter')) document.getElementById('issueServiceFilter').value = '';
       if (document.getElementById('issueSeverityFilter')) document.getElementById('issueSeverityFilter').value = '';
       if (document.getElementById('issueDefectTypeFilter')) document.getElementById('issueDefectTypeFilter').value = '';
       if (document.getElementById('issuePriorityFilter')) document.getElementById('issuePriorityFilter').value = '';
       if (document.getElementById('issueSearchInput')) document.getElementById('issueSearchInput').value = '';
       if (document.getElementById('issueBundleFilter')) document.getElementById('issueBundleFilter').value = '';
+      if (document.getElementById('issueProjectFilter')) document.getElementById('issueProjectFilter').value = '';
       renderIssues();
       _updateFilterBadge();
     }
@@ -8088,12 +8278,12 @@
     function quickCaptureSubmit() {
       var titleEl = document.getElementById('qc_title');
       var sevEl = document.getElementById('qc_severity');
-      var prodEl = document.getElementById('qc_product');
+      var svcEl = document.getElementById('qc_service');
       var title = (titleEl || {}).value || '';
       if (!title.trim()) return;
 
       var sev = (sevEl || {}).value || 'Major';
-      var prod = (prodEl || {}).value || '';
+      var svc = (svcEl || {}).value || '';
 
       // Build minimal issue
       var issueData = {
@@ -8103,7 +8293,9 @@
         severity: sev,
         priority: sev === 'Block' ? '0' : sev === 'Major' ? '1' : '2',
         status: '등록',
-        product: prod,
+        serviceTypes: svc ? [svc] : [],
+        serviceType: svc || '',
+        platforms: [],
         platform: '',
         defectType: '',
         assignee: '',
@@ -8117,7 +8309,7 @@
       _addNotification('이슈 빠른 등록: ' + title.trim(), 'success', issueData.id);
 
       // Save last settings
-      _qcLastSettings = { severity: sev, product: prod };
+      _qcLastSettings = { severity: sev, service: svc };
       localStorage.setItem('qa_qc_settings', JSON.stringify(_qcLastSettings));
 
       // Reset + feedback
@@ -8136,9 +8328,9 @@
     function _initQuickCaptureDefaults() {
       var settings = JSON.parse(localStorage.getItem('qa_qc_settings') || '{}');
       var sevEl = document.getElementById('qc_severity');
-      var prodEl = document.getElementById('qc_product');
+      var svcEl = document.getElementById('qc_service');
       if (sevEl && settings.severity) sevEl.value = settings.severity;
-      if (prodEl && settings.product) prodEl.value = settings.product;
+      if (svcEl && settings.service) svcEl.value = settings.service;
     }
 
     // ===== CYCLE 9: 이슈 등록 모달 스마트 기본값 =====
@@ -8148,20 +8340,28 @@
         var sevEl = document.getElementById('createIssue_severity');
         if (sevEl && !sevEl.value) sevEl.value = settings.severity;
       }
-      if (settings.product) {
-        var prodEl = document.getElementById('createIssue_product');
-        if (prodEl && !prodEl.value) prodEl.value = settings.product;
-      }
     }
 
 function renderIssues() {
+      // 프로젝트 필터 옵션 동적 채우기
+      var projFilterEl = document.getElementById('issueProjectFilter');
+      if (projFilterEl && projFilterEl.options.length <= 1) {
+        (state.projects || []).forEach(function(p) {
+          var opt = document.createElement('option');
+          opt.value = p.id;
+          opt.textContent = p.name;
+          projFilterEl.appendChild(opt);
+        });
+      }
+
       var statusFilter = document.getElementById('issueStatusFilter').value;
-      var productFilter = document.getElementById('issueProductFilter').value;
+      var serviceFilter = document.getElementById('issueServiceFilter') ? document.getElementById('issueServiceFilter').value : '';
       var severityFilter = document.getElementById('issueSeverityFilter').value;
       var defectTypeFilter = document.getElementById('issueDefectTypeFilter').value;
       var priorityFilter = document.getElementById('issuePriorityFilter').value;
       var searchText = document.getElementById('issueSearchInput').value.toLowerCase();
       var bundleFilter = document.getElementById('issueBundleFilter') ? document.getElementById('issueBundleFilter').value : '';
+      var projectFilter = document.getElementById('issueProjectFilter') ? document.getElementById('issueProjectFilter').value : '';
 
       // 활성 필터 칩 표시
       var activeFiltersBar = document.getElementById('activeFiltersBar');
@@ -8170,7 +8370,11 @@ function renderIssues() {
         var activeFilters = [];
 
         if (statusFilter) activeFilters.push({ label: '상태: ' + statusFilter, key: 'issueStatusFilter' });
-        if (productFilter) activeFilters.push({ label: '프로덕트: ' + productFilter, key: 'issueProductFilter' });
+        if (serviceFilter) activeFilters.push({ label: '서비스: ' + serviceFilter, key: 'issueServiceFilter' });
+        if (projectFilter) {
+          var pName = (state.projects.find(function(p){return p.id===projectFilter;})||{name:projectFilter}).name;
+          activeFilters.push({ label: '프로젝트: ' + pName, key: 'issueProjectFilter' });
+        }
         if (severityFilter) activeFilters.push({ label: '심각도: ' + severityFilter, key: 'issueSeverityFilter' });
         if (defectTypeFilter) activeFilters.push({ label: '결함: ' + defectTypeFilter, key: 'issueDefectTypeFilter' });
         if (priorityFilter) activeFilters.push({ label: 'P' + priorityFilter, key: 'issuePriorityFilter' });
@@ -8221,11 +8425,13 @@ function renderIssues() {
 
       var filtered = _issues.filter(function(iss) {
         if (statusFilter && iss.status !== statusFilter) return false;
-        if (productFilter && iss.product !== productFilter) return false;
+        if (serviceFilter && _getServiceIds(iss).indexOf(serviceFilter) === -1) return false;
         if (severityFilter && iss.severity !== severityFilter) return false;
         if (defectTypeFilter && iss.defectType !== defectTypeFilter) return false;
         if (priorityFilter && iss.priority !== priorityFilter) return false;
         if (searchText && !iss.title.toLowerCase().includes(searchText) && !iss.id.toLowerCase().includes(searchText)) return false;
+        // 프로젝트 필터
+        if (projectFilter && _getProjectIds(iss).indexOf(projectFilter) === -1) return false;
 
         // 배포 포함/미포함 필터
         if (bundleFilter === 'in-bundle') {
@@ -8240,7 +8446,8 @@ function renderIssues() {
         if (_issueViewMode === 'my-issues') {
           var myUid = state.currentUser ? state.currentUser.uid : null;
           if (!myUid) return false;
-          if (iss.assignee !== myUid && iss.verifier !== myUid) return false;
+          var myAssignees = _getAssigneeIds(iss);
+          if (myAssignees.indexOf(myUid) === -1 && iss.verifier !== myUid) return false;
         }
 
         if (_issueViewMode === 'bookmarks') {
@@ -8287,7 +8494,7 @@ function renderIssues() {
         var hasSearch = searchQuery && searchQuery.length > 0;
         var hasFilters = hasSearch ||
           (document.getElementById('issueStatusFilter') && document.getElementById('issueStatusFilter').value) ||
-          (document.getElementById('issueProductFilter') && document.getElementById('issueProductFilter').value) ||
+          (document.getElementById('issueServiceFilter') && document.getElementById('issueServiceFilter').value) ||
           (document.getElementById('issueSeverityFilter') && document.getElementById('issueSeverityFilter').value) ||
           (document.getElementById('issueDefectTypeFilter') && document.getElementById('issueDefectTypeFilter').value) ||
           (document.getElementById('issuePriorityFilter') && document.getElementById('issuePriorityFilter').value) ||
@@ -8432,9 +8639,12 @@ function renderIssues() {
       } else if (_issueViewMode === 'by-project') {
         var grouped = {};
         filtered.forEach(function(iss) {
-          var key = iss.projectId || '(미할당)';
-          if (!grouped[key]) grouped[key] = [];
-          grouped[key].push(iss);
+          var pids = _getProjectIds(iss);
+          if (!pids.length) pids = ['(미할당)'];
+          pids.forEach(function(key) {
+            if (!grouped[key]) grouped[key] = [];
+            grouped[key].push(iss);
+          });
         });
         Object.keys(grouped).forEach(function(key) {
           var header = document.createElement('div');
@@ -8446,14 +8656,21 @@ function renderIssues() {
             _renderIssueCard(container, iss);
           });
         });
-      } else if (_issueViewMode === 'by-product') {
+      } else if (_issueViewMode === 'by-service') {
+        // 서비스별: serviceTypes (다중) 지원
         var grouped = {};
         filtered.forEach(function(iss) {
-          var key = iss.serviceType || '(미할당)';
-          if (!grouped[key]) grouped[key] = [];
-          grouped[key].push(iss);
+          var svcIds = _getServiceIds(iss);
+          if (!svcIds.length) svcIds = ['(미할당)'];
+          svcIds.forEach(function(sk) {
+            if (!grouped[sk]) grouped[sk] = [];
+            grouped[sk].push(iss);
+          });
         });
-        Object.keys(grouped).forEach(function(key) {
+        // SERVICE_TYPES 순서대로 정렬 표시, 미할당은 마지막
+        var orderedKeys = (SERVICE_TYPES || []).filter(function(st) { return grouped[st]; });
+        if (grouped['(미할당)']) orderedKeys.push('(미할당)');
+        orderedKeys.forEach(function(key) {
           var header = document.createElement('div');
           header.className = 'issue-group-header';
           header.innerHTML = serviceTagHTML(key, '11px') + ' ' + key;
@@ -8463,15 +8680,18 @@ function renderIssues() {
           });
         });
       } else if (_issueViewMode === 'by-assignee') {
-        // 담당자별: assignee + verifier 모두 포함 (각자 그룹에 표시)
+        // 담당자별: assignees + verifier 모두 포함 (각자 그룹에 표시)
         var grouped = {};
         filtered.forEach(function(iss) {
-          // 작업 담당자
-          var ak = iss.assignee || '__unassigned__';
-          if (!grouped[ak]) grouped[ak] = { workItems: [], verifyItems: [] };
-          grouped[ak].workItems.push(iss);
-          // 검증 담당자 (작업담당자와 다를 경우만 별도 그룹)
-          if (iss.verifier && iss.verifier !== iss.assignee) {
+          // 작업 담당자 (다중)
+          var aids = _getAssigneeIds(iss);
+          if (!aids.length) aids = ['__unassigned__'];
+          aids.forEach(function(ak) {
+            if (!grouped[ak]) grouped[ak] = { workItems: [], verifyItems: [] };
+            grouped[ak].workItems.push(iss);
+          });
+          // 검증 담당자 (작업담당자 중 없는 경우만 별도)
+          if (iss.verifier && aids.indexOf(iss.verifier) === -1) {
             var vk = iss.verifier;
             if (!grouped[vk]) grouped[vk] = { workItems: [], verifyItems: [] };
             grouped[vk].verifyItems.push(iss);
@@ -8857,38 +9077,62 @@ function renderIssues() {
       var meta = document.createElement('div');
       meta.style.cssText = 'display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:10px;color:#6b7280;margin-bottom:6px;';
 
-      // Assignee avatar (more prominent)
-      if (iss.assignee) {
-        var aItem = document.createElement('span');
-        aItem.style.cssText = 'display:flex;align-items:center;gap:4px;';
-        var member = TEAM.find(function(m) { return m.id === iss.assignee; });
-        if (member) {
-          var avatar = document.createElement('div');
-          avatar.style.cssText = 'width:20px;height:20px;border-radius:50%;background:' + member.color + ';color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;';
-          avatar.textContent = member.name.substring(0, 1);
-          aItem.appendChild(avatar);
-          aItem.appendChild(document.createTextNode(member.name));
+      // Assignee avatars (multi)
+      var assigneeIds = _getAssigneeIds(iss);
+      if (assigneeIds.length) {
+        var aWrap = document.createElement('span');
+        aWrap.style.cssText = 'display:flex;align-items:center;gap:3px;';
+        assigneeIds.slice(0, 3).forEach(function(aid) {
+          var member = TEAM.find(function(m) { return m.id === aid; });
+          if (member) {
+            var avatar = document.createElement('div');
+            avatar.style.cssText = 'width:20px;height:20px;border-radius:50%;background:' + member.color + ';color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;';
+            avatar.textContent = member.name.substring(0, 1);
+            avatar.title = member.name;
+            aWrap.appendChild(avatar);
+          }
+        });
+        if (assigneeIds.length === 1) {
+          var member1 = TEAM.find(function(m) { return m.id === assigneeIds[0]; });
+          if (member1) aWrap.appendChild(document.createTextNode(member1.name));
+        } else if (assigneeIds.length > 1) {
+          var nameSpan = document.createElement('span');
+          nameSpan.style.cssText = 'font-size:10px;color:#374151;';
+          nameSpan.textContent = assigneeIds.length + '명';
+          aWrap.appendChild(nameSpan);
         }
-        meta.appendChild(aItem);
+        meta.appendChild(aWrap);
       }
 
-      // Service type
-      if (iss.serviceType) {
-        var sTag = document.createElement('span');
-        sTag.className = 'issue-meta-item';
-        sTag.innerHTML = serviceTagHTML(iss.serviceType, '9px');
-        meta.appendChild(sTag);
+      // Service types (multi)
+      if (_getServiceIds(iss).length > 0) {
+        var svcWrap = document.createElement('span');
+        _getServiceIds(iss).slice(0,2).forEach(function(st) {
+          var sTag = document.createElement('span');
+          sTag.innerHTML = serviceTagHTML(st, '9px');
+          svcWrap.appendChild(sTag.firstChild || sTag);
+        });
+        if (_getServiceIds(iss).length > 2) {
+          var moreTag = document.createElement('span');
+          moreTag.style.cssText = 'font-size:9px;color:#9ca3af;';
+          moreTag.textContent = '+' + (_getServiceIds(iss).length - 2);
+          svcWrap.appendChild(moreTag);
+        }
+        meta.appendChild(svcWrap);
       }
 
-      // Project
-      if (iss.projectId) {
+      // Projects (multi)
+      var projectIds = _getProjectIds(iss);
+      projectIds.slice(0, 2).forEach(function(pid) {
+        var proj = state.projects.find(function(p) { return p.id === pid; });
         var pLink = document.createElement('span');
         pLink.className = 'issue-meta-item';
         pLink.style.cursor = 'pointer';
-        pLink.textContent = '📁 ' + (state.projects.find(function(p) { return p.id === iss.projectId; }) || {name: iss.projectId}).name;
-        pLink.onclick = function(e) { e.stopPropagation(); };
+        pLink.textContent = '📁 ' + (proj ? proj.name : pid);
+        pLink.title = '이 프로젝트로 이동';
+        pLink.onclick = function(e) { e.stopPropagation(); openDetailPanel(pid); };
         meta.appendChild(pLink);
-      }
+      });
 
       // Only show critical deadline info
       if (iss.deadline) {
@@ -8963,15 +9207,19 @@ function renderIssues() {
         defBadge.textContent = iss.defectType;
         meta.appendChild(defBadge);
       }
-      if (iss.platform && iss.platform !== '') {
-        var platBadge = document.createElement('span');
-        platBadge.className = 'platform-badge';
-        var platMap = { 'iOS': 'ios', 'Android': 'android', 'Web': 'web', 'All': 'all', '전체': 'all' };
-        var platKey = platMap[iss.platform] || 'all';
-        platBadge.className += ' platform-' + platKey;
-        var platIcon = { 'iOS': '🍎', 'Android': '🤖', 'Web': '🌐', 'All': '📱', '전체': '📱' };
-        platBadge.textContent = (platIcon[iss.platform] || '') + ' ' + iss.platform;
-        meta.appendChild(platBadge);
+      // Platforms (multi)
+      var platIds = _getPlatformIds(iss);
+      if (platIds.length > 0) {
+        platIds.slice(0,2).forEach(function(plat) {
+          var platBadge = document.createElement('span');
+          platBadge.className = 'platform-badge';
+          var platMap = { 'IOS': 'ios', 'AOS': 'android', 'PC': 'web', 'MW': 'all' };
+          var platIcon = { 'IOS': '🍎', 'AOS': '🤖', 'PC': '🌐', 'MW': '📱' };
+          var platKey = platMap[plat] || 'all';
+          platBadge.className += ' platform-' + platKey;
+          platBadge.textContent = (platIcon[plat] || '') + ' ' + plat;
+          meta.appendChild(platBadge);
+        });
       }
       content.appendChild(meta);
 
@@ -9288,6 +9536,29 @@ function renderIssues() {
       }
     }
 
+    function copyIssueLink() {
+      if (!_currentIssueId) return;
+      var link = window.location.href.split('?')[0] + '?issue=' + _currentIssueId;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(link).then(function() {
+          _showToast('이슈 링크가 복사되었습니다', 2000, 'success');
+        }).catch(function() {
+          _legacyCopy(link);
+        });
+      } else {
+        _legacyCopy(link);
+      }
+      function _legacyCopy(text) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        _showToast('이슈 링크가 복사되었습니다', 2000, 'success');
+      }
+    }
+
     function _toggleBookmark(issueId, btn) {
       var idx = _bookmarkedIssues.indexOf(issueId);
       if (idx >= 0) {
@@ -9567,23 +9838,16 @@ function renderIssues() {
       serviceLabel.className = 'issue-form-label';
       serviceLabel.textContent = '서비스';
       serviceGroup.appendChild(serviceLabel);
-      var serviceSelect = document.createElement('select');
-      serviceSelect.id = 'issueDetail_serviceType';
-      serviceSelect.className = 'issue-form-select';
-      serviceSelect.disabled = !canEdit;
-      serviceSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
-      var opt0 = document.createElement('option');
-      opt0.value = '';
-      opt0.textContent = '선택...';
-      serviceSelect.appendChild(opt0);
-      SERVICE_TYPES.forEach(function(st) {
-        var o = document.createElement('option');
-        o.value = st;
-        o.textContent = st;
-        serviceSelect.appendChild(o);
-      });
-      serviceSelect.value = iss.serviceType || '';
-      serviceGroup.appendChild(serviceSelect);
+      if (canEdit) {
+        serviceGroup.appendChild(_buildMcSelect('detail_serviceTypes',
+          (SERVICE_TYPES||[]).map(function(st){return{v:st,l:st};}),
+          _getServiceIds(iss), {placeholder:'서비스 선택...'}));
+      } else {
+        var svcReadDiv = document.createElement('div');
+        svcReadDiv.style.cssText = 'font-size:12px;color:#374151;padding:6px 0;';
+        svcReadDiv.textContent = _getServiceIds(iss).join(', ') || '-';
+        serviceGroup.appendChild(svcReadDiv);
+      }
       metaGrid3.appendChild(serviceGroup);
 
       var projectGroup = document.createElement('div');
@@ -9592,23 +9856,16 @@ function renderIssues() {
       projectLabel.className = 'issue-form-label';
       projectLabel.textContent = '프로젝트';
       projectGroup.appendChild(projectLabel);
-      var projectSelect = document.createElement('select');
-      projectSelect.id = 'issueDetail_projectId';
-      projectSelect.className = 'issue-form-select';
-      projectSelect.disabled = !canEdit;
-      projectSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
-      var opt1 = document.createElement('option');
-      opt1.value = '';
-      opt1.textContent = '선택...';
-      projectSelect.appendChild(opt1);
-      state.projects.forEach(function(p) {
-        var o = document.createElement('option');
-        o.value = p.id;
-        o.textContent = p.name;
-        projectSelect.appendChild(o);
-      });
-      projectSelect.value = iss.projectId || '';
-      projectGroup.appendChild(projectSelect);
+      if (canEdit) {
+        projectGroup.appendChild(_buildMcSelect('detail_projectIds',
+          state.projects.map(function(p){return{v:p.id,l:p.name};}),
+          _getProjectIds(iss), {placeholder:'프로젝트 선택...'}));
+      } else {
+        var projReadDiv = document.createElement('div');
+        projReadDiv.style.cssText = 'font-size:12px;color:#374151;padding:6px 0;';
+        projReadDiv.textContent = _getProjectIds(iss).map(function(pid){var p=state.projects.find(function(x){return x.id===pid;});return p?p.name:pid;}).join(', ') || '-';
+        projectGroup.appendChild(projReadDiv);
+      }
       metaGrid3.appendChild(projectGroup);
       panel.appendChild(metaGrid3);
 
@@ -9628,23 +9885,16 @@ function renderIssues() {
       assigneeLabel.className = 'issue-form-label';
       assigneeLabel.textContent = '담당자';
       assigneeGroup.appendChild(assigneeLabel);
-      var assigneeSelect = document.createElement('select');
-      assigneeSelect.id = 'issueDetail_assignee';
-      assigneeSelect.className = 'issue-form-select';
-      assigneeSelect.disabled = !canEdit;
-      assigneeSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
-      var opt2 = document.createElement('option');
-      opt2.value = '';
-      opt2.textContent = '선택...';
-      assigneeSelect.appendChild(opt2);
-      TEAM.forEach(function(m) {
-        var o = document.createElement('option');
-        o.value = m.id;
-        o.textContent = m.name;
-        assigneeSelect.appendChild(o);
-      });
-      assigneeSelect.value = iss.assignee || '';
-      assigneeGroup.appendChild(assigneeSelect);
+      if (canEdit) {
+        assigneeGroup.appendChild(_buildMcSelect('detail_assignees',
+          TEAM.map(function(m){return{v:m.id,l:m.name,color:m.color,sub:m.role};}),
+          _getAssigneeIds(iss), {placeholder:'담당자 선택...'}));
+      } else {
+        var assReadDiv = document.createElement('div');
+        assReadDiv.style.cssText = 'font-size:12px;color:#374151;padding:6px 0;';
+        assReadDiv.textContent = _getAssigneeIds(iss).map(function(id){var m=TEAM.find(function(x){return x.id===id;});return m?m.name:id;}).join(', ') || '-';
+        assigneeGroup.appendChild(assReadDiv);
+      }
       metaGrid4.appendChild(assigneeGroup);
 
       var envGroup = document.createElement('div');
@@ -9679,41 +9929,17 @@ function renderIssues() {
       platformLabel.className = 'issue-form-label';
       platformLabel.textContent = '플랫폼';
       platformGroup.appendChild(platformLabel);
-      var platformSelect = document.createElement('select');
-      platformSelect.id = 'issueDetail_platform';
-      platformSelect.className = 'issue-form-select';
-      platformSelect.disabled = !canEdit;
-      platformSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
-      [{ v: '', l: '선택...' }, { v: 'IOS', l: 'IOS' }, { v: 'AOS', l: 'AOS' }, { v: 'PC', l: 'PC' }, { v: 'MW', l: 'MW' }].forEach(function(o) {
-        var opt = document.createElement('option');
-        opt.value = o.v;
-        opt.textContent = o.l;
-        platformSelect.appendChild(opt);
-      });
-      platformSelect.value = iss.platform || '';
-      platformGroup.appendChild(platformSelect);
+      if (canEdit) {
+        platformGroup.appendChild(_buildMcSelect('detail_platforms',
+          [{v:'IOS',l:'IOS'},{v:'AOS',l:'AOS'},{v:'PC',l:'PC'},{v:'MW',l:'MW'}],
+          _getPlatformIds(iss), {placeholder:'플랫폼 선택...'}));
+      } else {
+        var platReadDiv = document.createElement('div');
+        platReadDiv.style.cssText = 'font-size:12px;color:#374151;padding:6px 0;';
+        platReadDiv.textContent = _getPlatformIds(iss).join(', ') || '-';
+        platformGroup.appendChild(platReadDiv);
+      }
       metaGrid4b.appendChild(platformGroup);
-
-      var productGroup = document.createElement('div');
-      productGroup.className = 'issue-form-group';
-      var productLabel = document.createElement('label');
-      productLabel.className = 'issue-form-label';
-      productLabel.textContent = '프로덕트';
-      productGroup.appendChild(productLabel);
-      var productSelect = document.createElement('select');
-      productSelect.id = 'issueDetail_product';
-      productSelect.className = 'issue-form-select';
-      productSelect.disabled = !canEdit;
-      productSelect.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
-      [{ v: '', l: '선택...' }, { v: '어바웃피싱 앱', l: '어바웃피싱 앱' }, { v: '어바웃피싱 어드민', l: '어바웃피싱 어드민' }, { v: '샵바이 앱/웹', l: '샵바이 앱/웹' }, { v: '샵바이 어드민', l: '샵바이 어드민' }, { v: '낚시포인트맵', l: '낚시포인트맵' }].forEach(function(o) {
-        var opt = document.createElement('option');
-        opt.value = o.v;
-        opt.textContent = o.l;
-        productSelect.appendChild(opt);
-      });
-      productSelect.value = iss.product || '';
-      productGroup.appendChild(productSelect);
-      metaGrid4b.appendChild(productGroup);
       panel.appendChild(metaGrid4b);
 
       // DefectType | BuildCategory
@@ -9798,15 +10024,17 @@ function renderIssues() {
       referencesLabel.className = 'issue-form-label';
       referencesLabel.textContent = '참조자';
       referencesGroup.appendChild(referencesLabel);
-      var referencesInput = document.createElement('input');
-      referencesInput.type = 'text';
-      referencesInput.id = 'issueDetail_references';
-      referencesInput.className = 'issue-form-input';
-      referencesInput.value = iss.references || '';
-      referencesInput.readOnly = !canEdit;
-      referencesInput.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
-      referencesInput.placeholder = '쉼표 분리';
-      referencesGroup.appendChild(referencesInput);
+      if (canEdit) {
+        referencesGroup.appendChild(_buildMcSelect('detail_references',
+          TEAM.map(function(m){return{v:m.id,l:m.name,color:m.color,sub:m.role};}),
+          _getRefIds(iss).length ? _getRefIds(iss) : _DEV_TEAM_IDS,
+          {placeholder:'참조자 선택...'}));
+      } else {
+        var refReadDiv = document.createElement('div');
+        refReadDiv.style.cssText = 'font-size:12px;color:#374151;padding:6px 0;';
+        refReadDiv.textContent = _getRefIds(iss).map(function(id){var m=TEAM.find(function(x){return x.id===id;});return m?m.name:id;}).join(', ') || '-';
+        referencesGroup.appendChild(refReadDiv);
+      }
       metaGrid4d.appendChild(referencesGroup);
       panel.appendChild(metaGrid4d);
 
@@ -9863,33 +10091,23 @@ function renderIssues() {
       relatedIssuesLabel.className = 'issue-form-label';
       relatedIssuesLabel.textContent = '관련 이슈';
       relatedIssuesGroup.appendChild(relatedIssuesLabel);
-      var relatedIssuesInput = document.createElement('input');
-      relatedIssuesInput.type = 'text';
-      relatedIssuesInput.id = 'issueDetail_relatedIssues';
-      relatedIssuesInput.className = 'issue-form-input';
-      relatedIssuesInput.value = iss.relatedIssues || '';
-      relatedIssuesInput.readOnly = !canEdit;
-      relatedIssuesInput.style.backgroundColor = !canEdit ? '#f3f4f6' : 'white';
-      relatedIssuesInput.placeholder = '쉼표 분리';
-      relatedIssuesGroup.appendChild(relatedIssuesInput);
-
-      // Display related issues as clickable links
-      var relatedIssuesDisplay = document.createElement('div');
-      relatedIssuesDisplay.style.cssText = 'margin-top:8px;display:flex;flex-wrap:wrap;gap:4px;';
-      if (iss.relatedIssues) {
-        var relIds = iss.relatedIssues.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
-        relIds.forEach(function(relId) {
+      if (canEdit) {
+        var relOpts2 = (_issues||[]).filter(function(i){return i.id !== iss.id;}).map(function(i){return{v:i.id,l:i.title||'(제목없음)'};});
+        relatedIssuesGroup.appendChild(_buildMcSelect('detail_relatedIssues', relOpts2, _getRelatedIds(iss),
+          {placeholder:'이슈 검색...', isIssue:true, maxHeight:'150px'}));
+      } else {
+        var relReadDiv = document.createElement('div');
+        relReadDiv.style.cssText = 'display:flex;flex-wrap:wrap;gap:4px;padding:4px 0;';
+        _getRelatedIds(iss).forEach(function(relId) {
           var link = document.createElement('span');
-          link.style.cssText = 'display:inline-block;padding:3px 8px;background:#eff6ff;color:#2563eb;border-radius:4px;font-size:11px;cursor:pointer;margin:2px;font-family:monospace;border:1px solid #bfdbfe;transition:all 0.1s;';
+          link.style.cssText = 'display:inline-block;padding:3px 8px;background:#eff6ff;color:#2563eb;border-radius:4px;font-size:11px;cursor:pointer;font-family:monospace;border:1px solid #bfdbfe;';
           link.textContent = relId;
-          link.title = '이 이슈로 이동';
-          link.onmouseover = function() { this.style.background = '#dbeafe'; this.style.borderColor = '#93c5fd'; };
-          link.onmouseout = function() { this.style.background = '#eff6ff'; this.style.borderColor = '#bfdbfe'; };
           link.onclick = function(e) { e.stopPropagation(); openIssueDetail(relId); };
-          relatedIssuesDisplay.appendChild(link);
+          relReadDiv.appendChild(link);
         });
+        if (!_getRelatedIds(iss).length) relReadDiv.textContent = '-';
+        relatedIssuesGroup.appendChild(relReadDiv);
       }
-      relatedIssuesGroup.appendChild(relatedIssuesDisplay);
       metaGrid4e.appendChild(relatedIssuesGroup);
 
       var resolutionGroup = document.createElement('div');
@@ -10077,6 +10295,8 @@ function renderIssues() {
       attGroup.appendChild(grid);
       panel.appendChild(attGroup);
 
+      var _commentAttachments = [];
+
       // Comments section
       var commGroup = document.createElement('div');
       commGroup.className = 'comments-section';
@@ -10188,6 +10408,27 @@ function renderIssues() {
           textDiv.className = 'comment-text';
           textDiv.textContent = com.text;
           commEl.appendChild(textDiv);
+          // Display comment attachments
+          if (com.attachments && com.attachments.length > 0) {
+            var comAttachWrap = document.createElement('div');
+            comAttachWrap.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;';
+            com.attachments.forEach(function(att) {
+              if (att.type === 'image') {
+                var img = document.createElement('img');
+                img.src = att.data;
+                img.style.cssText = 'max-width:120px;max-height:80px;border-radius:4px;cursor:pointer;border:1px solid #e5e7eb;object-fit:cover;';
+                img.onclick = function() { showLightbox(att.data); };
+                comAttachWrap.appendChild(img);
+              } else if (att.type === 'video') {
+                var vid = document.createElement('video');
+                vid.src = att.data;
+                vid.controls = true;
+                vid.style.cssText = 'max-width:180px;max-height:100px;border-radius:4px;';
+                comAttachWrap.appendChild(vid);
+              }
+            });
+            commEl.appendChild(comAttachWrap);
+          }
           commContainer.appendChild(commEl);
         });
       }
@@ -10237,6 +10478,47 @@ function renderIssues() {
         };
         addComm.appendChild(input);
 
+        // @mention autocomplete dropdown
+        var mentionDD = document.createElement('div');
+        mentionDD.id = 'commentMentionDD_' + issueId;
+        mentionDD.style.cssText = 'display:none;position:absolute;z-index:9999;background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.12);max-height:150px;overflow-y:auto;min-width:160px;';
+        addComm.style.position = 'relative';
+        addComm.appendChild(mentionDD);
+        (function(inp, dd) {
+          inp.addEventListener('input', function() {
+            var val = inp.value;
+            var cursor = inp.selectionStart;
+            var atIdx = val.lastIndexOf('@', cursor - 1);
+            if (atIdx !== -1 && (atIdx === 0 || /[\s\n]/.test(val[atIdx - 1]))) {
+              var query = val.substring(atIdx + 1, cursor).toLowerCase();
+              var matches = TEAM.filter(function(m) { return m.name.toLowerCase().indexOf(query) !== -1 || m.id.toLowerCase().indexOf(query) !== -1; });
+              if (matches.length > 0) {
+                dd.innerHTML = '';
+                matches.forEach(function(m) {
+                  var item = document.createElement('div');
+                  item.style.cssText = 'padding:7px 12px;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:6px;';
+                  item.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:' + (m.color||'#e5e7eb') + ';color:#fff;font-size:10px;font-weight:700;flex-shrink:0;">' + (m.name||'?').charAt(0) + '</span><span>' + _escHtml(m.name) + '</span>';
+                  item.onmouseover = function() { item.style.background='#f3f4f6'; };
+                  item.onmouseout = function() { item.style.background=''; };
+                  item.onmousedown = function(e) {
+                    e.preventDefault();
+                    var before = val.substring(0, atIdx + 1);
+                    var after = val.substring(cursor);
+                    inp.value = before + m.name + ' ' + after;
+                    inp.dispatchEvent(new Event('input'));
+                    dd.style.display = 'none';
+                    inp.focus();
+                  };
+                  dd.appendChild(item);
+                });
+                dd.style.display = 'block';
+              } else { dd.style.display = 'none'; }
+            } else { dd.style.display = 'none'; }
+          });
+          inp.addEventListener('blur', function() { setTimeout(function() { dd.style.display = 'none'; }, 200); });
+          inp.addEventListener('keydown', function(e) { if (e.key === 'Escape') dd.style.display = 'none'; });
+        })(input, mentionDD);
+
         // Footer: char count + submit button
         var footer = document.createElement('div');
         footer.className = 'comment-input-footer';
@@ -10254,8 +10536,54 @@ function renderIssues() {
         submitBtn.onclick = function() { if (!submitBtn.disabled) addIssueComment(issueId); };
 
         footer.appendChild(charCount);
+        // Comment attachment button
+        var commentAttachLabel = document.createElement('label');
+        commentAttachLabel.style.cssText = 'display:inline-flex;align-items:center;cursor:pointer;padding:4px 8px;border:1.5px solid #e5e7eb;border-radius:6px;font-size:11px;color:#6b7280;white-space:nowrap;';
+        commentAttachLabel.title = '이미지/동영상 첨부 (파일 선택)';
+        commentAttachLabel.textContent = '📎 첨부';
+        var commentFileInput = document.createElement('input');
+        commentFileInput.type = 'file';
+        commentFileInput.accept = 'image/*,video/*';
+        commentFileInput.multiple = true;
+        commentFileInput.style.display = 'none';
+        commentFileInput.onchange = (function(issId) {
+          return function() {
+            if (!canWrite) return;
+            _targetAttachmentContext = 'comment';
+            Array.from(this.files).forEach(function(file) {
+              if (file.type.startsWith('image/')) {
+                var reader = new FileReader();
+                reader.onload = function(ev) {
+                  _compressImage(ev.target.result, function(compressed) {
+                    var att = { type: 'image', data: compressed, name: file.name, size: file.size, id: 'att_' + Date.now() + '_' + Math.random().toString(36).substr(2,4) };
+                    _commentAttachments.push(att);
+                    _renderCommentAttachPreview(issId);
+                  });
+                };
+                reader.readAsDataURL(file);
+              } else if (file.type.startsWith('video/')) {
+                if (file.size > 2000000) { _showToast('동영상은 2MB 이하만 첨부 가능합니다', 2500, 'error'); return; }
+                var reader2 = new FileReader();
+                reader2.onload = function(ev) {
+                  var att = { type: 'video', data: ev.target.result, name: file.name, size: file.size, id: 'att_' + Date.now() };
+                  _commentAttachments.push(att);
+                  _renderCommentAttachPreview(issId);
+                };
+                reader2.readAsDataURL(file);
+              }
+            });
+            this.value = '';
+          };
+        })(issueId);
+        commentAttachLabel.appendChild(commentFileInput);
+        footer.appendChild(commentAttachLabel);
         footer.appendChild(submitBtn);
         addComm.appendChild(footer);
+        // Attachment preview area
+        var commentAttachPreview = document.createElement('div');
+        commentAttachPreview.id = 'commentAttachPreview';
+        commentAttachPreview.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;padding:4px 0;';
+        addComm.appendChild(commentAttachPreview);
 
         commGroup.appendChild(addComm);
       } else {
@@ -10313,16 +10641,19 @@ function renderIssues() {
       iss.priority = document.getElementById('issueDetail_priority').value;
       iss.status = document.getElementById('issueDetail_status').value;
       iss.environment = document.getElementById('issueDetail_environment').value;
-      iss.platform = document.getElementById('issueDetail_platform').value;
-      iss.product = document.getElementById('issueDetail_product').value;
+      iss.platforms = _getMcValues('detail_platforms');
+      iss.platform = iss.platforms[0] || '';
       iss.defectType = document.getElementById('issueDetail_defectType').value;
-      iss.projectId = document.getElementById('issueDetail_projectId').value;
-      iss.serviceType = document.getElementById('issueDetail_serviceType').value;
+      iss.projectIds = _getMcValues('detail_projectIds');
+      iss.projectId = iss.projectIds[0] || '';
+      iss.serviceTypes = _getMcValues('detail_serviceTypes');
+      iss.serviceType = iss.serviceTypes[0] || '';
       iss.buildCategory = document.getElementById('issueDetail_buildCategory').value;
-      iss.assignee = document.getElementById('issueDetail_assignee').value;
+      iss.assignees = _getMcValues('detail_assignees');
+      iss.assignee = iss.assignees[0] || '';
       iss.verifier = document.getElementById('issueDetail_verifier').value;
-      iss.references = document.getElementById('issueDetail_references').value;
-      iss.relatedIssues = document.getElementById('issueDetail_relatedIssues').value;
+      iss.references = _getMcValues('detail_references');
+      iss.relatedIssues = _getMcValues('detail_relatedIssues');
       if (document.getElementById('issueDetail_tcId')) iss.tcId = document.getElementById('issueDetail_tcId').value;
       if (document.getElementById('issueDetail_isRegression')) iss.isRegression = document.getElementById('issueDetail_isRegression').value;
       iss.deadline = document.getElementById('issueDetail_deadline').value;
@@ -10440,6 +10771,33 @@ function renderIssues() {
       }, 100);
     }
 
+    function _renderCommentAttachPreview(issueId) {
+      var preview = document.getElementById('commentAttachPreview');
+      if (!preview) return;
+      preview.innerHTML = '';
+      _commentAttachments.forEach(function(att, idx) {
+        var thumb = document.createElement('div');
+        thumb.style.cssText = 'position:relative;display:inline-block;';
+        if (att.type === 'image') {
+          var img = document.createElement('img');
+          img.src = att.data;
+          img.style.cssText = 'width:56px;height:44px;object-fit:cover;border-radius:4px;border:1px solid #e5e7eb;';
+          thumb.appendChild(img);
+        } else if (att.type === 'video') {
+          var vid = document.createElement('div');
+          vid.style.cssText = 'width:56px;height:44px;border-radius:4px;border:1px solid #e5e7eb;background:#1f2937;display:flex;align-items:center;justify-content:center;font-size:20px;';
+          vid.textContent = '🎬';
+          thumb.appendChild(vid);
+        }
+        var rmBtn = document.createElement('button');
+        rmBtn.style.cssText = 'position:absolute;top:-4px;right:-4px;background:#dc2626;color:#fff;border:none;border-radius:50%;width:16px;height:16px;font-size:10px;line-height:1;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;';
+        rmBtn.textContent = '×';
+        rmBtn.onclick = (function(i) { return function() { _commentAttachments.splice(i, 1); _renderCommentAttachPreview(issueId); }; })(idx);
+        thumb.appendChild(rmBtn);
+        preview.appendChild(thumb);
+      });
+    }
+
     function addIssueComment(issueId) {
       var iss = _issues.find(function(i) { return i.id === issueId; });
       if (!iss) return;
@@ -10453,7 +10811,7 @@ function renderIssues() {
         userEmail: state.currentUser ? state.currentUser.email : '',
         text: text,
         timestamp: new Date().toISOString(),
-        attachments: []
+        attachments: _commentAttachments.slice()
       });
 
       // @멘션 감지: @이름 패턴 파싱 → 해당 팀원에게 알림 생성
@@ -10471,6 +10829,9 @@ function renderIssues() {
       }
 
       document.getElementById('newCommentText').value = '';
+      _commentAttachments = [];
+      var cprev = document.getElementById('commentAttachPreview');
+      if (cprev) cprev.innerHTML = '';
       var charCountEl = document.getElementById('commentCharCount');
       if (charCountEl) charCountEl.textContent = '0 / 500';
       saveIssueData(iss);
@@ -10852,6 +11213,21 @@ function renderIssues() {
       issGroup.appendChild(chipList2);
       view.appendChild(issGroup);
 
+      var notesGroup = document.createElement('div');
+      notesGroup.className = 'issue-form-group';
+      var notesLabel = document.createElement('label');
+      notesLabel.className = 'issue-form-label';
+      notesLabel.textContent = '배포 내용 (선택사항)';
+      notesGroup.appendChild(notesLabel);
+      var notesInput = document.createElement('textarea');
+      notesInput.id = 'bundleNotes';
+      notesInput.className = 'issue-form-input';
+      notesInput.rows = 3;
+      notesInput.placeholder = '배포 내용, 주요 변경사항, 주의사항 등을 입력하세요...';
+      notesInput.style.cssText = 'resize:vertical;min-height:64px;font-family:inherit;';
+      notesGroup.appendChild(notesInput);
+      view.appendChild(notesGroup);
+
       var createBtn = document.createElement('button');
       createBtn.className = 'btn';
       createBtn.textContent = '배포 번들 생성';
@@ -10892,7 +11268,7 @@ function renderIssues() {
         projects: projects,
         issues: issues,
         manualItems: [],
-        notes: '',
+        notes: document.getElementById('bundleNotes') ? document.getElementById('bundleNotes').value.trim() : '',
         agentFeedback: [],
         created: new Date().toISOString(),
         createdBy: state.currentUser ? state.currentUser.uid : ''
@@ -11146,11 +11522,12 @@ function renderIssues() {
     }
 
 function renderDeployBundles() {
+      var container = document.getElementById('deployBundlesContainer');
+      if (!container) return; // deploy 탭 DOM 없으면 안전 종료
       var searchText = document.getElementById('deploySearchInput') ? document.getElementById('deploySearchInput').value.toLowerCase() : '';
       var envFilter = document.getElementById('deployEnvFilter') ? document.getElementById('deployEnvFilter').value : '';
       var statusFilter = document.getElementById('deployStatusFilter') ? document.getElementById('deployStatusFilter').value : '';
       var sortMode = (document.getElementById('deploySortSelect') || {}).value || 'date-desc';
-      var container = document.getElementById('deployBundlesContainer');
       container.innerHTML = '';
 
       var filtered = _deployBundles.filter(function(b) {
@@ -11457,6 +11834,13 @@ function renderDeployBundles() {
 
       hdr.appendChild(transitionBar);
       bodyEl.appendChild(hdr);
+
+      if (bundle.notes) {
+        var notesDisplay = document.createElement('div');
+        notesDisplay.style.cssText = 'padding:12px 20px;background:#f9fafb;border-bottom:1px solid #e5e7eb;font-size:13px;color:#374151;white-space:pre-wrap;';
+        notesDisplay.innerHTML = '<span style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.4px;display:block;margin-bottom:4px;">배포 내용</span>' + _escHtml(bundle.notes);
+        bodyEl.appendChild(notesDisplay);
+      }
 
       // ── 스크롤 영역 ──
       var scroll = document.createElement('div');
@@ -13551,7 +13935,9 @@ function renderDeployBundles() {
       }
 
       var _schedBtn = _hasWritePermission() ? ' <button onclick="openScheduleFromDetail(\'' + p.id + '\')" class="write-only-ui" style="border:none;background:#f0fdf4;color:#15803d;cursor:pointer;font-size:11px;padding:3px 8px;border-radius:4px;font-weight:600;vertical-align:middle;margin-left:4px;" title="페이즈 일정 등록/수정">📅 일정 등록</button>' : '';
-      title.innerHTML = p.name + ' <button onclick="copyProjectLink(\'' + p.id + '\')" style="border:none;background:#eef2ff;color:#6366f1;cursor:pointer;font-size:11px;padding:3px 8px;border-radius:4px;font-weight:600;vertical-align:middle;margin-left:8px;" title="이 프로젝트 링크 복사">🔗 링크 복사</button>' + _schedBtn;
+      var _relIssueCount = (_issues||[]).filter(function(iss){ return _getProjectIds(iss).indexOf(p.id) !== -1; }).length;
+      var _issueBtn = ' <button onclick="goToProjectIssues(\'' + p.id + '\')" style="border:none;background:#fef3c7;color:#92400e;cursor:pointer;font-size:11px;padding:3px 8px;border-radius:4px;font-weight:600;vertical-align:middle;margin-left:4px;" title="이 프로젝트 관련 이슈 보기">🐛 이슈 ' + _relIssueCount + '건</button>';
+      title.innerHTML = p.name + ' <button onclick="copyProjectLink(\'' + p.id + '\')" style="border:none;background:#eef2ff;color:#6366f1;cursor:pointer;font-size:11px;padding:3px 8px;border-radius:4px;font-weight:600;vertical-align:middle;margin-left:8px;" title="이 프로젝트 링크 복사">🔗 링크 복사</button>' + _schedBtn + _issueBtn;
       body.innerHTML = `
         <!-- 요약 카드 -->
         <div style="background: linear-gradient(135deg, ${tierColor}08, ${tierColor}15); border: 1px solid ${tierColor}30; border-radius: 10px; padding: 14px 16px; margin-bottom: 16px;">
@@ -14060,6 +14446,13 @@ function renderDeployBundles() {
           </label>`;
       });
 
+      // 기존 일정 있으면 삭제 버튼 표시, 없으면 숨김
+      var delBtn = document.getElementById('editDeleteBtn');
+      if (delBtn) {
+        var hasExistingSchedule = !!(phaseData.start || phaseData.end);
+        delBtn.style.display = hasExistingSchedule ? 'inline-flex' : 'none';
+      }
+
       modal.classList.add('show');
       _lockBodyScroll();
     }
@@ -14106,8 +14499,348 @@ function renderDeployBundles() {
       if (state.currentTab === 'projects') renderProjects();
     }
 
+    /* ========== 프로젝트 페이즈 일정 삭제 ========== */
+    function deletePhaseSchedule() {
+      if (!_checkWritePermission()) return;
+      if (!state.editingPhase) return;
+      var projectId = state.editingPhase.projectId;
+      var phase = state.editingPhase.phase || state.editingPhase.phase;
+      var project = state.projects.find(function(p) { return p.id === projectId; });
+      if (!project) return;
+
+      var phaseLabel = PHASE_LABELS[phase] || phase;
+      var hasSchedule = project.phases[phase] && (project.phases[phase].start || project.phases[phase].end);
+      if (!hasSchedule) {
+        _showToast('삭제할 일정이 없습니다', 1500, 'info');
+        closeEditModal();
+        return;
+      }
+
+      if (!confirm('"' + project.name + ' - ' + phaseLabel + '" 일정을 삭제하시겠습니까?\n(담당자 할당도 함께 초기화됩니다)')) return;
+
+      pushUndo();
+      var oldStart = project.phases[phase].start || '';
+      var oldEnd = project.phases[phase].end || '';
+      project.phases[phase].start = '';
+      project.phases[phase].end = '';
+      project.assignments[phase] = [];
+
+      pushHistory('삭제', projectId, phaseLabel + ' 일정', oldStart + '~' + oldEnd, '');
+
+      saveProjects();
+      closeEditModal();
+      renderGantt();
+      if (state.currentTab === 'projects') renderProjects();
+      _showToast(phaseLabel + ' 일정이 삭제되었습니다', 2000, 'info');
+    }
+
+    /* ========== MULTI-CHIP SELECT WIDGET ========== */
+
+    // 개발팀 ID (참조자 기본값)
+    var _DEV_TEAM_IDS = ['jung', 'shin', 'choi', 'kang', 'song'];
+
+    // 하위 호환 헬퍼
+    function _getAssigneeIds(iss) {
+      if (Array.isArray(iss.assignees) && iss.assignees.length) return iss.assignees;
+      if (iss.assignee) return [iss.assignee];
+      return [];
+    }
+    function _getProjectIds(iss) {
+      if (Array.isArray(iss.projectIds) && iss.projectIds.length) return iss.projectIds;
+      if (iss.projectId) return [iss.projectId];
+      return [];
+    }
+    function _getRefIds(iss) {
+      if (Array.isArray(iss.references)) return iss.references;
+      if (iss.references) return iss.references.split(',').map(function(s){return s.trim();}).filter(Boolean);
+      return [];
+    }
+    function _getRelatedIds(iss) {
+      if (Array.isArray(iss.relatedIssues)) return iss.relatedIssues;
+      if (iss.relatedIssues) return iss.relatedIssues.split(',').map(function(s){return s.trim();}).filter(Boolean);
+      return [];
+    }
+    function _getServiceIds(iss) {
+      if (Array.isArray(iss.serviceTypes) && iss.serviceTypes.length) return iss.serviceTypes;
+      if (iss.serviceType) return [iss.serviceType];
+      return [];
+    }
+    function _getPlatformIds(iss) {
+      if (Array.isArray(iss.platforms) && iss.platforms.length) return iss.platforms;
+      if (iss.platform) return [iss.platform];
+      return [];
+    }
+
+    /* buildMcSelect(id, options, selectedVals, opts)
+       options = [{v, l, color?, sub?}]
+       opts = { placeholder?, maxHeight?, isIssue? }
+    */
+    function _buildMcSelect(id, options, selectedVals, extraOpts) {
+      extraOpts = extraOpts || {};
+      var wrap = document.createElement('div');
+      wrap.className = 'mc-wrap';
+      wrap.id = 'mcw_' + id;
+
+      var display = document.createElement('div');
+      display.className = 'mc-display';
+      display.id = 'mcd_' + id;
+
+      var chipsDiv = document.createElement('div');
+      chipsDiv.id = 'mc_chips_' + id;
+      chipsDiv.style.cssText = 'display:flex;flex-wrap:wrap;gap:3px;';
+      display.appendChild(chipsDiv);
+
+      var ph = document.createElement('span');
+      ph.className = 'mc-ph';
+      ph.id = 'mc_ph_' + id;
+      ph.textContent = extraOpts.placeholder || '선택...';
+      display.appendChild(ph);
+
+      var arrow = document.createElement('span');
+      arrow.className = 'mc-display-arrow';
+      arrow.textContent = '▾';
+      display.appendChild(arrow);
+
+      var dropdown = document.createElement('div');
+      dropdown.className = 'mc-dropdown';
+      dropdown.id = 'mc_drop_' + id;
+      dropdown.style.display = 'none';
+
+      var search = document.createElement('input');
+      search.className = 'mc-search';
+      search.id = 'mc_srch_' + id;
+      search.placeholder = '검색...';
+      search.oninput = function() { _mcFilter(id); };
+      dropdown.appendChild(search);
+
+      var optsDiv = document.createElement('div');
+      optsDiv.className = 'mc-opts';
+      optsDiv.id = 'mc_opts_' + id;
+      if (extraOpts.maxHeight) optsDiv.style.maxHeight = extraOpts.maxHeight;
+      dropdown.appendChild(optsDiv);
+
+      // Build options
+      options.forEach(function(o) {
+        _mcAddOpt(optsDiv, id, o, (selectedVals || []).indexOf(o.v) !== -1, extraOpts.isIssue);
+      });
+
+      wrap.appendChild(display);
+      wrap.appendChild(dropdown);
+
+      // Toggle on display click
+      display.onclick = function(e) {
+        if (e.target.classList.contains('mc-chip-x')) return;
+        _mcToggle(id);
+      };
+
+      // Update chips
+      _mcUpdateChips(id, options, selectedVals || [], extraOpts.isIssue);
+
+      // Close when clicking outside
+      document.addEventListener('click', function(e) {
+        var w = document.getElementById('mcw_' + id);
+        if (w && !w.contains(e.target)) {
+          _mcClose(id);
+        }
+      });
+
+      return wrap;
+    }
+
+    function _mcAddOpt(container, id, option, checked, isIssue) {
+      var opt = document.createElement('div');
+      opt.className = 'mc-opt';
+      opt.dataset.val = option.v;
+      opt.dataset.lbl = option.l;
+
+      var cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.value = option.v;
+      cb.checked = checked;
+      cb.onchange = function(e) {
+        e.stopPropagation();
+        _mcUpdateChipsFromDOM(id);
+      };
+      opt.appendChild(cb);
+
+      if (option.color) {
+        var av = document.createElement('div');
+        av.className = 'mc-opt-avatar';
+        av.style.background = option.color;
+        av.textContent = option.l.substring(0, 1);
+        opt.appendChild(av);
+      }
+      if (isIssue) {
+        var idSpan = document.createElement('span');
+        idSpan.className = 'mc-opt-issue-id';
+        idSpan.textContent = option.v;
+        opt.appendChild(idSpan);
+        var titleSpan = document.createElement('span');
+        titleSpan.className = 'mc-opt-issue-title';
+        titleSpan.textContent = option.l;
+        opt.appendChild(titleSpan);
+      } else {
+        var lbl = document.createElement('span');
+        lbl.textContent = option.l;
+        if (option.sub) {
+          lbl.innerHTML = option.l + '<br><span style="font-size:10px;color:#9ca3af;">' + option.sub + '</span>';
+        }
+        opt.appendChild(lbl);
+      }
+
+      opt.onclick = function(e) {
+        if (e.target === cb) return;
+        cb.checked = !cb.checked;
+        _mcUpdateChipsFromDOM(id);
+      };
+      container.appendChild(opt);
+    }
+
+    function _mcUpdateChipsFromDOM(id) {
+      var optsDiv = document.getElementById('mc_opts_' + id);
+      if (!optsDiv) return;
+      var selected = [];
+      optsDiv.querySelectorAll('input[type=checkbox]:checked').forEach(function(cb) {
+        selected.push(cb.value);
+      });
+      // rebuild option list from all opts (including filtered-out)
+      var allOpts = [];
+      optsDiv.querySelectorAll('.mc-opt').forEach(function(o) {
+        allOpts.push({ v: o.dataset.val, l: o.dataset.lbl });
+      });
+      _mcUpdateChips(id, allOpts, selected, false);
+    }
+
+    function _mcUpdateChips(id, options, selectedVals, isIssue) {
+      var chipsDiv = document.getElementById('mc_chips_' + id);
+      var ph = document.getElementById('mc_ph_' + id);
+      if (!chipsDiv) return;
+      chipsDiv.innerHTML = '';
+      if (selectedVals.length === 0) {
+        if (ph) ph.style.display = 'inline';
+        return;
+      }
+      if (ph) ph.style.display = 'none';
+      selectedVals.forEach(function(val) {
+        var opt = options.find(function(o) { return o.v === val; });
+        var label = opt ? opt.l : val;
+        var chip = document.createElement('span');
+        chip.className = 'mc-chip';
+        chip.style.cssText = 'display:inline-flex;align-items:center;gap:3px;padding:2px 7px;background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;border-radius:10px;font-size:11px;font-weight:600;white-space:nowrap;';
+        if (opt && opt.color) {
+          chip.style.background = opt.color + '20';
+          chip.style.color = opt.color;
+          chip.style.borderColor = opt.color + '60';
+        }
+        chip.innerHTML = _escHtml(isIssue ? val : label);
+        var x = document.createElement('span');
+        x.className = 'mc-chip-x';
+        x.textContent = '×';
+        x.title = '제거';
+        x.onclick = function(e) {
+          e.stopPropagation();
+          // uncheck in opts
+          var optsDiv = document.getElementById('mc_opts_' + id);
+          if (optsDiv) {
+            var cb = optsDiv.querySelector('input[value="' + val.replace(/"/g,'') + '"]');
+            if (cb) cb.checked = false;
+          }
+          _mcUpdateChipsFromDOM(id);
+        };
+        chip.appendChild(x);
+        chipsDiv.appendChild(chip);
+      });
+    }
+
+    function _mcToggle(id) {
+      var drop = document.getElementById('mc_drop_' + id);
+      var disp = document.getElementById('mcd_' + id);
+      if (!drop) return;
+      var isOpen = drop.style.display !== 'none';
+      // close all other dropdowns
+      document.querySelectorAll('.mc-dropdown').forEach(function(d) { d.style.display = 'none'; });
+      document.querySelectorAll('.mc-display').forEach(function(d) { d.classList.remove('mc-open'); });
+      if (!isOpen) {
+        drop.style.display = 'block';
+        if (disp) disp.classList.add('mc-open');
+        var srch = document.getElementById('mc_srch_' + id);
+        if (srch) { srch.value = ''; _mcFilter(id); setTimeout(function(){srch.focus();},50); }
+      }
+    }
+
+    function _mcClose(id) {
+      var drop = document.getElementById('mc_drop_' + id);
+      var disp = document.getElementById('mcd_' + id);
+      if (drop) drop.style.display = 'none';
+      if (disp) disp.classList.remove('mc-open');
+    }
+
+    function _mcFilter(id) {
+      var srch = document.getElementById('mc_srch_' + id);
+      var optsDiv = document.getElementById('mc_opts_' + id);
+      if (!srch || !optsDiv) return;
+      var q = srch.value.toLowerCase();
+      var visible = 0;
+      optsDiv.querySelectorAll('.mc-opt').forEach(function(o) {
+        var text = (o.dataset.lbl || '') + ' ' + (o.dataset.val || '');
+        var match = !q || text.toLowerCase().includes(q);
+        o.style.display = match ? 'flex' : 'none';
+        if (match) visible++;
+      });
+      var noRes = optsDiv.querySelector('.mc-no-result');
+      if (visible === 0) {
+        if (!noRes) {
+          var nr = document.createElement('div');
+          nr.className = 'mc-no-result';
+          nr.textContent = '검색 결과 없음';
+          optsDiv.appendChild(nr);
+        }
+      } else {
+        if (noRes) noRes.remove();
+      }
+    }
+
+    function _getMcValues(id) {
+      var optsDiv = document.getElementById('mc_opts_' + id);
+      if (!optsDiv) return [];
+      var vals = [];
+      optsDiv.querySelectorAll('input[type=checkbox]:checked').forEach(function(cb) {
+        vals.push(cb.value);
+      });
+      return vals;
+    }
+
     /* ========== INLINE SCHEDULE ========== */
     let _inlineState = { projectId: null, phase: null };
+
+    function goToProjectIssues(projectId) {
+      // 프로젝트 상세 패널 닫기
+      var panel = document.getElementById('detailPanel');
+      if (panel) panel.classList.remove('open');
+      // 이슈 탭으로 이동
+      switchTab('issues');
+      // 프로젝트 필터 적용
+      setTimeout(function() {
+        var pfEl = document.getElementById('issueProjectFilter');
+        if (pfEl) {
+          // 옵션 없으면 채우기
+          if (pfEl.options.length <= 1) {
+            (state.projects||[]).forEach(function(p) {
+              var opt = document.createElement('option');
+              opt.value = p.id; opt.textContent = p.name;
+              pfEl.appendChild(opt);
+            });
+          }
+          pfEl.value = projectId;
+        }
+        // 그룹뷰를 프로젝트별로 설정
+        switchIssueView('by-project');
+        renderIssues();
+        _updateFilterBadge();
+        // 필터 팝오버 열어서 사용자가 인지하도록
+        _showToast('📁 ' + ((state.projects.find(function(p){return p.id===projectId;})||{name:projectId}).name) + ' 프로젝트 이슈 필터 적용됨', 2500, 'info');
+      }, 150);
+    }
 
     function openScheduleFromDetail(projectId) {
       if (!_checkWritePermission()) return;
@@ -14370,6 +15103,10 @@ function renderDeployBundles() {
         listEl.appendChild(label);
       });
 
+      // 기존 일정 있으면 삭제 버튼 표시
+      var deleteBtn = document.getElementById('ismDeleteBtn');
+      if (deleteBtn) deleteBtn.style.display = iss.scheduleStart ? 'block' : 'none';
+
       document.getElementById('issueSchedModalOverlay').classList.add('open');
       _lockBodyScroll();
     }
@@ -14404,6 +15141,32 @@ function renderDeployBundles() {
       pushHistory('수정', iss.id, '이슈 일정/담당자', oldSchedule, startVal + '~' + endVal + ' / ' + newAssignees.join(','));
       closeIssueScheduleModal();
       _showToast('이슈 일정과 담당자가 저장되었습니다', 2000, 'success');
+      renderGantt();
+      if (state.currentTab === 'issues') renderIssues();
+    }
+
+    /* ========== 이슈 일정 삭제 (모달에서) ========== */
+    function deleteIssueScheduleModal() {
+      if (!_ismCurrentIssueId) return;
+      var iss = _issues.find(function(i) { return i.id === _ismCurrentIssueId; });
+      if (!iss) return;
+      if (!iss.scheduleStart && !iss.scheduleEnd) {
+        _showToast('삭제할 일정이 없습니다', 1500, 'info');
+        closeIssueScheduleModal();
+        return;
+      }
+      if (!confirm('[' + iss.id + '] ' + iss.title + '\n이슈 일정을 삭제하시겠습니까?\n(담당자 할당도 함께 초기화됩니다)')) return;
+
+      var oldSchedule = (iss.scheduleStart || '') + '~' + (iss.scheduleEnd || '');
+      delete iss.scheduleStart;
+      delete iss.scheduleEnd;
+      iss.assignees = [];
+      iss.updated = new Date().toISOString();
+
+      saveIssueData(iss);
+      pushHistory('삭제', iss.id, '이슈 일정', oldSchedule, '');
+      closeIssueScheduleModal();
+      _showToast('이슈 일정이 삭제되었습니다', 2000, 'info');
       renderGantt();
       if (state.currentTab === 'issues') renderIssues();
     }
@@ -14618,13 +15381,74 @@ function renderDeployBundles() {
       // 변경 이력 렌더링
       if (clearBtn) clearBtn.style.display = state.currentUser ? '' : 'none';
       var hist = (state.history || []).slice().reverse();
+
+      // Search/Filter bar
+      var filterBarId = 'historyFilterBar';
+      var existingBar = document.getElementById(filterBarId);
+      var searchVal = existingBar ? (existingBar.querySelector('#historySearchInput')||{}).value || '' : '';
+      var typeVal = existingBar ? (existingBar.querySelector('#historyTypeFilter')||{}).value || '' : '';
+
+      if (!existingBar) {
+        var filterBar = document.createElement('div');
+        filterBar.id = filterBarId;
+        filterBar.style.cssText = 'display:flex;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap;';
+        var sInp = document.createElement('input');
+        sInp.id = 'historySearchInput';
+        sInp.type = 'text';
+        sInp.placeholder = '프로젝트/사용자/내용 검색...';
+        sInp.style.cssText = 'flex:1;min-width:140px;padding:6px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:12px;';
+        sInp.oninput = function() { renderHistory(); };
+        var tSel = document.createElement('select');
+        tSel.id = 'historyTypeFilter';
+        tSel.style.cssText = 'padding:6px 8px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:12px;color:#374151;';
+        [{v:'',l:'전체 유형'},{v:'create',l:'생성'},{v:'edit',l:'수정'},{v:'delete',l:'삭제'},{v:'status',l:'상태변경'}].forEach(function(o) {
+          var op = document.createElement('option'); op.value = o.v; op.textContent = o.l; tSel.appendChild(op);
+        });
+        tSel.onchange = function() { renderHistory(); };
+        filterBar.appendChild(sInp);
+        filterBar.appendChild(tSel);
+        container.insertBefore(filterBar, container.firstChild);
+        searchVal = '';
+        typeVal = '';
+      } else {
+        // re-read current values
+        var sEl = document.getElementById('historySearchInput');
+        var tEl = document.getElementById('historyTypeFilter');
+        searchVal = sEl ? sEl.value.toLowerCase() : '';
+        typeVal = tEl ? tEl.value : '';
+      }
+
+      // Clear non-filter content
+      var contentDiv = document.getElementById('historyListContent');
+      if (!contentDiv) {
+        contentDiv = document.createElement('div');
+        contentDiv.id = 'historyListContent';
+        container.appendChild(contentDiv);
+      }
+
       if (hist.length === 0) {
-        container.innerHTML = '<div style="text-align:center;color:#9ca3af;padding:60px 0;">변경 이력이 없습니다.</div>';
+        contentDiv.innerHTML = '<div style="text-align:center;color:#9ca3af;padding:60px 0;">변경 이력이 없습니다.</div>';
         return;
       }
+
       var ACTION_ICONS = { create: '➕', edit: '✏️', delete: '🗑️', status: '🔄', '수정': '✏️', '생성': '➕' };
       var ACTION_LABELS = { create: '생성', edit: '수정', delete: '삭제', status: '상태변경', '수정': '수정', '생성': '생성' };
-      container.innerHTML = hist.map(function(h) {
+
+      var filtered = hist.filter(function(h) {
+        if (typeVal && h.action !== typeVal) return false;
+        if (searchVal) {
+          var haystack = [h.user||'', h.projectId||'', h.projectName||'', h.field||'', String(h.oldValue||h.oldVal||''), String(h.newValue||h.newVal||'')].join(' ').toLowerCase();
+          if (haystack.indexOf(searchVal) === -1) return false;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        contentDiv.innerHTML = '<div style="text-align:center;color:#9ca3af;padding:40px 0;">검색 결과가 없습니다.</div>';
+        return;
+      }
+
+      contentDiv.innerHTML = filtered.map(function(h) {
         var icon = ACTION_ICONS[h.action] || '📝';
         var label = ACTION_LABELS[h.action] || h.action;
         var dt = new Date(h.timestamp);
@@ -14639,10 +15463,10 @@ function renderDeployBundles() {
           if (h.oldVal) detail += '<span style="color:#ef4444;text-decoration:line-through;">' + String(h.oldVal).substring(0,50) + '</span> → ';
           if (h.newVal) detail += '<span style="color:#10b981;">' + String(h.newVal).substring(0,50) + '</span>';
         }
-        return '<div style="display:flex;gap:12px;padding:12px 16px;background:white;border-radius:8px;border:1px solid #e5e7eb;align-items:flex-start;">' +
+        return '<div style="display:flex;gap:12px;padding:12px 16px;background:white;border-radius:8px;border:1px solid #e5e7eb;align-items:flex-start;margin-bottom:6px;">' +
           '<div style="font-size:20px;flex-shrink:0;">' + icon + '</div>' +
           '<div style="flex:1;min-width:0;">' +
-            '<div style="display:flex;gap:8px;align-items:center;margin-bottom:4px;">' +
+            '<div style="display:flex;gap:8px;align-items:center;margin-bottom:4px;flex-wrap:wrap;">' +
               '<span style="font-weight:600;font-size:13px;">[' + label + ']</span>' +
               '<span style="font-weight:600;font-size:13px;">' + (h.projectId || '') + ' ' + (h.projectName || '') + '</span>' +
               (userName ? '<span style="font-size:11px;color:#6366f1;background:#eef2ff;padding:1px 6px;border-radius:8px;font-weight:500;">' + userName + '</span>' : '') +
@@ -14656,13 +15480,64 @@ function renderDeployBundles() {
 
     function _renderAccessLog(container) {
       var logs = (_accessLogs || []).slice().reverse();
-      if (logs.length === 0) {
-        container.innerHTML = '<div style="text-align:center;color:#9ca3af;padding:60px 0;">접속 이력이 없습니다.</div>';
+
+      // Search/filter bar for access log
+      var accessBarId = 'accessFilterBar';
+      var existingAccessBar = document.getElementById(accessBarId);
+      var accessSearch = existingAccessBar ? (document.getElementById('accessSearchInput')||{}).value || '' : '';
+      var accessAction = existingAccessBar ? (document.getElementById('accessActionFilter')||{}).value || '' : '';
+
+      if (!existingAccessBar) {
+        var aFilterBar = document.createElement('div');
+        aFilterBar.id = accessBarId;
+        aFilterBar.style.cssText = 'display:flex;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap;';
+        var aInp = document.createElement('input');
+        aInp.id = 'accessSearchInput';
+        aInp.type = 'text';
+        aInp.placeholder = '이름/이메일 검색...';
+        aInp.style.cssText = 'flex:1;min-width:140px;padding:6px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:12px;';
+        aInp.oninput = function() { _renderAccessLog(container); };
+        var aActionSel = document.createElement('select');
+        aActionSel.id = 'accessActionFilter';
+        aActionSel.style.cssText = 'padding:6px 8px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:12px;color:#374151;';
+        [{v:'',l:'전체 액션'},{v:'로그인',l:'로그인'},{v:'로그아웃',l:'로그아웃'}].forEach(function(o) {
+          var op = document.createElement('option'); op.value = o.v; op.textContent = o.l; aActionSel.appendChild(op);
+        });
+        aActionSel.onchange = function() { _renderAccessLog(container); };
+        aFilterBar.appendChild(aInp);
+        aFilterBar.appendChild(aActionSel);
+        container.insertBefore(aFilterBar, container.firstChild);
+        accessSearch = '';
+        accessAction = '';
+      } else {
+        accessSearch = (document.getElementById('accessSearchInput')||{}).value || '';
+        accessAction = (document.getElementById('accessActionFilter')||{}).value || '';
+      }
+
+      var accessListDiv = document.getElementById('accessListContent');
+      if (!accessListDiv) {
+        accessListDiv = document.createElement('div');
+        accessListDiv.id = 'accessListContent';
+        container.appendChild(accessListDiv);
+      }
+
+      var filteredLogs = logs.filter(function(log) {
+        if (accessAction && log.action !== accessAction) return false;
+        if (accessSearch) {
+          var hay = [log.memberName||'', log.displayName||'', log.email||'', log.memberId||''].join(' ').toLowerCase();
+          if (hay.indexOf(accessSearch.toLowerCase()) === -1) return false;
+        }
+        return true;
+      });
+
+      if (filteredLogs.length === 0) {
+        accessListDiv.innerHTML = '<div style="text-align:center;color:#9ca3af;padding:60px 0;">' + (logs.length === 0 ? '접속 이력이 없습니다.' : '검색 결과가 없습니다.') + '</div>';
         return;
       }
+
       // 날짜별 그룹핑
       var groups = {};
-      logs.forEach(function(log) {
+      filteredLogs.forEach(function(log) {
         var dt = new Date(log.timestamp);
         var dateKey = dt.getFullYear() + '-' + String(dt.getMonth()+1).padStart(2,'0') + '-' + String(dt.getDate()).padStart(2,'0');
         if (!groups[dateKey]) groups[dateKey] = [];
@@ -14670,7 +15545,7 @@ function renderDeployBundles() {
       });
 
       var html = '';
-      Object.keys(groups).forEach(function(dateKey) {
+      Object.keys(groups).sort().reverse().forEach(function(dateKey) {
         var dayLogs = groups[dateKey];
         html += '<div style="margin-bottom:16px;">';
         html += '<div style="font-size:13px;font-weight:700;color:#374151;margin-bottom:8px;padding:4px 0;border-bottom:1px solid #e5e7eb;">' + dateKey + ' <span style="font-weight:400;color:#9ca3af;">(' + dayLogs.length + '건)</span></div>';
@@ -14683,7 +15558,6 @@ function renderDeployBundles() {
           var role = log.memberRole || '';
           var actionIcon = log.action === '로그인' ? '🟢' : log.action === '로그아웃' ? '🔴' : '🔵';
           var actionColor = log.action === '로그인' ? '#10b981' : log.action === '로그아웃' ? '#ef4444' : '#6366f1';
-
           html += '<div style="display:flex;gap:10px;padding:8px 12px;background:white;border-radius:6px;border:1px solid #f3f4f6;align-items:center;margin-bottom:4px;">';
           html += '<span style="font-size:14px;">' + actionIcon + '</span>';
           html += '<span style="font-size:12px;color:#9ca3af;width:60px;flex-shrink:0;">' + timeStr + '</span>';
@@ -14695,7 +15569,7 @@ function renderDeployBundles() {
         });
         html += '</div>';
       });
-      container.innerHTML = html;
+      accessListDiv.innerHTML = html;
     }
 
     function clearHistory() {
@@ -15948,6 +16822,12 @@ function renderNotifList() {
     window.openIssueScheduleModal = openIssueScheduleModal;
     window.closeIssueScheduleModal = closeIssueScheduleModal;
     window.saveIssueScheduleModal = saveIssueScheduleModal;
+    window.deleteIssueScheduleModal = deleteIssueScheduleModal;
+    window.deletePhaseSchedule = deletePhaseSchedule;
+    window.goToProjectIssues = goToProjectIssues;
+    window._getMcValues = _getMcValues;
+    window._mcToggle = _mcToggle;
+    window._mcFilter = _mcFilter;
     window._recalcCreateScore = _recalcCreateScore;
     // 서비스 종류는 체크박스 방식으로 전환됨 (addServiceTag 등 삭제됨)
     window.renderDetailServiceTags = renderDetailServiceTags;
@@ -15976,6 +16856,9 @@ function renderNotifList() {
     window.bulkDeleteIssues = bulkDeleteIssues;
     window.clearIssueSelection = clearIssueSelection;
     window.copyIssueId = copyIssueId;
+    window.copyIssueLink = copyIssueLink;
+    window._getServiceIds = _getServiceIds;
+    window._getPlatformIds = _getPlatformIds;
     window.renderCreateAttachments = renderCreateAttachments;
     window.removeCreateAttachment = removeCreateAttachment;
     window.openDeployBundleManager = openDeployBundleManager;
